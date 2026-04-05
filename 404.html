@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/logos/logo.png">
+    <title>Stránka nenalezena - TJ KIN</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Speciální styl jen pro chybovou stránku */
+        .chyba-container {
+            text-align: center;
+            padding: 100px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .chyba-cislo {
+            font-size: 8em;
+            font-weight: bold;
+            color: var(--hlavni-barva);
+            margin: 0;
+            line-height: 1;
+            opacity: 0.2;
+        }
+        .chyba-text {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+        }
+        .plavec-emoji {
+            font-size: 5em;
+            display: block;
+            margin-bottom: 20px;
+            animation: plavani 3s infinite ease-in-out;
+        }
+        @keyframes plavani {
+            0%, 100% { transform: translateX(-20px) rotate(-10deg); }
+            50% { transform: translateX(20px) rotate(10deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="menu-polozky" style="justify-content: center;">
+            <a href="index.html">← Zpět na úvod</a>
+        </div>
+    </nav>
+
+    <div class="chyba-container">
+        <div class="plavec-emoji">🏊‍♂️</div>
+        <h1 class="chyba-cislo">404</h1>
+        <h2>Uplaval jsi mimo dráhu!</h2>
+        <p class="chyba-text">Tato stránka bohužel neexistuje. Asi byla vypuštěna společně s bazénem.</p>
+        
+        <a href="index.html" class="tlacitko">Vrátit se na startovní blok (Domů)</a>
+        <br><br>
+        <a href="#" onclick="history.back(); return false;" class="tlacitko tlacitko-invert">← Zpět na předchozí stránku</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 TJ KIN České Budějovice</p>
+    </footer>
+
+</body>
+</html>

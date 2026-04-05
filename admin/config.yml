@@ -1,0 +1,62 @@
+backend:
+  name: git-gateway
+  branch: main
+
+locale: cs
+
+# Kam se ukládají nahraté obrázky
+media_folder: images/aktuality
+public_folder: /images/aktuality
+
+collections:
+  - name: aktuality
+    label: Aktuality
+    label_singular: Článek
+    folder: _aktuality
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{datum}} – {{nadpis}}"
+    sortable_fields: ["datum", "nadpis"]
+    fields:
+
+      - label: Nadpis článku
+        name: nadpis
+        widget: string
+        hint: "Stručný a výstižný nadpis, např. 'Ela ovládla Plzeňského vytrvalce'"
+
+      - label: Datum
+        name: datum
+        widget: datetime
+        format: "YYYY-MM-DD"
+        date_format: "DD.MM.YYYY"
+        time_format: false
+        picker_utc: false
+
+      - label: Místo
+        name: misto
+        widget: string
+        required: false
+        hint: "Např. 'Plavecký stadion České Budějovice'"
+
+      - label: Název závodu / akce
+        name: akce
+        widget: string
+        required: false
+        hint: "Zobrazí se v metainfo pod nadpisem, např. 'České Budějovice 2026'"
+
+      - label: Odkaz na fotogalerii
+        name: galerie_id
+        widget: string
+        required: false
+        hint: "ID galerie z galerie-data.js, např. cb_26. Přidá tlačítko 'Prohlédnout fotky'."
+
+      - label: Úvodní fotka článku
+        name: obrazek
+        widget: image
+        required: false
+        hint: "Volitelný obrázek zobrazený nad textem"
+
+      - label: Text článku
+        name: body
+        widget: markdown
+        hint: "Piš normálně. Tučně **takto**, kurzíva *takto*, nadpis ## Název sekce"

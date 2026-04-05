@@ -1,0 +1,7 @@
+# Přesměrování starých galerií na novou šablonu
+/cb_26.html             /galerie.html?id=cb_26              301
+/vs_26.html             /galerie.html?id=vs_26              301
+/vytrvalec_26.html      /galerie.html?id=vytrvalec_26       301
+/otavak_25.html         /galerie.html?id=otavak_25          301
+/sousko_25.html         /galerie.html?id=sousko_25          301
+/zmcr_pisek_2025.html   /galerie.html?id=zmcr_pisek_2025    301

@@ -1,0 +1,3 @@
+<a onclick="zmenRezim('silvestr'); event.stopPropagation();">
+    <span class="rezim-ikona">🎆</span> Silvestr Party
+</a>

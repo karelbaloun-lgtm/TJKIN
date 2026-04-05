@@ -1,0 +1,7 @@
+<div class="timeline-item vpravo">
+                <div class="timeline-content">
+                    <h3>2015</h3>
+                    <h4>Rekonstrukce zázemí</h4>
+                    <p>Modernizace šaten a tělocvičny nám umožňuje zkvalitnit suchou přípravu.</p>
+                </div>
+            </div>

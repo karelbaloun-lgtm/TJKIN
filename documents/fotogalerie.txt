@@ -1,0 +1,4 @@
+<div class="foto-box" onclick="otevritLightbox(this)">
+<img src="images/fotogalerie/2025/soustr_bibione/1.jpg" alt="Štafeta">
+<div class="popisek">Bibione 2025</div>
+</div>

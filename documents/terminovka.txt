@@ -1,0 +1,7 @@
+            <tr>
+                <td>Červen 2026</td>
+                <td>Letní MČR (starší žactvo)</td>
+                <td>Plzeň - Slovany</td>
+                <td>50m</td>
+                <td>Bude upřesněno</td>
+            </tr>

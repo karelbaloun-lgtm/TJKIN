@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /live/
+Disallow: /documents/
+
+Sitemap: https://kinplavani.cz/sitemap.xml

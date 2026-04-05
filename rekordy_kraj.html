@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO -->
+    <meta name="description" content="Krajské rekordy Jihočeského kraje v plavání – přehled nejlepších výkonů jihočeských plavců ve všech disciplínách a věkových kategoriích.">
+    <link rel="canonical" href="https://kinplavani.cz/rekordy_kraj.html">
+    <meta property="og:title" content="Krajské rekordy – Jihočeský kraj">
+    <meta property="og:description" content="Krajské rekordy Jihočeského kraje v plavání – přehled nejlepších výkonů jihočeských plavců ve všech disciplínách a věkových kategoriích.">
+    <meta property="og:image" content="https://kinplavani.cz/images/hero.jpeg">
+    <meta property="og:url" content="https://kinplavani.cz/rekordy_kraj.html">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="cs_CZ">
+    <meta property="og:site_name" content="TJ KIN České Budějovice">
+    <link rel="icon" type="image/png" href="images/logos/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
+    <meta name="theme-color" content="#d32f2f">
+    <title>Krajské rekordy - TJ KIN České Budějovice</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* === STYLY PRO ZÁLOŽKY (TABY) === */
+        .zalozky-container {
+            display: flex;
+            overflow-x: auto; /* Umožní scrollování na mobilu */
+            gap: 5px;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #ddd;
+            white-space: nowrap; 
+            scrollbar-width: thin; /* Tenký scrollbar pro Firefox */
+        }
+
+        .zalozka-btn {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            padding: 12px 15px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: bold;
+            color: #555;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.2s;
+            flex-shrink: 0; /* Aby se tlačítka nemačkala */
+        }
+
+        .zalozka-btn:hover {
+            background-color: #ffe0b2; 
+        }
+
+        /* Aktivní záložka */
+        .zalozka-btn.active {
+            background-color: var(--hlavni-barva); 
+            color: white;
+            border-color: var(--hlavni-barva);
+            transform: translateY(2px); /* Efekt "přilepení" ke spodní čáře */
+        }
+
+        /* Obsah záložky */
+        .zalozka-obsah {
+            display: none; /* Výchozí stav skryto */
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* === STYLY PRO REKORDY === */
+        .rekord-sekce { margin-bottom: 50px; }
+        
+        /* 1. KRÁTKÝ BAZÉN - Styl nadpisu */
+        .rekord-nadpis-25 { 
+            background: linear-gradient(to right, #fff59d, #fff); 
+            padding: 10px;
+            border-left: 5px solid #f39c12;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: #9e7d00; /* Tmavě zlatá */
+        }
+
+        /* 2. DLOUHÝ BAZÉN - Styl nadpisu */
+        .rekord-nadpis-50 { 
+            background: linear-gradient(to right, #ffcdd2, #fff); 
+            padding: 10px;
+            border-left: 5px solid #c0392b;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #b71c1c; /* Tmavě červená */
+        }
+
+        .cas-rekordu { font-weight: bold; color: #d35400; font-family: monospace; font-size: 1.1em; }
+        .jmeno-rekordmana { font-weight: bold; color: var(--hlavni-barva); }
+        
+        /* Tlustá čára mezi plaveckými způsoby */
+        tr.mezera-styl td { border-top: 3px solid #ccc; }
+    </style>
+</head>
+<body>
+
+    <div id="spolecne-menu"></div>
+
+    <header class="hlavicka">
+        <img src="images/logos/logo.png" class="logo-oddilu" alt="Logo TJ KIN" id="hlavni-logo">
+        <h1>Krajské rekordy</h1>
+        <p class="podnadpis">Držitelé rekordů Jihočeského kraje z našeho oddílu 🥇</p>
+    </header>
+
+    <div class="obsah">
+        
+        <p>Přehled platných rekordů Jihočeského kraje v držení plavců TJ KIN k <strong>1. 1. 2026</strong>.</p>
+
+        <div class="zalozky-container">
+            <button class="zalozka-btn active" onclick="otevriKategorii(event, 'dospeli')">Dospělí</button>
+            <button class="zalozka-btn" onclick="otevriKategorii(event, 'juniori_st')">St. Junioři</button>
+            <button class="zalozka-btn" onclick="otevriKategorii(event, 'juniori_ml')">Ml. Junioři</button>
+            <button class="zalozka-btn" onclick="otevriKategorii(event, 'zactvo_14')">Žactvo 14 let</button>
+            <button class="zalozka-btn" onclick="otevriKategorii(event, 'zactvo_13')">Žactvo 13 let</button>
+            <button class="zalozka-btn" onclick="otevriKategorii(event, 'zactvo_12')">Žactvo 12 let</button>
+            <button class="zalozka-btn" onclick="otevriKategorii(event, 'zactvo_11')">Žactvo 11 let</button>
+            <button class="zalozka-btn" onclick="otevriKategorii(event, 'pohar_10')">Pohár 10 let</button>
+            <button class="zalozka-btn" onclick="otevriKategorii(event, 'pohar_9')">Pohár 9 a ml.</button>
+        </div>
+
+        <div id="dospeli" class="zalozka-obsah" style="display: block;">
+            
+            <h2 class="rekord-nadpis-25">🏊‍♂️ Krátký bazén (25m) - Dospělí</h2>
+            <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                         <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 class="rekord-nadpis-50">🌊 Dlouhý bazén (50m) - Dospělí</h2>
+            <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                         <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="juniori_st" class="zalozka-obsah">
+            <h2 class="rekord-nadpis-25">🏊‍♂️ Krátký bazén (25m) - St. Junioři</h2>
+            <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 class="rekord-nadpis-50">🌊 Dlouhý bazén (50m) - St. Junioři</h2>
+            <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="juniori_ml" class="zalozka-obsah">
+            <h2 class="rekord-nadpis-25">🏊‍♂️ Krátký bazén (25m) - Ml. Junioři</h2>
+
+            <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <h2 class="rekord-nadpis-50">🌊 Dlouhý bazén (50m) - Ml. Junioři</h2>
+
+            <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>    
+
+        <div id="zactvo_14" class="zalozka-obsah">
+            <h2 class="rekord-nadpis-25">🏊‍♂️ Krátký bazén (25m) - Žactvo 14 let</h2>
+            
+            <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                         <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <h2 class="rekord-nadpis-50">🌊 Dlouhý bazén (50m) - Žactvo 14 let</h2>
+
+            <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                    </table>
+            </div>
+
+
+        </div> <div id="zactvo_13" class="zalozka-obsah">
+            <h2 class="rekord-nadpis-25">🏊‍♂️ Krátký bazén (25m) - Žactvo 13 let</h2>
+            <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <h2 class="rekord-nadpis-50">🌊 Dlouhý bazén (50m) - Žactvo 13 let</h2>
+
+            <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                     </tbody>
+                </table>
+            </div>
+        </div>  
+
+        <div id="zactvo_12" class="zalozka-obsah">
+             <h2 class="rekord-nadpis-25">🏊‍♂️ Krátký bazén (25m) - Žactvo 12 let</h2>
+             <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <h2 class="rekord-nadpis-50">🌊 Dlouhý bazén (50m) - Žactvo 12 let</h2>
+
+            <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="zactvo_11" class="zalozka-obsah">
+             <h2 class="rekord-nadpis-25">🏊‍♂️ Krátký bazén (25m) - Žactvo 11 let</h2>
+             <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <h2 class="rekord-nadpis-50">🌊 Dlouhý bazén (50m) - Žactvo 11 let</h2>
+
+            <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="pohar_10" class="zalozka-obsah">
+             <h2 class="rekord-nadpis-25">🏊‍♂️ Krátký bazén (25m) - Pohár 10 let</h2>
+             <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <h2 class="rekord-nadpis-50">🌊 Dlouhý bazén (50m) - Pohár 10 let</h2>
+
+            <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="pohar_9" class="zalozka-obsah">
+             <h2 class="rekord-nadpis-25">🏊‍♂️ Krátký bazén (25m) - Pohár 9 a ml.</h2>
+             <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #e74c3c; color: white;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>100m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <h2 class="rekord-nadpis-50">🌊 Dlouhý bazén (50m) - Pohár 9 a ml.</h2>
+
+            <h3>Muži</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 30px;">Ženy</h3>
+            <div class="table-container">
+                <table style="width: 100%;">
+                    <thead><tr style="background-color: #f1c40f; color: black;"><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Rok/Místo</th></tr></thead>
+                    <tbody>
+                        <tr> <td>50m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Motýlek</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        
+                        <tr class="mezera-styl"> <td>50m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Znak</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Prsa</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>50m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>100m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>200m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>800m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>1500m Volný způsob</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+
+                        <tr class="mezera-styl"> <td>200m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                        <tr> <td>400m Polohový závod</td> <td class="jmeno-rekordmana">---</td> <td class="cas-rekordu">--:--.--</td> <td>---</td> </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+
+    
+
+    <div id="spolecna-paticka"></div>
+    <script src="komponenty.js"></script>
+
+    <script>
+        function otevriKategorii(evt, nazevKategorie) {
+            var i, tabcontent, tablinks;
+
+            // 1. Skryjeme všechen obsah
+            tabcontent = document.getElementsByClassName("zalozka-obsah");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // 2. Odstraníme třídu "active" ze všech tlačítek
+            tablinks = document.getElementsByClassName("zalozka-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // 3. Ukážeme vybranou kategorii a přidáme "active" tlačítku
+            var vybranaSekce = document.getElementById(nazevKategorie);
+            if (vybranaSekce) {
+                vybranaSekce.style.display = "block";
+            }
+            evt.currentTarget.className += " active";
+        }
+    </script>
+</body>
+</html>

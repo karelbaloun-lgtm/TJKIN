@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/logos/logo.png">
+    <title>Síň slávy - TJ KIN České Budějovice</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Specifické styly pro Síň slávy */
+        .intro-text {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 50px auto;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        /* Mřížka pro legendy */
+        .legendy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px 0;
+        }
+
+        /* Karta legendy */
+        .legenda-karta {
+            background: var(--pozadi-obsahu); /* Respektuje Dark mode */
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .legenda-karta:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        /* Fotka */
+        .foto-wrapper {
+            height: 350px; /* Vysoká fotka pro portrét */
+            overflow: hidden;
+            position: relative;
+        }
+        .foto-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            transition: transform 0.5s ease;
+            filter: grayscale(100%); /* Černobílé fotky působí historicky/epicky */
+        }
+        .legenda-karta:hover .foto-wrapper img {
+            transform: scale(1.05);
+            filter: grayscale(0%); /* Po najetí zbarevní */
+        }
+
+        /* Obsah karty */
+        .info-wrapper {
+            padding: 25px;
+            text-align: center;
+        }
+        .legenda-jmeno {
+            margin: 0;
+            font-size: 1.5em;
+            color: var(--hlavni-barva);
+            font-family: 'Arial Black', sans-serif; /* Tučnější písmo */
+            text-transform: uppercase;
+        }
+        .legenda-roky {
+            display: block;
+            margin-bottom: 15px;
+            color: gray;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+        .uspechy-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+        .uspechy-list li {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-size: 0.95em;
+        }
+        .uspechy-list li:last-child { border-bottom: none; }
+
+        /* SPECIÁLNÍ EFEKTY PRO MEDAILISTY */
+        
+        /* ZLATÁ LEGENDA (Olympionici, Mistři Evropy...) */
+        .legenda-karta.zlata {
+            border: 2px solid #ffd700;
+        }
+        .legenda-karta.zlata .info-wrapper {
+            background: linear-gradient(to bottom, var(--pozadi-obsahu), rgba(255, 215, 0, 0.05));
+        }
+        .legenda-karta.zlata::after {
+            content: '⭐ LEGENDA';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ffd700;
+            color: #000;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+
+        /* STŘÍBRNÁ / VÝZNAMNÁ OSOBNOST */
+        .legenda-karta.stribrna {
+            border: 2px solid #C0C0C0;
+        }
+
+        /* Dark mode úpravy */
+        body.dark-mode .intro-text { color: #ccc; }
+        body.dark-mode .legenda-karta { border-color: #333; }
+        body.dark-mode .uspechy-list li { border-bottom-color: #333; }
+    </style>
+</head>
+<body>
+
+    <div id="spolecne-menu"></div>
+
+    <header class="hlavicka">
+        <img src="images/logos/logo.png" class="logo-oddilu" alt="Logo TJ KIN" id="hlavni-logo">
+        <h1>Síň slávy</h1>
+        <p class="podnadpis">Osobnosti, které psaly historii budějovického plavání</p>
+    </header>
+
+    <div class="obsah">
+
+        <p class="intro-text">
+            Tato stránka je věnována plavcům, trenérům a funkcionářům, kteří svými výkony a obětavou prací 
+            navždy zapsali oddíl TJ KIN do historie českého sportu.
+        </p>
+
+        <div class="legendy-grid">
+            
+            <div class="legenda-karta zlata">
+                <div class="foto-wrapper">
+                    <img src="images/galerie/historie1.jpg" alt="Jméno legendy">
+                </div>
+                <div class="info-wrapper">
+                    <h3 class="legenda-jmeno">Jméno Příjmení</h3>
+                    <span class="legenda-roky">Aktivní kariéra: 1970 - 1985</span>
+                    
+                    <ul class="uspechy-list">
+                        <li>🥇 Účastník Olympijských her (Město, Rok)</li>
+                        <li>🏆 15x Mistr Československa</li>
+                        <li>🏊‍♂️ Držitel československého rekordu na 100m VZ</li>
+                        <li>⭐ Dlouholetý trenér mládeže</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="legenda-karta stribrna">
+                <div class="foto-wrapper">
+                    <img src="images/galerie/zima2025_thumb.jpg" alt="Jméno">
+                </div>
+                <div class="info-wrapper">
+                    <h3 class="legenda-jmeno">Jméno Příjmení</h3>
+                    <span class="legenda-roky">Trenér: 1990 - 2010</span>
+                    
+                    <ul class="uspechy-list">
+                        <li>🎓 Vychoval 3 reprezentanty ČR</li>
+                        <li>🏊‍♂️ Zakladatel moderní tréninkové metodiky</li>
+                        <li>🏅 Ocenění Trenér roku</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="legenda-karta">
+                <div class="foto-wrapper">
+                    <img src="images/galerie/historie1.jpg" alt="Jméno">
+                </div>
+                <div class="info-wrapper">
+                    <h3 class="legenda-jmeno">Jméno Příjmení</h3>
+                    <span class="legenda-roky">Závodní činnost: 2000 - 2015</span>
+                    
+                    <ul class="uspechy-list">
+                        <li>🥈 2. místo na Světové univerziádě</li>
+                        <li>🏆 Mnohonásobný medailista MČR</li>
+                        <li>🏊‍♂️ Reprezentant ČR</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="historie.html" class="tlacitko-invert">← Zpět na historii klubu</a>
+        </div>
+
+    </div>
+
+    <div id="spolecna-paticka"></div>
+
+    <script src="komponenty.js"></script>
+
+</body>
+</html>

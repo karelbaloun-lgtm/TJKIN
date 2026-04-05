@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO -->
+    <meta name="description" content="Kontaktujte plavecký oddíl TJ KIN České Budějovice – adresa, e-mail, telefon, trenéři a WhatsApp skupina pro rodiče.">
+    <link rel="canonical" href="https://kinplavani.cz/kontakt.html">
+    <meta property="og:title" content="Kontakt – TJ KIN České Budějovice">
+    <meta property="og:description" content="Kontaktujte plavecký oddíl TJ KIN České Budějovice – adresa, e-mail, telefon, trenéři a WhatsApp skupina pro rodiče.">
+    <meta property="og:image" content="https://kinplavani.cz/images/hero.jpeg">
+    <meta property="og:url" content="https://kinplavani.cz/kontakt.html">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="cs_CZ">
+    <meta property="og:site_name" content="TJ KIN České Budějovice">
+    <link rel="icon" type="image/png" href="images/logos/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
+    <meta name="theme-color" content="#d32f2f">
+    <title>Kontakt - TJ KIN České Budějovice</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* ── KONTAKT GRID ───────────────────────────────── */
+        .kontakt-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* ── KARTY ──────────────────────────────────────── */
+        .k-karta {
+            background: var(--pozadi-obsahu, white);
+            border-radius: 10px;
+            padding: 28px 30px;
+            border: 1px solid rgba(0,0,0,0.07);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+        .k-karta-nadpis {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.25em;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--hlavni-barva);
+            margin: 0 0 18px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--hlavni-barva);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Info karta */
+        .k-info-radek {
+            margin-bottom: 16px;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        .k-info-radek:last-child { margin-bottom: 0; }
+        .k-info-radek strong { display: block; font-size: 0.8em; letter-spacing: 0.1em; text-transform: uppercase; color: #888; margin-bottom: 3px; }
+        .k-info-radek a { color: var(--akcni-barva); text-decoration: none; }
+        .k-info-radek a:hover { text-decoration: underline; }
+
+        /* WhatsApp tlačítko */
+        .k-wa-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            color: #166534;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+        .k-wa-btn:hover { background: #dcfce7; }
+        .k-wa-btn svg { width: 16px; height: 16px; fill: #16a34a; flex-shrink: 0; }
+        body.dark-mode .k-wa-btn { background: #14532d; border-color: #166534; color: #86efac; }
+
+        /* Fakturační box */
+        .k-faktura {
+            background: var(--pozadi-stranky, #fffde7);
+            border-radius: 6px;
+            padding: 12px 16px;
+            font-size: 0.85em;
+            line-height: 1.7;
+            color: var(--text-barva, #444);
+            margin-top: 4px;
+        }
+        body.dark-mode .k-faktura { background: #2a2a2a; }
+
+        /* Formulář */
+        .k-formular label {
+            display: block;
+            font-size: 0.78em;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 5px;
+        }
+        .k-formular input,
+        .k-formular textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 0.93em;
+            font-family: inherit;
+            background: var(--pozadi-stranky, #fffde7);
+            color: var(--text-barva, #222);
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+            margin-bottom: 14px;
+        }
+        .k-formular input:focus,
+        .k-formular textarea:focus {
+            outline: none;
+            border-color: var(--hlavni-barva);
+        }
+        .k-formular textarea { resize: vertical; min-height: 110px; }
+        body.dark-mode .k-formular input,
+        body.dark-mode .k-formular textarea {
+            background: #2a2a2a;
+            border-color: #444;
+            color: #eee;
+        }
+
+        /* ── DOKUMENTY ──────────────────────────────────── */
+        .k-dokumenty-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .k-doc-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: var(--pozadi-obsahu, white);
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 8px;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+        .k-doc-item:hover {
+            transform: translateY(-2px);
+            border-color: var(--hlavni-barva);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .k-doc-ikona { font-size: 1.3em; flex-shrink: 0; }
+        .k-doc-text { flex: 1; }
+        .k-doc-text strong { display: block; font-size: 0.88em; color: var(--hlavni-barva); }
+        .k-doc-text small { font-size: 0.76em; color: #888; }
+
+        /* ── NEWSLETTER ─────────────────────────────────── */
+        .k-newsletter {
+            background: var(--pozadi-obsahu, white);
+            border-radius: 10px;
+            padding: 28px 30px;
+            border: 1px solid rgba(0,0,0,0.07);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+            margin-bottom: 30px;
+        }
+        .k-newsletter-nadpis {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.1em;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--hlavni-barva);
+            margin: 0 0 6px;
+        }
+        .k-newsletter p { font-size: 0.88em; color: #888; margin: 0 0 12px; }
+        .k-newsletter input[type="email"] {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 0.9em;
+            font-family: inherit;
+            background: var(--pozadi-stranky, #fffde7);
+            color: var(--text-barva, #222);
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            transition: border-color 0.2s;
+        }
+        .k-newsletter input[type="email"]:focus { outline: none; border-color: var(--hlavni-barva); }
+        body.dark-mode .k-newsletter input[type="email"] { background: #2a2a2a; border-color: #444; color: #eee; }
+
+        /* WhatsApp skupina */
+        .k-wa-skupina {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            border-radius: 8px;
+            padding: 14px 16px;
+            text-decoration: none;
+            color: inherit;
+            transition: background 0.2s;
+            margin-bottom: 0;
+        }
+        .k-wa-skupina:hover { background: #dcfce7; }
+        .k-wa-skupina img { width: 56px; height: 56px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
+        .k-wa-skupina strong { display: block; font-size: 0.9em; color: #166534; margin-bottom: 2px; }
+        .k-wa-skupina small { font-size: 0.78em; color: #888; }
+        body.dark-mode .k-wa-skupina { background: #14532d; border-color: #166534; }
+        body.dark-mode .k-wa-skupina strong { color: #86efac; }
+
+        /* ── MAPA ───────────────────────────────────────── */
+        .k-mapa-wrapper {
+            margin-bottom: 30px;
+        }
+        .k-mapa-wrapper iframe {
+            display: block;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        /* ── SPRÁVCE ────────────────────────────────────── */
+        .k-spravce {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--pozadi-obsahu, white);
+            border-radius: 10px;
+            padding: 18px 24px;
+            border: 1px solid rgba(0,0,0,0.07);
+            gap: 16px;
+        }
+        .k-spravce p { margin: 0; font-size: 0.88em; color: #666; }
+        .k-spravce strong { color: var(--text-barva, #333); }
+
+        /* ── RESPONZIVITA ───────────────────────────────── */
+        @media (max-width: 720px) {
+            .kontakt-grid { grid-template-columns: 1fr; }
+            .k-dokumenty-grid { grid-template-columns: 1fr; }
+            .k-newsletter { grid-template-columns: 1fr; }
+            .k-spravce { flex-direction: column; align-items: flex-start; }
+            .k-mapa-label { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="spolecne-menu"></div>
+
+    <header class="hlavicka">
+        <img src="images/logos/logo.png" class="logo-oddilu" alt="Logo TJ KIN" id="hlavni-logo">
+        <h1>Kontakt</h1>
+        <p class="podnadpis">Kde nás najdete a kam napsat</p>
+    </header>
+
+    <div class="obsah">
+
+        <!-- ── HORNÍ GRID: INFO + FORMULÁŘ ── -->
+        <div class="kontakt-grid">
+
+            <!-- Levá karta: kontaktní info -->
+            <div class="k-karta">
+                <div class="k-karta-nadpis">📍 Kde nás najdete</div>
+
+                <div class="k-info-radek">
+                    <strong>Adresa</strong>
+                    Plavecký stadion České Budějovice<br>
+                    Sokolský ostrov 402/4, 370 01 Č. B.<br>
+                    <a href="https://www.szcb.cz/plavecky-stadion" target="_blank">Web Plaveckého stadionu →</a>
+                </div>
+
+                <div class="k-info-radek">
+                    <strong>Předsedkyně oddílu</strong>
+                    Eva Šmausová<br>
+                    <a href="tel:+420723062048">+420 723 062 048</a><br>
+                    <a href="mailto:eva.smausova@tjkin.cz">eva.smausova@tjkin.cz</a>
+                    <br>
+                    <a href="https://wa.me/420773118813" target="_blank" class="k-wa-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+                        Napsat na WhatsApp
+                    </a>
+                </div>
+
+                <div class="k-info-radek">
+                    <strong>Výbor oddílu</strong>
+                    Karel Baloun – statistika, závody<br>
+                    Ing. Karel Šteif – ekonom<br>
+                    Renata Balounová – závody, granty
+                </div>
+
+                <div class="k-info-radek">
+                    <strong>Fakturační údaje</strong>
+                    <div class="k-faktura">
+                        Tělovýchovná jednota KOH-I-NOOR České Budějovice, z.s.<br>
+                        Sokolský Ostrov 4, 370 01 České Budějovice<br>
+                        IČO: 00476943
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pravá karta: formulář -->
+            <div class="k-karta k-formular">
+                <div class="k-karta-nadpis">✍️ Napište nám</div>
+                <p style="font-size:0.9em; color:#888; margin: -8px 0 18px;">Dotaz k tréninkům nebo náboru? Ozveme se zpět.</p>
+
+                <form name="kontakt" method="POST" data-netlify="true" action="/dekujeme.html">
+                    <input type="hidden" name="form-name" value="kontakt">
+                    <label for="jmeno">Vaše jméno</label>
+                    <input type="text" id="jmeno" name="jmeno" placeholder="Jan Novák" required>
+                    <label for="email">Váš e-mail</label>
+                    <input type="email" id="email" name="email" placeholder="jan@novak.cz" required>
+                    <label for="zprava">Zpráva</label>
+                    <textarea id="zprava" name="zprava" rows="5" placeholder="Dobrý den, měl bych zájem..." required></textarea>
+                    <button type="submit" class="tlacitko" style="width:100%; border:none;">Odeslat zprávu</button>
+                </form>
+            </div>
+
+        </div><!-- /.kontakt-grid -->
+
+        <!-- ── DOKUMENTY ── -->
+        <div class="k-karta" style="margin-bottom: 30px;">
+            <div class="k-karta-nadpis">📂 Dokumenty ke stažení</div>
+            <div class="k-dokumenty-grid">
+                <a href="documents/prihlaskaKIN_2026.pdf" target="_blank" class="k-doc-item">
+                    <span class="k-doc-ikona">📝</span>
+                    <span class="k-doc-text">
+                        <strong>Přihláška člena TJ KIN</strong>
+                        <small>Formát PDF</small>
+                    </span>
+                </a>
+                <a href="documents/prihlaska_kurzneplavcu_2025.pdf" target="_blank" class="k-doc-item">
+                    <span class="k-doc-ikona">🐠</span>
+                    <span class="k-doc-text">
+                        <strong>Přihláška do kurzu neplavců</strong>
+                        <small>Pro nové rybky (PDF)</small>
+                    </span>
+                </a>
+                <a href="documents/vykonnostni_tridy_2025.pdf" target="_blank" class="k-doc-item">
+                    <span class="k-doc-ikona">📈</span>
+                    <span class="k-doc-text">
+                        <strong>Výkonnostní třídy</strong>
+                        <small>WA Points, aktualizace ČSPS k 1.9.2025</small>
+                    </span>
+                </a>
+                <a href="documents/ekonom_26.pdf" target="_blank" class="k-doc-item">
+                    <span class="k-doc-ikona">🫰</span>
+                    <span class="k-doc-text">
+                        <strong>Ekonomické podmínky</strong>
+                        <small>Najdete i v Termínovce</small>
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        <!-- ── NEWSLETTER + WHATSAPP SKUPINA ── -->
+        <div class="k-newsletter odkryt-na-scroll">
+            <div>
+                <div class="k-newsletter-nadpis">📬 Novinky e-mailem</div>
+                <p>Dáme vám vědět o závodech a termínech.</p>
+                <form name="odber_novinek" method="POST" data-netlify="true" action="/dekujeme.html">
+                    <input type="hidden" name="form-name" value="odber_novinek">
+                    <input type="email" name="email" placeholder="vas@email.cz" required>
+                    <button type="submit" class="tlacitko" style="border:none; width:100%;">Odebírat novinky</button>
+                </form>
+            </div>
+            <div>
+                <div class="k-newsletter-nadpis">💬 WhatsApp skupina</div>
+                <p>Pro rychlé info přímo do kapsy.</p>
+                <a href="https://chat.whatsapp.com/F3wOiqvbZro3JcuR93BoGg" target="_blank" class="k-wa-skupina">
+                    <img src="images/whatsapp_qr.jpeg" alt="QR kód WhatsApp">
+                    <div>
+                        <strong>Přidat se do skupiny</strong>
+                        <small>Klikněte pro přímý odkaz 📱</small>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- ── MAPA ── -->
+        <div class="k-karta odkryt-na-scroll" style="margin-bottom: 30px;">
+            <div class="k-karta-nadpis">🗺️ Kudy k bazénu?</div>
+            <iframe src="https://maps.google.com/maps?q=Plaveck%C3%BD+stadion+%C4%8Cesk%C3%A9+Bud%C4%9Bjovice,+Sokolsk%C3%BD+ostrov+402%2F4&output=embed&z=16"
+                width="100%" height="380" style="border:0; border-radius: 6px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <!-- ── SPRÁVCE WEBU ── -->
+        <div class="k-spravce odkryt-na-scroll">
+            <p><strong>👨‍💻 Technická správa webu</strong> – Našli jste chybu nebo něco nefunguje? Dejte nám vědět.</p>
+            <a href="mailto:info@tjkin.cz" class="tlacitko" style="white-space:nowrap; font-size:0.85em;">✉️ Napsat správci</a>
+        </div>
+
+    </div><!-- /.obsah -->
+
+    <div id="spolecna-paticka"></div>
+    <script src="komponenty.js"></script>
+
+</body>
+</html>

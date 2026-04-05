@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO (titulek a popis se přepisují JS podle ?id=) -->
+    <meta name="description" content="Fotogalerie závodů a akcí plaveckého oddílu TJ KIN České Budějovice.">
+    <link rel="canonical" href="https://kinplavani.cz/fotogalerie.html">
+    <meta property="og:title" content="Fotogalerie – TJ KIN České Budějovice">
+    <meta property="og:description" content="Fotogalerie závodů a akcí plaveckého oddílu TJ KIN České Budějovice.">
+    <meta property="og:image" content="https://kinplavani.cz/images/hero.jpeg">
+    <meta property="og:url" content="https://kinplavani.cz/fotogalerie.html">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="cs_CZ">
+    <meta property="og:site_name" content="TJ KIN České Budějovice">
+    <link rel="icon" type="image/png" href="images/logos/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
+    <meta name="theme-color" content="#d32f2f">
+    <title>Fotogalerie - TJ KIN České Budějovice</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="spolecne-menu"></div>
+
+    <header class="hlavicka">
+        <img src="images/logos/logo.png" class="logo-oddilu" alt="Logo TJ KIN" id="hlavni-logo">
+        <h1>Fotogalerie</h1>
+    </header>
+
+    <div class="obsah" id="galerie-obsah">
+        <!-- JS vygeneruje obsah podle ?id= v URL -->
+    </div>
+
+    <div id="lightbox" class="lightbox" style="display: none;">
+        <span class="zavrit" onclick="zavritLightbox()">&times;</span>
+        <a class="prev" onclick="posunSlidu(-1)">👈</a>
+        <a class="next" onclick="posunSlidu(1)">👉</a>
+        <img class="lightbox-obsah" id="lightbox-img">
+        <div id="lightbox-popisek"></div>
+    </div>
+
+    <div id="spolecna-paticka"></div>
+
+    <script src="galerie-data.js"></script>
+    <script src="komponenty.js"></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+        const data = GALERIE[id];
+        const obsah = document.getElementById("galerie-obsah");
+
+        if (!data) {
+            obsah.innerHTML = '<p style="text-align:center; padding: 60px 20px;">Galerie nebyla nalezena.<br><br><a href="fotogalerie.html" class="tlacitko" style="background-color:#7f8c8d;">⬅ Zpět na výběr galerií</a></p>';
+            return;
+        }
+
+        document.title = data.nazev + " - TJ KIN České Budějovice";
+
+        let html = `<h2>${data.nazev}</h2>`;
+
+        if (data.datum || data.misto) {
+            html += `<p>`;
+            if (data.datum) html += `🗓️ ${data.datum} `;
+            if (data.misto) html += `📍 ${data.misto}`;
+            html += `</p>`;
+        }
+
+        if (data.video) {
+            html += `
+            <div style="margin: 40px 0; text-align: center;">
+                <h3 style="text-align: center; color: #555; margin-bottom: 15px;">🎥 ${data.videoNazev || 'Video'}</h3>
+                <video controls style="width: 100%; max-width: 800px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 4px solid white;">
+                    <source src="${data.video}" type="video/mp4">
+                    Váš prohlížeč nepodporuje přehrávání videa.
+                </video>
+            </div>
+            <hr style="border: 0; border-top: 1px dashed #ccc; margin: 40px 0;">
+            <h3 style="text-align: center; color: #555; margin-bottom: 20px;">📸 Fotogalerie</h3>`;
+        }
+
+        html += `<div class="galerie-grid">`;
+        data.fotky.forEach(function (foto) {
+            html += `
+            <div class="foto-box" onclick="otevritLightbox(this)">
+                <img src="${data.slozka}${foto}" alt="${data.nazev}">
+                <div class="popisek">${data.popisek || ''}</div>
+            </div>`;
+        });
+        html += `</div>`;
+
+        html += `
+        <p style="margin-top: 50px; text-align: center;">
+            <a href="fotogalerie.html" class="tlacitko" style="background-color: #7f8c8d;">⬅ Zpět na výběr galerií</a>
+        </p>`;
+
+        obsah.innerHTML = html;
+    });
+    </script>
+
+</body>
+</html>

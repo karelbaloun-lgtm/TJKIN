@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO -->
+    <meta name="description" content="Tréninkový plán plaveckého oddílu TJ KIN České Budějovice – rozpis tréninků, skupiny podle výkonnosti a přihlašování na kurzy neplavců.">
+    <link rel="canonical" href="https://kinplavani.cz/treninky.html">
+    <meta property="og:title" content="Tréninky a rozvrh – TJ KIN České Budějovice">
+    <meta property="og:description" content="Tréninkový plán plaveckého oddílu TJ KIN České Budějovice – rozpis tréninků, skupiny podle výkonnosti a přihlašování na kurzy neplavců.">
+    <meta property="og:image" content="https://kinplavani.cz/images/hero.jpeg">
+    <meta property="og:url" content="https://kinplavani.cz/treninky.html">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="cs_CZ">
+    <meta property="og:site_name" content="TJ KIN České Budějovice">
+    <link rel="icon" type="image/png" href="images/logos/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
+    <meta name="theme-color" content="#d32f2f">
+    <title>Tréninky a rozvrh - TJ KIN České Budějovice</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* === SPECIFICKÉ STYLY PRO TRÉNINKY === */
+        
+        .trenink-intro {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            color: #555;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Karty skupin */
+        .skupina-kontejner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .skupina-karta {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 25px;
+            border-top: 5px solid var(--hlavni-barva); /* Zlatá linka nahoře */
+            transition: transform 0.3s;
+        }
+
+        .skupina-karta:hover {
+            transform: translateY(-5px);
+        }
+
+        .skupina-nazev {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .skupina-popis {
+            font-size: 0.95em;
+            color: #666;
+            margin-bottom: 15px;
+            min-height: 40px;
+        }
+
+        /* Tabulky rozvrhu uvnitř karet */
+        .rozvrh-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .rozvrh-table th {
+            text-align: left;
+            color: #888;
+            font-weight: normal;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .rozvrh-table td {
+            padding: 8px 0;
+            border-bottom: 1px solid #f9f9f9;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .rozvrh-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Sekce Příspěvky */
+        .prispevky-sekce {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 40px;
+            border-left: 5px solid #e74c3c; /* Červený pruh */
+        }
+
+        .info-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .icon-box {
+            font-size: 2em;
+        }
+
+        /* Tlačítko na stažení */
+        .download-btn {
+            display: inline-block;
+            margin-top: 20px;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .download-btn:hover { background-color: #2980b9; }
+
+    </style>
+</head>
+<body>
+
+    <div id="spolecne-menu"></div>
+
+    <header class="hlavicka">
+        <img src="images/logos/logo.png" class="logo-oddilu" alt="Logo TJ KIN" id="hlavni-logo">
+        <h1>Tréninky a rozvrh</h1>
+        <p class="podnadpis">Kdy, kde a jak trénujeme 🏊‍♂️</p>
+    </header>
+
+    <div class="obsah">
+
+        <div class="trenink-intro">
+            <p>Trénujeme na <strong>Plaveckém stadionu v Českých Budějovicích</strong> (Sokolský ostrov). Využíváme vnitřní 50m bazén, 25m bazén i dětský bazén pro výuku nejmenších.</p>
+        </div>
+
+        <h2 style="text-align: center; margin-bottom: 30px;">Rozpis tréninků 2025/2026</h2>
+        
+        <div class="skupina-kontejner">
+            
+            <div class="skupina-karta">
+                <h3 class="skupina-nazev">Družstvo A</h3>
+                <p class="skupina-popis">Závodní plavci, reprezentace oddílu. Trenér: <strong>Petr Novák</strong></p>
+                
+                <table class="rozvrh-table">
+                    <tr><th>Pondělí</th> <td>06:00 - 07:30 (50m) <br> 15:00 - 17:00 (50m)</td></tr>
+                    <tr><th>Úterý</th>   <td>15:00 - 17:00 (Posilovna + Voda)</td></tr>
+                    <tr><th>Středa</th>  <td>06:00 - 07:30 (50m) <br> 15:00 - 17:00 (50m)</td></tr>
+                    <tr><th>Čtvrtek</th> <td>16:00 - 18:00 (50m)</td></tr>
+                    <tr><th>Pátek</th>   <td>14:30 - 16:30 (50m)</td></tr>
+                    <tr><th>Sobota</th>  <td>08:00 - 10:00 (Dle domluvy)</td></tr>
+                </table>
+            </div>
+
+            <div class="skupina-karta">
+                <h3 class="skupina-nazev">Družstvo B</h3>
+                <p class="skupina-popis">Mladší a starší žactvo, příprava na závody. Trenérka: <strong>Jana Nováková</strong></p>
+                
+                <table class="rozvrh-table">
+                    <tr><th>Pondělí</th> <td>15:00 - 16:30 (25m)</td></tr>
+                    <tr><th>Úterý</th>   <td>15:00 - 16:30 (25m)</td></tr>
+                    <tr><th>Středa</th>  <td>15:00 - 16:30 (25m)</td></tr>
+                    <tr><th>Čtvrtek</th> <td>16:00 - 17:30 (Posilovna + 25m)</td></tr>
+                    <tr><th>Pátek</th>   <td>14:30 - 16:00 (25m)</td></tr>
+                </table>
+            </div>
+
+            <div class="skupina-karta">
+                <h3 class="skupina-nazev">Přípravka & Kurzy</h3>
+                <p class="skupina-popis">Výuka plavání pro děti od 6 let. Začátečníci a mírně pokročilí.</p>
+                
+                <table class="rozvrh-table">
+                    <tr><th>Pondělí</th> <td>16:00 - 17:00 (Dětský/25m)</td></tr>
+                    <tr><th>Středa</th>  <td>16:00 - 17:00 (Dětský/25m)</td></tr>
+                    <tr><th>Pátek</th>   <td>15:00 - 16:00 (Dětský/25m)</td></tr>
+                </table>
+                <p style="margin-top: 15px; font-size: 0.9em; color: green;">* Možnost výběru 1x nebo 2x týdně.</p>
+            </div>
+            
+             <div class="skupina-karta" style="border-top-color: #34495e;">
+                <h3 class="skupina-nazev">Kondiční / Masters</h3>
+                <p class="skupina-popis">Pro bývalé závodníky a kondiční plavce.</p>
+                
+                <table class="rozvrh-table">
+                    <tr><th>Úterý</th> <td>19:00 - 20:00 (50m)</td></tr>
+                    <tr><th>Čtvrtek</th> <td>19:00 - 20:00 (50m)</td></tr>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="prispevky-sekce">
+            <h2 style="margin-top: 0;">ℹ️ Členské příspěvky</h2>
+            <p>Příspěvky se hradí pololetně (Září–Leden, Únor–Červen). Splatnost je vždy do 15. dne prvního měsíce v pololetí.</p>
+            
+            <div class="info-box">
+                <div class="icon-box">💰</div>
+                <div>
+                    <strong>Číslo účtu:</strong><br>
+                    <span style="font-size: 1.2em; font-family: monospace;">123456789/0800</span> (Česká spořitelna)<br>
+                    <span style="font-size: 0.9em; color: #666;">Do poznámky uveďte: Jméno plavce + Skupina</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <strong>Ke stažení:</strong><br>
+                <a href="#" class="download-btn">📄 Stáhnout přihlášku (PDF)</a>
+                <a href="#" class="download-btn" style="background-color: #95a5a6; margin-left: 10px;">🩺 Zdravotní způsobilost (PDF)</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="spolecne-zapati"></div>
+    <script src="komponenty.js"></script>
+
+</body>
+</html>

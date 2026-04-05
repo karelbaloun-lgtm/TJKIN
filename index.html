@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Search Console -->
+    <meta name="google-site-verification" content="MEG-SgzJ63GWx9NfuUsOtLXl25tjJ5CYrjPesiSo_pM">
+    <!-- SEO -->
+    <meta name="description" content="Plavecký oddíl TJ KIN České Budějovice – trénujeme mládež i dospělé od roku 1951. Závodní plavání, tréninky a oddílové akce v Českých Budějovicích.">
+    <link rel="canonical" href="https://kinplavani.cz/">
+    <meta property="og:title" content="TJ KIN České Budějovice – plavecký oddíl">
+    <meta property="og:description" content="Plavecký oddíl TJ KIN České Budějovice – trénujeme mládež i dospělé od roku 1951. Závodní plavání, tréninky a oddílové akce v Českých Budějovicích.">
+    <meta property="og:image" content="https://kinplavani.cz/images/hero.jpeg">
+    <meta property="og:url" content="https://kinplavani.cz/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="cs_CZ">
+    <meta property="og:site_name" content="TJ KIN České Budějovice">
+    <link rel="icon" type="image/png" href="images/logos/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
+    <meta name="theme-color" content="#d32f2f">
+    <title>TJ KIN České Budějovice - plavecký oddíl</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Lokální styly jen pro úvodní stránku */
+        .uvod-sekce {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .uvodni-nadpis { 
+            margin-top: 0; 
+            color: var(--barva-nadpisu); 
+        }
+        .perex { 
+            font-size: 1.1em; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            line-height: 1.8;
+        }
+        
+        /* Styl pro hlavní novinku na HP */
+        .top-zprava {
+            border: 2px solid #ffd700; /* Zlatý rámeček */
+            background-color: var(--zebra-radek);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 50px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        /* Štítek "NOVINKA" */
+        .top-zprava::before {
+            content: '🔥 NEPŘEHLÉDNĚTE';
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background-color: #ffd700;
+            color: #000;
+            font-size: 0.8em;
+            font-weight: bold;
+            padding: 2px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+        .galerie-link {
+            text-align: center; 
+            margin: 40px 0;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        /* ── HERO SEKCE ─────────────────────────────────────── */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 500px;
+            max-height: 900px;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .hero-foto {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 40%;
+            transform: scale(1.05);
+            animation: hero-zoom 12s ease-out forwards;
+        }
+
+        @keyframes hero-zoom {
+            from { transform: scale(1.08); }
+            to   { transform: scale(1.00); }
+        }
+
+        /* Gradient přes foto – tmavší dole pro text */
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to bottom,
+                    rgba(0,0,0,0.15) 0%,
+                    rgba(0,0,0,0.05) 40%,
+                    rgba(0,0,0,0.55) 75%,
+                    rgba(0,0,0,0.80) 100%
+                );
+        }
+
+        /* Svislý barevný pruh vlevo – oddílové barvy */
+        .hero::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 5px;
+            background: linear-gradient(to bottom, #ffd700, var(--hlavni-barva));
+            z-index: 3;
+        }
+
+        .hero-obsah {
+            position: relative;
+            z-index: 2;
+            padding: 0 40px 50px;
+            width: 100%;
+            max-width: 900px;
+            animation: hero-nahoru 1s ease-out both;
+            animation-delay: 0.3s;
+        }
+
+        @keyframes hero-nahoru {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-rok {
+            display: inline-block;
+            font-size: 0.75em;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #ffd700;
+            margin-bottom: 12px;
+            opacity: 0;
+            animation: hero-nahoru 0.8s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        .hero-nadpis {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(2.8em, 7vw, 5.5em);
+            font-weight: 900;
+            text-transform: uppercase;
+            color: white;
+            line-height: 0.95;
+            margin: 0 0 16px;
+            letter-spacing: -0.01em;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+            opacity: 0;
+            animation: hero-nahoru 0.8s ease-out forwards;
+            animation-delay: 0.65s;
+        }
+
+        .hero-nadpis span {
+            color: #ffd700;
+        }
+
+        .hero-podnadpis {
+            font-size: clamp(1em, 2vw, 1.2em);
+            color: rgba(255,255,255,0.85);
+            margin: 0 0 28px;
+            font-weight: 400;
+            opacity: 0;
+            animation: hero-nahoru 0.8s ease-out forwards;
+            animation-delay: 0.8s;
+        }
+
+        .hero-tlacitka {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: hero-nahoru 0.8s ease-out forwards;
+            animation-delay: 0.95s;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.9em;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .hero-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        .hero-btn.hlavni {
+            background: var(--hlavni-barva);
+            color: white;
+        }
+        .hero-btn.vedlejsi {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.4);
+            backdrop-filter: blur(4px);
+        }
+        .hero-btn.vedlejsi:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .hero-logo {
+            position: absolute;
+            top: 28px;
+            right: 32px;
+            z-index: 3;
+            width: clamp(60px, 8vw, 90px);
+            opacity: 0;
+            filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+            animation: hero-logo-in 0.8s ease-out forwards;
+            animation-delay: 1s;
+            transition: filter 0.3s ease;
+        }
+        @keyframes hero-logo-in {
+            from { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 0.7; transform: translateY(0); }
+        }
+        .hero-logo:hover {
+            filter: brightness(0) invert(1) drop-shadow(0 2px 12px rgba(255,215,0,0.6));
+            opacity: 1 !important;
+        }
+
+        /* Šipka dolů */
+        .hero-scroll {
+            position: absolute;
+            bottom: 24px;
+            right: 36px;
+            z-index: 3;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.75em;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            animation: hero-nahoru 0.8s ease-out both;
+            animation-delay: 1.2s;
+        }
+        .hero-scroll::after {
+            content: '';
+            width: 1px;
+            height: 40px;
+            background: rgba(255,255,255,0.4);
+            animation: sipka-dolu 1.5s ease-in-out infinite;
+        }
+        @keyframes sipka-dolu {
+            0%, 100% { transform: scaleY(1); opacity: 0.4; }
+            50%       { transform: scaleY(1.3); opacity: 1; }
+        }
+
+        /* Skryjeme původní hlavičku na HP */
+        body.hp .hlavicka { display: none; }
+
+        @media (max-width: 600px) {
+            .hero-obsah { padding: 0 24px 40px; }
+            .hero-scroll { display: none; }
+        }
+    </style>
+</head>
+<body class="hp">
+
+<style>
+    @keyframes blikani {
+        0% { opacity: 1; }
+        50% { opacity: 0.4; }
+        100% { opacity: 1; }
+    }
+    .blikajici-tecka {
+        animation: blikani 2s infinite;
+    }
+    @media (max-width: 450px) {
+        .blikajici-tecka { display: none; }
+    }
+</style>
+
+    <div id="spolecne-menu"></div>
+
+    <!-- HERO -->
+    <section class="hero">
+        <picture>
+            <source srcset="images/hero.webp" type="image/webp">
+            <img src="images/hero.jpeg" alt="Plavci TJ KIN při závodě" class="hero-foto">
+        </picture>
+
+        <div class="hero-obsah">
+            <span class="hero-rok">Plavecký oddíl · od roku 1951</span>
+            <h1 class="hero-nadpis"><span>KIN</span><br>České Budějovice</h1>
+            <p class="hero-podnadpis">Nejúspěšnější plavecký oddíl v jižních Čechách</p>
+            <div class="hero-tlacitka">
+                <a href="terminovka.html" class="hero-btn hlavni">📅 Termínovka 2026</a>
+                <a href="aktuality.html" class="hero-btn vedlejsi">Aktuality →</a>
+            </div>
+        </div>
+        <a href="#obsah-hp" class="hero-scroll">Scroll</a>
+    </section>
+
+    <!-- původní hlavička pro ostatní stránky -->
+    <header class="hlavicka">
+        <img src="images/logos/logo.png" class="logo-oddilu" alt="Logo TJ KIN" id="hlavni-logo">
+        <h1>TJ KIN České Budějovice</h1>
+        <p class="podnadpis">Plavecký oddíl s tradicí od roku 1951</p>
+    </header>
+
+    <div class="obsah" id="obsah-hp">
+        
+        <section class="uvod-sekce odkryt-na-scroll">
+            <h2 class="uvodni-nadpis">Plavání v Českých Budějovicích od roku 1951.</h2>
+            <div class="perex">
+                <p>Jsme plavecký oddíl s nejdelší tradicí v Českých Budějovicích. Od prvních temp až po závodní dráhu – učíme děti nebát se vody a vychováváme z nich sebevědomé sportovce.</p>
+                <p> Plavte s těmi nejlepšími.</p>
+            </div>
+        </section>
+
+            <section class="nabor-sekce odkryt-na-scroll">
+            <h2 class="nabor-nadpis">📢 Od 16. 2. 2026</h2>
+        
+            <div class="nabor-kontejner">
+                
+                <div class="nabor-karta rybky odkryt-na-scroll" style="transition-delay: 0.2s; border-top: 5px solid #3498db;"> 
+                    <a href="https://plaveckaskolarybky.netlify.app/" target="_blank" style="display: block; cursor: pointer;">
+                        <img src="images/logos/rybky.png" alt="Logo Rybky" class="nabor-logo-img">
+                    </a>
+                    <h3>Plavecká škola „RYBKY“</h3>
+                    <p><strong>Kurzy pro neplavce od 4 let (možnost 1x týdně)</strong></p>
+                    <ul class="nabor-info">
+                        <li>
+                            <span class="nabor-icon">📍</span>
+                            <span><strong>Zápis:</strong> Kancelář plaveckého oddílu</span>
+                        </li>
+                        <li>
+                            <span class="nabor-icon">⏰</span>
+                            <span><strong>Čas:</strong> Po & St, 17:00 – 18:00</span>
+                        </li>
+                        <li>
+                            <span class="nabor-icon">📞</span>
+                            <span><strong>Info:</strong> <a href="tel:+420723062048">723 062 048</a></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nabor-karta oddil odkryt-na-scroll" style="transition-delay: 0.4s; border-top: 5px solid #d32f2f;"> 
+                    <img src="images/logos/logo.png" alt="Logo KIN" class="nabor-logo-img">
+                    <h3>Plavecký oddíl KIN</h3>
+                    <p><strong>Kondiční plavání (alespoň 1x týdně)</strong></p>
+                    <ul class="nabor-info">
+                        <li>
+                            <span class="nabor-icon">📍</span>
+                            <span><strong>Zápis:</strong> Kancelář plaveckého oddílu</span>
+                        </li>
+                        <li>
+                            <span class="nabor-icon">⏰</span>
+                            <span><strong>Čas:</strong> Po, St & Čt, 16:00 – 17:00</span>
+                        </li>
+                        <li>
+                            <span class="nabor-icon">📞</span>
+                            <span><strong>Info:</strong> <a href="tel:+420723062048">723 062 048</a></span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="nabor-tlacitko-wrapper odkryt-na-scroll" style="transition-delay: 0.6s;">
+                <p style="margin-bottom: 15px;">Máte zájem? Stáhněte si přihlášku:</p>
+                <a href="documents/prihlaskaKIN_2026.pdf" target="_blank" class="doc-tlacitko">
+                    <span class="doc-ikona">📝</span>
+                    <span class="doc-text">
+                        <strong>Přihláška člena TJ KIN</strong>
+                        <small>Formát PDF</small>
+                    </span>
+                    <span class="doc-sipka">⬇</span>
+                </a>
+            </div>
+        </section>
+
+       <article class="top-zprava odkryt-na-scroll">
+            <div class="datum" style="color: gray; font-size: 0.9em; margin-bottom: 5px;">
+                2. března 2026
+            </div>
+            
+            <h3 style="margin-top: 5px; color: var(--hlavni-barva);">
+                Domácí bazén je náš! Ela Kubálková vylovila 7 medailí a padaly obří osobáky
+            </h3>
+            
+            <p>
+                Kdo je v Budějovicích pánem domácí vody? Na přelomu února a března hostila padesátka velké závody a naši plavci ukázali konkurenci záda. 
+            </p>
+            <p>
+                <strong>Ela Kubálková</strong> proměnila každý svůj start v medaili a se ziskem 7 cenných kovů se stala nejúspěšnější plavkyní města! K tomu naši benjamínci bourali své staré osobáky klidně i o víc než deset vteřin.
+            </p>
+            
+             <a href="aktuality.html#zavody-cb-50m" class="tlacitko" style="margin-top: 10px;">Číst celou reportáž →</a>
+        </article>
+        
+        <article class="odkryt-na-scroll" style="
+            border: 1px solid #ddd; 
+            background-color: white; 
+            border-radius: 8px; 
+            padding: 25px; 
+            margin-bottom: 50px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        ">
+            <div class="datum" style="color: gray; font-size: 0.9em; margin-bottom: 5px;">
+                22. února 2026
+            </div>
+            
+            <h3 style="margin-top: 5px; color: var(--hlavni-barva);">
+                Neskutečná Ela! Z Plzně veze zlato a osobák zlepšený o půl minuty
+            </h3>
+            
+            <p>
+                Zatímco většina oddílu o víkendu odpočívala, Ela Kubálková vyrazila na 38. ročník Plzeňského vytrvalce. V jediném desetidráhovém 50m bazénu v republice předvedla na trati 800 m volný způsob neskutečnou show. Svůj osobní rekord rozcupovala o 30 vteřin a navíc přidala jednu velkou plaveckou kuriozitu.
+            </p>
+            
+             <a href="aktuality.html#vytrvalec_26" class="tlacitko" style="margin-top: 10px; background-color: #7f8c8d;">Přečíst celý článek →</a>
+        </article>
+
+
+        <article class="odkryt-na-scroll" style="
+            border: 1px solid #ddd; 
+            background-color: white; 
+            border-radius: 8px; 
+            padding: 25px; 
+            margin-bottom: 50px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        ">
+            <div class="datum" style="color: gray; font-size: 0.9em; margin-bottom: 5px;">
+                17. ledna 2026 
+            </div>
+            
+            <h3 style="margin-top: 5px; color: var(--hlavni-barva);">
+                Snový start do roku 2026! Z Jindřichova Hradce vezeme hromadu medailí 
+            </h3>
+            
+            <p>
+                První závody sezóny a hned déšť osobních rekordů. V sobotu 17. ledna vyrazilo sedm našich plavců do Jindřichova Hradce a v bazénu nebyli k přehlédnutí. Ela Kubálková vyhrála vše, na co sáhla, a Makar Hlushchenko posouval své hranice o celé vteřiny.
+            </p>
+            
+             <a href="archiv.html#vs_26" class="tlacitko" style="margin-top: 10px; background-color: #7f8c8d;">Přečíst celý článek →</a>
+        </article>
+        
+
+        <article class="odkryt-na-scroll" style="
+            border: 1px solid #ddd; 
+            background-color: white; 
+            border-radius: 8px; 
+            padding: 25px; 
+            margin-bottom: 50px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        ">
+            <div class="datum" style="color: gray; font-size: 0.9em; margin-bottom: 5px;">Prosinec 2025</div>
+            <h3 style="margin-top: 5px; color: var(--hlavni-barva);">🥇 Zlato a stříbro ze Zimního poháru!</h3>
+            <p>Fantastický úspěch na Zimním poháru. Ela Kubálková a Zoe Tůmová vezou domů tituly mistryně a vicemistryně republiky. Podívejte se, jak se jim dařilo.</p>
+            
+            <a href="aktuality.html" class="tlacitko" style="margin-top: 10px; background-color: #7f8c8d;">Přečíst celý článek →</a>
+        </article>
+
+
+        <div class="rozcestnik">
+            <div class="karta odkryt-na-scroll" style="transition-delay: 0s;">
+                <h3>📷 Fotogalerie</h3>
+                <p>Prohlédněte si fotky ze závodů, soustředění a života našeho oddílu.</p>
+                <a href="fotogalerie.html" class="tlacitko">Prohlížet fotky</a>
+            </div>
+
+            <div class="karta odkryt-na-scroll" style="transition-delay: 0.2s;">
+                <h3>📅 Termínovka 2026</h3>
+                <p>Podívejte se na plán závodů pro nadcházející sezónu.</p>
+                <a href="terminovka.html" class="tlacitko">Plán závodů</a>
+            </div>
+        </div>
+
+        <div class="cta-box odkryt-na-scroll">
+            <h2>Nenašli jste, co jste hledali❓</h2>
+            <p>Máte specifický dotaz k tréninkům, příspěvkům nebo náboru? Napište nám, rádi vám poradíme.</p>
+            
+            <a href="kontakt.html" class="tlacitko">
+                ✉️ Napsat dotaz trenérům
+            </a>
+        </div>
+
+        <div class="sponzori-sekce-hp odkryt-na-scroll">
+            <h2 style="text-align: center; margin-bottom: 20px; border-bottom: none;">Podporují nás</h2>
+            
+            <div class="loga-pruh">
+                <a href="https://www.kraj-jihocesky.cz/cs" target="_blank" class="logo-hp">
+                    <img src="images/sponzori/jc_kraj.jpg" alt="Jihočeský kraj">
+                </a>
+                
+                <a href="https://www.c-budejovice.cz/" target="_blank" class="logo-hp">
+                    <img src="images/sponzori/cb.png" alt="Město ČB">
+                </a>
+
+                <a href="https://nsa.gov.cz/" target="_blank" class="logo-hp">
+                    <img src="images/sponzori/nsa.png" alt="Národní sportovní agentura">
+                </a>
+
+                <a href="https://czechswimming.cz/" target="_blank" class="logo-hp">
+                    <img src="images/sponzori/csps.jpg" alt="Český svaz plaveckých sportů">
+                </a>
+            </div>
+
+            <p style="text-align: center; margin-top: 20px;">
+                <a href="sponzori.html" style="color: gray; text-decoration: none; font-size: 0.9em;">
+                    Zobrazit podrobnosti o partnerech &rarr;
+                </a>
+            </p>
+        </div>
+    
+    </div> 
+    
+    <div id="spolecna-paticka"></div>
+
+    <script src="komponenty.js"></script>
+
+    <div id="modal-whatsapp" class="modal-overlay" style="display: none;">
+        <div class="modal-box">
+            <span class="zavrit-krizek" onclick="zavritModal()">×</span>
+            
+            <h2 style="color: #25D366; margin-bottom: 10px;">📱 Buďte v obraze!</h2>
+            <p style="margin-bottom: 20px;">Přidejte se do naší WhatsApp skupiny a neuteče vám žádná změna tréninku ani nominace na závody.</p>
+            
+            <img src="images/WhatsApp Image 2026-01-06 at 09.24.37.jpeg" 
+                 alt="QR kód WhatsApp" 
+                 class="modal-qr">
+
+            <div style="margin-top: 20px;">
+                <a href="https://chat.whatsapp.com/F3wOiqvbZro3JcuR93BoGg" target="_blank" class="tlacitko" style="background-color: #25D366; color: white; border: none; width: 100%; box-sizing: border-box;">
+                    Přidat se do skupiny
+                </a>
+            </div>
+            
+            <p style="font-size: 0.8em; color: #999; margin-top: 15px; cursor: pointer;" onclick="zavritModal()">
+                Ne, děkuji, už tam jsem (zavřít)
+            </p>
+        </div>
+    </div>
+</body>
+</html>

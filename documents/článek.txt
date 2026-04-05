@@ -1,0 +1,9 @@
+<article class="clanek">
+            <h2>Příprava na novou sezónu 2026</h2>
+            <div class="meta-info">
+                <span>📅 Listopad 2025</span>
+                <span>📍 České Budějovice</span>
+            </div>
+            <p>Tréninky pokračují v plném proudu. Soustředíme se na objemovou přípravu a pilování techniky. Rozpis tréninků na vánoční prázdniny naleznete v sekci Dokumenty.</p>
+            <a href="dokumenty.html" class="tlacitko-invert">Rozpis tréninků</a>
+        </article>

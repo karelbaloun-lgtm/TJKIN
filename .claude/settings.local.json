@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find . -type f -exec ls -lh {})",
+      "Bash(du -sh *)",
+      "Bash(ls -la images/*.jpeg images/*.png)",
+      "Bash(grep -r \"hero\" *.html)",
+      "Bash(grep -r \"images/WhatsApp\" *.html)",
+      "Bash(xargs grep:*)",
+      "Bash(ls -la documents/*.pdf)",
+      "Bash(where cwebp:*)",
+      "Bash(where ffmpeg:*)",
+      "Bash(where magick:*)",
+      "Bash(where convert:*)",
+      "Bash(node -e \"require\\(''sharp''\\)\")",
+      "Bash(npm list:*)",
+      "Bash(python -c \"from PIL import Image; print\\(''Pillow ok''\\)\")",
+      "Bash(python -c \":*)"
+    ]
+  }
+}

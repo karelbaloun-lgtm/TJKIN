@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Děkujeme - TJ KIN</title>
+    <link rel="icon" type="image/png" href="images/logos/logo.png">
+    <link rel="stylesheet" href="style.css">
+    
+    <meta name="robots" content="noindex, nofollow">
+
+    <style>
+        /* Jednoduchá animace pro fajfku ✅ */
+        @keyframes skok {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .uspech-ikona {
+            font-size: 5em;
+            display: block;
+            margin-bottom: 20px;
+            animation: skok 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .dekovaci-box {
+            text-align: center;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 40px 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="spolecne-menu"></div>
+
+    <header class="hlavicka">
+        <img src="images/logos/logo.png" class="logo-oddilu" alt="Logo TJ KIN" id="hlavni-logo">
+        <h1>Zpráva odeslána</h1>
+    </header>
+
+    <div class="obsah">
+        
+        <div class="dekovaci-box">
+            <span class="uspech-ikona">✅</span>
+            
+            <h2 style="color: var(--hlavni-barva); margin-top: 0;">Hotovo!</h2>
+            
+            <p class="perex">Děkujeme, vaše zpráva úspěšně dorazila k nám do schránky.</p>
+            <p>Odpovíme vám hned, jakmile vylezeme z bazénu a osušíme se. 
+                <span class="emoji-text">🏊‍♂️🧖</span>
+            </p>
+            
+            <div style="margin-top: 40px;">
+                <a href="index.html" class="tlacitko">Zpět na hlavní stránku</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="spolecna-paticka"></div>
+
+    <script src="komponenty.js"></script>
+
+</body>
+</html>

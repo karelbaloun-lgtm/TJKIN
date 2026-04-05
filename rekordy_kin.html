@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO -->
+    <meta name="description" content="Oddílové rekordy plaveckého klubu TJ KIN České Budějovice – nejlepší výkony závodníků ve všech plaveckých disciplínách a věkových kategoriích.">
+    <link rel="canonical" href="https://kinplavani.cz/rekordy_kin.html">
+    <meta property="og:title" content="Oddílové rekordy – TJ KIN České Budějovice">
+    <meta property="og:description" content="Oddílové rekordy plaveckého klubu TJ KIN České Budějovice – nejlepší výkony závodníků ve všech plaveckých disciplínách a věkových kategoriích.">
+    <meta property="og:image" content="https://kinplavani.cz/images/hero.jpeg">
+    <meta property="og:url" content="https://kinplavani.cz/rekordy_kin.html">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="cs_CZ">
+    <meta property="og:site_name" content="TJ KIN České Budějovice">
+    <link rel="icon" type="image/png" href="images/logos/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
+    <meta name="theme-color" content="#d32f2f">
+    <title>Oddílové rekordy - TJ KIN České Budějovice</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* === FILTRY === */
+        .rekordy-filtry {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+            align-items: flex-end;
+        }
+        .filtr-skupina {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .filtr-skupina label {
+            font-size: 0.78em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--barva-textu, #555);
+            opacity: 0.7;
+        }
+        .filtr-skupina select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95em;
+            background: var(--pozadi-obsahu, white);
+            color: var(--barva-textu, #333);
+            cursor: pointer;
+            min-width: 160px;
+        }
+        .filtr-skupina select:focus {
+            outline: none;
+            border-color: var(--hlavni-barva);
+        }
+
+        /* === NADPISY SEKCÍ === */
+        .rekord-nadpis {
+            padding: 10px 14px;
+            border-left: 5px solid var(--hlavni-barva);
+            margin: 30px 0 15px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 800;
+            font-size: 1.15em;
+            text-transform: uppercase;
+            border-radius: 0 6px 6px 0;
+        }
+        .rekord-nadpis.bazen-25 {
+            border-color: #e67e22;
+            color: #9e5500;
+            background: linear-gradient(to right, #fff3e0, var(--pozadi-obsahu, white));
+        }
+        .rekord-nadpis.bazen-50 {
+            border-color: #c0392b;
+            color: #922b21;
+            background: linear-gradient(to right, #fdecea, var(--pozadi-obsahu, white));
+        }
+
+        .cas-rekordu { font-weight: bold; color: #d35400; font-family: monospace; font-size: 1.05em; }
+        .jmeno-rekordmana { font-weight: bold; color: var(--hlavni-barva); }
+        .prazdny-rekord { color: #bbb; }
+        tr.mezera-styl td { border-top: 2px solid var(--zebra-radek, #eee); }
+
+        .zadne-vysledky {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 1.1em;
+        }
+
+        /* Dark mode */
+        body.dark-mode .filtr-skupina select {
+            background: #2a2a2a;
+            border-color: #444;
+            color: #e0e0e0;
+        }
+        body.dark-mode .rekord-nadpis.bazen-25 {
+            color: #f0a060;
+            background: linear-gradient(to right, #2a1f10, var(--pozadi-obsahu));
+        }
+        body.dark-mode .rekord-nadpis.bazen-50 {
+            color: #f08080;
+            background: linear-gradient(to right, #2a1010, var(--pozadi-obsahu));
+        }
+        body.dark-mode .prazdny-rekord { color: #444; }
+
+        @media (max-width: 600px) {
+            .rekordy-filtry { flex-direction: column; }
+            .filtr-skupina select { min-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="spolecne-menu"></div>
+
+    <header class="hlavicka">
+        <img src="images/logos/logo.png" class="logo-oddilu" alt="Logo TJ KIN" id="hlavni-logo">
+        <h1>Oddílové rekordy KIN</h1>
+        <p class="podnadpis">Nejlepší časy našich plavců v historii oddílu 🏆</p>
+    </header>
+
+    <div class="obsah">
+
+        <p>Platné k <strong>1. 1. 2026</strong>. Vyberte filtr pro zobrazení rekordů.</p>
+
+        <div class="rekordy-filtry">
+            <div class="filtr-skupina">
+                <label>Kategorie</label>
+                <select id="filtr-kategorie" onchange="vykresliRekordy()">
+                    <option value="open">OPEN</option>
+                    <option value="juniori_st">St. Junioři</option>
+                    <option value="juniori_ml">Ml. Junioři</option>
+                    <option value="zactvo_14">Žactvo 14 let</option>
+                    <option value="zactvo_13">Žactvo 13 let</option>
+                    <option value="zactvo_12">Žactvo 12 let</option>
+                    <option value="zactvo_11">Žactvo 11 let</option>
+                    <option value="pohar_10">Pohár 10 let</option>
+                    <option value="pohar_9">Pohár 9 a ml.</option>
+                </select>
+            </div>
+            <div class="filtr-skupina">
+                <label>Pohlaví</label>
+                <select id="filtr-pohlavi" onchange="vykresliRekordy()">
+                    <option value="oba">Muži i Ženy</option>
+                    <option value="muzi">Pouze Muži</option>
+                    <option value="zeny">Pouze Ženy</option>
+                </select>
+            </div>
+            <div class="filtr-skupina">
+                <label>Bazén</label>
+                <select id="filtr-bazen" onchange="vykresliRekordy()">
+                    <option value="oba">25m i 50m</option>
+                    <option value="25">Krátký bazén (25m)</option>
+                    <option value="50">Dlouhý bazén (50m)</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="rekordy-vystup"></div>
+
+    </div><!-- /.obsah -->
+
+    <div id="spolecna-paticka"></div>
+    <script src="komponenty.js"></script>
+
+    <script>
+    // =========================================================
+    //  DATA REKORDŮ
+    //  Každý záznam: { disciplina, pohlavi, kategorie, bazen, jmeno, cas, mistoRok }
+    //
+    //  pohlavi:   "M" nebo "Z"
+    //  kategorie: "open" | "juniori_st" | "juniori_ml" | "zactvo_14" |
+    //             "zactvo_13" | "zactvo_12" | "zactvo_11" | "pohar_10" | "pohar_9"
+    //  bazen:     25 nebo 50
+    //  cas:       "0:25,92"  — prázdný řetězec "" = neobsazeno
+    //  mistoRok:  "22.10.2016 Písek"
+    // =========================================================
+
+    const REKORDY = [
+
+        // ── OPEN / MUŽI / 25m ─────────────────────────────────────────
+        { disciplina: "50m Motýlek",          pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Novoveský Tomáš",    cas: "0:25,92",  mistoRok: "22.10.2016 Písek" },
+        { disciplina: "100m Motýlek",         pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Novoveský Tomáš",    cas: "0:56,80",  mistoRok: "30.11.2014 Berlín (GER)" },
+        { disciplina: "200m Motýlek",         pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Novoveský Tomáš",    cas: "2:02,19",  mistoRok: "01.11.2014 Jihlava" },
+        { disciplina: "50m Znak",             pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Novoveský Tomáš",    cas: "0:27,15",  mistoRok: "10.09.2016 Znojmo" },
+        { disciplina: "100m Znak",            pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Novoveský Tomáš",    cas: "0:58,26",  mistoRok: "03.10.2015 Plzeň – Radbuza" },
+        { disciplina: "200m Znak",            pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Tesárek Jakub",      cas: "2:04,86",  mistoRok: "11.12.2015 Plzeň – Slovany" },
+        { disciplina: "50m Prsa",             pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Baloun Karel",       cas: "0:32,00",  mistoRok: "18.04.2010 Tábor" },
+        { disciplina: "100m Prsa",            pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Baloun Karel",       cas: "1:07,60",  mistoRok: "18.04.2010 Tábor" },
+        { disciplina: "200m Prsa",            pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Baloun Karel",       cas: "2:21,69",  mistoRok: "22.10.2011 Plzeň – Slovany" },
+        { disciplina: "50m Volný způsob",     pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Novoveský Tomáš",    cas: "0:24,71",  mistoRok: "22.10.2016 Písek" },
+        { disciplina: "100m Volný způsob",    pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Novoveský Tomáš",    cas: "0:52,70",  mistoRok: "30.11.2014 Jindřichův Hradec" },
+        { disciplina: "200m Volný způsob",    pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Novoveský Tomáš",    cas: "1:50,57",  mistoRok: "30.11.2013 Plzeň – Slovany" },
+        { disciplina: "400m Volný způsob",    pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Novoveský Tomáš",    cas: "3:50,77",  mistoRok: "29.11.2013 Plzeň – Slovany" },
+        { disciplina: "800m Volný způsob",    pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Novoveský Tomáš",    cas: "7:54,97",  mistoRok: "17.10.2014 Plzeň – Slovany" },
+        { disciplina: "1500m Volný způsob",   pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Novoveský Tomáš",    cas: "15:08,02", mistoRok: "28.11.2013 Plzeň – Slovany" },
+        { disciplina: "100m Polohový závod",  pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Novoveský Tomáš",    cas: "0:58,48",  mistoRok: "22.10.2016 Písek" },
+        { disciplina: "200m Polohový závod",  pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Novoveský Tomáš",    cas: "2:05,76",  mistoRok: "22.10.2016 Písek" },
+        { disciplina: "400m Polohový závod",  pohlavi: "M", kategorie: "open", bazen: 25, jmeno: "Novoveský Tomáš",    cas: "4:21,41",  mistoRok: "19.10.2014 Plzeň – Slovany" },
+
+        // ── OPEN / ŽENY / 25m ─────────────────────────────────────────
+        { disciplina: "50m Motýlek",          pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Benešová Alena",     cas: "0:31,26",  mistoRok: "14.12.2012 Plzeň – Slovany" },
+        { disciplina: "100m Motýlek",         pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Benešová Alena",     cas: "1:06,19",  mistoRok: "09.12.2012 Kopřivnice" },
+        { disciplina: "200m Motýlek",         pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Benešová Alena",     cas: "2:21,34",  mistoRok: "03.11.2012 Jihlava" },
+        { disciplina: "50m Znak",             pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Butalová Pavlína",   cas: "0:33,08",  mistoRok: "13.12.2015 Plzeň – Slovany" },
+        { disciplina: "100m Znak",            pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Butalová Pavlína",   cas: "1:07,91",  mistoRok: "13.12.2015 Plzeň – Slovany" },
+        { disciplina: "200m Znak",            pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Butalová Pavlína",   cas: "2:23,92",  mistoRok: "02.11.2013 Jihlava" },
+        { disciplina: "50m Prsa",             pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Hovorková Dominika", cas: "0:36,63",  mistoRok: "16.12.2012 Plzeň – Slovany" },
+        { disciplina: "100m Prsa",            pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Hovorková Dominika", cas: "1:16,50",  mistoRok: "24.11.2012 Jindřichův Hradec" },
+        { disciplina: "200m Prsa",            pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Hovorková Dominika", cas: "2:42,70",  mistoRok: "25.11.2012 Jindřichův Hradec" },
+        { disciplina: "50m Volný způsob",     pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Butalová Pavlína",   cas: "0:28,10",  mistoRok: "04.06.2016 Český Krumlov" },
+        { disciplina: "100m Volný způsob",    pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Butalová Pavlína",   cas: "1:00,50",  mistoRok: "05.06.2016 Český Krumlov" },
+        { disciplina: "200m Volný způsob",    pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Butalová Pavlína",   cas: "2:06,15",  mistoRok: "16.10.2015" },
+        { disciplina: "400m Volný způsob",    pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Benešová Anna-Marie",cas: "4:18,51",  mistoRok: "29.11.2013 Plzeň – Slovany" },
+        { disciplina: "800m Volný způsob",    pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Benešová Anna-Marie",cas: "8:52,60",  mistoRok: "04.11.2012 Jihlava" },
+        { disciplina: "1500m Volný způsob",   pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Benešová Anna-Marie",cas: "17:01,21", mistoRok: "13.12.2012 Plzeň – Slovany" },
+        { disciplina: "100m Polohový závod",  pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Butalová Pavlína",   cas: "1:08,10",  mistoRok: "04.06.2016" },
+        { disciplina: "200m Polohový závod",  pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Butalová Pavlína",   cas: "2:22,55",  mistoRok: "11.12.2015 Plzeň – Slovany" },
+        { disciplina: "400m Polohový závod",  pohlavi: "Z", kategorie: "open", bazen: 25, jmeno: "Butalová Pavlína",   cas: "4:59,07",  mistoRok: "30.11.2013 Plzeň – Slovany" },
+
+        // ── OPEN / 50m – zatím prázdné ────────────────────────────────
+        // Přidej záznamy stejným způsobem, např.:
+        // { disciplina: "50m Motýlek", pohlavi: "M", kategorie: "open", bazen: 50, jmeno: "Novák Jan", cas: "0:26,10", mistoRok: "2024 Brno" },
+
+        // ── Ostatní kategorie – přidej záznamy stejným způsobem ───────
+        // { disciplina: "50m Motýlek", pohlavi: "M", kategorie: "zactvo_14", bazen: 25, jmeno: "...", cas: "...", mistoRok: "..." },
+
+    ];
+
+    // =========================================================
+    //  SEZNAM DISCIPLÍN (pořadí + oddělovač = tlustá čára)
+    // =========================================================
+    const DISCIPLINY = [
+        { nazev: "50m Motýlek",         novyStyl: false },
+        { nazev: "100m Motýlek",        novyStyl: false },
+        { nazev: "200m Motýlek",        novyStyl: false },
+        { nazev: "50m Znak",            novyStyl: true  },
+        { nazev: "100m Znak",           novyStyl: false },
+        { nazev: "200m Znak",           novyStyl: false },
+        { nazev: "50m Prsa",            novyStyl: true  },
+        { nazev: "100m Prsa",           novyStyl: false },
+        { nazev: "200m Prsa",           novyStyl: false },
+        { nazev: "50m Volný způsob",    novyStyl: true  },
+        { nazev: "100m Volný způsob",   novyStyl: false },
+        { nazev: "200m Volný způsob",   novyStyl: false },
+        { nazev: "400m Volný způsob",   novyStyl: false },
+        { nazev: "800m Volný způsob",   novyStyl: false },
+        { nazev: "1500m Volný způsob",  novyStyl: false },
+        { nazev: "100m Polohový závod", novyStyl: true  },
+        { nazev: "200m Polohový závod", novyStyl: false },
+        { nazev: "400m Polohový závod", novyStyl: false },
+    ];
+
+    // Kratší seznam pro pohárové kategorie (bez 100m PZ)
+    const DISCIPLINY_KRATKE = [
+        { nazev: "50m Motýlek",         novyStyl: false },
+        { nazev: "100m Motýlek",        novyStyl: false },
+        { nazev: "200m Motýlek",        novyStyl: false },
+        { nazev: "50m Znak",            novyStyl: true  },
+        { nazev: "100m Znak",           novyStyl: false },
+        { nazev: "200m Znak",           novyStyl: false },
+        { nazev: "50m Prsa",            novyStyl: true  },
+        { nazev: "100m Prsa",           novyStyl: false },
+        { nazev: "200m Prsa",           novyStyl: false },
+        { nazev: "50m Volný způsob",    novyStyl: true  },
+        { nazev: "100m Volný způsob",   novyStyl: false },
+        { nazev: "200m Volný způsob",   novyStyl: false },
+        { nazev: "400m Volný způsob",   novyStyl: false },
+        { nazev: "800m Volný způsob",   novyStyl: false },
+        { nazev: "1500m Volný způsob",  novyStyl: false },
+        { nazev: "200m Polohový závod", novyStyl: true  },
+        { nazev: "400m Polohový závod", novyStyl: false },
+    ];
+
+    const KRATKE_KATEGORIE = ["pohar_10", "pohar_9"];
+
+    // =========================================================
+    //  RENDEROVÁNÍ
+    // =========================================================
+    function vykresliRekordy() {
+        const katEl    = document.getElementById("filtr-kategorie");
+        const kategorie = katEl.value;
+        const katNazev  = katEl.options[katEl.selectedIndex].text;
+        const pohlavi   = document.getElementById("filtr-pohlavi").value;
+        const bazen     = document.getElementById("filtr-bazen").value;
+        const vystup    = document.getElementById("rekordy-vystup");
+
+        const discipliny  = KRATKE_KATEGORIE.includes(kategorie) ? DISCIPLINY_KRATKE : DISCIPLINY;
+        const bazeny      = bazen   === "oba"  ? [25, 50] : [parseInt(bazen)];
+        const pohlaviArr  = pohlavi === "oba"  ? ["M", "Z"] :
+                            pohlavi === "muzi" ? ["M"] : ["Z"];
+        const pohlaviNazev = { M: "Muži", Z: "Ženy" };
+
+        let html = "";
+
+        for (const b of bazeny) {
+            for (const p of pohlaviArr) {
+                const nadpisTrida = b === 25 ? "bazen-25" : "bazen-50";
+                const emoji       = b === 25 ? "🏊" : "🌊";
+                const bazNazev    = b === 25 ? "Krátký bazén (25m)" : "Dlouhý bazén (50m)";
+
+                html += `<h2 class="rekord-nadpis ${nadpisTrida}">${emoji} ${bazNazev} — ${pohlaviNazev[p]} — ${katNazev}</h2>`;
+                html += `<div class="table-container"><table style="width:100%">`;
+                html += `<thead><tr><th>Disciplína</th><th>Jméno</th><th>Čas ⏱️</th><th>Datum / Místo</th></tr></thead><tbody>`;
+
+                for (const disc of discipliny) {
+                    const z = REKORDY.find(r =>
+                        r.disciplina === disc.nazev &&
+                        r.pohlavi    === p &&
+                        r.kategorie  === kategorie &&
+                        r.bazen      === b
+                    );
+                    const trida = disc.novyStyl ? ' class="mezera-styl"' : '';
+
+                    if (z && z.cas) {
+                        html += `<tr${trida}>
+                            <td>${disc.nazev}</td>
+                            <td class="jmeno-rekordmana">${z.jmeno}</td>
+                            <td class="cas-rekordu">${z.cas}</td>
+                            <td>${z.mistoRok}</td>
+                        </tr>`;
+                    } else {
+                        html += `<tr${trida}>
+                            <td>${disc.nazev}</td>
+                            <td class="prazdny-rekord">—</td>
+                            <td class="prazdny-rekord">—:—</td>
+                            <td class="prazdny-rekord">—</td>
+                        </tr>`;
+                    }
+                }
+
+                html += `</tbody></table></div>`;
+            }
+        }
+
+        vystup.innerHTML = html;
+    }
+
+    document.addEventListener("DOMContentLoaded", vykresliRekordy);
+    </script>
+
+</body>
+</html>
