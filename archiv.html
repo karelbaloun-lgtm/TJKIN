@@ -17,137 +17,469 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
     <meta name="theme-color" content="#d32f2f">
-    <title>Archiv článků - TJ KIN</title>
+    <title>Archiv článků - TJ KIN České Budějovice</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Lokální styly pro články (přeneseno z aktualit) */
-        .clanek { margin-bottom: 60px; padding-bottom: 40px; border-bottom: 1px solid #eee; }
-        .clanek:last-child { border-bottom: none; }
-        .clanek h2 { margin-top: 0; color: var(--hlavni-barva); font-size: 2em; }
-        .meta-info { color: gray; font-size: 0.9em; margin-bottom: 20px; font-weight: bold; display: flex; align-items: center; gap: 15px; }
-        .vysledky-box { background-color: var(--zebra-radek); padding: 25px; border-radius: 8px; border-left: 5px solid #ffd700; margin: 25px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .vysledky-list { list-style: none; padding: 0; margin: 0; }
-        .vysledky-list li { margin-bottom: 8px; line-height: 1.5; }
-        .zlata { color: #b8860b; font-weight: bold; font-size: 1.1em; } 
-        .stribrna { color: #7f8c8d; font-weight: bold; font-size: 1.1em; } 
-        .bronzova { color: #cd7f32; font-weight: bold; font-size: 1.1em; } 
-        body.dark-mode .clanek { border-bottom-color: #333; }
-        body.dark-mode .zlata { color: #ffd700; } 
-        body.dark-mode .stribrna { color: #a0a0a0; }
+        /* ===== LAYOUT ===== */
+        .archiv-layout {
+            display: grid;
+            grid-template-columns: 1fr 260px;
+            gap: 32px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+            align-items: start;
+        }
+
+        @media (max-width: 860px) {
+            .archiv-layout { grid-template-columns: 1fr; padding: 24px 16px 48px; }
+            .archiv-sidebar { display: none; }
+        }
+
+        /* ===== ROK ODDĚLOVAČ ===== */
+        .rok-oddelovac {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 48px 0 24px;
+        }
+
+        .rok-oddelovac:first-child { margin-top: 0; }
+
+        .rok-label {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--hlavni-barva);
+            white-space: nowrap;
+            background: var(--akcni-barva);
+            padding: 5px 16px;
+            border-radius: 6px;
+            color: #333;
+        }
+
+        .rok-linka {
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, var(--akcni-barva), transparent);
+            border-radius: 2px;
+        }
+
+        /* ===== ARTICLE CARD ===== */
+        .clanek {
+            background: var(--pozadi-obsahu);
+            border-radius: 14px;
+            box-shadow: 0 2px 18px rgba(0,0,0,0.07);
+            margin-bottom: 28px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.06);
+            border-top: 4px solid var(--hlavni-barva);
+        }
+
+        .clanek:last-child { margin-bottom: 0; }
+
+        .clanek-hero {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            display: block;
+        }
+
+        @media (max-width: 600px) { .clanek-hero { height: 190px; } }
+
+        .clanek-telo-wrap {
+            padding: 26px 30px 30px;
+        }
+
+        @media (max-width: 600px) { .clanek-telo-wrap { padding: 18px 16px 22px; } }
+
+        /* Nadpis článku */
+        .clanek h2 {
+            text-transform: none;
+            font-size: 1.5rem;
+            line-height: 1.3;
+            color: var(--barva-nadpisu);
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+
+        .clanek h3 {
+            font-size: 0.88rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #666;
+            margin: 24px 0 8px;
+            font-weight: 700;
+        }
+
+        /* ===== METADATA BADGES ===== */
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .meta-info span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 13px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .meta-datum { background: #fff3e0; color: #bf360c; }
+        .meta-misto { background: #e8f5e9; color: #1b5e20; }
+        .meta-akce  { background: #e3f2fd; color: #0d47a1; }
+
+        /* ===== VÝSLEDKY BOX ===== */
+        .vysledky-box {
+            background: var(--zebra-radek);
+            padding: 20px 22px;
+            border-radius: 10px;
+            border-left: 5px solid var(--akcni-barva);
+            margin: 22px 0;
+        }
+
+        .vysledky-box h3 {
+            font-size: 0.92rem !important;
+            color: var(--barva-nadpisu) !important;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding-bottom: 8px !important;
+            margin: 0 0 14px !important;
+            text-transform: none !important;
+            letter-spacing: 0 !important;
+        }
+
+        .vysledky-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 8px;
+        }
+
+        .vysledky-list li {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .vysledky-list li:last-child { border-bottom: none; }
+
+        .zlata    { color: #b8860b; font-weight: bold; }
+        .stribrna { color: #7f8c8d; font-weight: bold; }
+        .bronzova { color: #cd7f32; font-weight: bold; }
+
+        /* ===== FOTO STRIP ===== */
+        .foto-strip {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin: 20px 0 18px;
+            scrollbar-width: thin;
+        }
+
+        .foto-strip img {
+            height: 120px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        /* ===== BUTTON ===== */
+        .btn-galerie {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--hlavni-barva);
+            color: #fff !important;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none !important;
+            font-weight: 700;
+            font-size: 0.87rem;
+            letter-spacing: 0.3px;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+        .btn-galerie:hover {
+            background: var(--tmava-barva);
+            transform: translateY(-2px);
+        }
+
+        /* ===== ZPĚT NA AKTUALITY ===== */
+        .zpet-odkaz {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--hlavni-barva);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.88rem;
+            margin-bottom: 28px;
+            transition: gap 0.2s;
+        }
+
+        .zpet-odkaz:hover { gap: 10px; }
+
+        /* ===== SIDEBAR ===== */
+        .archiv-sidebar {
+            position: sticky;
+            top: 88px;
+        }
+
+        .sidebar-karta {
+            background: var(--pozadi-obsahu);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .sidebar-karta h4 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--hlavni-barva);
+            margin: 0 0 14px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--akcni-barva);
+        }
+
+        .sidebar-link {
+            display: block;
+            padding: 9px 0;
+            border-bottom: 1px solid #f0f0f0;
+            color: #333;
+            text-decoration: none;
+            font-size: 0.84rem;
+            line-height: 1.4;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .sidebar-link:last-child { border-bottom: none; }
+        .sidebar-link:hover { color: var(--hlavni-barva); }
+
+        .sidebar-link .link-datum {
+            display: block;
+            font-size: 0.73rem;
+            color: #aaa;
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        .sidebar-rok {
+            display: block;
+            padding: 6px 0;
+            color: var(--hlavni-barva);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-family: 'Barlow Condensed', sans-serif;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: color 0.2s;
+        }
+
+        .sidebar-rok:last-child { border-bottom: none; }
+        .sidebar-rok:hover { color: var(--tmava-barva); }
+
+        /* ===== DARK MODE ===== */
+        body.dark-mode .clanek { background: #1e1e1e; border-color: #333; }
+        body.dark-mode .clanek h2 { color: #f0f0f0; }
+        body.dark-mode .clanek h3 { color: #aaa; }
+        body.dark-mode .meta-datum { background: #3e1500; color: #ffab76; }
+        body.dark-mode .meta-misto { background: #002600; color: #81c784; }
+        body.dark-mode .meta-akce  { background: #001933; color: #90caf9; }
+        body.dark-mode .vysledky-box { background: #2a2a2a; border-color: #555; }
+        body.dark-mode .vysledky-list li { border-color: #333; }
+        body.dark-mode .sidebar-karta { background: #1e1e1e; border-color: #333; }
+        body.dark-mode .sidebar-link { color: #ccc; border-color: #333; }
+        body.dark-mode .sidebar-link:hover { color: #ef9a9a; }
+        body.dark-mode .sidebar-rok { color: #ef9a9a; border-color: #333; }
+        body.dark-mode .rok-label { background: #5a4400; color: #ffd54f; }
+        body.dark-mode .rok-linka { background: linear-gradient(90deg, #5a4400, transparent); }
+        body.dark-mode .zpet-odkaz { color: #ef9a9a; }
+        body.dark-mode .zlata    { color: #ffd700; }
+        body.dark-mode .stribrna { color: #b0bec5; }
         body.dark-mode .bronzova { color: #e69b5a; }
     </style>
 </head>
 <body>
-    
+
     <div id="spolecne-menu"></div>
 
     <header class="hlavicka">
-        <h1>🗄️ Archiv článků</h1>
+        <img src="images/logos/logo.png" class="logo-oddilu" alt="Logo TJ KIN" id="hlavni-logo">
+        <h1>Archiv článků</h1>
         <p class="podnadpis">Starší zprávy ze života našeho oddílu</p>
     </header>
 
-    <div class="obsah">
-        
-        <p style="text-align: center; color: #777; margin-bottom: 40px;">
-            Zde najdete starší články, výsledky ze závodů a události, které už nejsou na hlavní stránce.
-        </p>
+    <div class="archiv-layout">
 
-        <h2 style="color: var(--hlavni-barva); border-bottom: 3px solid var(--akcni-barva); padding-bottom: 10px; margin-top: 50px;">Rok 2026</h2>
-        
-        <article class="clanek" id="vs_26">
-            <h2>Zlatá Ela, stříbrná Zoe a Makarovy rekordy. První závody roku vyšly na jedničku</h2>
-            
-            <div class="meta-info">
-                <span>📅 17. ledna 2026</span>
-                <span>📍 Jindřichův Hradec</span>
-            </div>
-            
-            <p>Lepší start do nového roku jsme si snad ani nemohli přát. V sobotu 17. ledna se v Jindřichově Hradci konaly první letošní závody - <strong>Vajgarský sněhulák ⛄</strong>, na které vyrazila výprava sedmi našich plavců. A výsledek? Batohy plné cenných kovů a především desítky vylepšených osobních rekordů.
-            <p><strong>Naprostá dominance ročníku 2014</strong> Neuvěřitelný pohled se naskytl v kategorii dívek ročníku 2014. Naše závodnice si ze stupňů vítězů udělaly takřka oddílový přebor. Ela Kubálková předvedla bezchybný výkon – startovala v šesti disciplínách a všech šest vyhrála.</p>
-            <p>Zdatně jí sekundovala <strong>Zoe Tůmová</strong>, která Ele „kryla záda“ a ve všech svých šesti startem doplavala hned za ní na <strong>2. místě</strong>. Holky tak zbytku startovního pole jasně ukázaly, kdo v bazénu vládne.</p>
-            <p><strong>Makarovo obrovské zlepšení</strong> Velkou pochvalu si zaslouží Makar Hlushchenko (ročník 2013). Nejenže vybojoval dvě stříbra a dva bronzy, ale především výrazně posunul své limity. Na trati 50 m znak si vylepšil osobní rekord o celé dvě vteřiny, což je na tak krátké trati obdivuhodný výkon.</p>
-            <p>Cenný kov přidala do sbírky i <strong>Sofie Kubálková (2012)</strong> , která si vylepšila osobní maximum na 50 m motýlek a dohmátla si pro bronz.</p>
-            <strong>Benjamínek na zkušené</strong> Speciální zmínku si zaslouží náš nejmladší účastník, devítiletý Jan Kubálek (2017). Ten sice zatím místo medailí loví hlavně zkušenosti, ale mezi staršími „mazáky“ se rozhodně neztratil. Bojoval statečně a ukázal, že nám v bazénu roste další naděje, o které ještě určitě uslyšíme!
-            <p>Všem sedmi plavcům děkujeme za vzornou reprezentaci a gratulujeme k parádnímu vstupu do roku 2026!</p>
+        <!-- HLAVNÍ OBSAH -->
+        <main class="archiv-clanky">
 
-            <div class="vysledky-box">
-                <h3 style="margin: 0 0 15px 0; color: var(--hlavni-barva);">🏊‍♀️ Ela Kubálková</h3>
-                <ul class="vysledky-list">
-                    <li><span class="zlata">🥇 1. místo: </span> 200m VZ, 100m M, 100m VZ, 100m PZ, 50m VZ, 50m M</li>
-                </ul>
-                <hr style="border: 0; border-top: 1px dashed #ccc; margin: 15px 0;">
-                <h3 style="margin: 0 0 15px 0; color: var(--hlavni-barva);">🏊‍♀️ Zoe Tůmová</h3>
-                <ul class="vysledky-list">
-                    <li><span class="stribrna">🥈 2. místo: </span> 200m VZ, 100m M, 100m VZ, 100m PZ, 50m VZ a 100m P</li>
-                </ul>
-                <hr style="border: 0; border-top: 1px dashed #ccc; margin: 15px 0;">
-                <h3 style="margin: 0 0 15px 0; color: var(--hlavni-barva);">🏊‍♀️ Makar Hlushchenko</h3>
-                <ul class="vysledky-list">
-                    <li><span class="stribrna">🥈 2. místo:</span> 50m Z, 100m VZ</li>
-                    <li><span class="bronzova">🥉 3. místo:</span> 50m VZ, 50m M</li>
-                </ul>
-                <hr style="border: 0; border-top: 1px dashed #ccc; margin: 15px 0;">
-                <h3 style="margin: 0 0 15px 0; color: var(--hlavni-barva);">🏊‍♀️ Sofie Kubálková</h3>
-                <ul class="vysledky-list">
-                    <li><span class="bronzova">🥉 3. místo:</span> 50m M</li>
-                </ul>
+            <a href="aktuality.html" class="zpet-odkaz">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+                Zpět na aktuální zprávy
+            </a>
+
+            <!-- ROK 2026 -->
+            <div class="rok-oddelovac" id="rok-2026">
+                <span class="rok-label">2026</span>
+                <div class="rok-linka"></div>
             </div>
 
-            <div style="display: flex; gap: 10px; margin: 30px 0; overflow-x: auto; padding-bottom: 10px;">
-                <img src="images/fotogalerie/2026/vs_26/vs_26 (1).jpeg" style="height: 150px; border-radius: 8px; object-fit: cover;">
-                <img src="images/fotogalerie/2026/vs_26/vs_26 (2).jpeg" style="height: 150px; border-radius: 8px; object-fit: cover;">
-                <img src="images/fotogalerie/2026/vs_26/vs_26 (3).jpeg" style="height: 150px; border-radius: 8px; object-fit: cover;">
+            <article class="clanek" id="vs_26">
+                <img src="images/fotogalerie/2026/vs_26/vs_26 (1).jpeg" class="clanek-hero" alt="Vajgarský sněhulák 2026">
+                <div class="clanek-telo-wrap">
+                    <h2>Zlatá Ela, stříbrná Zoe a Makarovy rekordy. První závody roku vyšly na jedničku</h2>
+                    <div class="meta-info">
+                        <span class="meta-datum">17. ledna 2026</span>
+                        <span class="meta-misto">Jindřichův Hradec</span>
+                        <span class="meta-akce">Vajgarský sněhulák</span>
+                    </div>
+
+                    <p>Lepší start do nového roku jsme si snad ani nemohli přát. V sobotu 17. ledna se v Jindřichově Hradci konaly první letošní závody – <strong>Vajgarský sněhulák</strong>, na které vyrazila výprava sedmi našich plavců. A výsledek? Batohy plné cenných kovů a především desítky vylepšených osobních rekordů.</p>
+
+                    <p><strong>Naprostá dominance ročníku 2014.</strong> Neuvěřitelný pohled se naskytl v kategorii dívek ročníku 2014. Naše závodnice si ze stupňů vítězů udělaly takřka oddílový přebor. Ela Kubálková předvedla bezchybný výkon – startovala v šesti disciplínách a všech šest vyhrála. Zdatně jí sekundovala <strong>Zoe Tůmová</strong>, která ve všech svých šesti startech doplavala hned za ní na 2. místě.</p>
+
+                    <p><strong>Makarovo obrovské zlepšení.</strong> Velkou pochvalu si zaslouží Makar Hlushchenko (2013). Nejenže vybojoval dvě stříbra a dva bronzy, ale na trati 50 m znak si vylepšil osobní rekord o celé dvě vteřiny. Bronz přidala i <strong>Sofie Kubálková (2012)</strong> na 50 m motýlek.</p>
+
+                    <p>Speciální zmínku si zaslouží náš nejmladší účastník, devítiletý <strong>Jan Kubálek (2017)</strong>. Mezi staršími se rozhodně neztratil — bojoval statečně a ukázal, že nám roste další naděje.</p>
+
+                    <div class="vysledky-box">
+                        <h3>Výsledky</h3>
+                        <h3 style="margin-top:12px !important;">Ela Kubálková (2014)</h3>
+                        <ul class="vysledky-list">
+                            <li><span class="zlata">1. místo:</span> 200m VZ, 100m M, 100m VZ, 100m PZ, 50m VZ, 50m M</li>
+                        </ul>
+                        <h3 style="margin-top:12px !important;">Zoe Tůmová (2014)</h3>
+                        <ul class="vysledky-list">
+                            <li><span class="stribrna">2. místo:</span> 200m VZ, 100m M, 100m VZ, 100m PZ, 50m VZ, 100m P</li>
+                        </ul>
+                        <h3 style="margin-top:12px !important;">Makar Hlushchenko (2013)</h3>
+                        <ul class="vysledky-list">
+                            <li><span class="stribrna">2. místo:</span> 50m Z, 100m VZ</li>
+                            <li><span class="bronzova">3. místo:</span> 50m VZ, 50m M</li>
+                        </ul>
+                        <h3 style="margin-top:12px !important;">Sofie Kubálková (2012)</h3>
+                        <ul class="vysledky-list">
+                            <li><span class="bronzova">3. místo:</span> 50m M</li>
+                        </ul>
+                    </div>
+
+                    <div class="foto-strip">
+                        <img src="images/fotogalerie/2026/vs_26/vs_26 (1).jpeg" alt="Foto">
+                        <img src="images/fotogalerie/2026/vs_26/vs_26 (2).jpeg" alt="Foto">
+                        <img src="images/fotogalerie/2026/vs_26/vs_26 (3).jpeg" alt="Foto">
+                    </div>
+
+                    <a href="galerie.html?id=vs_26" class="btn-galerie">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                        Video a fotogalerie
+                    </a>
+                </div>
+            </article>
+
+            <!-- ROK 2025 -->
+            <div class="rok-oddelovac" id="rok-2025">
+                <span class="rok-label">2025</span>
+                <div class="rok-linka"></div>
             </div>
 
-            <a href="vs_26.html" class="tlacitko">🎥 Přehrát video a kouknout na fotky</a>
-        </article>
+            <article class="clanek" id="zmcr_pisek_2025">
+                <img src="images/fotogalerie/2025/zmcr_pisek/zavod (2).jpg" class="clanek-hero" alt="Zimní pohár jedenáctiletých Písek 2025">
+                <div class="clanek-telo-wrap">
+                    <h2>Medailové žně na Zimním poháru jedenáctiletých</h2>
+                    <div class="meta-info">
+                        <span class="meta-datum">Prosinec 2025</span>
+                        <span class="meta-misto">Písek</span>
+                        <span class="meta-akce">Zimní pohár jedenáctiletých</span>
+                    </div>
 
-        <h2 style="color: var(--hlavni-barva); border-bottom: 3px solid var(--akcni-barva); padding-bottom: 10px; margin-top: 50px;">Rok 2025</h2>
-        
-        <article class="clanek">
-            <h2>Medailové žně na Zimním poháru jedenáctiletých</h2>
-            
-            <div class="meta-info">
-                <span>📅 Prosinec 2025</span>
-                <span>📍 Písek</span>
+                    <p>Vrchol zimní sezóny pro nejmladší plavce dopadl nad očekávání. Na Zimním poháru jedenáctiletých, který o víkendu hostil bazén v Písku, o sobě daly naše plavkyně pořádně vědět. Ela Kubálková a Zoe Tůmová předvedly fantastické výkony.</p>
+
+                    <p><strong>Dominance na dlouhých tratích.</strong> Největší radost nám udělaly disciplíny 800 metrů volný způsob a 200 metrů polohový závod. V obou případech naše závodnice nedaly soupeřkám šanci a obsadily první dvě místa. Ela Kubálková si doplavala pro tituly mistryně republiky, těsně následovaná stříbrnou Zoe Tůmovou.</p>
+
+                    <p>Obě dívky prokazovaly skvělou formu napříč všemi starty. Ela přidala čtyři stříbra, Zoe čtyři bronzy — z každého startu si odvezla medaili!</p>
+
+                    <p>Velké díky patří také rodičům. Vaše podpora na tribunách i v zázemí je pro nás nepostradatelná. Tento úspěch je i váš!</p>
+
+                    <div class="vysledky-box">
+                        <h3>Výsledky</h3>
+                        <h3 style="margin-top:12px !important;">Ela Kubálková</h3>
+                        <ul class="vysledky-list">
+                            <li><span class="zlata">1. místo:</span> 800 m VZ, 200 m PZ</li>
+                            <li><span class="stribrna">2. místo:</span> 100 m M, 100 m VZ, 200 m VZ, 400 m VZ</li>
+                        </ul>
+                        <h3 style="margin-top:12px !important;">Zoe Tůmová</h3>
+                        <ul class="vysledky-list">
+                            <li><span class="stribrna">2. místo:</span> 800 m VZ, 200 m PZ</li>
+                            <li><span class="bronzova">3. místo:</span> 50 m VZ, 100 m VZ, 200 m VZ, 400 m VZ</li>
+                        </ul>
+                    </div>
+
+                    <div class="foto-strip">
+                        <img src="images/fotogalerie/2025/zmcr_pisek/zavod (2).jpg" alt="Foto">
+                        <img src="images/fotogalerie/2025/zmcr_pisek/zavod (3).jpg" alt="Foto">
+                        <img src="images/fotogalerie/2025/zmcr_pisek/zavod (4).jpg" alt="Foto">
+                    </div>
+
+                    <a href="galerie.html?id=zmcr_pisek_2025" class="btn-galerie">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                        Fotogalerie z Písku
+                    </a>
+                </div>
+            </article>
+
+        </main>
+
+        <!-- SIDEBAR -->
+        <aside class="archiv-sidebar">
+            <div class="sidebar-karta">
+                <h4>Přejít na rok</h4>
+                <a href="#rok-2026" class="sidebar-rok">2026</a>
+                <a href="#rok-2025" class="sidebar-rok">2025</a>
             </div>
-            
-            <p>Vrchol zimní sezóny pro nejmladší plavce dopadl nad očekávání. Na Zimním poháru jedenáctiletých, který o víkendu hostil bazén v Písku, o sobě daly naše plavkyně pořádně vědět. Ela Kubálková a Zoe Tůmová předvedly fantastické výkony a z jihu Čech udělaly na chvíli centrum mládežnického plavání.</p>
-            <p><strong>Dominance na dlouhých tratích</strong> Největší radost nám udělaly disciplíny 800 metrů volný způsob a 200 metrů polohový závod. V obou případech totiž naše závodnice nedaly soupeřkám šanci a obsadily první dvě místa. Ela Kubálková si doplavala pro tituly mistryně republiky, těsně následovaná stříbrnou Zoe Tůmovou.</p>
-            <p><strong>Sbírka cenných kovů</strong> Nezůstalo ale jen u těchto úspěchů. Obě dívky prokazovaly skvělou formu napříč všemi starty. Ela přidala do sbírky další čtyři stříbrné medaile. Zoe svou bilanci doplnila o čtyři bronzy, čímž potvrdila svou neuvěřitelnou vyrovnanost – z každého startu si odvezla medaili!</p>
-            <p>Holkám i trenérům gratulujeme k úžasné reprezentaci oddílu a děkujeme za krásný závěr roku.</p>
-
-            <div class="vysledky-box">
-                <h3 style="margin: 0 0 10px 0; color: var(--hlavni-barva); display: flex; align-items: center; gap: 10px;">🏊‍♀️ Ela Kubálková</h3>
-                <ul class="vysledky-list">
-                    <li><span class="zlata">🥇 1. místo:</span> 800 m volný způsob, 200 m polohový závod</li>
-                    <li><span class="stribrna">🥈 2. místo:</span> 100 m motýlek, 100 m volný způsob, 200 m volný způsob a 400 m volný způsob</li>
-                </ul>
-                <hr style="border: 0; border-top: 1px dashed #ccc; margin: 25px 0;">
-                <h3 style="margin: 0 0 10px 0; color: var(--hlavni-barva); display: flex; align-items: center; gap: 10px;">🏊‍♀️ Zoe Tůmová</h3>
-                <ul class="vysledky-list">
-                    <li><span class="stribrna">🥈 2. místo:</span> 800 m volný způsob, 200 m polohový závod</li>
-                    <li><span class="bronzova">🥉 3. místo:</span> 50 m volný způsob, 100 m volný způsob, 200 m volný způsob a 400 m volný způsob</li>
-                </ul>
+            <div class="sidebar-karta">
+                <h4>Rok 2026</h4>
+                <a href="#vs_26" class="sidebar-link">
+                    Vajgarský sněhulák
+                    <span class="link-datum">17. ledna 2026</span>
+                </a>
             </div>
-
-            <p>Velké díky patří také rodičům. Vaše podpora na tribunách i v zázemí je pro nás nepostradatelná a bez ní by to zkrátka nešlo. Tento úspěch je i váš!</p>
-
-            <div style="display: flex; gap: 10px; margin: 30px 0; overflow-x: auto; padding-bottom: 10px;">
-                <img src="images/fotogalerie/2025/zmcr_pisek/zavod (2).jpg" style="height: 150px; border-radius: 8px; object-fit: cover;">
-                <img src="images/fotogalerie/2025/zmcr_pisek/zavod (3).jpg" style="height: 150px; border-radius: 8px; object-fit: cover;">
-                <img src="images/fotogalerie/2025/zmcr_pisek/zavod (4).jpg" style="height: 150px; border-radius: 8px; object-fit: cover;">
+            <div class="sidebar-karta">
+                <h4>Rok 2025</h4>
+                <a href="#zmcr_pisek_2025" class="sidebar-link">
+                    Zimní pohár jedenáctiletých
+                    <span class="link-datum">Prosinec 2025</span>
+                </a>
             </div>
-
-            <a href="zmcr_pisek_2025.html" class="tlacitko">📸 Prohlédnout všechny fotky</a>
-        </article>
-
-        
+            <div class="sidebar-karta">
+                <h4>Aktuální zprávy</h4>
+                <a href="aktuality.html" class="sidebar-link">
+                    Nejnovější články
+                    <span class="link-datum">aktuality.html</span>
+                </a>
+            </div>
+        </aside>
 
     </div>
 
     <div id="spolecna-paticka"></div>
-
     <script src="komponenty.js"></script>
 </body>
 </html>

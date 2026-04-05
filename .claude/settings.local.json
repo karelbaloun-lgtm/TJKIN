@@ -15,7 +15,8 @@
       "Bash(node -e \"require\\(''sharp''\\)\")",
       "Bash(npm list:*)",
       "Bash(python -c \"from PIL import Image; print\\(''Pillow ok''\\)\")",
-      "Bash(python -c \":*)"
+      "Bash(python -c \":*)",
+      "WebFetch(domain:kinplavani.cz)"
     ]
   }
 }

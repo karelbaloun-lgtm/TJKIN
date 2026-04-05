@@ -121,7 +121,6 @@ nav, .tlacitko, .footer, .next, .prev { user-select: none; }
    ========================================= */
 nav {
     background-color: var(--hlavni-barva);
-    border-bottom: 3px solid var(--tmava-barva);
     display: flex; justify-content: center; align-items: center;
     min-height: 50px; position: sticky; top: 0; z-index: 1000;
 }
@@ -726,7 +725,7 @@ body.dark-mode {
     color: var(--text-hlavni);
     --logo-filter: grayscale(100%) brightness(1.3) contrast(1.2);
 }
-body.dark-mode nav { border-bottom: 3px solid #000; background-color: #4a0000; }
+body.dark-mode nav { background-color: #4a0000; }
 body.dark-mode .obsah { box-shadow: 0 0 30px rgba(211, 47, 47, 0.15); border: 1px solid #333; }
 body.dark-mode .info-box { background-color: #252525; color: #e0e0e0; }
 body.dark-mode .info-box strong { color: var(--akcni-barva); }
@@ -1267,9 +1266,6 @@ body.velikonoce-mode .hlavicka {
     background-image:
         linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
         url('images/hero.jpeg');
-    border-bottom: 4px solid #ffd700;
-    /* Zlatý lem dole pod hlavičkou */
-    box-shadow: 0 4px 0 #ffd700;
 }
 
 body.velikonoce-mode nav {
