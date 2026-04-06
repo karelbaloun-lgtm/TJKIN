@@ -82,15 +82,6 @@ body.zoh-mode footer { background-color: #006064; border-top-color: #00bcd4; }
     100% { transform: translateY(110vh) rotate(180deg); opacity: 0; }
 }
 
-/* --- RETRO REŽIM 1951 --- */
-body.retro-mode { filter: sepia(0.85) contrast(1.1) brightness(0.95); }
-body.retro-mode * { font-family: 'Georgia', 'Times New Roman', serif !important; letter-spacing: 0.3px; }
-body.retro-mode h1, body.retro-mode h2, body.retro-mode h3 {
-    font-family: 'Georgia', 'Times New Roman', serif !important;
-    text-transform: none !important; font-weight: bold; letter-spacing: 1px;
-}
-body.retro-mode .hlavicka { filter: grayscale(1) sepia(0.5) contrast(1.1); }
-body.retro-mode .logo-oddilu { filter: grayscale(1) sepia(0.4) brightness(0.9); }
 
 .logo-oddilu.nabijeni {
     outline: 0px solid transparent; outline-offset: 6px; border-radius: 50%;

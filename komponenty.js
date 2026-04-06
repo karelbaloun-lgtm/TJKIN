@@ -2,11 +2,15 @@
    1. GENEROVÁNÍ MENU (VČETNĚ NASTAVENÍ)
    ========================================= */
 function vlozMenu() {
+    const dnesMenu = new Date();
+    const rokMenu = dnesMenu.getFullYear();
+    const jeVelikonoceMenu = dnesMenu >= new Date(rokMenu, 2, 30) && dnesMenu < new Date(rokMenu, 3, 7);
+
     const menuHTML = `
     <nav>
         <div class="hamburger" onclick="prepnoutMenu()">☰</div>
         <div class="menu-polozky" id="mojeMenu">
-            
+
             <div class="nastaveni-wrapper" onclick="this.classList.toggle('aktivni')">
                 <div class="nastaveni-tlacitko">
                     <span class="gear-icon">⚙️</span>
@@ -14,7 +18,7 @@ function vlozMenu() {
                 </div>
                 <div class="nastaveni-menu">
                     <div class="menu-sipka"></div>
-                    
+
                     <a onclick="zmenRezim('light'); event.stopPropagation();">
                         <span class="rezim-ikona">🔥</span> Klubový styl
                     </a>
@@ -23,9 +27,10 @@ function vlozMenu() {
                         <span class="rezim-ikona">🌑</span> Dark Mode
                     </a>
 
+${jeVelikonoceMenu ? `
                     <a onclick="zmenRezim('velikonoce'); event.stopPropagation();" style="border-top: 1px solid #eee;">
                         <span class="rezim-ikona">🐰</span> Velikonoční mód
-                    </a>
+                    </a>` : ''}
 
                 </div>
             </div>
