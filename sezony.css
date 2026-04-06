@@ -1,0 +1,191 @@
+/* =========================================
+   SEZÓNNÍ A SPECIÁLNÍ MÓDY
+   (importováno v style.css)
+   ========================================= */
+
+/* --- SILVESTROVSKÝ SPECIÁL --- */
+body.silvestr-mode {
+    --pozadi-stranky: #05051a; --pozadi-obsahu: #0b0b2b; --zebra-radek: #151535;
+    --hlavni-barva: #ffd700; --tmava-barva: #ffffff; --akcni-barva: #00ffcc;
+    background-image: radial-gradient(#ffffff 1px, transparent 1px), radial-gradient(#ffffff 1px, transparent 1px);
+    background-size: 50px 50px; background-position: 0 0, 25px 25px;
+}
+body.silvestr-mode .hlavicka {
+    background-color: #000; border-bottom: 2px solid var(--hlavni-barva);
+    background-image: linear-gradient(45deg, #000 25%, #111 25%, #111 50%, #000 50%, #000 75%, #111 75%, #111 100%);
+}
+body.silvestr-mode nav { background-color: #111; border-bottom: 1px solid var(--hlavni-barva); }
+body.silvestr-mode .karta, body.silvestr-mode .info-box {
+    background-color: #101025; border-color: var(--hlavni-barva); color: white;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+@keyframes disco-party {
+    0% { filter: hue-rotate(0deg) drop-shadow(0 0 10px gold); }
+    50% { filter: hue-rotate(180deg) drop-shadow(0 0 20px magenta); }
+    100% { filter: hue-rotate(360deg) drop-shadow(0 0 10px gold); }
+}
+body.silvestr-mode .logo-oddilu { animation: disco-party 3s linear infinite; }
+
+/* --- VALENTÝNSKÝ SPECIÁL 💘 --- */
+body.valentyn-mode {
+    --pozadi-stranky: #fff0f5; --pozadi-obsahu: #ffffff; --zebra-radek: #ffeef2;
+    --hlavni-barva: #e91e63; --tmava-barva: #c2185b; --akcni-barva: #ff4081;
+    --barva-nadpisu: #c2185b; --barva-podtrzeni: #ff80ab;
+    background-image: radial-gradient(#ffc1e3 15%, transparent 16%), radial-gradient(#ffc1e3 15%, transparent 16%);
+    background-size: 60px 60px; background-position: 0 0, 30px 30px;
+}
+body.valentyn-mode .hlavicka {
+    background: linear-gradient(135deg, #e91e63 0%, #ff4081 100%); border-bottom: 4px solid white;
+}
+@keyframes tlukot-srdce {
+    0%, 30%, 60%, 100% { transform: scale(1); }
+    15%, 45% { transform: scale(1.15); }
+}
+body.valentyn-mode .logo-oddilu {
+    animation: tlukot-srdce 1.5s infinite; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+}
+body.valentyn-mode .karta, body.valentyn-mode .nabor-karta {
+    border-top-color: #e91e63; box-shadow: 0 5px 15px rgba(233, 30, 99, 0.2);
+}
+body.valentyn-mode .info-box { background-color: #fff0f5; border-left-color: #e91e63; color: #880e4f; }
+.srdicko {
+    position: fixed; top: -10vh; font-size: 20px; z-index: 9999;
+    user-select: none; pointer-events: none; animation: padani-srdicek linear forwards;
+}
+@keyframes padani-srdicek {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+/* --- ZOH 2026 (OLYMPIJSKÝ MÓD) ❄️ --- */
+body.zoh-mode {
+    --pozadi-stranky: #e0f7fa; --pozadi-obsahu: #ffffff; --zebra-radek: #b2ebf2;
+    --hlavni-barva: #d32f2f; --tmava-barva: #006064; --akcni-barva: #00bcd4;
+    --barva-nadpisu: #006064; --barva-podtrzeni: #4dd0e1;
+    background-image: radial-gradient(#ffffff 20%, transparent 20%), radial-gradient(#ffffff 20%, transparent 20%);
+    background-color: #e0f7fa; background-size: 50px 50px; background-position: 0 0, 25px 25px;
+}
+body.zoh-mode .hlavicka { background: linear-gradient(135deg, #006064 0%, #00acc1 100%); border-bottom: 4px solid white; }
+body.zoh-mode nav { background-color: #00838f; border-bottom: 3px solid #b2ebf2; }
+body.zoh-mode .karta, body.zoh-mode .nabor-karta { border-top-color: #00bcd4; box-shadow: 0 5px 15px rgba(0, 188, 212, 0.2); }
+body.zoh-mode .info-box { background-color: #e0f7fa; border-left-color: #00bcd4; }
+body.zoh-mode .tlacitko { background-color: #00bcd4; color: white; }
+body.zoh-mode .tlacitko:hover { background-color: #00acc1; box-shadow: 0 0 10px #4dd0e1; }
+body.zoh-mode footer { background-color: #006064; border-top-color: #00bcd4; }
+.vlocka {
+    position: fixed; top: -10vh; font-size: 20px; z-index: 9999;
+    user-select: none; pointer-events: none;
+    animation: padani-vlocek linear forwards; text-shadow: 0 0 5px white;
+}
+@keyframes padani-vlocek {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+    100% { transform: translateY(110vh) rotate(180deg); opacity: 0; }
+}
+
+/* --- RETRO REŽIM 1951 --- */
+body.retro-mode { filter: sepia(0.85) contrast(1.1) brightness(0.95); }
+body.retro-mode * { font-family: 'Georgia', 'Times New Roman', serif !important; letter-spacing: 0.3px; }
+body.retro-mode h1, body.retro-mode h2, body.retro-mode h3 {
+    font-family: 'Georgia', 'Times New Roman', serif !important;
+    text-transform: none !important; font-weight: bold; letter-spacing: 1px;
+}
+body.retro-mode .hlavicka { filter: grayscale(1) sepia(0.5) contrast(1.1); }
+body.retro-mode .logo-oddilu { filter: grayscale(1) sepia(0.4) brightness(0.9); }
+
+.logo-oddilu.nabijeni {
+    outline: 0px solid transparent; outline-offset: 6px; border-radius: 50%;
+    transition: outline-width 3s linear, outline-color 3s linear;
+}
+.logo-oddilu.nabijeni-aktivni { outline-width: 8px; outline-color: rgba(180, 140, 60, 0.9); }
+
+#retro-overlay {
+    position: fixed; inset: 0; background: #1a1208; z-index: 99999;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; opacity: 0; transition: opacity 0.8s ease;
+}
+#retro-overlay.retro-overlay-viditelny { opacity: 1; }
+#retro-overlay.retro-overlay-mizeni { animation: retro-fade-out 0.6s ease forwards; }
+@keyframes retro-fade-out { from { opacity: 1; } to { opacity: 0; } }
+.retro-overlay-obsah {
+    text-align: center; color: #e8d9b0;
+    font-family: 'Georgia', 'Times New Roman', serif; padding: 40px;
+    animation: retro-prilet 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes retro-prilet {
+    from { transform: translateY(30px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+.retro-overlay-rok {
+    font-size: clamp(6em, 20vw, 12em); font-weight: bold; line-height: 1;
+    color: #c8a84b; text-shadow: 0 0 40px rgba(200, 168, 75, 0.4), 0 2px 4px rgba(0,0,0,0.8);
+    letter-spacing: 8px;
+}
+.retro-overlay-linka {
+    width: 120px; height: 2px;
+    background: linear-gradient(90deg, transparent, #c8a84b, transparent); margin: 20px auto;
+}
+.retro-overlay-text {
+    font-size: clamp(1.2em, 3vw, 1.8em); line-height: 1.5; margin: 0 0 8px;
+    color: #e8d9b0; font-style: italic; letter-spacing: 1px;
+}
+.retro-overlay-podtext {
+    font-size: 1em; color: #a08860; text-transform: uppercase; letter-spacing: 4px; margin: 0 0 40px;
+}
+.retro-overlay-zavreni {
+    font-size: 0.8em; color: #6a5a3a; letter-spacing: 2px; text-transform: uppercase;
+    animation: retro-blikani 2s ease-in-out infinite;
+}
+@keyframes retro-blikani { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+/* --- MDŽ (8. března) --- */
+.logo-mdz-aktivni {
+    animation: tlukot-srdce 2s infinite !important;
+    filter: drop-shadow(0 0 15px rgba(233, 30, 99, 0.6)) !important;
+}
+#modal-mdz .modal-box {
+    background: linear-gradient(to bottom, #ffffff, #fff5f8);
+    border-top: 6px solid #e91e63;
+}
+body.dark-mode #modal-mdz .modal-box { background: #252525; color: #eee; border-top-color: #e91e63; }
+body.dark-mode #modal-mdz h2 { color: #ff80ab !important; }
+
+/* --- VELIKONOČNÍ MÓD 🐰 --- */
+body.velikonoce-mode {
+    --pozadi-stranky: #fffdf0; --pozadi-obsahu: #ffffff; --zebra-radek: #fff8e1;
+    --hlavni-barva: #c0392b; --tmava-barva: #7b1f1f; --akcni-barva: #e67e22;
+    --barva-nadpisu: #7b1f1f; --barva-podtrzeni: #f39c12;
+    background-image:
+        repeating-linear-gradient(45deg, transparent, transparent 18px, rgba(192, 57, 43, 0.06) 18px, rgba(192, 57, 43, 0.06) 20px),
+        repeating-linear-gradient(-45deg, transparent, transparent 18px, rgba(255, 215, 0, 0.06) 18px, rgba(255, 215, 0, 0.06) 20px);
+    background-color: #fffdf0;
+}
+body.velikonoce-mode .hlavicka {
+    background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('images/hero.jpeg');
+}
+body.velikonoce-mode nav { background-color: #8b0000; border-bottom: 3px solid #ffd700; }
+body.velikonoce-mode .karta, body.velikonoce-mode .nabor-karta {
+    border-top-color: #ffd700; box-shadow: 0 5px 15px rgba(192, 57, 43, 0.12);
+}
+body.velikonoce-mode .info-box { background-color: #fff8e1; border-left-color: #ffd700; }
+body.velikonoce-mode .tlacitko { background-color: #c0392b; }
+body.velikonoce-mode .tlacitko:hover { background-color: #a93226; box-shadow: 0 0 12px rgba(255, 215, 0, 0.5); }
+body.velikonoce-mode footer { background-color: #7b1f1f; border-top: 3px solid #ffd700; }
+body.velikonoce-mode #hlavni-logo {
+    animation: pomlazka-houpani 2.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+}
+@keyframes pomlazka-houpani {
+    0%, 100% { transform: rotate(-4deg) translateY(0px); }
+    25%       { transform: rotate(0deg) translateY(-3px); }
+    50%       { transform: rotate(4deg) translateY(0px); }
+    75%       { transform: rotate(0deg) translateY(-3px); }
+}
+.vajicko {
+    position: fixed; top: -10vh; font-size: 22px; z-index: 9999;
+    user-select: none; pointer-events: none; animation: padani-vajicek linear forwards;
+}
+@keyframes padani-vajicek {
+    0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+    80%  { opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg) scale(0.8); opacity: 0; }
+}

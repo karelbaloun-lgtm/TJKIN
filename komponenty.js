@@ -115,7 +115,7 @@ function vlozPaticku() {
 }
 
 /* =========================================
-   3. PŘEPÍNÁNÍ REŽIMŮ (Jen Light a Dark)
+   3. PŘEPÍNÁNÍ REŽIMŮ
    ========================================= */
 let intervalEfektu = null; 
 
@@ -194,7 +194,7 @@ function spustitVajicka() {
 }
 
 /* =========================================
-   4. OSTATNÍ FUNKCE
+   4. OSTATNÍ FUNKCE (lightbox, ICS, menu)
    ========================================= */
 function prepnoutMenu() {
     var x = document.getElementById("mojeMenu");
@@ -279,42 +279,66 @@ function spustitGoogleAnalytics() {
     script.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
     document.head.appendChild(script);
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    window.gtag = function(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', GA_ID);
 }
 
 /* =========================================
-   7. HLAVNÍ INICIALIZACE (Start webu)
+   5. HLAVNÍ INICIALIZACE (Start webu)
    ========================================= */
 document.addEventListener("DOMContentLoaded", function() {
     const logo = document.getElementById('hlavni-logo');
+    const dnes = new Date();
     const ulozeneTema = localStorage.getItem('tema');
-    
-    // Priority při načtení:
+
+    // 1. Načtení uloženého tématu
     if (ulozeneTema === 'dark') {
         document.body.classList.add('dark-mode');
-        if(logo) logo.src = 'images/logos/logo.png';
+        if (logo) logo.src = 'images/logos/logo.png';
     } else if (ulozeneTema === 'velikonoce') {
         document.body.classList.add('velikonoce-mode');
-        if(logo) logo.src = 'images/logos/logo_velikonoce.png';
+        if (logo) logo.src = 'images/logos/logo_velikonoce.png';
         spustitVajicka();
     } else {
-        // VŠECHNO OSTATNÍ (Light, Valentýn, ZOH, atd.) -> PŘEVÉST NA ZÁKLADNÍ KLUB STYL
-        // Žádná speciální třída, základní logo
-        if(logo) logo.src = 'images/logos/logo.png';
-        
-        // Pro jistotu vyčistíme staré sušenky, kdyby tam zbylo něco divného
-        if (ulozeneTema !== 'light') {
-             localStorage.setItem('tema', 'light');
+        if (logo) logo.src = 'images/logos/logo.png';
+        if (ulozeneTema !== 'light') localStorage.setItem('tema', 'light');
+    }
+
+    // 2. MDŽ (8. března)
+    const jeMdz = (dnes.getDate() === 8 && dnes.getMonth() === 2);
+    if (jeMdz) {
+        if (logo) { logo.src = 'images/logos/logo_mdz.png'; logo.classList.add('logo-mdz-aktivni'); }
+        vlozMdzModal();
+    }
+
+    // 3. Velikonoce (30. března – 6. dubna)
+    const rok = dnes.getFullYear();
+    const jeVelikonoce = dnes >= new Date(rok, 2, 30) && dnes < new Date(rok, 3, 7);
+    if (jeVelikonoce && !jeMdz) {
+        const manualniVolba = sessionStorage.getItem('tema-manual');
+        if (!manualniVolba) {
+            if (logo) logo.src = 'images/logos/logo_velikonoce.png';
+            if (ulozeneTema !== 'dark') {
+                document.body.classList.add('velikonoce-mode');
+                localStorage.setItem('tema', 'velikonoce');
+                spustitVajicka();
+            }
         }
     }
 
+    // 4. Reset po skončení Velikonoc
+    if (!jeVelikonoce && localStorage.getItem('tema') === 'velikonoce') {
+        localStorage.setItem('tema', 'light');
+        document.body.classList.remove('velikonoce-mode');
+    }
+
+    // 5. Vložení menu, patičky, analytiky
     vlozMenu();
     vlozPaticku();
     spustitGoogleAnalytics();
 
-    // Scroll animace
+    // 6. Scroll animace
     const prvky = document.querySelectorAll('.odkryt-na-scroll');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -324,11 +348,11 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }, { threshold: 0.1 });
-    prvky.forEach((prvek) => observer.observe(prvek));
+    prvky.forEach(prvek => observer.observe(prvek));
 });
 
 /* =========================================
-   5. LOGO – výbuch (krátké kliknutí)
+   6. LOGO – výbuch (krátké kliknutí)
             + retro režim 1951 (držení 3 vteřiny)
    ========================================= */
 (function () {
@@ -388,57 +412,7 @@ document.addEventListener("DOMContentLoaded", function() {
         requestAnimationFrame(() => overlay.classList.add('retro-overlay-viditelny'));
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
-    // ... stávající kód pro téma a menu ...
-
-    // MDŽ Logika
-    const dnes = new Date();
-    const jeMdz = (dnes.getDate() === 8 && dnes.getMonth() === 2); // 8. března
-
-    if (jeMdz) {
-        // 1. Výměna loga v hlavičce
-        const logo = document.getElementById('hlavni-logo');
-        if (logo) {
-            logo.src = 'images/logos/logo_mdz.png';
-            logo.classList.add('logo-mdz-aktivni');
-        }
-        
-        // 2. Spuštění modalu (vytvoříme ho dynamicky)
-        vlozMdzModal();
-    }
-
-    // Velikonoční logika (30. března – 6. dubna)
-    const rok = dnes.getFullYear();
-    const velikonoceOd = new Date(rok, 2, 30); // 30. března
-    const velikonoceDo = new Date(rok, 3, 7);  // 7. dubna (do půlnoci 6.4.)
-    const jeVelikonoce = dnes >= velikonoceOd && dnes < velikonoceDo;
-
-    if (jeVelikonoce && !jeMdz) {
-        // Pokud uživatel během této návštěvy ručně přepnul mód, respektujeme jeho volbu
-        const manualniVolba = sessionStorage.getItem('tema-manual');
-        if (!manualniVolba) {
-            const logo = document.getElementById('hlavni-logo');
-            if (logo) logo.src = 'images/logos/logo_velikonoce.png';
-            const ulozeneTema = localStorage.getItem('tema');
-            if (ulozeneTema !== 'dark') {
-                document.body.classList.add('velikonoce-mode');
-                localStorage.setItem('tema', 'velikonoce');
-                spustitVajicka();
-            }
-        }
-    }
-
-    // Po skončení Velikonoc resetovat téma na light
-    if (!jeVelikonoce && localStorage.getItem('tema') === 'velikonoce') {
-        localStorage.setItem('tema', 'light');
-        document.body.classList.remove('velikonoce-mode');
-    }
-
-    // ... zbytek stávajícího kódu (vložMenu, vlozPaticku...) ...
-});
-
-// Nová funkce pro MDŽ modal
-/* --- FUNKCE PRO VYSKAKOVACÍ OKNO K MDŽ --- */
+// MDŽ modal (voláno z hlavní inicializace)
 function vlozMdzModal() {
     // 1. Zkontrolujeme, jestli uživatel už okno během této návštěvy nezavřel
     if (sessionStorage.getItem('mdzZavreno') === 'true') return;
@@ -469,7 +443,7 @@ function vlozMdzModal() {
 })();
 
 /* =========================================
-   8. SERVICE WORKER (PWA)
+   7. SERVICE WORKER (PWA)
    ========================================= */
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -478,7 +452,7 @@ if ('serviceWorker' in navigator) {
 }
 
 /* =========================================
-   9. CHATBOT
+   8. CHATBOT
    ========================================= */
 function nactiChatbota() {
     const skript = document.createElement('script');
