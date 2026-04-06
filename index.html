@@ -284,12 +284,39 @@
         50% { opacity: 0.4; }
         100% { opacity: 1; }
     }
-    .blikajici-tecka {
-        animation: blikani 2s infinite;
+    .blikajici-tecka { animation: blikani 2s infinite; }
+    @media (max-width: 450px) { .blikajici-tecka { display: none; } }
+
+    /* Karty upoutávek na HP */
+    .hp-clanek {
+        background: var(--pozadi-obsahu);
+        border-radius: 14px;
+        border: 1px solid rgba(0,0,0,0.06);
+        border-top: 4px solid var(--hlavni-barva);
+        box-shadow: 0 2px 18px rgba(0,0,0,0.07);
+        padding: 24px 28px 28px;
+        margin-bottom: 24px;
     }
-    @media (max-width: 450px) {
-        .blikajici-tecka { display: none; }
+    .hp-clanek h3 {
+        margin-top: 8px;
+        color: var(--barva-nadpisu);
+        font-size: 1.15rem;
+        text-transform: none;
+        font-weight: 700;
     }
+    .hp-datum {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        background: #fff3e0;
+        color: #bf360c;
+        font-size: 0.78rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+    body.dark-mode .hp-clanek { background: #1e1e1e; border-color: #333; }
+    body.dark-mode .hp-clanek h3 { color: #f0f0f0; }
+    body.dark-mode .hp-datum { background: #3e1500; color: #ffab76; }
 </style>
 
     <div id="spolecne-menu"></div>
@@ -392,87 +419,16 @@
             </div>
         </section>
 
-       <article class="top-zprava odkryt-na-scroll">
-            <div class="datum" style="color: gray; font-size: 0.9em; margin-bottom: 5px;">
-                2. března 2026
-            </div>
-            
-            <h3 style="margin-top: 5px; color: var(--hlavni-barva);">
-                Domácí bazén je náš! Ela Kubálková vylovila 7 medailí a padaly obří osobáky
-            </h3>
-            
+       <article class="hp-clanek odkryt-na-scroll" id="hp-upoutavka">
+            <span class="hp-datum">2. března 2026</span>
+            <h3>Domácí bazén je náš! Ela Kubálková vylovila 7 medailí a padaly obří osobáky</h3>
             <p>
-                Kdo je v Budějovicích pánem domácí vody? Na přelomu února a března hostila padesátka velké závody a naši plavci ukázali konkurenci záda. 
+                Kdo je v Budějovicích pánem domácí vody? Na přelomu února a března hostila padesátka velké závody a naši plavci ukázali konkurenci záda.
+                <strong>Ela Kubálková</strong> proměnila každý svůj start v medaili a se ziskem 7 cenných kovů se stala nejúspěšnější plavkyní města!
             </p>
-            <p>
-                <strong>Ela Kubálková</strong> proměnila každý svůj start v medaili a se ziskem 7 cenných kovů se stala nejúspěšnější plavkyní města! K tomu naši benjamínci bourali své staré osobáky klidně i o víc než deset vteřin.
-            </p>
-            
-             <a href="aktuality.html#zavody-cb-50m" class="tlacitko" style="margin-top: 10px;">Číst celou reportáž →</a>
+            <a href="aktuality.html#zavody-cb-50m" class="tlacitko" style="margin-top: 10px;">Číst celou reportáž →</a>
         </article>
         
-        <article class="odkryt-na-scroll" style="
-            border: 1px solid #ddd; 
-            background-color: white; 
-            border-radius: 8px; 
-            padding: 25px; 
-            margin-bottom: 50px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        ">
-            <div class="datum" style="color: gray; font-size: 0.9em; margin-bottom: 5px;">
-                22. února 2026
-            </div>
-            
-            <h3 style="margin-top: 5px; color: var(--hlavni-barva);">
-                Neskutečná Ela! Z Plzně veze zlato a osobák zlepšený o půl minuty
-            </h3>
-            
-            <p>
-                Zatímco většina oddílu o víkendu odpočívala, Ela Kubálková vyrazila na 38. ročník Plzeňského vytrvalce. V jediném desetidráhovém 50m bazénu v republice předvedla na trati 800 m volný způsob neskutečnou show. Svůj osobní rekord rozcupovala o 30 vteřin a navíc přidala jednu velkou plaveckou kuriozitu.
-            </p>
-            
-             <a href="aktuality.html#vytrvalec_26" class="tlacitko" style="margin-top: 10px; background-color: #7f8c8d;">Přečíst celý článek →</a>
-        </article>
-
-
-        <article class="odkryt-na-scroll" style="
-            border: 1px solid #ddd; 
-            background-color: white; 
-            border-radius: 8px; 
-            padding: 25px; 
-            margin-bottom: 50px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        ">
-            <div class="datum" style="color: gray; font-size: 0.9em; margin-bottom: 5px;">
-                17. ledna 2026 
-            </div>
-            
-            <h3 style="margin-top: 5px; color: var(--hlavni-barva);">
-                Snový start do roku 2026! Z Jindřichova Hradce vezeme hromadu medailí 
-            </h3>
-            
-            <p>
-                První závody sezóny a hned déšť osobních rekordů. V sobotu 17. ledna vyrazilo sedm našich plavců do Jindřichova Hradce a v bazénu nebyli k přehlédnutí. Ela Kubálková vyhrála vše, na co sáhla, a Makar Hlushchenko posouval své hranice o celé vteřiny.
-            </p>
-            
-             <a href="archiv.html#vs_26" class="tlacitko" style="margin-top: 10px; background-color: #7f8c8d;">Přečíst celý článek →</a>
-        </article>
-        
-
-        <article class="odkryt-na-scroll" style="
-            border: 1px solid #ddd; 
-            background-color: white; 
-            border-radius: 8px; 
-            padding: 25px; 
-            margin-bottom: 50px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        ">
-            <div class="datum" style="color: gray; font-size: 0.9em; margin-bottom: 5px;">Prosinec 2025</div>
-            <h3 style="margin-top: 5px; color: var(--hlavni-barva);">🥇 Zlato a stříbro ze Zimního poháru!</h3>
-            <p>Fantastický úspěch na Zimním poháru. Ela Kubálková a Zoe Tůmová vezou domů tituly mistryně a vicemistryně republiky. Podívejte se, jak se jim dařilo.</p>
-            
-            <a href="aktuality.html" class="tlacitko" style="margin-top: 10px; background-color: #7f8c8d;">Přečíst celý článek →</a>
-        </article>
 
 
         <div class="rozcestnik">
@@ -531,6 +487,31 @@
     <div id="spolecna-paticka"></div>
 
     <script src="komponenty.js"></script>
+    <script>
+    /* Načte nejnovější článek z CMS a nahradí hardcodovanou upoutávku */
+    const MESICE = ['ledna','února','března','dubna','května','června','července','srpna','září','října','listopadu','prosince'];
+
+    fetch('/aktuality-data.json')
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+            if (!data || !data.clanky || data.clanky.length === 0) return;
+            const cl = data.clanky[0];
+            const upoutavka = document.getElementById('hp-upoutavka');
+            if (!upoutavka) return;
+
+            const d = new Date(cl.datum);
+            const datum = isNaN(d) ? cl.datum : `${d.getDate()}. ${MESICE[d.getMonth()]} ${d.getFullYear()}`;
+            const perex = cl.perex || cl.telo?.replace(/[#*_]/g, '').slice(0, 200) + '…';
+
+            upoutavka.innerHTML = `
+                <span class="hp-datum">${datum}</span>
+                <h3>${cl.nadpis}</h3>
+                <p>${perex}</p>
+                <a href="aktuality.html" class="tlacitko" style="margin-top:10px;">Číst celou reportáž →</a>
+            `;
+        })
+        .catch(() => {});
+    </script>
 
     <div id="modal-whatsapp" class="modal-overlay" style="display: none;">
         <div class="modal-box">

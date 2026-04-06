@@ -50,6 +50,12 @@ collections:
         required: false
         hint: "ID galerie z galerie-data.js, např. cb_26. Přidá tlačítko 'Prohlédnout fotky'."
 
+      - label: Perex (krátký úvod pro hlavní stránku)
+        name: perex
+        widget: text
+        required: false
+        hint: "2-3 věty shrnutí článku – zobrazí se jako upoutávka na hlavní stránce"
+
       - label: Úvodní fotka článku
         name: obrazek
         widget: image
