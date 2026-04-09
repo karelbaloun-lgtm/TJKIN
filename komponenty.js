@@ -289,6 +289,36 @@ function spustitGoogleAnalytics() {
     gtag('config', GA_ID);
 }
 
+// Cookie souhlas
+function zobrazCookieBanner() {
+    const souhlas = localStorage.getItem('cookie-souhlas');
+    if (souhlas) return; // už rozhodl dřív
+
+    const banner = document.createElement('div');
+    banner.id = 'cookie-banner';
+    banner.innerHTML = `
+        <p>Používáme Google Analytics pro sledování návštěvnosti. Vaše data nezneužijeme.</p>
+        <div class="cookie-tlacitka">
+            <button onclick="prijimatCookies()">Přijmout</button>
+            <button onclick="odmitnoutCookies()" class="cookie-odmitout">Odmítnout</button>
+        </div>
+    `;
+    document.body.appendChild(banner);
+    // Animace – zobrazit po chvíli
+    setTimeout(() => banner.classList.add('cookie-viditelny'), 300);
+}
+
+function prijimatCookies() {
+    localStorage.setItem('cookie-souhlas', 'ano');
+    document.getElementById('cookie-banner')?.remove();
+    spustitGoogleAnalytics();
+}
+
+function odmitnoutCookies() {
+    localStorage.setItem('cookie-souhlas', 'ne');
+    document.getElementById('cookie-banner')?.remove();
+}
+
 /* =========================================
    5. HLAVNÍ INICIALIZACE (Start webu)
    ========================================= */
@@ -341,7 +371,11 @@ document.addEventListener("DOMContentLoaded", function() {
     // 5. Vložení menu, patičky, analytiky
     vlozMenu();
     vlozPaticku();
-    spustitGoogleAnalytics();
+    if (localStorage.getItem('cookie-souhlas') === 'ano') {
+        spustitGoogleAnalytics();
+    } else {
+        zobrazCookieBanner();
+    }
 
     // 6. Scroll animace
     const prvky = document.querySelectorAll('.odkryt-na-scroll');
