@@ -146,11 +146,16 @@ nav a:hover { background-color: rgba(0,0,0,0.1); }
         transform: translateY(-4px);
         color: #ffd54f;
     }
-    nav a.nav-aktivni .nav-pismeno {
-        color: #ffd54f;
+    nav a.nav-aktivni {
+        position: relative;
     }
-    nav a.nav-aktivni:hover .nav-pismeno {
-        transform: translateY(-4px);
+    nav a.nav-aktivni::after {
+        content: '';
+        position: absolute;
+        bottom: 6px; left: 20%; right: 20%;
+        height: 2px;
+        background: white;
+        border-radius: 2px;
     }
 }
 
