@@ -103,7 +103,12 @@
             html += `
             <div class="foto-box" onclick="otevritLightbox(this)">
                 <img src="${data.slozka}${foto}" alt="${data.nazev}">
-                <div class="popisek">${data.popisek || ''}</div>
+                <div class="foto-overlay">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+                    </svg>
+                </div>
             </div>`;
         });
         html += `</div>`;
