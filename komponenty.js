@@ -49,8 +49,11 @@ ${jeVelikonoceMenu ? `
     const menuElement = document.getElementById('spolecne-menu');
     if (menuElement) {
         menuElement.innerHTML = menuHTML;
-        // Rozděl text nav odkazů na animovaná písmena (jen hlavní položky, ne dropdown)
+        // Rozděl text nav odkazů na animovaná písmena + označ aktivní stránku
+        const aktualniStranka = window.location.pathname.split('/').pop() || 'index.html';
         menuElement.querySelectorAll('.menu-polozky > a[href]').forEach(odkaz => {
+            const jeAktivni = odkaz.getAttribute('href') === aktualniStranka;
+            if (jeAktivni) odkaz.classList.add('nav-aktivni');
             odkaz.innerHTML = [...odkaz.textContent].map(
                 (pismeno, i) => pismeno === ' '
                     ? ' '
