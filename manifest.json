@@ -1,13 +1,15 @@
 {
   "name": "TJ KIN České Budějovice",
-  "short_name": "KIN Plavání",
-  "description": "Plavecký oddíl TJ KIN České Budějovice – závodní plavání od roku 1951.",
-  "start_url": "/",
+  "short_name": "TJ KIN",
+  "description": "Plavecký klub TJ KIN České Budějovice – aktuality, termínovka, kontakt.",
+  "start_url": "/index.html",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#fffde7",
+  "orientation": "portrait",
+  "background_color": "#d32f2f",
   "theme_color": "#d32f2f",
   "lang": "cs",
-  "orientation": "portrait-primary",
+  "categories": ["sports"],
   "icons": [
     {
       "src": "images/icons/icon-192.png",
@@ -26,6 +28,31 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    },
+    {
+      "src": "images/icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Aktuality",
+      "short_name": "Aktuality",
+      "url": "/aktuality.html",
+      "description": "Novinky z klubu"
+    },
+    {
+      "name": "Termínovka",
+      "short_name": "Termínovka",
+      "url": "/terminovka.html",
+      "description": "Plán závodů a akcí"
+    },
+    {
+      "name": "Kontakt",
+      "short_name": "Kontakt",
+      "url": "/kontakt.html",
+      "description": "Kontaktní údaje klubu"
     }
   ]
 }

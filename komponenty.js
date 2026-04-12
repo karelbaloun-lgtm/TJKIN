@@ -203,10 +203,13 @@ function spustitVajicka() {
    ========================================= */
 function prepnoutMenu() {
     var x = document.getElementById("mojeMenu");
+    var mobNav = document.querySelector(".mob-nav");
     if (x.className === "menu-polozky") {
         x.className += " responsive";
+        if (mobNav) mobNav.style.display = "none";
     } else {
         x.className = "menu-polozky";
+        if (mobNav) mobNav.style.display = "";
     }
 }
 
@@ -368,9 +371,10 @@ document.addEventListener("DOMContentLoaded", function() {
         document.body.classList.remove('velikonoce-mode');
     }
 
-    // 5. Vložení menu, patičky, analytiky
+    // 5. Vložení menu, patičky, analytiky, mobilní nav
     vlozMenu();
     vlozPaticku();
+    vlozMobileNav();
     if (localStorage.getItem('cookie-souhlas') === 'ano') {
         spustitGoogleAnalytics();
     } else {
@@ -391,7 +395,83 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 /* =========================================
-   6. LOGO – výbuch (krátké kliknutí)
+   6. MOBILNÍ SPODNÍ NAVIGACE
+   ========================================= */
+function vlozMobileNav() {
+    const stranka = window.location.pathname.split('/').pop() || 'index.html';
+
+    const polozky = [
+        {
+            href: 'index.html',
+            label: 'Úvod',
+            barva: '#d32f2f',
+            ikona: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`
+        },
+        {
+            href: 'aktuality.html',
+            label: 'Aktuality',
+            barva: '#e65100',
+            ikona: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>`
+        },
+        {
+            href: 'terminovka.html',
+            label: 'Termínovka',
+            barva: '#1565c0',
+            ikona: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`
+        },
+        {
+            href: 'kontakt.html',
+            label: 'Kontakt',
+            barva: '#2e7d32',
+            ikona: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`
+        }
+    ];
+
+    let activeIndex = 0;
+    polozky.forEach((p, i) => {
+        if (stranka === p.href || (stranka === '' && p.href === 'index.html')) activeIndex = i;
+    });
+
+    const navHTML = `
+    <nav class="mob-nav">
+        <div class="mob-nav__bublina" style="background:${polozky[activeIndex].barva}"></div>
+        ${polozky.map((p, i) => `
+            <a href="${p.href}" class="mob-nav__item${i === activeIndex ? ' active' : ''}" data-barva="${p.barva}" data-index="${i}">
+                ${p.ikona}
+                <span>${p.label}</span>
+            </a>`).join('')}
+    </nav>`;
+
+    document.body.insertAdjacentHTML('beforeend', navHTML);
+
+    // Nastav počáteční pozici bubliny
+    requestAnimationFrame(() => {
+        posunBublinu(activeIndex);
+
+        // Animace při kliknutí (vizuální feedback před přechodem na stránku)
+        document.querySelectorAll('.mob-nav__item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                const idx = parseInt(this.dataset.index);
+                const barva = this.dataset.barva;
+                document.querySelectorAll('.mob-nav__item').forEach(el => el.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelector('.mob-nav__bublina').style.background = barva;
+                posunBublinu(idx);
+            });
+        });
+    });
+}
+
+function posunBublinu(index) {
+    const nav = document.querySelector('.mob-nav');
+    const bublina = document.querySelector('.mob-nav__bublina');
+    if (!nav || !bublina) return;
+    const sirkaPolozky = nav.offsetWidth / 4;
+    bublina.style.left = (index * sirkaPolozky + sirkaPolozky / 2 - 28) + 'px';
+}
+
+/* =========================================
+   7. LOGO – výbuch (krátké kliknutí)
             + retro režim 1951 (držení 3 vteřiny)
    ========================================= */
 (function () {
