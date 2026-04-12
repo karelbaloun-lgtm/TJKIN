@@ -65,6 +65,16 @@ ${jeVelikonoceMenu ? `
                     : `<span class="nav-pismeno" style="--i:${i}">${pismeno}</span>`
             ).join('');
         });
+
+        // Průhledný nav na úvodní stránce (hero efekt)
+        if (document.querySelector('.hero')) {
+            const navEl = menuElement.querySelector('nav');
+            const aktualizujNav = () => {
+                navEl.classList.toggle('nav--transparentni', window.scrollY < 60);
+            };
+            aktualizujNav();
+            window.addEventListener('scroll', aktualizujNav, { passive: true });
+        }
     }
 }
 
