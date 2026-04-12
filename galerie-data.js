@@ -14,7 +14,7 @@ const GALERIE = {
             "cb (1).jpeg", "cb (2).jpeg", "cb (3).jpeg",
             "cb (4).jpeg", "cb (5).jpeg", "cb (6).jpeg"
         ],
-        popisek: "Závod",
+        popisek: "",
         video: null
     },
 
@@ -30,7 +30,7 @@ const GALERIE = {
             "vytrv (9).jpeg", "vytrv (10).jpeg", "vytrv (11).jpeg",
             "vytrv (12).jpeg"
         ],
-        popisek: "Závod",
+        popisek: "",
         video: null
     },
 
@@ -43,7 +43,7 @@ const GALERIE = {
             "vs_26 (1).jpeg", "vs_26 (2).jpeg",
             "vs_26 (3).jpeg", "vs_26 (4).jpeg"
         ],
-        popisek: "Závod",
+        popisek: "",
         video: "images/fotogalerie/2026/vs_26/vs_26_video.mp4",
         videoNazev: "Video z vyhlášení hlavního závodu 100m PZ"
     },
