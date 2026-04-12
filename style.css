@@ -508,7 +508,9 @@ input:focus, textarea:focus { border-color: var(--hlavni-barva); outline: none; 
 body.dark-mode .loader__kruh { border-color: #444; border-top-color: var(--akcni-barva, #d32f2f); }
 
 /* Galerie & Lightbox */
-.galerie-grid {
+.galerie-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 30px; }
+
+.masonry-grid {
     columns: 3 240px;
     column-gap: 14px;
     margin-top: 30px;
