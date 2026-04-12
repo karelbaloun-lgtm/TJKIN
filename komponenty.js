@@ -47,7 +47,17 @@ ${jeVelikonoceMenu ? `
     </nav>
     `;
     const menuElement = document.getElementById('spolecne-menu');
-    if (menuElement) menuElement.innerHTML = menuHTML;
+    if (menuElement) {
+        menuElement.innerHTML = menuHTML;
+        // Rozděl text nav odkazů na animovaná písmena (jen hlavní položky, ne dropdown)
+        menuElement.querySelectorAll('.menu-polozky > a[href]').forEach(odkaz => {
+            odkaz.innerHTML = [...odkaz.textContent].map(
+                (pismeno, i) => pismeno === ' '
+                    ? ' '
+                    : `<span class="nav-pismeno" style="--i:${i}">${pismeno}</span>`
+            ).join('');
+        });
+    }
 }
 
 /* =========================================
