@@ -292,6 +292,11 @@
         <!-- HLAVNÍ OBSAH -->
         <main class="aktuality-clanky">
 
+            <div class="loader" id="aktuality-loader">
+                <div class="loader__kruh"></div>
+                <span>Načítám další aktuality...</span>
+            </div>
+
             <article class="clanek" id="nova-pravidla-2026">
                 <div class="clanek-telo-wrap">
                     <h2>Nová pravidla plavání platná od 18. února 2026 – co se mění?</h2>
@@ -505,9 +510,13 @@
         return article;
     }
 
+    const aktualityLoader = document.getElementById('aktuality-loader');
+    const skrijAktualityLoader = () => { if (aktualityLoader) aktualityLoader.remove(); };
+
     fetch('/aktuality-data.json')
-        .then(r => r.ok ? r.json() : { clanky: [] })
+        .then(r => r.ok ? r.json() : Promise.reject('server-error'))
         .then(data => {
+            skrijAktualityLoader();
             if (!data.clanky || data.clanky.length === 0) return;
             const hlavni = document.querySelector('.aktuality-clanky');
             const prvni = hlavni.querySelector('article');
@@ -516,7 +525,13 @@
                 prvni ? hlavni.insertBefore(el, prvni) : hlavni.appendChild(el);
             });
         })
-        .catch(() => {});
+        .catch(() => {
+            skrijAktualityLoader();
+            const hlavni = document.querySelector('.aktuality-clanky');
+            if (hlavni && !hlavni.querySelector('article')) {
+                hlavni.innerHTML = '<p class="galerie-chyba">Omlouváme se, data se nepodařilo načíst. Zkuste to prosím znovu.</p>';
+            }
+        });
     </script>
 
 </body>

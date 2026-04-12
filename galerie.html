@@ -30,7 +30,10 @@
     </header>
 
     <div class="obsah" id="galerie-obsah">
-        <!-- JS vygeneruje obsah podle ?id= v URL -->
+        <div class="loader" id="galerie-loader">
+            <div class="loader__kruh"></div>
+            <span>Načítám...</span>
+        </div>
     </div>
 
     <div id="lightbox" class="lightbox" style="display: none;">
@@ -50,13 +53,26 @@
     document.addEventListener("DOMContentLoaded", function () {
         const params = new URLSearchParams(window.location.search);
         const id = params.get("id");
-        const data = GALERIE[id];
         const obsah = document.getElementById("galerie-obsah");
 
-        if (!data) {
-            obsah.innerHTML = '<p style="text-align:center; padding: 60px 20px;">Galerie nebyla nalezena.<br><br><a href="fotogalerie.html" class="tlacitko" style="background-color:#7f8c8d;">⬅ Zpět na výběr galerií</a></p>';
+        const loader = document.getElementById('galerie-loader');
+        const skrijLoader = () => { if (loader) loader.remove(); };
+
+        if (typeof GALERIE === 'undefined') {
+            skrijLoader();
+            obsah.innerHTML = '<p class="galerie-chyba">Omlouváme se, data se nepodařilo načíst. Zkuste to prosím znovu.</p>';
             return;
         }
+
+        const data = GALERIE[id];
+
+        if (!data) {
+            skrijLoader();
+            obsah.innerHTML = '<p class="galerie-chyba">Galerie nebyla nalezena.<br><br><a href="fotogalerie.html" class="tlacitko tlacitko--seda">⬅ Zpět na výběr galerií</a></p>';
+            return;
+        }
+
+        skrijLoader();
 
         document.title = data.nazev + " - TJ KIN České Budějovice";
 
@@ -71,15 +87,15 @@
 
         if (data.video) {
             html += `
-            <div style="margin: 40px 0; text-align: center;">
-                <h3 style="text-align: center; color: #555; margin-bottom: 15px;">🎥 ${data.videoNazev || 'Video'}</h3>
-                <video controls style="width: 100%; max-width: 800px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 4px solid white;">
+            <div class="galerie-video-wrap">
+                <h3 class="galerie-video-nadpis">🎥 ${data.videoNazev || 'Video'}</h3>
+                <video controls class="galerie-video">
                     <source src="${data.video}" type="video/mp4">
                     Váš prohlížeč nepodporuje přehrávání videa.
                 </video>
             </div>
-            <hr style="border: 0; border-top: 1px dashed #ccc; margin: 40px 0;">
-            <h3 style="text-align: center; color: #555; margin-bottom: 20px;">📸 Fotogalerie</h3>`;
+            <hr class="galerie-oddelovac">
+            <h3 class="galerie-foto-nadpis">📸 Fotogalerie</h3>`;
         }
 
         html += `<div class="galerie-grid">`;
@@ -93,8 +109,8 @@
         html += `</div>`;
 
         html += `
-        <p style="margin-top: 50px; text-align: center;">
-            <a href="fotogalerie.html" class="tlacitko" style="background-color: #7f8c8d;">⬅ Zpět na výběr galerií</a>
+        <p class="galerie-zpet">
+            <a href="fotogalerie.html" class="tlacitko tlacitko--seda">⬅ Zpět na výběr galerií</a>
         </p>`;
 
         obsah.innerHTML = html;
