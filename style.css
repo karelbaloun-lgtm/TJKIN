@@ -169,48 +169,67 @@ nav a:hover { background-color: rgba(255,255,255,0.18); }
     color: white; padding: 10px 20px; margin-right: auto;
 }
 
-/* Tlačítko Přizpůsobit (ozubené kolo) */
-.nastaveni-wrapper {
-    position: relative; display: inline-block; margin-right: 15px; 
-    font-family: 'Segoe UI', sans-serif; perspective: 1000px;
+/* Plovoucí tlačítko Vzhled */
+.vzhled-wrap {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 900;
 }
-.nastaveni-tlacitko {
-    display: flex; align-items: center; gap: 7px;
-    background: transparent; color: white;
-    padding: 9px 16px; border-radius: 8px; cursor: pointer;
-    font-size: 0.85em; font-weight: 600; border: none;
-    letter-spacing: 0.07em; text-transform: uppercase;
-    transition: background 0.2s ease;
+@media (max-width: 860px) {
+    .vzhled-wrap { bottom: calc(68px + env(safe-area-inset-bottom) + 12px); }
 }
-.nastaveni-wrapper:hover .nastaveni-tlacitko {
-    background: rgba(255,255,255,0.18);
+.vzhled-btn {
+    width: 46px; height: 46px; border-radius: 50%;
+    background: white; border: none; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--hlavni-barva);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
 }
-.gear-icon { display: inline-block; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); flex-shrink: 0; }
-.nastaveni-wrapper:hover .gear-icon { transform: rotate(180deg) scaleX(-1); }
+.vzhled-btn:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(0,0,0,0.22); }
+.vzhled-btn svg { transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.vzhled-wrap.otevreno .vzhled-btn svg { transform: rotate(90deg); }
 
-/* Rozbalovací menu nastavení */
-.nastaveni-menu {
-    position: absolute; top: 120%; left: 0; width: 200px;
-    background: rgba(255, 255, 255, 0.95); border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid rgba(0,0,0,0.1);
-    opacity: 0; visibility: hidden; transform: translateY(-10px);
-    transition: all 0.3s; z-index: 2000; text-align: left;
+.vzhled-panel {
+    position: absolute; bottom: calc(100% + 12px); right: 0;
+    width: 200px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    padding: 8px;
+    opacity: 0; visibility: hidden;
+    transform: translateY(8px) scale(0.96);
+    transform-origin: bottom right;
+    transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.2s;
 }
-.nastaveni-wrapper:hover .nastaveni-menu, .nastaveni-wrapper.aktivni .nastaveni-menu {
-    opacity: 1; visibility: visible; transform: translateY(0);
+.vzhled-wrap.otevreno .vzhled-panel {
+    opacity: 1; visibility: visible; transform: translateY(0) scale(1);
 }
-.nastaveni-menu a {
-    display: flex; align-items: center; padding: 12px 20px;
-    color: #333; text-decoration: none; font-size: 0.9em; font-weight: 500;
-    border-bottom: 1px solid rgba(0,0,0,0.05); cursor: pointer; transition: padding-left 0.2s;
+.vzhled-nadpis {
+    font-size: 0.7em; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #999;
+    padding: 6px 10px 4px; margin: 0;
 }
-.nastaveni-menu a:hover {
-    background-color: rgba(211, 47, 47, 0.08); color: var(--hlavni-barva); padding-left: 25px;
+.vzhled-volba {
+    display: flex; align-items: center; gap: 10px;
+    width: 100%; padding: 10px 10px; border: none;
+    background: transparent; cursor: pointer; border-radius: 10px;
+    font-size: 0.9em; font-weight: 500; color: #222;
+    transition: background 0.15s;
 }
-.menu-sipka {
-    position: absolute; top: -6px; left: 20px; 
-    width: 12px; height: 12px; background: white; transform: rotate(45deg);
+.vzhled-volba:hover { background: rgba(0,0,0,0.06); }
+.vzhled-swatch {
+    width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }
+body.dark-mode .vzhled-panel {
+    background: rgba(30,30,30,0.92); border-color: rgba(255,255,255,0.1);
+}
+body.dark-mode .vzhled-volba { color: #eee; }
+body.dark-mode .vzhled-volba:hover { background: rgba(255,255,255,0.08); }
 
 /* =========================================
    5. HLAVNÍ KONTEJNER A UI PRVKY
@@ -741,13 +760,6 @@ body.dark-mode .logo-hp img {
     .menu-polozky.responsive { display: flex; }
     nav a { width: 100%; text-align: left; border-top: 1px solid rgba(255,255,255,0.1); padding: 15px 20px; }
     
-    /* Úprava tlačítka nastavení na mobilu */
-    .nastaveni-wrapper { display: block; width: 100%; margin: 0; border-top: 1px solid rgba(255,255,255,0.1); }
-    .nastaveni-tlacitko { background: transparent; border: none; padding: 15px 20px; width: 100%; border-radius: 0; }
-    .nastaveni-menu { position: static; width: 100%; background: rgba(0,0,0,0.2); display: none; opacity: 1; visibility: visible; transform: none; }
-    .nastaveni-wrapper:hover .nastaveni-menu, .nastaveni-wrapper.aktivni .nastaveni-menu { display: block; }
-    .menu-sipka { display: none; }
-
     /* Ostatní prvky na mobilu */
     .timeline::after { left: 31px; }
     .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
@@ -809,10 +821,6 @@ body.dark-mode h3, body.dark-mode .nabor-karta h3 { color: white; }
 body.dark-mode .logo-wrapper { background-color: #ffffff; }
 
 /* Menu v Dark Mode */
-body.dark-mode .nastaveni-tlacitko { background: rgba(0,0,0,0.3); }
-body.dark-mode .nastaveni-menu { background: #222; border-color: #444; }
-body.dark-mode .nastaveni-menu a { color: #eee; border-bottom-color: #333; }
-body.dark-mode .nastaveni-menu a:hover { background-color: rgba(251, 192, 45, 0.15); color: var(--akcni-barva); }
 @media screen and (max-width: 768px) {
     body.dark-mode .menu-polozky.responsive { background-color: #4a0000; border-bottom: 2px solid var(--hlavni-barva); }
     body.dark-mode nav a { border-top-color: rgba(255,255,255,0.1); }

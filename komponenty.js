@@ -10,50 +10,53 @@ function vlozMenu() {
     <nav>
         <div class="hamburger" onclick="prepnoutMenu()">☰</div>
         <div class="menu-polozky" id="mojeMenu">
-
-            <div class="nastaveni-wrapper" onclick="this.classList.toggle('aktivni')">
-                <div class="nastaveni-tlacitko">
-                    <svg class="gear-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
-                        <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
-                        <circle cx="9" cy="6" r="2.5" fill="currentColor" stroke="none"/>
-                        <circle cx="16" cy="12" r="2.5" fill="currentColor" stroke="none"/>
-                        <circle cx="10" cy="18" r="2.5" fill="currentColor" stroke="none"/>
-                    </svg>
-                    <span class="text-tlacitka">Vzhled</span>
-                </div>
-                <div class="nastaveni-menu">
-                    <div class="menu-sipka"></div>
-
-                    <a onclick="zmenRezim('light'); event.stopPropagation();">
-                        <span class="rezim-ikona">🔥</span> Klubový styl
-                    </a>
-
-                    <a onclick="zmenRezim('dark'); event.stopPropagation();" style="border-top: 1px solid #eee;">
-                        <span class="rezim-ikona">🌑</span> Dark Mode
-                    </a>
-
-${jeVelikonoceMenu ? `
-                    <a onclick="zmenRezim('velikonoce'); event.stopPropagation();" style="border-top: 1px solid #eee;">
-                        <span class="rezim-ikona">🐰</span> Velikonoční mód
-                    </a>` : ''}
-
-                </div>
-            </div>
-
             <a href="index.html">Úvod</a>
             <a href="aktuality.html">Aktuality</a>
             <a href="terminovka.html">Termínovka</a>
             <a href="fotogalerie.html">Galerie</a>
             <a href="historie.html">Rekordy & Historie</a>
             <a href="sponzori.html">Partneři</a>
-            <a href="kontakt.html">Kontakt</a> 
-
-        </div>  
+            <a href="kontakt.html">Kontakt</a>
+        </div>
     </nav>
+    `;
+
+    const vzhledHTML = `
+    <div class="vzhled-wrap" id="vzhled-wrap">
+        <button class="vzhled-btn" id="vzhled-btn" aria-label="Změnit vzhled" onclick="document.getElementById('vzhled-wrap').classList.toggle('otevreno')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+        </button>
+        <div class="vzhled-panel">
+            <p class="vzhled-nadpis">Vzhled</p>
+            <button class="vzhled-volba" onclick="zmenRezim('light'); document.getElementById('vzhled-wrap').classList.remove('otevreno')">
+                <span class="vzhled-swatch" style="background:#d32f2f"></span>
+                Klubový styl
+            </button>
+            <button class="vzhled-volba" onclick="zmenRezim('dark'); document.getElementById('vzhled-wrap').classList.remove('otevreno')">
+                <span class="vzhled-swatch" style="background:#1a1a2e"></span>
+                Dark Mode
+            </button>
+            ${jeVelikonoceMenu ? `
+            <button class="vzhled-volba" onclick="zmenRezim('velikonoce'); document.getElementById('vzhled-wrap').classList.remove('otevreno')">
+                <span class="vzhled-swatch" style="background:#7b1fa2"></span>
+                Velikonoční mód
+            </button>` : ''}
+        </div>
+    </div>
     `;
     const menuElement = document.getElementById('spolecne-menu');
     if (menuElement) {
         menuElement.innerHTML = menuHTML;
+        document.body.insertAdjacentHTML('beforeend', vzhledHTML);
+
+        // Zavři panel kliknutím mimo
+        document.addEventListener('click', e => {
+            const wrap = document.getElementById('vzhled-wrap');
+            if (wrap && !wrap.contains(e.target)) wrap.classList.remove('otevreno');
+        });
         // Rozděl text nav odkazů na animovaná písmena + označ aktivní stránku
         const aktualniStranka = window.location.pathname.split('/').pop() || 'index.html';
         menuElement.querySelectorAll('.menu-polozky > a[href]').forEach(odkaz => {
