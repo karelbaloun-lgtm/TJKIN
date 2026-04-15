@@ -734,7 +734,9 @@
 
         function badgeHtml(zavod) {
             if (zavod.dniDo === undefined) return '';
-            const text = zavod.dniDo === 0 ? 'Dnes' : zavod.dniDo === 1 ? 'Zítra' : `za ${zavod.dniDo} dní`;
+            const n = zavod.dniDo;
+            const tvar = n === 1 ? 'den' : n <= 4 ? 'dny' : 'dní';
+            const text = n === 0 ? 'Dnes' : n === 1 ? 'Zítra' : `za ${n} ${tvar}`;
             return `<span class="term-badge-brzy">${text}</span>`;
         }
 
