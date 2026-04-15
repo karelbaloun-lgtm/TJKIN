@@ -57,16 +57,10 @@ function vlozMenu() {
             const wrap = document.getElementById('vzhled-wrap');
             if (wrap && !wrap.contains(e.target)) wrap.classList.remove('otevreno');
         });
-        // Rozděl text nav odkazů na animovaná písmena + označ aktivní stránku
+        // Označ aktivní stránku
         const aktualniStranka = window.location.pathname.split('/').pop() || 'index.html';
         menuElement.querySelectorAll('.menu-polozky > a[href]').forEach(odkaz => {
-            const jeAktivni = odkaz.getAttribute('href') === aktualniStranka;
-            if (jeAktivni) odkaz.classList.add('nav-aktivni');
-            odkaz.innerHTML = [...odkaz.textContent].map(
-                (pismeno, i) => pismeno === ' '
-                    ? ' '
-                    : `<span class="nav-pismeno" style="--i:${i}">${pismeno}</span>`
-            ).join('');
+            if (odkaz.getAttribute('href') === aktualniStranka) odkaz.classList.add('nav-aktivni');
         });
 
     }
