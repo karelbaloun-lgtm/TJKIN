@@ -112,6 +112,42 @@
         .meta-misto { background: #e8f5e9; color: #1b5e20; }
         .meta-akce  { background: #e3f2fd; color: #0d47a1; }
 
+        /* ===== FOTO VÝZVA ===== */
+        .foto-vyzva {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: #fff8e1;
+            border: 1px solid #ffe082;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-top: 24px;
+        }
+        .foto-vyzva-ikona { font-size: 2rem; flex-shrink: 0; }
+        .foto-vyzva-text { flex: 1; font-size: 0.92rem; color: #555; margin: 0; }
+        .foto-vyzva-text strong { color: #333; }
+        .foto-vyzva-btn {
+            flex-shrink: 0;
+            display: inline-block;
+            padding: 8px 18px;
+            background: var(--hlavni-barva);
+            color: white;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: opacity 0.2s;
+        }
+        .foto-vyzva-btn:hover { opacity: 0.85; }
+        body.dark-mode .foto-vyzva { background: #2a2500; border-color: #5a4a00; }
+        body.dark-mode .foto-vyzva-text { color: #bbb; }
+        body.dark-mode .foto-vyzva-text strong { color: #eee; }
+        @media (max-width: 500px) {
+            .foto-vyzva { flex-wrap: wrap; }
+            .foto-vyzva-btn { width: 100%; text-align: center; }
+        }
+
         /* ===== VÝSLEDKY BOX ===== */
         .vysledky-box {
             background: var(--zebra-radek);
@@ -325,6 +361,12 @@
                         <li><strong>50 m znak</strong> — 21. místo (1:06,16)</li>
                     </ul>
                     <p>Gratulujeme Janovi k bronzové medaili a oběma závodníkům za representaci oddílu. Tak zase příště! 🐸</p>
+
+                    <div class="foto-vyzva">
+                        <div class="foto-vyzva-ikona">📸</div>
+                        <p class="foto-vyzva-text"><strong>Byli jste v Písku a fotili?</strong> Nejlepší fotky vystavíme v galerii na webu. Pošlete je přes náš formulář!</p>
+                        <a href="https://forms.gle/ogYmzCAypzpctphz5" target="_blank" class="foto-vyzva-btn">Nahrát fotky</a>
+                    </div>
                 </div>
             </article>
 
@@ -382,6 +424,12 @@
                         <ul class="vysledky-list">
                             <li><strong>Jan Kubálek (2017):</strong> 6. místo na trati 50 m volný způsob (50,09 s) a 6. místo na trati 50 m znak (57,60 s) v nabité kategorii nejmladších.</li>
                         </ul>
+                    </div>
+
+                    <div class="foto-vyzva">
+                        <div class="foto-vyzva-ikona">📸</div>
+                        <p class="foto-vyzva-text"><strong>Fotili jste v Jindřichově Hradci?</strong> Nejlepší fotky vystavíme v galerii. Pošlete je přes náš formulář — budeme moc rádi!</p>
+                        <a href="https://forms.gle/ogYmzCAypzpctphz5" target="_blank" class="foto-vyzva-btn">Nahrát fotky</a>
                     </div>
                 </div>
             </article>
