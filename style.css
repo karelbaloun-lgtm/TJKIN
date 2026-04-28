@@ -827,45 +827,168 @@ body.dark-mode .logo-hp img {
    ========================================= */
 
 /* --- DARK MODE --- */
+/* =========================================
+   DARK MODE – vyšperkovaný 🌙
+   ========================================= */
 body.dark-mode {
-    --pozadi-stranky: #121212; --pozadi-obsahu: #1e1e1e; --zebra-radek: #2c2c2c;
-    --pozadi-sekce: #1e1e1e; --barva-border: #333;
-    --barva-textu: #e0e0e0; --barva-textu-mute: #aaaaaa;
-    --text-hlavni: #e0e0e0; --tmava-barva: #ffffff; --hlavni-barva: #d32f2f;
-    color: var(--text-hlavni);
-    --logo-filter: grayscale(100%) brightness(1.3) contrast(1.2);
-}
-body.dark-mode nav { background-color: #4a0000; }
-body.dark-mode .obsah { box-shadow: 0 0 30px rgba(211, 47, 47, 0.15); border: 1px solid #333; }
-body.dark-mode .info-box { background-color: #252525; color: #e0e0e0; }
-body.dark-mode .info-box strong { color: var(--akcni-barva); }
-body.dark-mode .newsletter-sidebar { background: #1a1a1a; border: 1px solid #444; border-top-color: var(--akcni-barva); }
+    /* Barvy */
+    --pozadi-stranky:  #0e0e0e;
+    --pozadi-obsahu:   #161616;
+    --pozadi-sekce:    #1a1a1a;
+    --barva-border:    #2c2c2c;
+    --zebra-radek:     #1e1e1e;
+    --hlavni-barva:    #ef5350;   /* o chlup jasnější červená — lépe čitelná na tmavém */
+    --akcni-barva:     #ffd54f;   /* jasnější zlatá */
+    --tmava-barva:     #ffffff;
+    --barva-nadpisu:   #f0eeec;
+    --barva-textu:     #d0d0d0;
+    --barva-textu-mute:#888888;
+    --text-hlavni:     #d0d0d0;
+    --logo-filter:     drop-shadow(0 0 8px rgba(239,83,80,0.45));
 
-/* Tabulky v Dark Mode */
-body.dark-mode table { background: #1e1e1e; border-color: #333; }
-body.dark-mode table th { background: #8e0000; border-bottom-color: #555; }
-body.dark-mode table td { background: #1e1e1e; color: #ddd; border-bottom-color: #333; }
-body.dark-mode table tr:nth-of-type(even) td { background: #252525; }
-body.dark-mode table tr:hover td { background: #333 !important; color: var(--akcni-barva); }
+    color: var(--text-hlavni);
+
+    /* Jemná textura — neopakující se tečky */
+    background-image:
+        radial-gradient(rgba(255,255,255,0.018) 1px, transparent 1px);
+    background-size: 28px 28px;
+    background-color: #0e0e0e;
+}
+
+/* --- Navigace --- */
+body.dark-mode nav {
+    background: linear-gradient(180deg, #1c0000 0%, #130000 100%);
+    border-bottom: 2px solid #d32f2f;
+    box-shadow: 0 2px 24px rgba(211,47,47,0.25);
+}
+
+/* --- Hlavní obsah box --- */
+body.dark-mode .obsah {
+    background: linear-gradient(180deg, #1a1a1a 0%, #161616 100%);
+    box-shadow:
+        0 0 0 1px #242424,
+        0 0 50px rgba(211,47,47,0.10),
+        0 25px 60px rgba(0,0,0,0.5);
+    border: none;
+}
+
+/* --- Logo — jemný pulz --- */
+body.dark-mode #hlavni-logo {
+    animation: dark-logo-glow 4s ease-in-out infinite;
+}
+@keyframes dark-logo-glow {
+    0%, 100% { filter: drop-shadow(0 0 6px rgba(239,83,80,0.3)); }
+    50%       { filter: drop-shadow(0 0 14px rgba(239,83,80,0.6)); }
+}
+
+/* --- Nadpisy --- */
+body.dark-mode h2 {
+    color: #f0eeec;
+    border-bottom-color: var(--akcni-barva);
+}
+body.dark-mode h3 { color: #e8e6e4; }
+body.dark-mode .nabor-karta h3 { color: #f0eeec; }
+
+/* --- Karty --- */
+body.dark-mode .karta,
+body.dark-mode .sponzor-karta,
+body.dark-mode .spravce-box,
+body.dark-mode .nabor-karta {
+    background: linear-gradient(145deg, #1e1e1e, #191919);
+    border: 1px solid #2a2a2a;
+    color: #d0d0d0;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+}
+
+body.dark-mode .karta:hover,
+body.dark-mode .sponzor-karta:hover {
+    background: linear-gradient(145deg, #232323, #1e1e1e);
+    transform: translateY(-3px);
+    box-shadow:
+        0 8px 30px rgba(0,0,0,0.4),
+        0 0 0 1px rgba(255,213,79,0.15),
+        0 0 20px rgba(255,213,79,0.08);
+}
+
+/* --- HP teasery článků --- */
+body.dark-mode .hp-clanek {
+    background: linear-gradient(145deg, #1e1e1e, #191919);
+    border-color: #2a2a2a;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+}
+body.dark-mode .hp-clanek h3 { color: #f0eeec; }
+body.dark-mode .hp-clanek p  { color: #999; }
+
+/* --- Nabor sekce --- */
+body.dark-mode .nabor-sekce {
+    box-shadow: 0 4px 25px rgba(0,0,0,0.4);
+}
+
+/* --- Info boxy --- */
+body.dark-mode .info-box {
+    background: linear-gradient(135deg, #1e1e1e, #1a1a1a);
+    border-left-color: var(--hlavni-barva);
+    color: #d0d0d0;
+    box-shadow: inset 0 0 0 1px #2a2a2a;
+}
+body.dark-mode .info-box strong { color: var(--akcni-barva); }
+
+/* --- Tabulky --- */
+body.dark-mode table { background: #161616; border-color: #2a2a2a; }
+body.dark-mode table th {
+    background: linear-gradient(135deg, #7a0000, #5a0000);
+    border-bottom-color: #444;
+    color: #f5f5f5;
+}
+body.dark-mode table td { background: #161616; color: #ccc; border-bottom-color: #232323; }
+body.dark-mode table tr:nth-of-type(even) td { background: #1b1b1b; }
+body.dark-mode table tr:hover td {
+    background: #222 !important;
+    color: var(--akcni-barva);
+}
 body.dark-mode table a { color: var(--akcni-barva); }
 
-/* Karty & Moduly v Dark Mode */
-body.dark-mode .karta, body.dark-mode .sponzor-karta, body.dark-mode .spravce-box, body.dark-mode .nabor-karta {
-    background-color: #252525; border-color: #444; color: #e0e0e0;
+/* --- Výsledkový rámeček --- */
+body.dark-mode .vysledky-box {
+    background: linear-gradient(135deg, #1c1800, #221e00);
+    border-color: #3d3400;
 }
-body.dark-mode .nabor-sekce {
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+
+/* --- Newsletter sidebar --- */
+body.dark-mode .newsletter-sidebar {
+    background: linear-gradient(135deg, #141414, #111);
+    border: 1px solid #2a2a2a;
+    border-top-color: var(--akcni-barva);
 }
-body.dark-mode .karta:hover, body.dark-mode .sponzor-karta:hover {
-    background-color: #2d2d2d; box-shadow: 0 5px 20px rgba(251, 192, 45, 0.2);
+
+/* --- Patička --- */
+body.dark-mode footer {
+    background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+    border-top: 2px solid #d32f2f;
+    box-shadow: 0 -4px 30px rgba(0,0,0,0.4);
 }
-body.dark-mode h3, body.dark-mode .nabor-karta h3 { color: white; }
+
+/* --- Logo partnera (bílé pozadí zůstane) --- */
 body.dark-mode .logo-wrapper { background-color: #ffffff; }
 
-/* Menu v Dark Mode */
+/* --- Vlastní scrollbar (jen Chromium) --- */
+body.dark-mode ::-webkit-scrollbar { width: 8px; }
+body.dark-mode ::-webkit-scrollbar-track { background: #111; }
+body.dark-mode ::-webkit-scrollbar-thumb {
+    background: #3a0000;
+    border-radius: 4px;
+    border: 2px solid #111;
+}
+body.dark-mode ::-webkit-scrollbar-thumb:hover { background: #d32f2f; }
+
+/* --- Menu mobilní rozbalovačka --- */
 @media screen and (max-width: 768px) {
-    body.dark-mode .menu-polozky.responsive { background-color: #4a0000; border-bottom: 2px solid var(--hlavni-barva); }
-    body.dark-mode nav a { border-top-color: rgba(255,255,255,0.1); }
+    body.dark-mode .menu-polozky.responsive {
+        background: linear-gradient(180deg, #1c0000, #130000);
+        border-bottom: 2px solid var(--hlavni-barva);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+    body.dark-mode nav a { border-top-color: rgba(255,255,255,0.07); }
 }
 
 /* Sezónní módy jsou v sezony.css */
@@ -1067,11 +1190,7 @@ footer {
     cursor: help;
 }
 
-/* Úprava pro Dark Mode - patička splyne se zbytkem, ale zůstane oddělená linkou */
-body.dark-mode footer {
-    background-color: #151515;
-    border-top-color: var(--hlavni-barva);
-}
+/* Patička dark mode — viz hlavní dark-mode blok výše */
 /* =========================================
    14. OPRAVA NEWSLETTERU A QR KÓDU (KONTAKT)
    ========================================= */
