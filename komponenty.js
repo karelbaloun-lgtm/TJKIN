@@ -413,7 +413,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const jeVelikonoce = dnes >= new Date(rok, 2, 30) && dnes < new Date(rok, 3, 7);
     if (jeVelikonoce && !jeMdz) {
         const manualniVolba = sessionStorage.getItem('tema-manual');
-        if (!manualniVolba) {
+        if (!manualniVolba && ulozeneTema !== 'light') {
             if (logo) logo.src = 'images/logos/logo_velikonoce.png';
             if (ulozeneTema !== 'dark') {
                 document.body.classList.add('velikonoce-mode');
@@ -433,7 +433,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const jeCarodejnice = dnes >= new Date(rok, 3, 28) && dnes < new Date(rok, 4, 2);
     if (jeCarodejnice && !jeMdz) {
         const manualniVolba = sessionStorage.getItem('tema-manual');
-        if (!manualniVolba) {
+        if (!manualniVolba && ulozeneTema !== 'light') {
             if (logo) logo.src = 'images/logos/logo_carodejnice.png';
             if (ulozeneTema !== 'dark') {
                 document.body.classList.add('carodejnice-mode');
@@ -453,7 +453,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const jeMaj = dnes >= new Date(rok, 4, 1) && dnes < new Date(rok, 4, 8);
     if (jeMaj && !jeMdz) {
         const manualniVolba = sessionStorage.getItem('tema-manual');
-        if (!manualniVolba) {
+        if (!manualniVolba && ulozeneTema !== 'light') {
             if (logo) logo.src = 'images/logos/logo_maj.png';
             if (ulozeneTema !== 'dark') {
                 document.body.classList.add('maj-mode');
