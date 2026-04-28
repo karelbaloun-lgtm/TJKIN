@@ -1543,6 +1543,92 @@ body.carodejnice-mode #hlavni-logo {
 }
 
 /* =========================================
+   PRVOMÁJOVÝ SPECIÁL 🌸 (1. – 7. května)
+   ========================================= */
+body.maj-mode {
+    --pozadi-stranky: #f0faf2;
+    --pozadi-obsahu: #ffffff;
+    --pozadi-sekce: #e8f5e9;
+    --barva-border: #a5d6a7;
+    --zebra-radek: #e8f5e9;
+    --hlavni-barva: #2e7d32;
+    --tmava-barva: #1b5e20;
+    --akcni-barva: #e91e63;
+    --barva-nadpisu: #1b5e20;
+    --barva-podtrzeni: #e91e63;
+    --barva-textu: #1a3320;
+    --barva-textu-mute: #3a5c40;
+    background-image:
+        radial-gradient(ellipse at 10% 30%, rgba(233,30,99,0.08) 0%, transparent 40%),
+        radial-gradient(ellipse at 90% 70%, rgba(46,125,50,0.1) 0%, transparent 40%);
+    background-color: #f0faf2;
+}
+
+body.maj-mode .hlavicka {
+    background-image:
+        linear-gradient(rgba(10,40,15,0.60), rgba(10,40,15,0.60)),
+        url('images/hero.jpeg');
+}
+
+body.maj-mode nav {
+    background-color: #1b5e20;
+    border-bottom: 3px solid #e91e63;
+}
+
+body.maj-mode .karta,
+body.maj-mode .nabor-karta {
+    border-top-color: #e91e63;
+    box-shadow: 0 5px 15px rgba(46,125,50,0.15);
+}
+
+body.maj-mode .info-box {
+    border-left-color: #e91e63;
+}
+
+body.maj-mode .tlacitko {
+    background-color: #2e7d32;
+    color: white;
+}
+body.maj-mode .tlacitko:hover {
+    background-color: #1b5e20;
+    box-shadow: 0 0 12px rgba(233,30,99,0.4);
+}
+
+body.maj-mode footer {
+    background-color: #1b5e20;
+    border-top: 3px solid #e91e63;
+}
+
+/* Logo se houpá jako větévka ve větru */
+body.maj-mode #hlavni-logo {
+    animation: maj-houpani 3.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(46,125,50,0.5));
+}
+
+@keyframes maj-houpani {
+    0%, 100% { transform: rotate(-3deg) translateY(0px); }
+    30%       { transform: rotate(0deg) translateY(-5px); }
+    60%       { transform: rotate(3deg) translateY(-2px); }
+}
+
+/* Padající jarní kvítí */
+.kvetina {
+    position: fixed;
+    top: -10vh;
+    font-size: 22px;
+    z-index: 9999;
+    user-select: none;
+    pointer-events: none;
+    animation: padani-kveti linear forwards;
+}
+
+@keyframes padani-kveti {
+    0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+    80%  { opacity: 1; }
+    100% { transform: translateY(110vh) rotate(540deg) scale(0.7); opacity: 0; }
+}
+
+/* =========================================
    COOKIE BANNER
    ========================================= */
 #cookie-banner {

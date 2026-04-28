@@ -6,6 +6,7 @@ function vlozMenu() {
     const rokMenu = dnesMenu.getFullYear();
     const jeVelikonoceMenu = dnesMenu >= new Date(rokMenu, 2, 30) && dnesMenu < new Date(rokMenu, 3, 7);
     const jeCarodejniceMenu = dnesMenu >= new Date(rokMenu, 3, 28) && dnesMenu < new Date(rokMenu, 4, 2);
+    const jeMajMenu = dnesMenu >= new Date(rokMenu, 4, 1) && dnesMenu < new Date(rokMenu, 4, 8);
 
     const menuHTML = `
     <nav>
@@ -49,6 +50,11 @@ function vlozMenu() {
             <button class="vzhled-volba" onclick="zmenRezim('carodejnice'); document.getElementById('vzhled-wrap').classList.remove('otevreno')">
                 <span class="vzhled-swatch" style="background:linear-gradient(135deg,#ff6d00,#7b1fa2)"></span>
                 Čarodějnický mód 🧙‍♀️
+            </button>` : ''}
+            ${jeMajMenu ? `
+            <button class="vzhled-volba" onclick="zmenRezim('maj'); document.getElementById('vzhled-wrap').classList.remove('otevreno')">
+                <span class="vzhled-swatch" style="background:linear-gradient(135deg,#2e7d32,#e91e63)"></span>
+                Prvomájový mód 🌸
             </button>` : ''}
         </div>
     </div>
@@ -160,14 +166,14 @@ function zmenRezim(rezim) {
     sessionStorage.setItem('tema-manual', rezim);
 
     // Vyčistíme všechny staré sezónní režimy
-    body.classList.remove('dark-mode', 'silvestr-mode', 'valentyn-mode', 'zoh-mode', 'velikonoce-mode', 'carodejnice-mode');
+    body.classList.remove('dark-mode', 'silvestr-mode', 'valentyn-mode', 'zoh-mode', 'velikonoce-mode', 'carodejnice-mode', 'maj-mode');
 
     // Zastavíme případné efekty a smažeme je
     if (intervalEfektu) {
         clearInterval(intervalEfektu);
         intervalEfektu = null;
     }
-    document.querySelectorAll('.srdicko, .vlocka, .vajicko, .metla').forEach(e => e.remove());
+    document.querySelectorAll('.srdicko, .vlocka, .vajicko, .metla, .kvetina').forEach(e => e.remove());
 
     // Nastavíme nový režim
     if (rezim === 'dark') {
@@ -181,6 +187,10 @@ function zmenRezim(rezim) {
         body.classList.add('carodejnice-mode');
         localStorage.setItem('tema', 'carodejnice');
         spustitCarodejnice();
+    } else if (rezim === 'maj') {
+        body.classList.add('maj-mode');
+        localStorage.setItem('tema', 'maj');
+        spustitMaj();
     } else {
         localStorage.setItem('tema', 'light');
     }
@@ -192,6 +202,9 @@ function zmenRezim(rezim) {
             logo.classList.add('logo-mdz-aktivni');
         } else if (rezim === 'carodejnice') {
             logo.src = 'images/logos/logo_carodejnice.png';
+            logo.classList.remove('logo-mdz-aktivni');
+        } else if (rezim === 'maj') {
+            logo.src = 'images/logos/logo_maj.png';
             logo.classList.remove('logo-mdz-aktivni');
         } else {
             logo.src = 'images/logos/logo.png';
@@ -229,6 +242,10 @@ function spustitVajicka() {
 
 function spustitCarodejnice() {
     spustitPadani(['🧹', '🧙‍♀️', '🦇', '🕷️', '⭐', '🌙', '🔮', '🕸️'], 'metla');
+}
+
+function spustitMaj() {
+    spustitPadani(['🌸', '🌷', '🌺', '🌼', '🐦', '🍃', '🌿', '💐'], 'kvetina');
 }
 
 /* =========================================
@@ -375,6 +392,10 @@ document.addEventListener("DOMContentLoaded", function() {
         document.body.classList.add('carodejnice-mode');
         if (logo) logo.src = 'images/logos/logo_carodejnice.png';
         spustitCarodejnice();
+    } else if (ulozeneTema === 'maj') {
+        document.body.classList.add('maj-mode');
+        if (logo) logo.src = 'images/logos/logo_maj.png';
+        spustitMaj();
     } else {
         if (logo) logo.src = 'images/logos/logo.png';
         if (ulozeneTema !== 'light') localStorage.setItem('tema', 'light');
@@ -426,6 +447,26 @@ document.addEventListener("DOMContentLoaded", function() {
     if (!jeCarodejnice && localStorage.getItem('tema') === 'carodejnice') {
         localStorage.setItem('tema', 'light');
         document.body.classList.remove('carodejnice-mode');
+    }
+
+    // 4d. Máj (1. – 7. května)
+    const jeMaj = dnes >= new Date(rok, 4, 1) && dnes < new Date(rok, 4, 8);
+    if (jeMaj && !jeMdz) {
+        const manualniVolba = sessionStorage.getItem('tema-manual');
+        if (!manualniVolba) {
+            if (logo) logo.src = 'images/logos/logo_maj.png';
+            if (ulozeneTema !== 'dark') {
+                document.body.classList.add('maj-mode');
+                localStorage.setItem('tema', 'maj');
+                spustitMaj();
+            }
+        }
+    }
+
+    // 4e. Reset po skončení máje
+    if (!jeMaj && localStorage.getItem('tema') === 'maj') {
+        localStorage.setItem('tema', 'light');
+        document.body.classList.remove('maj-mode');
     }
 
     // 5. Vložení menu, patičky, analytiky, mobilní nav
