@@ -10,6 +10,10 @@
     --akcni-barva: #fbc02d;       /* Žlutá */
     --pozadi-stranky: #fffde7;
     --pozadi-obsahu: #ffffff;
+    --pozadi-sekce: #f8f9fa;      /* Pozadí sekcí (nabor, boxy…) */
+    --barva-border: #dee2e6;      /* Barva ohraničení sekcí */
+    --barva-textu: #333333;       /* Základní text */
+    --barva-textu-mute: #555555;  /* Tlumený/sekundární text */
     --barva-nadpisu: #b71c1c;
     --barva-podtrzeni: #fbc02d;
     --zebra-radek: #fff9c4;
@@ -671,9 +675,9 @@ body.dark-mode .logo-hp img {
     text-align: left;       /* Text zarovnáme doleva, vypadá to lépe */
 }
 .nabor-sekce {
-    background: linear-gradient(to bottom, #f8f9fa, #e9ecef); padding: 40px 20px;
+    background: var(--pozadi-sekce); padding: 40px 20px;
     margin: 30px auto; border-radius: 15px; max-width: 900px; text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #dee2e6;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--barva-border);
 }
 .nabor-kontejner { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
 .nabor-karta {
@@ -690,12 +694,12 @@ body.dark-mode .logo-hp img {
 
 /* Speciální boxy (Nahrávací, Historie, Odpočítávadlo) */
 .nahravaci-box {
-    background: linear-gradient(to bottom right, #ffffff, #f0f8ff);
+    background: var(--pozadi-obsahu);
     border: 2px dashed var(--akcni-barva); border-radius: 20px;
     padding: 40px 20px; text-align: center; margin: 60px 0;
     transition: transform 0.3s; position: relative; overflow: hidden;
 }
-.nahravaci-box:hover { transform: translateY(-5px); background: #fff; }
+.nahravaci-box:hover { transform: translateY(-5px); background: var(--pozadi-obsahu); }
 
 .historie-box {
     background-color: #f9f9f7; border-left: 5px solid #d4a373;
@@ -825,6 +829,8 @@ body.dark-mode .logo-hp img {
 /* --- DARK MODE --- */
 body.dark-mode {
     --pozadi-stranky: #121212; --pozadi-obsahu: #1e1e1e; --zebra-radek: #2c2c2c;
+    --pozadi-sekce: #1e1e1e; --barva-border: #333;
+    --barva-textu: #e0e0e0; --barva-textu-mute: #aaaaaa;
     --text-hlavni: #e0e0e0; --tmava-barva: #ffffff; --hlavni-barva: #d32f2f;
     color: var(--text-hlavni);
     --logo-filter: grayscale(100%) brightness(1.3) contrast(1.2);
@@ -848,8 +854,6 @@ body.dark-mode .karta, body.dark-mode .sponzor-karta, body.dark-mode .spravce-bo
     background-color: #252525; border-color: #444; color: #e0e0e0;
 }
 body.dark-mode .nabor-sekce {
-    background: linear-gradient(to bottom, #1e1e1e, #252525);
-    border-color: #333;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 body.dark-mode .karta:hover, body.dark-mode .sponzor-karta:hover {
@@ -1434,12 +1438,16 @@ body.velikonoce-mode #hlavni-logo {
 body.carodejnice-mode {
     --pozadi-stranky: #120820;
     --pozadi-obsahu: #1e1030;
+    --pozadi-sekce: #1a0c2e;
+    --barva-border: #3a1060;
     --zebra-radek: #261540;
     --hlavni-barva: #ff6d00;
     --tmava-barva: #e65100;
     --akcni-barva: #ce93d8;
     --barva-nadpisu: #ffb74d;
     --barva-podtrzeni: #7b1fa2;
+    --barva-textu: #e8d5f5;
+    --barva-textu-mute: #d8bfef;
     background-image:
         radial-gradient(ellipse at 20% 60%, rgba(123,31,162,0.22) 0%, transparent 50%),
         radial-gradient(ellipse at 80% 10%, rgba(255,109,0,0.15) 0%, transparent 40%);
@@ -1488,33 +1496,22 @@ body.carodejnice-mode footer {
 
 body.carodejnice-mode .obsah {
     box-shadow: 0 0 30px rgba(255,109,0,0.15);
-    border: 1px solid #3a1060;
+    border: 1px solid var(--barva-border);
 }
 
 body.carodejnice-mode .nabor-sekce {
-    background: linear-gradient(to bottom, #1e0f35, #150a28);
-    border-color: #3a1060;
     box-shadow: 0 4px 15px rgba(123,31,162,0.3);
 }
 
 body.carodejnice-mode h2,
 body.carodejnice-mode h3,
-body.carodejnice-mode .nabor-karta h3 { color: #ffb74d; }
+body.carodejnice-mode .nabor-karta h3 { color: var(--barva-nadpisu); }
 
 body.carodejnice-mode p,
 body.carodejnice-mode .nabor-karta p,
-body.carodejnice-mode .nabor-info li { color: #d8bfef; }
+body.carodejnice-mode .nabor-info li { color: var(--barva-textu-mute); }
 
 body.carodejnice-mode .nabor-logo-img { background: white; }
-
-body.carodejnice-mode .hp-clanek {
-    background: #1e1030;
-    border-color: rgba(255,109,0,0.3);
-    color: #e8d5f5;
-}
-
-body.carodejnice-mode .hp-clanek h3 { color: #ffb74d; }
-body.carodejnice-mode .hp-clanek p { color: #d8bfef; }
 
 /* Logo létá jako na koštěti */
 body.carodejnice-mode #hlavni-logo {
