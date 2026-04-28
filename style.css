@@ -1429,6 +1429,93 @@ body.velikonoce-mode #hlavni-logo {
 }
 
 /* =========================================
+   ČARODĚJNICE (28. dubna – 1. května) 🧙‍♀️
+   ========================================= */
+body.carodejnice-mode {
+    --pozadi-stranky: #120820;
+    --pozadi-obsahu: #1e1030;
+    --zebra-radek: #261540;
+    --hlavni-barva: #ff6d00;
+    --tmava-barva: #e65100;
+    --akcni-barva: #ce93d8;
+    --barva-nadpisu: #ffb74d;
+    --barva-podtrzeni: #7b1fa2;
+    background-image:
+        radial-gradient(ellipse at 20% 60%, rgba(123,31,162,0.22) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 10%, rgba(255,109,0,0.15) 0%, transparent 40%);
+    background-color: #120820;
+    color: #e8d5f5;
+}
+
+body.carodejnice-mode .hlavicka {
+    background-image:
+        linear-gradient(rgba(10,0,30,0.72), rgba(10,0,30,0.72)),
+        url('images/hero.jpeg');
+}
+
+body.carodejnice-mode nav {
+    background-color: #0d0018;
+    border-bottom: 3px solid #ff6d00;
+}
+
+body.carodejnice-mode .karta,
+body.carodejnice-mode .nabor-karta {
+    border-top-color: #ff6d00;
+    box-shadow: 0 5px 20px rgba(123,31,162,0.3);
+    background: #1e1030;
+    color: #e8d5f5;
+}
+
+body.carodejnice-mode .info-box {
+    background-color: #2a1540;
+    border-left-color: #ff6d00;
+    color: #e8d5f5;
+}
+
+body.carodejnice-mode .tlacitko {
+    background-color: #7b1fa2;
+    color: #fff;
+}
+body.carodejnice-mode .tlacitko:hover {
+    background-color: #6a1b9a;
+    box-shadow: 0 0 14px rgba(255,109,0,0.6);
+}
+
+body.carodejnice-mode footer {
+    background-color: #0d0018;
+    border-top: 3px solid #ff6d00;
+}
+
+/* Logo létá jako na koštěti */
+body.carodejnice-mode #hlavni-logo {
+    animation: kostete-let 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 14px rgba(255,109,0,0.85));
+}
+
+@keyframes kostete-let {
+    0%, 100% { transform: translateY(0px) rotate(-4deg); }
+    33%       { transform: translateY(-8px) rotate(0deg); }
+    66%       { transform: translateY(-4px) rotate(4deg); }
+}
+
+/* Padající čarodějnické symboly */
+.metla {
+    position: fixed;
+    top: -10vh;
+    font-size: 22px;
+    z-index: 9999;
+    user-select: none;
+    pointer-events: none;
+    animation: padani-metly linear forwards;
+}
+
+@keyframes padani-metly {
+    0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+    80%  { opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg) scale(0.8); opacity: 0; }
+}
+
+/* =========================================
    COOKIE BANNER
    ========================================= */
 #cookie-banner {
