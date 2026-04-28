@@ -1486,6 +1486,36 @@ body.carodejnice-mode footer {
     border-top: 3px solid #ff6d00;
 }
 
+body.carodejnice-mode .obsah {
+    box-shadow: 0 0 30px rgba(255,109,0,0.15);
+    border: 1px solid #3a1060;
+}
+
+body.carodejnice-mode .nabor-sekce {
+    background: linear-gradient(to bottom, #1e0f35, #150a28);
+    border-color: #3a1060;
+    box-shadow: 0 4px 15px rgba(123,31,162,0.3);
+}
+
+body.carodejnice-mode h2,
+body.carodejnice-mode h3,
+body.carodejnice-mode .nabor-karta h3 { color: #ffb74d; }
+
+body.carodejnice-mode p,
+body.carodejnice-mode .nabor-karta p,
+body.carodejnice-mode .nabor-info li { color: #d8bfef; }
+
+body.carodejnice-mode .nabor-logo-img { background: white; }
+
+body.carodejnice-mode .hp-clanek {
+    background: #1e1030;
+    border-color: rgba(255,109,0,0.3);
+    color: #e8d5f5;
+}
+
+body.carodejnice-mode .hp-clanek h3 { color: #ffb74d; }
+body.carodejnice-mode .hp-clanek p { color: #d8bfef; }
+
 /* Logo létá jako na koštěti */
 body.carodejnice-mode #hlavni-logo {
     animation: kostete-let 3s ease-in-out infinite;
