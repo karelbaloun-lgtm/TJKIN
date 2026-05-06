@@ -381,24 +381,31 @@ document.addEventListener("DOMContentLoaded", function() {
     const ulozeneTema = localStorage.getItem('tema');
 
     // 1. Načtení uloženého tématu
+    // Pomocné datumové rozsahy pro ověření platnosti uloženého sezónního tématu
+    const rokLoad = dnes.getFullYear();
+    const platneVelikonoce  = dnes >= new Date(rokLoad, 2, 30) && dnes < new Date(rokLoad, 3, 7);
+    const platneCarodejnice = dnes >= new Date(rokLoad, 3, 28) && dnes < new Date(rokLoad, 4, 2);
+    const platneMaj         = dnes >= new Date(rokLoad, 4,  1) && dnes < new Date(rokLoad, 4, 8);
+
     if (ulozeneTema === 'dark') {
         document.body.classList.add('dark-mode');
         if (logo) logo.src = 'images/logos/logo.png';
-    } else if (ulozeneTema === 'velikonoce') {
+    } else if (ulozeneTema === 'velikonoce' && platneVelikonoce) {
         document.body.classList.add('velikonoce-mode');
         if (logo) logo.src = 'images/logos/logo_velikonoce.png';
         spustitVajicka();
-    } else if (ulozeneTema === 'carodejnice') {
+    } else if (ulozeneTema === 'carodejnice' && platneCarodejnice) {
         document.body.classList.add('carodejnice-mode');
         if (logo) logo.src = 'images/logos/logo_carodejnice.png';
         spustitCarodejnice();
-    } else if (ulozeneTema === 'maj') {
+    } else if (ulozeneTema === 'maj' && platneMaj) {
         document.body.classList.add('maj-mode');
         if (logo) logo.src = 'images/logos/logo_maj.png';
         spustitMaj();
     } else {
         if (logo) logo.src = 'images/logos/logo.png';
-        if (ulozeneTema !== 'light') localStorage.setItem('tema', 'light');
+        // Sezónní téma mimo platný termín → reset na light
+        if (ulozeneTema !== 'light' && ulozeneTema !== 'dark') localStorage.setItem('tema', 'light');
     }
 
     // 2. MDŽ (8. března)
