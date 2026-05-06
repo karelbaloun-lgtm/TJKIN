@@ -16,7 +16,13 @@
       "Bash(npm list:*)",
       "Bash(python -c \"from PIL import Image; print\\(''Pillow ok''\\)\")",
       "Bash(python -c \":*)",
-      "WebFetch(domain:kinplavani.cz)"
+      "WebFetch(domain:kinplavani.cz)",
+      "WebFetch(domain:vysledky.czechswimming.cz)",
+      "Bash(pdftotext \"C:/Users/karel/Downloads/VÝSLEDKY_DRoP_DT_2026.pdf\" -)",
+      "Bash(pdftotext \"C:/Users/karel/Downloads/VÝSLEDKY_DT_jaro2026_JCK.pdf\" -)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
   }
 }
