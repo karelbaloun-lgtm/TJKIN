@@ -6,7 +6,7 @@ function vlozMenu() {
     const rokMenu = dnesMenu.getFullYear();
     const jeVelikonoceMenu = dnesMenu >= new Date(rokMenu, 2, 30) && dnesMenu < new Date(rokMenu, 3, 7);
     const jeCarodejniceMenu = dnesMenu >= new Date(rokMenu, 3, 28) && dnesMenu < new Date(rokMenu, 4, 2);
-    const jeMajMenu = dnesMenu >= new Date(rokMenu, 4, 1) && dnesMenu < new Date(rokMenu, 4, 8);
+    const jeMajMenu = dnesMenu >= new Date(rokMenu, 4, 1) && dnesMenu < new Date(rokMenu, 4, 3);
 
     const menuHTML = `
     <nav>
@@ -385,7 +385,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const rokLoad = dnes.getFullYear();
     const platneVelikonoce  = dnes >= new Date(rokLoad, 2, 30) && dnes < new Date(rokLoad, 3, 7);
     const platneCarodejnice = dnes >= new Date(rokLoad, 3, 28) && dnes < new Date(rokLoad, 4, 2);
-    const platneMaj         = dnes >= new Date(rokLoad, 4,  1) && dnes < new Date(rokLoad, 4, 8);
+    const platneMaj         = dnes >= new Date(rokLoad, 4,  1) && dnes < new Date(rokLoad, 4, 3);
 
     if (ulozeneTema === 'dark') {
         document.body.classList.add('dark-mode');
@@ -457,7 +457,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // 4d. Máj (1. – 7. května)
-    const jeMaj = dnes >= new Date(rok, 4, 1) && dnes < new Date(rok, 4, 8);
+    const jeMaj = dnes >= new Date(rok, 4, 1) && dnes < new Date(rok, 4, 3);
     if (jeMaj && !jeMdz) {
         const manualniVolba = sessionStorage.getItem('tema-manual');
         if (!manualniVolba && ulozeneTema !== 'light') {
