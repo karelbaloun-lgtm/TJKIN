@@ -267,6 +267,76 @@ body.dark-mode .vzhled-volba:hover { background: rgba(255,255,255,0.08); }
     border-radius: 8px 8px 0 0;
 }
 
+/* ===== POČÍTADLA ===== */
+.pocitadla-sekce {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 32px 0;
+    padding: 36px 32px;
+    background: var(--pozadi-sekce);
+    border-radius: 16px;
+    border: 1px solid var(--barva-border);
+}
+
+.pocitadlo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 12px 8px;
+    position: relative;
+}
+
+.pocitadlo:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 20%;
+    height: 60%;
+    width: 1px;
+    background: var(--barva-border);
+}
+
+.pocitadlo-cislo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: var(--hlavni-barva);
+    line-height: 1;
+    display: inline-block;
+}
+
+.pocitadlo-jednotka {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--hlavni-barva);
+    line-height: 1;
+    margin-left: 2px;
+}
+
+.pocitadlo-popis {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--barva-textu-mute);
+    margin: 8px 0 0;
+    line-height: 1.3;
+}
+
+@media (max-width: 600px) {
+    .pocitadla-sekce {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 24px 16px;
+        gap: 12px;
+    }
+    .pocitadlo:nth-child(2)::after { display: none; }
+    .pocitadlo-cislo { font-size: 2.4rem; }
+    .pocitadlo-jednotka { font-size: 1.4rem; }
+}
+
 /* Karty (Rozcestník) */
 .rozcestnik { display: flex; gap: 20px; margin: 40px 0; flex-wrap: wrap; }
 .karta {

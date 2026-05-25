@@ -573,6 +573,48 @@ function vlozMobileNav() {
     });
 }
 
+/* =========================================
+   POČÍTADLA – animace při scrollu
+   ========================================= */
+(function () {
+    function spustitPocitadlo(el) {
+        const cilHodnota = parseInt(el.dataset.cilovaHodnota, 10);
+        const cisloEl = el.querySelector('.pocitadlo-cislo');
+        if (!cisloEl || el.dataset.hotovo) return;
+        el.dataset.hotovo = '1';
+
+        const doba = 1600;
+        const fps = 60;
+        const kroky = Math.round(doba / (1000 / fps));
+        let krok = 0;
+
+        const timer = setInterval(() => {
+            krok++;
+            const progress = krok / kroky;
+            // easeOutQuart
+            const ease = 1 - Math.pow(1 - progress, 4);
+            cisloEl.textContent = Math.round(ease * cilHodnota);
+            if (krok >= kroky) {
+                cisloEl.textContent = cilHodnota;
+                clearInterval(timer);
+            }
+        }, 1000 / fps);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.querySelectorAll('.pocitadlo').forEach(spustitPocitadlo);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const sekce = document.querySelector('.pocitadla-sekce');
+        if (sekce) observer.observe(sekce);
+    });
+})();
+
 function posunBublinu(index) {
     const nav = document.querySelector('.mob-nav');
     const bublina = document.querySelector('.mob-nav__bublina');
