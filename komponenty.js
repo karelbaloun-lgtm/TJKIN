@@ -577,7 +577,8 @@ function posunBublinu(index) {
     const nav = document.querySelector('.mob-nav');
     const bublina = document.querySelector('.mob-nav__bublina');
     if (!nav || !bublina) return;
-    const sirkaPolozky = nav.offsetWidth / 4;
+    const pocetPolozek = nav.querySelectorAll('.mob-nav__item').length;
+    const sirkaPolozky = nav.offsetWidth / pocetPolozek;
     bublina.style.left = (index * sirkaPolozky + sirkaPolozky / 2 - 28) + 'px';
 }
 
