@@ -959,32 +959,40 @@ body.dark-mode h2 {
 body.dark-mode h3 { color: #e8e6e4; }
 body.dark-mode .nabor-karta h3 { color: #f0eeec; }
 
-/* --- Karty --- */
+/* --- Karty (glassmorphism v dark mode) --- */
 body.dark-mode .karta,
 body.dark-mode .sponzor-karta,
 body.dark-mode .spravce-box,
 body.dark-mode .nabor-karta {
-    background: linear-gradient(145deg, #1e1e1e, #191919);
-    border: 1px solid #2a2a2a;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     color: #d0d0d0;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+    box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 body.dark-mode .karta:hover,
 body.dark-mode .sponzor-karta:hover {
-    background: linear-gradient(145deg, #232323, #1e1e1e);
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.14);
     transform: translateY(-3px);
     box-shadow:
-        0 8px 30px rgba(0,0,0,0.4),
-        0 0 0 1px rgba(255,213,79,0.15),
-        0 0 20px rgba(255,213,79,0.08);
+        0 8px 32px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 0 1px rgba(255, 213, 79, 0.12),
+        0 0 24px rgba(255, 213, 79, 0.06);
 }
 
 /* --- HP teasery článků --- */
 body.dark-mode .hp-clanek {
-    background: linear-gradient(145deg, #1e1e1e, #191919);
-    border-color: #2a2a2a;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 body.dark-mode .hp-clanek h3 { color: #f0eeec; }
 body.dark-mode .hp-clanek p  { color: #999; }
