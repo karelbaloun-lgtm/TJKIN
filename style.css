@@ -980,13 +980,29 @@ body.dark-mode #hlavni-logo {
     50%       { filter: drop-shadow(0 0 14px rgba(239,83,80,0.6)); }
 }
 
-/* --- Nadpisy --- */
+/* --- Nadpisy s gradient textem --- */
 body.dark-mode h2 {
-    color: #f0eeec;
+    background: linear-gradient(135deg, #ef5350 0%, #ff8a65 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     border-bottom-color: var(--akcni-barva);
 }
-body.dark-mode h3 { color: #e8e6e4; }
-body.dark-mode .nabor-karta h3 { color: #f0eeec; }
+body.dark-mode h3 {
+    background: linear-gradient(135deg, #ef9a9a 0%, #ffccbc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Výjimky – kde gradient nedává smysl */
+body.dark-mode .nabor-karta h3,
+body.dark-mode .clanek h2,
+body.dark-mode .meta-info *,
+body.dark-mode .pocitadlo-popis {
+    background: none;
+    -webkit-text-fill-color: unset;
+}
 
 /* --- Karty (glassmorphism v dark mode) --- */
 body.dark-mode .karta,
