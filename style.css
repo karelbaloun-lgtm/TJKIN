@@ -1033,14 +1033,15 @@ body.dark-mode .sponzor-karta:hover {
 
 /* --- HP teasery článků --- */
 body.dark-mode .hp-clanek {
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.04) !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.08) !important;
     box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+    color: #d0d0d0;
 }
 body.dark-mode .hp-clanek h3 { color: #f0eeec; }
-body.dark-mode .hp-clanek p  { color: #999; }
+body.dark-mode .hp-clanek p  { color: #aaa; }
 
 /* --- Nabor sekce --- */
 body.dark-mode .nabor-sekce {
