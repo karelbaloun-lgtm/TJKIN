@@ -21,41 +21,77 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* === FILTRY === */
-        .rekordy-filtry {
+        /* === ZÁLOŽKY KATEGORIÍ === */
+        .rekordy-tabs {
             display: flex;
+            gap: 6px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            margin-bottom: 20px;
+            scrollbar-width: none;
+        }
+        .rekordy-tabs::-webkit-scrollbar { display: none; }
+
+        .rekord-tab {
+            padding: 7px 16px;
+            border-radius: 20px;
+            border: 2px solid var(--barva-border, #ddd);
+            background: transparent;
+            cursor: pointer;
+            white-space: nowrap;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 0.92em;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--barva-textu, #555);
+            transition: all 0.18s;
+        }
+        .rekord-tab:hover { border-color: var(--hlavni-barva); color: var(--hlavni-barva); }
+        .rekord-tab.aktivni {
+            background: var(--hlavni-barva);
+            border-color: var(--hlavni-barva);
+            color: white;
+        }
+
+        /* === PŘEPÍNAČE POHLAVÍ A BAZÉNU === */
+        .rekordy-prepinace {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 30px;
-            align-items: flex-end;
+            align-items: center;
         }
-        .filtr-skupina {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .filtr-skupina label {
-            font-size: 0.78em;
+        .prepinac-label {
+            font-size: 0.75em;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: var(--barva-textu, #555);
-            opacity: 0.7;
+            color: var(--barva-textu-mute, #888);
+            margin-right: 2px;
         }
-        .filtr-skupina select {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 0.95em;
-            background: var(--pozadi-obsahu, white);
-            color: var(--barva-textu, #333);
+        .prepinac-skupina {
+            display: flex;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid var(--barva-border, #ddd);
+        }
+        .prepinac-btn {
+            padding: 7px 18px;
+            border: none;
+            background: transparent;
             cursor: pointer;
-            min-width: 160px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            color: var(--barva-textu, #555);
+            transition: all 0.18s;
         }
-        .filtr-skupina select:focus {
-            outline: none;
-            border-color: var(--hlavni-barva);
-        }
+        .prepinac-btn:not(:last-child) { border-right: 2px solid var(--barva-border, #ddd); }
+        .prepinac-btn.aktivni { background: var(--hlavni-barva); color: white; }
+        .prepinac-btn:hover:not(.aktivni) { background: var(--pozadi-sekce, #f5f5f5); }
 
         /* === NADPISY SEKCÍ === */
         .rekord-nadpis {
@@ -91,12 +127,13 @@
             font-size: 1.1em;
         }
 
-        /* Dark mode */
-        body.dark-mode .filtr-skupina select {
-            background: #2a2a2a;
-            border-color: #444;
-            color: #e0e0e0;
-        }
+        /* === DARK MODE === */
+        body.dark-mode .rekord-tab { border-color: #333; color: #aaa; }
+        body.dark-mode .rekord-tab:hover { border-color: var(--hlavni-barva); color: var(--hlavni-barva); }
+        body.dark-mode .prepinac-skupina { border-color: #333; }
+        body.dark-mode .prepinac-btn { color: #aaa; }
+        body.dark-mode .prepinac-btn:not(:last-child) { border-color: #333; }
+        body.dark-mode .prepinac-btn:hover:not(.aktivni) { background: #2a2a2a; }
         body.dark-mode .rekord-nadpis.bazen-25 {
             color: #f0a060;
             background: linear-gradient(to right, #2a1f10, var(--pozadi-obsahu));
@@ -108,8 +145,8 @@
         body.dark-mode .prazdny-rekord { color: #444; }
 
         @media (max-width: 600px) {
-            .rekordy-filtry { flex-direction: column; }
-            .filtr-skupina select { min-width: 100%; }
+            .rekordy-prepinace { gap: 10px; }
+            .prepinac-btn { padding: 6px 13px; font-size: 0.85em; }
         }
     </style>
 </head>
@@ -125,38 +162,32 @@
 
     <div class="obsah">
 
-        <p>Platné k <strong>1. 1. 2026</strong>. Vyberte filtr pro zobrazení rekordů.</p>
+        <p>Platné k <strong>1. 1. 2026</strong>.</p>
 
-        <div class="rekordy-filtry">
-            <div class="filtr-skupina">
-                <label>Kategorie</label>
-                <select id="filtr-kategorie" onchange="vykresliRekordy()">
-                    <option value="open">OPEN</option>
-                    <option value="juniori_st">St. Junioři</option>
-                    <option value="juniori_ml">Ml. Junioři</option>
-                    <option value="zactvo_14">Žactvo 14 let</option>
-                    <option value="zactvo_13">Žactvo 13 let</option>
-                    <option value="zactvo_12">Žactvo 12 let</option>
-                    <option value="zactvo_11">Žactvo 11 let</option>
-                    <option value="pohar_10">Pohár 10 let</option>
-                    <option value="pohar_9">Pohár 9 a ml.</option>
-                </select>
+        <!-- Záložky kategorií -->
+        <div class="rekordy-tabs">
+            <button class="rekord-tab aktivni" data-hodnota="open">OPEN</button>
+            <button class="rekord-tab" data-hodnota="juniori_st">St. Junioři</button>
+            <button class="rekord-tab" data-hodnota="juniori_ml">Ml. Junioři</button>
+            <button class="rekord-tab" data-hodnota="zactvo_14">Žactvo 14</button>
+            <button class="rekord-tab" data-hodnota="zactvo_13">Žactvo 13</button>
+            <button class="rekord-tab" data-hodnota="zactvo_12">Žactvo 12</button>
+            <button class="rekord-tab" data-hodnota="zactvo_11">Žactvo 11</button>
+            <button class="rekord-tab" data-hodnota="pohar_10">Pohár 10</button>
+            <button class="rekord-tab" data-hodnota="pohar_9">Pohár 9</button>
+        </div>
+
+        <!-- Přepínače pohlaví a bazénu -->
+        <div class="rekordy-prepinace">
+            <span class="prepinac-label">Pohlaví:</span>
+            <div class="prepinac-skupina">
+                <button class="prepinac-btn aktivni" data-skupina="pohlavi" data-hodnota="muzi">♂ Muži</button>
+                <button class="prepinac-btn" data-skupina="pohlavi" data-hodnota="zeny">♀ Ženy</button>
             </div>
-            <div class="filtr-skupina">
-                <label>Pohlaví</label>
-                <select id="filtr-pohlavi" onchange="vykresliRekordy()">
-                    <option value="oba">Muži i Ženy</option>
-                    <option value="muzi">Pouze Muži</option>
-                    <option value="zeny">Pouze Ženy</option>
-                </select>
-            </div>
-            <div class="filtr-skupina">
-                <label>Bazén</label>
-                <select id="filtr-bazen" onchange="vykresliRekordy()">
-                    <option value="oba">25m i 50m</option>
-                    <option value="25">Krátký bazén (25m)</option>
-                    <option value="50">Dlouhý bazén (50m)</option>
-                </select>
+            <span class="prepinac-label">Bazén:</span>
+            <div class="prepinac-skupina">
+                <button class="prepinac-btn aktivni" data-skupina="bazen" data-hodnota="25">🏊 25m</button>
+                <button class="prepinac-btn" data-skupina="bazen" data-hodnota="50">🌊 50m</button>
             </div>
         </div>
 
@@ -317,16 +348,15 @@
     //  RENDEROVÁNÍ
     // =========================================================
     function vykresliRekordy() {
-        const katEl    = document.getElementById("filtr-kategorie");
-        const kategorie = katEl.value;
-        const katNazev  = katEl.options[katEl.selectedIndex].text;
-        const pohlavi   = document.getElementById("filtr-pohlavi").value;
-        const bazen     = document.getElementById("filtr-bazen").value;
-        const vystup    = document.getElementById("rekordy-vystup");
+        const aktivniTab = document.querySelector('.rekord-tab.aktivni');
+        const kategorie  = aktivniTab ? aktivniTab.dataset.hodnota : 'open';
+        const katNazev   = aktivniTab ? aktivniTab.textContent.trim() : 'OPEN';
+        const pohlavi    = document.querySelector('.prepinac-btn.aktivni[data-skupina="pohlavi"]')?.dataset.hodnota || 'muzi';
+        const bazen      = document.querySelector('.prepinac-btn.aktivni[data-skupina="bazen"]')?.dataset.hodnota || '25';
+        const vystup     = document.getElementById("rekordy-vystup");
 
-        const bazeny      = bazen   === "oba"  ? [25, 50] : [parseInt(bazen)];
-        const pohlaviArr  = pohlavi === "oba"  ? ["M", "Z"] :
-                            pohlavi === "muzi" ? ["M"] : ["Z"];
+        const bazeny       = [parseInt(bazen)];
+        const pohlaviArr   = pohlavi === "muzi" ? ["M"] : ["Z"];
         const pohlaviNazev = { M: "Muži", Z: "Ženy" };
 
         let html = "";
@@ -378,7 +408,29 @@
         vystup.innerHTML = html;
     }
 
-    document.addEventListener("DOMContentLoaded", vykresliRekordy);
+    document.addEventListener("DOMContentLoaded", () => {
+        // Záložky kategorií
+        document.querySelectorAll('.rekord-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.rekord-tab').forEach(t => t.classList.remove('aktivni'));
+                tab.classList.add('aktivni');
+                vykresliRekordy();
+            });
+        });
+
+        // Přepínače pohlaví a bazénu
+        document.querySelectorAll('.prepinac-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const skupina = btn.dataset.skupina;
+                document.querySelectorAll(`.prepinac-btn[data-skupina="${skupina}"]`)
+                    .forEach(b => b.classList.remove('aktivni'));
+                btn.classList.add('aktivni');
+                vykresliRekordy();
+            });
+        });
+
+        vykresliRekordy();
+    });
     </script>
 
 </body>
