@@ -40,13 +40,18 @@
 
         /* ===== ARTICLE CARD ===== */
         .clanek {
-            background: var(--pozadi-obsahu);
+            background: #ffffff;
             border-radius: 14px;
-            box-shadow: 0 2px 18px rgba(0,0,0,0.07);
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
             margin-bottom: 32px;
             overflow: hidden;
             border: 1px solid rgba(0,0,0,0.06);
             border-top: 4px solid var(--hlavni-barva);
+            transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s;
+        }
+        .clanek:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 48px rgba(211,47,47,0.11), 0 4px 16px rgba(0,0,0,0.06);
         }
 
         .clanek:last-child { margin-bottom: 0; }
@@ -297,12 +302,13 @@
         }
 
         .sidebar-karta {
-            background: var(--pozadi-obsahu);
+            background: #ffffff;
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.07);
             margin-bottom: 20px;
             border: 1px solid rgba(0,0,0,0.06);
+            border-top: 3px solid var(--hlavni-barva);
         }
 
         .sidebar-karta h4 {

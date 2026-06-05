@@ -53,32 +53,36 @@
         .term-sekce-nadpis {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             margin: 48px 0 20px;
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 1.6em;
+            font-size: 1.4em;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--hlavni-barva);
-            border-bottom: 3px solid var(--akcni-barva);
-            padding-bottom: 10px;
+            letter-spacing: 1px;
+            color: #ffffff;
+            background: linear-gradient(135deg, #111827 0%, #1c0a0a 100%);
+            padding: 14px 22px;
+            border-radius: 10px;
+            border-bottom: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         }
         .term-sekce-nadpis.dalka {
-            color: #c0581a;
-            border-bottom-color: #e67e22;
+            background: linear-gradient(135deg, #1a0e00 0%, #2c1800 100%);
+            color: #ffb74d;
         }
         .term-sekce-nadpis.podzim {
-            color: #6a4b1e;
-            border-bottom-color: #b07d3a;
+            background: linear-gradient(135deg, #1a1400 0%, #2a2000 100%);
+            color: #ffe082;
         }
 
         /* ---- TABULKA desktop ---- */
         .term-tabulka-wrap {
             overflow-x: auto;
             margin-bottom: 8px;
-            border-radius: 10px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.05);
         }
         .term-tabulka {
             width: 100%;
