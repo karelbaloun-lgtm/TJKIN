@@ -155,11 +155,15 @@
 
         /* ===== VÝSLEDKY BOX ===== */
         .vysledky-box {
-            background: var(--zebra-radek);
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.85);
+            border-left: 4px solid var(--akcni-barva);
             padding: 22px 24px;
             border-radius: 10px;
-            border-left: 5px solid var(--akcni-barva);
             margin: 24px 0;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
         }
 
         .vysledky-box h3 {
