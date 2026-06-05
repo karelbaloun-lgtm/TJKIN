@@ -28,6 +28,29 @@
             text-align: center;
             margin-bottom: 40px;
         }
+        .uvod-sekce {
+            position: relative;
+            overflow: hidden;
+            padding: 20px 0 10px;
+        }
+        .uvod-sekce::before {
+            content: '1951';
+            position: absolute;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 20rem;
+            font-weight: 900;
+            color: rgba(211,47,47,0.045);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -48%);
+            pointer-events: none;
+            z-index: 0;
+            white-space: nowrap;
+            letter-spacing: -6px;
+            user-select: none;
+        }
+        .uvod-sekce > * { position: relative; z-index: 1; }
+
         .uvodni-nadpis {
             margin-top: 0;
             font-size: 2.2rem;

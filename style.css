@@ -295,11 +295,11 @@ body.dark-mode .vzhled-volba:hover { background: rgba(255,255,255,0.08); }
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
     margin: 32px 0;
-    padding: 36px 32px;
-    background: #ffffff;
+    padding: 40px 32px;
+    background: linear-gradient(160deg, #111827 0%, #1c0a0a 100%);
     border-radius: 16px;
-    border: 1px solid rgba(211,47,47,0.1);
-    box-shadow: 0 4px 24px rgba(211,47,47,0.07), 0 1px 4px rgba(0,0,0,0.04);
+    border: none;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.12);
 }
 
 .pocitadlo {
@@ -318,14 +318,14 @@ body.dark-mode .vzhled-volba:hover { background: rgba(255,255,255,0.08); }
     top: 20%;
     height: 60%;
     width: 1px;
-    background: var(--barva-border);
+    background: rgba(255,255,255,0.12);
 }
 
 .pocitadlo-cislo {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 3.2rem;
+    font-size: 3.4rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #d32f2f 0%, #e64a19 100%);
+    background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -335,9 +335,9 @@ body.dark-mode .vzhled-volba:hover { background: rgba(255,255,255,0.08); }
 
 .pocitadlo-jednotka {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #d32f2f 0%, #e64a19 100%);
+    background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -346,12 +346,12 @@ body.dark-mode .vzhled-volba:hover { background: rgba(255,255,255,0.08); }
 }
 
 .pocitadlo-popis {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--barva-textu-mute);
-    margin: 8px 0 0;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.5);
+    margin: 10px 0 0;
     line-height: 1.3;
 }
 
@@ -779,11 +779,11 @@ body.dark-mode .logo-hp img {
     text-align: left;       /* Text zarovnáme doleva, vypadá to lépe */
 }
 .nabor-sekce {
-    background: linear-gradient(160deg, #fff5f5 0%, #ffffff 50%);
-    padding: 40px 20px;
+    background: linear-gradient(160deg, #c62828 0%, #d32f2f 50%, #b71c1c 100%);
+    padding: 48px 20px;
     margin: 30px auto; border-radius: 16px; max-width: 900px; text-align: center;
-    box-shadow: 0 4px 24px rgba(211,47,47,0.07);
-    border: 1px solid rgba(211,47,47,0.1);
+    box-shadow: 0 12px 48px rgba(183,28,28,0.35), 0 4px 16px rgba(0,0,0,0.1);
+    border: none;
 }
 .nabor-kontejner { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
 .nabor-karta {
@@ -1100,8 +1100,27 @@ body.dark-mode .cta-box:hover {
 body.dark-mode .cta-box p { color: #aaa; }
 
 /* --- Nabor sekce --- */
+.nabor-sekce h2,
+.nabor-sekce .nabor-nadpis {
+    color: #ffffff !important;
+    background: none !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+.nabor-sekce p { color: rgba(255,255,255,0.85); }
+
+body.dark-mode .pocitadla-sekce {
+    background: linear-gradient(160deg, #0a0a14 0%, #140808 100%);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+}
+
 body.dark-mode .nabor-sekce {
-    box-shadow: 0 4px 25px rgba(0,0,0,0.4);
+    background: linear-gradient(160deg, #1a0000 0%, #2d0505 100%);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+body.dark-mode .nabor-sekce h2,
+body.dark-mode .nabor-sekce .nabor-nadpis {
+    color: #f0eeec !important;
+    -webkit-text-fill-color: #f0eeec !important;
 }
 
 /* --- Info boxy --- */
