@@ -747,31 +747,38 @@ body.dark-mode .loader__kruh { border-color: #444; border-top-color: var(--akcni
    SPONZOŘI NA ÚVODNÍ STRÁNCE (HP)
    ========================================= */
 .sponzori-sekce-hp {
-    margin-top: 60px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
+    margin-top: 48px;
+    padding: 32px 24px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.85);
+    box-shadow: 0 4px 20px rgba(211,47,47,0.07);
+    text-align: center;
 }
 
 .loga-pruh {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 40px;
+    gap: 48px;
     align-items: center;
+    padding: 12px 0;
 }
 
 .logo-hp img {
-    max-height: 60px;       /* Omezí výšku, aby to nebylo obří */
+    max-height: 90px;
     width: auto;
-    filter: grayscale(100%); /* Černobílý efekt */
-    opacity: 0.7;            /* Jemně průhledné */
+    filter: grayscale(100%);
+    opacity: 0.65;
     transition: all 0.3s ease;
 }
 
 .logo-hp:hover img {
-    filter: grayscale(0%);   /* Zpět do barev */
-    opacity: 1;              /* Plná viditelnost */
-    transform: scale(1.1);   /* Zvětšení */
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.08);
 }
 
 /* Úprava pro Dark Mode (aby loga nesplynula se tmou) */
