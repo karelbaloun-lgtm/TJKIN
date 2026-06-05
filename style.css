@@ -164,6 +164,22 @@ nav a {
     transition: background 0.2s ease;
 }
 nav a:hover { background-color: rgba(255,255,255,0.18); }
+nav a.nav-aktivni {
+    background: rgba(255,255,255,0.22);
+    color: #ffd700;
+    font-weight: 700;
+}
+nav a.nav-aktivni::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 2px;
+    background: #ffd700;
+    border-radius: 2px;
+}
 
 @media (min-width: 861px) {
     nav a {

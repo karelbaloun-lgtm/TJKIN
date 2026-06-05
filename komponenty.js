@@ -20,6 +20,14 @@ function vlozMenu() {
             <a href="sponzori.html">Partneři</a>
             <a href="kontakt.html">Kontakt</a>
         </div>
+        <script>
+        (function() {
+            const stranka = window.location.pathname.split('/').pop() || 'index.html';
+            document.querySelectorAll('.menu-polozky a').forEach(a => {
+                if (a.getAttribute('href') === stranka) a.classList.add('nav-aktivni');
+            });
+        })();
+        </script>
     </nav>
     `;
 
