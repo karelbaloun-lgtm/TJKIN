@@ -737,7 +737,35 @@ if ('serviceWorker' in navigator) {
    ========================================= */
 function nactiChatbota() {
     const skript = document.createElement('script');
-    skript.src = 'chatbot.js'; 
+    skript.src = 'chatbot.js';
     skript.onload = function() { if (typeof initChatbot === 'function') initChatbot(); };
     document.body.appendChild(skript);
 }
+
+/* =========================================
+   SMART HIDE NAVIGACE – pouze desktop
+   Schová se při scrollu dolů, ukáže při scrollu nahoru.
+   ========================================= */
+(function () {
+    let posledniScroll = 0;
+    const PRAH = 80;
+
+    window.addEventListener('scroll', function () {
+        if (window.innerWidth <= 768) return;
+
+        const nav = document.querySelector('nav');
+        if (!nav) return;
+
+        const aktualniScroll = window.scrollY;
+
+        if (aktualniScroll <= PRAH) {
+            nav.classList.remove('nav-skryta');
+        } else if (aktualniScroll > posledniScroll) {
+            nav.classList.add('nav-skryta');
+        } else {
+            nav.classList.remove('nav-skryta');
+        }
+
+        posledniScroll = aktualniScroll;
+    }, { passive: true });
+})();
