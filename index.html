@@ -28,15 +28,39 @@
             text-align: center;
             margin-bottom: 40px;
         }
-        .uvodni-nadpis { 
-            margin-top: 0; 
-            color: var(--barva-nadpisu); 
+        .uvodni-nadpis {
+            margin-top: 0;
+            font-size: 2.2rem;
+            line-height: 1.2;
+            color: #111;
+            border-bottom: none;
+            text-align: center;
+            letter-spacing: -0.5px;
+            -webkit-text-fill-color: unset;
+            background: none;
         }
-        .perex { 
-            font-size: 1.1em; 
-            max-width: 800px; 
-            margin: 0 auto; 
+
+        .uvodni-rok {
+            display: block;
+            font-size: 0.72em;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--hlavni-barva);
+            margin-top: 6px;
+            opacity: 0.9;
+        }
+
+        body.dark-mode .uvodni-nadpis { color: #f0eeec; background: none; -webkit-text-fill-color: unset; }
+        body.dark-mode .uvodni-rok { color: #ef5350; }
+
+        .perex {
+            font-size: 1.05em;
+            max-width: 680px;
+            margin: 0 auto;
             line-height: 1.8;
+            text-align: center;
+            color: #555;
         }
         
         /* Styl pro hlavní novinku na HP */
@@ -350,7 +374,7 @@
     <div class="obsah" id="obsah-hp">
         
         <section class="uvod-sekce odkryt-na-scroll">
-            <h2 class="uvodni-nadpis">Plavání v Českých Budějovicích od roku 1951.</h2>
+            <h2 class="uvodni-nadpis">Plavání v Českých Budějovicích<span class="uvodni-rok"> od roku 1951.</span></h2>
             <div class="perex">
                 <p>Jsme plavecký oddíl s nejdelší tradicí v Českých Budějovicích. Od prvních temp až po závodní dráhu – učíme děti nebát se vody a vychováváme z nich sebevědomé sportovce.</p>
                 <p> Plavte s těmi nejlepšími.</p>
