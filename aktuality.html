@@ -213,6 +213,45 @@
             flex-shrink: 0;
         }
 
+        /* ===== STARTOVNÍ TABULKA ===== */
+        .startovni-wrap { overflow-x: auto; margin: 0 0 16px; }
+
+        .startovni-tabulka {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .startovni-tabulka th {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--barva-textu-mute, #888);
+            padding: 6px 10px;
+            text-align: left;
+            border-bottom: 2px solid var(--barva-border, #ddd);
+            white-space: nowrap;
+        }
+        .startovni-tabulka td {
+            padding: 9px 10px;
+            border-bottom: 1px solid var(--barva-border, #eee);
+            vertical-align: middle;
+        }
+        .startovni-tabulka tr:last-child td { border-bottom: none; }
+        .startovni-tabulka tr:hover td { background: rgba(0,0,0,0.02); }
+
+        .st-cas { font-family: monospace; color: var(--barva-textu-mute, #777); font-size: 0.88rem; white-space: nowrap; }
+        .st-rozpl { color: var(--barva-textu-mute, #999); font-size: 0.84rem; white-space: nowrap; }
+
+        .st-vysledek-ceka { color: #bbb; font-size: 0.84rem; }
+        .st-zlata  { color: #b8860b; font-weight: 700; white-space: nowrap; }
+        .st-stribro { color: #7f8c8d; font-weight: 700; white-space: nowrap; }
+        .st-bronz  { color: #cd7f32; font-weight: 700; white-space: nowrap; }
+
+        body.dark-mode .startovni-tabulka th { border-color: #333; }
+        body.dark-mode .startovni-tabulka td { border-color: #2a2a2a; }
+        body.dark-mode .startovni-tabulka tr:hover td { background: rgba(255,255,255,0.03); }
+
         /* ===== BUTTON ===== */
         .btn-galerie {
             display: inline-flex;
@@ -351,26 +390,36 @@
                     </p>
 
                     <div class="vysledky-box">
-                        <h3>📋 Startovní listina KIN – LMČ ml. žactva Trutnov 2026</h3>
+                        <h3>📋 Startovní listina + výsledky KIN – LMČ ml. žactva Trutnov 2026</h3>
 
-                        <h4>Ela Kubálková (2014) – 6 disciplín</h4>
-                        <ul class="vysledky-list">
-                            <li>1. přihlášená – 200m motýlek: <strong>02:51,29</strong> &nbsp;·&nbsp; rozpl. 4, dráha 4</li>
-                            <li>1. přihlášená – 800m volný způsob: <strong>09:50,11</strong> &nbsp;·&nbsp; rozpl. 3, dráha 4</li>
-                            <li>1. přihlášená – 400m volný způsob: <strong>04:48,09</strong> &nbsp;·&nbsp; rozpl. 4, dráha 4</li>
-                            <li>1. přihlášená – 100m motýlek: <strong>01:13,79</strong> &nbsp;·&nbsp; rozpl. 4, dráha 4</li>
-                            <li>2. přihlášená – 200m volný způsob: <strong>02:17,67</strong> &nbsp;·&nbsp; rozpl. 4, dráha 5</li>
-                            <li>2. přihlášená – 400m polohový závod: <strong>05:32,12</strong> &nbsp;·&nbsp; rozpl. 4, dráha 5</li>
-                        </ul>
+                        <h4>Ela Kubálková (2014)</h4>
+                        <div class="startovni-wrap">
+                        <table class="startovni-tabulka">
+                            <thead><tr><th>Disciplína</th><th>Přihl. čas</th><th>Rozpl.</th><th>Výsledek</th></tr></thead>
+                            <tbody>
+                                <tr><td>200m motýlek</td>      <td class="st-cas">02:51,29</td><td class="st-rozpl">4 / 4</td><td class="st-vysledek-ceka">⏳ čeká se</td></tr>
+                                <tr><td>800m volný způsob</td> <td class="st-cas">09:50,11</td><td class="st-rozpl">3 / 4</td><td class="st-vysledek-ceka">⏳ čeká se</td></tr>
+                                <tr><td>400m volný způsob</td> <td class="st-cas">04:48,09</td><td class="st-rozpl">4 / 4</td><td class="st-vysledek-ceka">⏳ čeká se</td></tr>
+                                <tr><td>100m motýlek</td>      <td class="st-cas">01:13,79</td><td class="st-rozpl">4 / 4</td><td class="st-vysledek-ceka">⏳ čeká se</td></tr>
+                                <tr><td>200m volný způsob</td> <td class="st-cas">02:17,67</td><td class="st-rozpl">4 / 5</td><td class="st-vysledek-ceka">⏳ čeká se</td></tr>
+                                <tr><td>400m polohový závod</td><td class="st-cas">05:32,12</td><td class="st-rozpl">4 / 5</td><td class="st-vysledek-ceka">⏳ čeká se</td></tr>
+                            </tbody>
+                        </table>
+                        </div>
 
-                        <h4>Zoe Tůmová (2014) – 5 disciplín</h4>
-                        <ul class="vysledky-list">
-                            <li>2. přihlášená – 200m motýlek: <strong>02:51,88</strong> &nbsp;·&nbsp; rozpl. 4, dráha 5</li>
-                            <li>2. přihlášená – 800m volný způsob: <strong>09:53,55</strong> &nbsp;·&nbsp; rozpl. 3, dráha 5</li>
-                            <li>2. přihlášená – 400m volný způsob: <strong>04:49,65</strong> &nbsp;·&nbsp; rozpl. 4, dráha 5</li>
-                            <li>3. přihlášená – 400m polohový závod: <strong>05:33,19</strong> &nbsp;·&nbsp; rozpl. 4, dráha 3</li>
-                            <li>4. přihlášená – 100m volný způsob: <strong>01:05,43</strong> &nbsp;·&nbsp; rozpl. 4, dráha 6</li>
-                        </ul>
+                        <h4>Zoe Tůmová (2014)</h4>
+                        <div class="startovni-wrap">
+                        <table class="startovni-tabulka">
+                            <thead><tr><th>Disciplína</th><th>Přihl. čas</th><th>Rozpl.</th><th>Výsledek</th></tr></thead>
+                            <tbody>
+                                <tr><td>200m motýlek</td>      <td class="st-cas">02:51,88</td><td class="st-rozpl">4 / 5</td><td class="st-vysledek-ceka">⏳ čeká se</td></tr>
+                                <tr><td>800m volný způsob</td> <td class="st-cas">09:53,55</td><td class="st-rozpl">3 / 5</td><td class="st-vysledek-ceka">⏳ čeká se</td></tr>
+                                <tr><td>400m volný způsob</td> <td class="st-cas">04:49,65</td><td class="st-rozpl">4 / 5</td><td class="st-vysledek-ceka">⏳ čeká se</td></tr>
+                                <tr><td>400m polohový závod</td><td class="st-cas">05:33,19</td><td class="st-rozpl">4 / 3</td><td class="st-vysledek-ceka">⏳ čeká se</td></tr>
+                                <tr><td>100m volný způsob</td> <td class="st-cas">01:05,43</td><td class="st-rozpl">4 / 6</td><td class="st-vysledek-ceka">⏳ čeká se</td></tr>
+                            </tbody>
+                        </table>
+                        </div>
                     </div>
 
                     <p>
