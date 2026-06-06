@@ -15,7 +15,10 @@ const GALERIE = {
             "lmcr_26_4.jpeg",  "lmcr_26_5.jpeg",  "lmcr_26_6.jpeg",
             "lmcr_26_7.jpeg",  "lmcr_26_8.jpeg",  "lmcr_26_9.jpeg",
             "lmcr_26_10.jpeg", "lmcr_26_11.jpeg", "lmcr_26_12.jpeg",
-            "lmcr_26_13.jpeg", "lmcr_26_14.jpeg", "lmcr_26_15.jpeg"
+            "lmcr_26_13.jpeg", "lmcr_26_14.jpeg", "lmcr_26_15.jpeg",
+            "lmcr_26_16.jpeg", "lmcr_26_17.jpeg", "lmcr_26_18.jpeg",
+            "lmcr_26_19.jpeg", "lmcr_26_20.jpeg", "lmcr_26_21.jpeg",
+            "lmcr_26_22.jpeg"
         ],
         popisek: "Ela Kubálková a Zoe Tůmová na Letním mistrovství ČR mladšího žactva v Trutnově.",
         video: null
