@@ -11,8 +11,11 @@ const GALERIE = {
         misto: "Trutnov",
         slozka: "images/fotogalerie/2026/lmcrstz_26/",
         fotky: [
-            "lmcr_26_1.jpeg", "lmcr_26_2.jpeg", "lmcr_26_3.jpeg",
-            "lmcr_26_4.jpeg", "lmcr_26_5.jpeg", "lmcr_26_6.jpeg"
+            "lmcr_26_1.jpeg",  "lmcr_26_2.jpeg",  "lmcr_26_3.jpeg",
+            "lmcr_26_4.jpeg",  "lmcr_26_5.jpeg",  "lmcr_26_6.jpeg",
+            "lmcr_26_7.jpeg",  "lmcr_26_8.jpeg",  "lmcr_26_9.jpeg",
+            "lmcr_26_10.jpeg", "lmcr_26_11.jpeg", "lmcr_26_12.jpeg",
+            "lmcr_26_13.jpeg", "lmcr_26_14.jpeg", "lmcr_26_15.jpeg"
         ],
         popisek: "Ela Kubálková a Zoe Tůmová na Letním mistrovství ČR mladšího žactva v Trutnově.",
         video: null
