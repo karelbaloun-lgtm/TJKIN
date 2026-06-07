@@ -80,8 +80,8 @@ nav, .tlacitko, .footer, .next, .prev { user-select: none; }
     text-align: center;
     background-image:
         linear-gradient(180deg, rgba(0,0,0,0.78) 0%, rgba(120,10,10,0.62) 100%),
-        url('images/hero.jpeg');
-    background-size: cover; background-position: center 5%; background-attachment: fixed;
+        url('images/hero_bg.jpeg');
+    background-size: cover; background-position: center; background-attachment: fixed;
     position: relative;
     overflow: hidden;
 }
