@@ -21,7 +21,7 @@ const GALERIE = {
             "lmcr_26_17.jpeg", "lmcr_26_18.jpeg", "lmcr_26_19.jpeg", // vyhlášení 2. půlden (16:01)
             "lmcr_26_20.jpeg", "lmcr_26_21.jpeg", "lmcr_26_22.jpeg", // vyhlášení 2. půlden (18:28)
             "lmcr_26_23.jpeg", "lmcr_26_24.jpeg", "lmcr_26_25.jpeg", // 3. půlden – 7. 6.
-            "lmcr_26_26.jpeg", "lmcr_26_27.jpeg", "lmcr_26_28.jpeg",   // skupinová po závodě s trenérkou
+            "lmcr_26_26.jpeg", "lmcr_26_28.jpeg", "lmcr_26_27.jpeg",   // skupinová po závodě s trenérkou
             "lmcr_26_16.jpeg"                                           // DRoP Cup – vyhlášen na závodě
         ],
         popisek: "Ela Kubálková a Zoe Tůmová na Letním mistrovství ČR mladšího žactva v Trutnově.",
