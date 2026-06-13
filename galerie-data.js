@@ -5,6 +5,19 @@
    ========================================= */
 const GALERIE = {
 
+    praha_26: {
+        nazev: "Praha 2026",
+        datum: "13.–14.6.2026",
+        misto: "Praha",
+        slozka: "images/fotogalerie/2026/praha_26/",
+        fotky: [
+            "praha26 (1).jpeg",
+            "praha26 (2).jpeg"
+        ],
+        popisek: "KIN na závodech Praha 2026.",
+        video: null
+    },
+
     lmcrstz_26: {
         nazev: "Letní MČR ml. žactva – Trutnov 2026",
         datum: "6.–7.6.2026",
