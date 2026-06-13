@@ -7,14 +7,16 @@ const GALERIE = {
 
     praha_26: {
         nazev: "Praha 2026",
-        datum: "13.–14.6.2026",
-        misto: "Praha",
+        datum: "13.6.2026",
+        misto: "Praha – Podolí",
         slozka: "images/fotogalerie/2026/praha_26/",
         fotky: [
             "praha26 (1).jpeg",
-            "praha26 (2).jpeg"
+            "praha26 (2).jpeg",
+            "praha26 (3).jpeg",
+            "praha26 (4).jpeg"
         ],
-        popisek: "KIN na závodech Praha 2026.",
+        popisek: "KIN na závodech Praha 2026 – 50m bazén pod otevřeným nebem v Podolí.",
         video: null
     },
 
