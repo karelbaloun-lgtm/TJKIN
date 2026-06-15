@@ -654,7 +654,7 @@
                     const vyslHtml    = zavod.vysledky   ? `<a class="term-btn vysledky" href="${zavod.vysledky}" target="_blank">🏁 Výsledky</a>` : "–";
                     const clanekHtml  = zavod.clanek     ? `<a class="term-btn clanek"   href="${zavod.clanek}">📰 Článek</a>` : "–";
                     const datumAttr   = zavod.kalendarStart
-                        ? `class="datum-klik" onclick="pridatDoKalendare('${cistyNazev(zavod.nazev)}','${zavod.kalendarStart}','${zavod.kalendarKonec||''}','${zavod.misto}')"`
+                        ? `class="datum-klik" onclick="pridatDoKalendare('${cistyNazev(zavod.nazev)}','${zavod.kalendarStart}','${zavod.kalendarKonec||''}','${zavod.misto}','${zavod.odkazZavod||''}')"`
                         : "";
                     html += `<tr>
                         <td ${datumAttr}>${zavod.datumText}</td>
@@ -681,7 +681,7 @@
                 } else {
                     const datumCls  = "term-karta-datum" + (typSecce ? " " + typSecce : "") + (zavod.kalendarStart ? " klik" : "");
                     const datumOnCl = zavod.kalendarStart
-                        ? `onclick="pridatDoKalendare('${cistyNazev(zavod.nazev)}','${zavod.kalendarStart}','${zavod.kalendarKonec||''}','${zavod.misto}')"`
+                        ? `onclick="pridatDoKalendare('${cistyNazev(zavod.nazev)}','${zavod.kalendarStart}','${zavod.kalendarKonec||''}','${zavod.misto}','${zavod.odkazZavod||''}')"`
                         : "";
                     const mistoHtml = zavod.odkazMapa  ? `<a href="${zavod.odkazMapa}" target="_blank">📍 ${zavod.misto}</a>` : `📍 ${zavod.misto}`;
                     const nazevHtml = zavod.odkazZavod ? `<a href="${zavod.odkazZavod}" target="_blank">${zavod.nazev}</a>` : zavod.nazev;

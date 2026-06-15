@@ -279,19 +279,20 @@ function spustitVybuch(element) {
     }, { once: true });
 }
 
-function pridatDoKalendare(nazev, datumOdStr, datumDoStr, misto) {
+function pridatDoKalendare(nazev, datumOdStr, datumDoStr, misto, odkaz) {
     const datumOd = new Date(datumOdStr);
     if (isNaN(datumOd)) { alert("Chyba data"); return; }
     const startStr = formatDatumICS(datumOd);
     let datumDo = (datumDoStr && datumDoStr.trim() !== "") ? new Date(datumDoStr) : new Date(datumOd);
     datumDo.setDate(datumDo.getDate() + 1);
     const endStr = formatDatumICS(datumDo);
+    const desc = odkaz || 'www.kinplavani.cz';
 
     const icsObsah = [
         'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//TJKIN//Web//CZ',
         'BEGIN:VEVENT', `SUMMARY:🏊 ${nazev}`, `DTSTART;VALUE=DATE:${startStr}`,
         `DTEND;VALUE=DATE:${endStr}`, `LOCATION:${misto}`,
-        'DESCRIPTION:Více info na www.kinplavani.cz', 'STATUS:CONFIRMED', 'END:VEVENT', 'END:VCALENDAR'
+        `DESCRIPTION:${desc}`, 'STATUS:CONFIRMED', 'END:VEVENT', 'END:VCALENDAR'
     ].join('\n');
 
     const blob = new Blob([icsObsah], { type: 'text/calendar;charset=utf-8' });
