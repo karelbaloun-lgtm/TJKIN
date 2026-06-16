@@ -22,7 +22,15 @@
       "Bash(pdftotext \"C:/Users/karel/Downloads/VÝSLEDKY_DT_jaro2026_JCK.pdf\" -)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Read(//c/Users/karel/Downloads/**)",
+      "Bash(python -c ' *)",
+      "Bash(pip install *)",
+      "Bash(python -c \"import pypdf; print\\('pypdf ok'\\)\")",
+      "Bash(py --version)",
+      "Bash(python -m pip install pdfplumber -q)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Bash(ls \"C:/Users/karel/OneDrive/Obrázky/TJKIN/\")"
     ]
   }
 }
