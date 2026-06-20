@@ -116,7 +116,7 @@ function vlozPaticku() {
                 <a href="index.html">🏠 Úvod</a>
                 <a href="aktuality.html">📰 Aktuality</a>
                 <a href="terminovka.html">📅 Termínovka</a>
-                <a href="zavodnice.html">🏊 Závodnice</a>
+                <a href="hvezdy_26.html">⭐ Hvězdy 2026</a>
                 <a href="fotogalerie.html">📷 Fotogalerie</a>
                 <a href="kontakt.html">📞 Kontakty</a>
                 <a href="archiv.html" style="color: var(--akcni-barva); margin-top: 10px; border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 10px;">
