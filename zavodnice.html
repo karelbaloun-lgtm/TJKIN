@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Profily závodnic TJ KIN České Budějovice – výsledky, osobní rekordy a sezónní přehled Ely Kubálkové a Zoe Tůmové.">
+    <link rel="canonical" href="https://kinplavani.cz/zavodnice.html">
+    <meta property="og:title" content="Závodnice – TJ KIN České Budějovice">
+    <meta property="og:description" content="Profily závodnic TJ KIN – výsledky a osobní rekordy Ely Kubálkové a Zoe Tůmové ze sezóny 2026.">
+    <meta property="og:image" content="https://kinplavani.cz/images/fotogalerie/2026/lmcrstz_26/lmcr_26_28.jpeg">
+    <meta property="og:url" content="https://kinplavani.cz/zavodnice.html">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="cs_CZ">
+    <meta property="og:site_name" content="TJ KIN České Budějovice">
+    <link rel="icon" type="image/png" href="images/logos/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
+    <meta name="theme-color" content="#d32f2f">
+    <title>Závodnice – TJ KIN České Budějovice</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* ===== GRID ===== */
+        .profily-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+        @media (max-width: 860px) {
+            .profily-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ===== PROFIL KARTA ===== */
+        .profil-karta {
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.07);
+            border-top: 4px solid var(--hlavni-barva);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        body.dark-mode .profil-karta {
+            background: #1e1e1e;
+            border-color: #333;
+        }
+
+        /* foto */
+        .profil-foto {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            object-position: center 20%;
+            display: block;
+        }
+
+        /* hlavička pod fotkou */
+        .profil-hlavicka {
+            padding: 22px 24px 16px;
+            border-bottom: 1px solid rgba(0,0,0,0.07);
+        }
+        body.dark-mode .profil-hlavicka { border-color: #333; }
+
+        .profil-jmeno {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--barva-nadpisu);
+            margin: 0 0 6px;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+        }
+        body.dark-mode .profil-jmeno { color: #f0f0f0; }
+
+        .profil-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+        .profil-meta span {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+        .profil-rocnik { background: #fff3e0; color: #bf360c; }
+        .profil-klub   { background: #e8f5e9; color: #1b5e20; }
+        body.dark-mode .profil-rocnik { background: #3e1500; color: #ffab76; }
+        body.dark-mode .profil-klub   { background: #002600; color: #81c784; }
+
+        /* medailová bilance */
+        .profil-medaile {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .medaile-chip {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 8px;
+            background: #f5f5f5;
+            color: #333;
+        }
+        body.dark-mode .medaile-chip { background: #2a2a2a; color: #ddd; }
+        .medaile-chip.zlata  { background: #fff8e1; color: #8a6200; }
+        .medaile-chip.stribrna { background: #f5f5f5; color: #555; }
+        .medaile-chip.bronzova { background: #fff3e0; color: #8b4513; }
+        .medaile-chip.rekord { background: #fff8e1; color: #8a6200; border: 1px solid #f9a825; }
+        body.dark-mode .medaile-chip.zlata { background: #2a2200; color: #ffd54f; }
+        body.dark-mode .medaile-chip.rekord { background: #2a2200; color: #ffd54f; border-color: #6d4c00; }
+
+        /* ===== RECORD BANNER ===== */
+        .rekord-banner {
+            margin: 0 24px 16px;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #fff8e1 0%, #fffde7 100%);
+            border: 1.5px solid #f9a825;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #555;
+        }
+        .rekord-banner strong { color: #333; }
+        body.dark-mode .rekord-banner { background: #2a2200; border-color: #6d4c00; color: #bbb; }
+        body.dark-mode .rekord-banner strong { color: #ffd54f; }
+
+        /* ===== VÝSLEDKY PER ZÁVOD ===== */
+        .profil-zavody {
+            padding: 0 24px 20px;
+            flex: 1;
+        }
+
+        .zavod-sekce {
+            margin-bottom: 20px;
+        }
+        .zavod-nadpis {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #eee;
+        }
+        body.dark-mode .zavod-nadpis { color: #666; border-color: #333; }
+        .zavod-nadpis a { color: inherit; text-decoration: none; }
+        .zavod-nadpis a:hover { color: var(--hlavni-barva); }
+
+        .vysledky-radky { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .vysledky-radky td { padding: 5px 6px; vertical-align: middle; }
+        .vysledky-radky td:first-child { color: #666; width: 55%; }
+        .vysledky-radky td:last-child { text-align: right; font-weight: 600; white-space: nowrap; }
+        .vysledky-radky tr:hover td { background: rgba(0,0,0,0.02); }
+        body.dark-mode .vysledky-radky td:first-child { color: #aaa; }
+        body.dark-mode .vysledky-radky tr:hover td { background: rgba(255,255,255,0.03); }
+
+        .v-zlato  { color: #d4ac0d; }
+        .v-stribro { color: #888; }
+        .v-bronz  { color: #b35c00; }
+        .v-cas    { color: #333; }
+        body.dark-mode .v-cas { color: #ddd; }
+        .v-pr { font-size: 0.7rem; color: #aaa; font-weight: 400; margin-left: 4px; }
+        .v-cr { font-size: 0.7rem; font-weight: 700; color: #d4ac0d; margin-left: 4px; }
+
+        /* ===== PATIČKA KARTY ===== */
+        .profil-footer {
+            padding: 14px 24px;
+            border-top: 1px solid rgba(0,0,0,0.07);
+            display: flex;
+            justify-content: flex-end;
+        }
+        body.dark-mode .profil-footer { border-color: #333; }
+        .cs-odkaz {
+            font-size: 0.8rem;
+            color: #aaa;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .cs-odkaz:hover { color: var(--hlavni-barva); }
+
+        /* ===== SEZONA BADGE ===== */
+        .sezona-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--hlavni-barva);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="spolecne-menu"></div>
+
+    <header class="hlavicka">
+        <img src="images/logos/logo.png" class="logo-oddilu" alt="Logo TJ KIN" id="hlavni-logo">
+        <h1>Závodnice</h1>
+        <p class="podnadpis">Výsledky a osobní rekordy</p>
+    </header>
+
+    <div class="obsah">
+
+        <div style="text-align:center; margin-bottom: 32px;">
+            <span class="sezona-badge">🏊 Sezóna 2026</span>
+        </div>
+
+        <div class="profily-grid">
+
+            <!-- ========== ELA KUBÁLKOVÁ ========== -->
+            <div class="profil-karta">
+                <img src="images/fotogalerie/2026/lmcrstz_26/lmcr_26_28.jpeg"
+                     class="profil-foto" alt="Ela Kubálková"
+                     style="object-position: center 15%;">
+
+                <div class="profil-hlavicka">
+                    <h2 class="profil-jmeno">Ela Kubálková</h2>
+                    <div class="profil-meta">
+                        <span class="profil-rocnik">ročník 2014</span>
+                        <span class="profil-klub">TJ KIN České Budějovice</span>
+                    </div>
+                    <div class="profil-medaile">
+                        <span class="medaile-chip zlata">🥇 5×</span>
+                        <span class="medaile-chip stribrna">🥈 5×</span>
+                        <span class="medaile-chip rekord">🏅 Rekord ČR</span>
+                    </div>
+                </div>
+
+                <div class="rekord-banner" style="margin-top:16px;">
+                    🏅 <strong>Rekord ČR žactva (12 let) · 800 m VZ · 50m bazén</strong><br>
+                    Čas <strong>9:54,45</strong> překonal rekord Kateřiny Černíkové (9:56,18) starý od roku 2012.
+                    Praha – Podolí, 13. 6. 2026.
+                </div>
+
+                <div class="profil-zavody">
+
+                    <div class="zavod-sekce">
+                        <div class="zavod-nadpis">
+                            🏆 <a href="aktuality.html#mcr-trutnov-vysledky-2026">LMČR ml. žactva · Trutnov · 6.–7. 6. 2026</a>
+                        </div>
+                        <table class="vysledky-radky">
+                            <tr><td>200 m motýlek</td>    <td><span class="v-zlato">🥇 1. místo · 2:45,86</span><span class="v-pr">os. rekord</span></td></tr>
+                            <tr><td>800 m volný způsob</td><td><span class="v-zlato">🥇 1. místo · 9:39,48</span><span class="v-pr">os. rekord</span></td></tr>
+                            <tr><td>100 m motýlek</td>    <td><span class="v-zlato">🥇 1. místo · 1:13,36</span><span class="v-pr">os. rekord</span></td></tr>
+                            <tr><td>200 m volný způsob</td><td><span class="v-stribro">🥈 2. místo · 2:16,30</span><span class="v-pr">os. rekord</span></td></tr>
+                            <tr><td>400 m volný způsob</td><td><span class="v-stribro">🥈 2. místo · 4:43,15</span><span class="v-pr">os. rekord</span></td></tr>
+                            <tr><td>400 m polohový závod</td><td><span class="v-stribro">🥈 2. místo · 5:32,02</span><span class="v-pr">os. rekord</span></td></tr>
+                        </table>
+                    </div>
+
+                    <div class="zavod-sekce">
+                        <div class="zavod-nadpis">
+                            🏊 <a href="aktuality.html#praha-2026">Praha 2026 · Podolí · 50m venkovní · 13. 6. 2026</a>
+                        </div>
+                        <table class="vysledky-radky">
+                            <tr><td>800 m volný způsob</td> <td><span class="v-zlato">🥇 1. místo · 9:54,45</span><span class="v-cr">ČR rekord</span></td></tr>
+                            <tr><td>400 m volný způsob</td> <td><span class="v-zlato">🥇 1. místo · 4:53,48</span></td></tr>
+                            <tr><td>200 m motýlek</td>     <td><span class="v-stribro">🥈 2. místo · 2:48,04</span></td></tr>
+                            <tr><td>200 m volný způsob</td> <td><span class="v-cas">4. místo · 2:21,26</span></td></tr>
+                            <tr><td>200 m polohový závod</td><td><span class="v-cas">11. místo · 2:46,50</span></td></tr>
+                            <tr><td>50 m volný způsob</td>  <td><span class="v-cas">11. místo · 0:31,38</span></td></tr>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="profil-footer">
+                    <a href="https://vysledky.czechswimming.cz/lide/63446658" target="_blank" class="cs-odkaz">
+                        Profil na Czech Swimming →
+                    </a>
+                </div>
+            </div>
+
+            <!-- ========== ZOE TŮMOVÁ ========== -->
+            <div class="profil-karta">
+                <img src="images/fotogalerie/2026/lmcrstz_26/lmcr_26_28.jpeg"
+                     class="profil-foto" alt="Zoe Tůmová"
+                     style="object-position: center 35%;">
+
+                <div class="profil-hlavicka">
+                    <h2 class="profil-jmeno">Zoe Tůmová</h2>
+                    <div class="profil-meta">
+                        <span class="profil-rocnik">ročník 2014</span>
+                        <span class="profil-klub">TJ KIN České Budějovice</span>
+                    </div>
+                    <div class="profil-medaile">
+                        <span class="medaile-chip zlata">🥇 3×</span>
+                        <span class="medaile-chip stribrna">🥈 4×</span>
+                        <span class="medaile-chip bronzova">🥉 2×</span>
+                    </div>
+                </div>
+
+                <div class="rekord-banner" style="margin-top:16px;">
+                    ⚡ <strong>Rychlejší než rekord ČR · 800 m VZ · 50m bazén</strong><br>
+                    Čas <strong>9:55,76</strong> překonal tehdejší rekord 9:56,18 ve stejném závodě jako Ela.
+                    Pro účely rekordu platí rychlejší čas — ten byl Elin.
+                </div>
+
+                <div class="profil-zavody">
+
+                    <div class="zavod-sekce">
+                        <div class="zavod-nadpis">
+                            🏆 <a href="aktuality.html#mcr-trutnov-vysledky-2026">LMČR ml. žactva · Trutnov · 6.–7. 6. 2026</a>
+                        </div>
+                        <table class="vysledky-radky">
+                            <tr><td>400 m volný způsob</td> <td><span class="v-zlato">🥇 1. místo · 4:43,09</span><span class="v-pr">os. rekord</span></td></tr>
+                            <tr><td>100 m volný způsob</td> <td><span class="v-zlato">🥇 1. místo · 1:03,69</span><span class="v-pr">os. rekord</span></td></tr>
+                            <tr><td>200 m motýlek</td>      <td><span class="v-stribro">🥈 2. místo · 2:46,72</span><span class="v-pr">os. rekord</span></td></tr>
+                            <tr><td>800 m volný způsob</td> <td><span class="v-stribro">🥈 2. místo · 9:39,50</span><span class="v-pr">os. rekord</span></td></tr>
+                            <tr><td>200 m volný způsob</td> <td><span class="v-bronz">🥉 3. místo · 2:16,57</span><span class="v-pr">os. rekord</span></td></tr>
+                            <tr><td>400 m polohový závod</td><td><span class="v-bronz">🥉 3. místo · 5:32,49</span><span class="v-pr">os. rekord</span></td></tr>
+                        </table>
+                    </div>
+
+                    <div class="zavod-sekce">
+                        <div class="zavod-nadpis">
+                            🏊 <a href="aktuality.html#praha-2026">Praha 2026 · Podolí · 50m venkovní · 13. 6. 2026</a>
+                        </div>
+                        <table class="vysledky-radky">
+                            <tr><td>800 m volný způsob</td> <td><span class="v-stribro">🥈 2. místo · 9:55,76</span><span class="v-cr">pod rekordem</span></td></tr>
+                            <tr><td>400 m volný způsob</td> <td><span class="v-stribro">🥈 2. místo · 4:54,30</span></td></tr>
+                            <tr><td>200 m volný způsob</td> <td><span class="v-cas">5. místo · 2:22,60</span></td></tr>
+                            <tr><td>200 m motýlek</td>      <td><span class="v-cas">6. místo · 2:54,74</span></td></tr>
+                            <tr><td>200 m polohový závod</td><td><span class="v-cas">12. místo · 2:46,66</span></td></tr>
+                            <tr><td>50 m volný způsob</td>  <td><span class="v-cas">16. místo · 0:31,65</span></td></tr>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="profil-footer">
+                    <a href="https://vysledky.czechswimming.cz/lide/63457673" target="_blank" class="cs-odkaz">
+                        Profil na Czech Swimming →
+                    </a>
+                </div>
+            </div>
+
+        </div><!-- /profily-grid -->
+
+    </div><!-- /obsah -->
+
+    <div id="spolecna-paticka"></div>
+    <script src="komponenty.js"></script>
+
+</body>
+</html>
