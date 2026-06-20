@@ -3,63 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Stránka nenalezena – TJ KIN České Budějovice">
     <link rel="icon" type="image/png" href="images/logos/logo.png">
-    <title>Stránka nenalezena - TJ KIN</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
+    <meta name="theme-color" content="#d32f2f">
+    <title>Stránka nenalezena – TJ KIN České Budějovice</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Speciální styl jen pro chybovou stránku */
         .chyba-container {
             text-align: center;
-            padding: 100px 20px;
-            max-width: 600px;
+            padding: 60px 20px 80px;
+            max-width: 560px;
             margin: 0 auto;
         }
         .chyba-cislo {
-            font-size: 8em;
-            font-weight: bold;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 10rem;
+            font-weight: 900;
             color: var(--hlavni-barva);
             margin: 0;
             line-height: 1;
-            opacity: 0.2;
+            opacity: 0.12;
+            letter-spacing: -4px;
         }
-        .chyba-text {
-            font-size: 1.5em;
-            margin-bottom: 30px;
-        }
-        .plavec-emoji {
-            font-size: 5em;
+        .chyba-emoji {
+            font-size: 4rem;
             display: block;
-            margin-bottom: 20px;
+            margin: -20px 0 16px;
             animation: plavani 3s infinite ease-in-out;
         }
         @keyframes plavani {
-            0%, 100% { transform: translateX(-20px) rotate(-10deg); }
-            50% { transform: translateX(20px) rotate(10deg); }
+            0%, 100% { transform: translateX(-18px) rotate(-8deg); }
+            50%       { transform: translateX(18px)  rotate(8deg);  }
         }
+        .chyba-nadpis {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--barva-nadpisu);
+            margin: 0 0 12px;
+        }
+        .chyba-text {
+            color: #777;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+        .chyba-tlacitka {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        body.dark-mode .chyba-text { color: #aaa; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="menu-polozky" style="justify-content: center;">
-            <a href="index.html">← Zpět na úvod</a>
-        </div>
-    </nav>
+    <div id="spolecne-menu"></div>
 
-    <div class="chyba-container">
-        <div class="plavec-emoji">🏊‍♂️</div>
-        <h1 class="chyba-cislo">404</h1>
-        <h2>Uplaval jsi mimo dráhu!</h2>
-        <p class="chyba-text">Tato stránka bohužel neexistuje. Asi byla vypuštěna společně s bazénem.</p>
-        
-        <a href="index.html" class="tlacitko">Vrátit se na startovní blok (Domů)</a>
-        <br><br>
-        <a href="#" onclick="history.back(); return false;" class="tlacitko tlacitko-invert">← Zpět na předchozí stránku</a>
+    <header class="hlavicka">
+        <img src="images/logos/logo.png" class="logo-oddilu" alt="Logo TJ KIN" id="hlavni-logo">
+        <h1>Stránka nenalezena</h1>
+        <p class="podnadpis">Tohle místo v bazénu neexistuje</p>
+    </header>
+
+    <div class="obsah">
+        <div class="chyba-container">
+            <p class="chyba-cislo">404</p>
+            <span class="chyba-emoji">🏊</span>
+            <h2 class="chyba-nadpis">Uplaval jsi mimo dráhu!</h2>
+            <p class="chyba-text">Tato stránka bohužel neexistuje. Asi byla vypuštěna společně s bazénem.</p>
+            <div class="chyba-tlacitka">
+                <a href="index.html" class="tlacitko">Na úvod</a>
+                <a href="#" onclick="history.back(); return false;" class="tlacitko tlacitko-invert">← Zpět</a>
+            </div>
+        </div>
     </div>
 
-    <footer>
-        <p>&copy; 2025 TJ KIN České Budějovice</p>
-    </footer>
+    <div id="spolecna-paticka"></div>
+    <script src="komponenty.js"></script>
 
 </body>
 </html>
