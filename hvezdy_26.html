@@ -23,11 +23,14 @@
         /* ===== GRID ===== */
         .profily-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 32px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
             margin-bottom: 48px;
         }
-        @media (max-width: 860px) {
+        @media (max-width: 1100px) {
+            .profily-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 640px) {
             .profily-grid { grid-template-columns: 1fr; }
         }
 
@@ -348,6 +351,52 @@
 
                 <div class="profil-footer">
                     <a href="https://vysledky.czechswimming.cz/lide/63457673" target="_blank" class="cs-odkaz">
+                        Profil na Czech Swimming →
+                    </a>
+                </div>
+            </div>
+
+            <!-- ========== SOFIE KUBÁLKOVÁ ========== -->
+            <div class="profil-karta" style="border-top-color: #1565c0;">
+                <img src="images/sofie_odm26.jpeg"
+                     class="profil-foto" alt="Sofie Kubálková"
+                     style="object-fit: contain; background: #edddd8; object-position: center 38%;">
+
+                <div class="profil-hlavicka">
+                    <h2 class="profil-jmeno">Sofie Kubálková</h2>
+                    <div class="profil-meta">
+                        <span class="profil-rocnik">ročník 2012</span>
+                        <span class="profil-klub">TJ KIN České Budějovice</span>
+                    </div>
+                    <div class="profil-medaile">
+                        <span class="medaile-chip" style="background:#e3f2fd; color:#1565c0;">🏅 LODM 2026</span>
+                        <span class="medaile-chip" style="background:#e3f2fd; color:#1565c0;">🌍 JHČ</span>
+                    </div>
+                </div>
+
+                <div class="rekord-banner" style="background: linear-gradient(135deg, #e3f2fd, #f5f5ff); border-left-color: #1565c0; color: #1565c0; margin-top:16px;">
+                    🏅 <strong>Účastnice Letní olympiády dětí a mládeže 2026 – Praha</strong><br>
+                    Reprezentuje Jihočeský kraj (JHČ) ve 4 disciplínách: 100m + 200m Motýlek, 200m + 400m Polohový závod.
+                </div>
+
+                <div class="profil-zavody">
+                    <div class="zavod-sekce">
+                        <div class="zavod-nadpis">
+                            📊 Nejlepší výkony sezóny · top 6 podle FINA bodů
+                        </div>
+                        <table class="vysledky-radky">
+                            <tr><td>50 m volný způsob</td>      <td><span class="v-cas">0:32,61</span><span class="v-pr">379 b · 50m · 28.2.2026</span></td></tr>
+                            <tr><td>200 m polohový závod</td>   <td><span class="v-cas">2:49,53</span><span class="v-pr">369 b · 25m · 18.4.2026</span></td></tr>
+                            <tr><td>100 m volný způsob</td>     <td><span class="v-cas">1:10,12</span><span class="v-pr">368 b · 25m · 17.5.2026</span></td></tr>
+                            <tr><td>200 m volný způsob</td>     <td><span class="v-cas">2:34,03</span><span class="v-pr">367 b · 25m · 16.5.2026</span></td></tr>
+                            <tr><td>800 m volný způsob</td>     <td><span class="v-cas">11:11,46</span><span class="v-pr">359 b · 25m · 16.5.2026</span></td></tr>
+                            <tr><td>50 m motýlek</td>           <td><span class="v-cas">0:34,39</span><span class="v-pr">358 b · 50m · 28.2.2026</span></td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="profil-footer">
+                    <a href="https://vysledky.czechswimming.cz/lide/63446660" target="_blank" class="cs-odkaz">
                         Profil na Czech Swimming →
                     </a>
                 </div>
