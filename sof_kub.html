@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sofie Kubálková – profil závodnice TJ KIN České Budějovice. Účastnice LODM 2026 za Jihočeský kraj.">
+    <link rel="canonical" href="https://kinplavani.cz/sof_kub.html">
+    <meta property="og:title" content="Sofie Kubálková – TJ KIN České Budějovice">
+    <meta property="og:image" content="https://kinplavani.cz/images/sofie_odm26.jpeg">
+    <meta property="og:url" content="https://kinplavani.cz/sof_kub.html">
+    <meta property="og:type" content="profile">
+    <meta property="og:locale" content="cs_CZ">
+    <meta property="og:site_name" content="TJ KIN České Budějovice">
+    <link rel="icon" type="image/png" href="images/logos/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
+    <meta name="theme-color" content="#1565c0">
+    <title>Sofie Kubálková – TJ KIN České Budějovice</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .profil-hero-wrap {
+            width: 100%;
+            max-height: 480px;
+            background: #edddd8;
+            border-radius: 0 0 20px 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .profil-hero {
+            width: 100%;
+            max-height: 480px;
+            object-fit: contain;
+            object-position: center 38%;
+            display: block;
+        }
+        .profil-zpet {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85em;
+            color: var(--barva-textu-mute, #888);
+            text-decoration: none;
+            margin-bottom: 24px;
+        }
+        .profil-zpet:hover { color: #1565c0; }
+
+        .profil-hlavicka {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .profil-titulek { flex: 1; min-width: 220px; }
+        .profil-titulek h1 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 2.6em;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: #1565c0;
+            margin: 0 0 4px;
+            line-height: 1;
+        }
+        .profil-titulek .sub {
+            font-size: 0.95em;
+            color: var(--barva-textu-mute, #888);
+        }
+        .profil-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        .badge {
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.82em;
+            font-weight: 700;
+        }
+        .badge-lodm  { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+        .badge-klub  { background: #f5f5f5; color: #555; border: 1px solid #ddd; }
+        body.dark-mode .badge-klub { background: #2a2a2a; color: #aaa; border-color: #444; }
+
+        .lodm-box {
+            background: linear-gradient(135deg, #e3f2fd, #fff);
+            border-left: 4px solid #1565c0;
+            border-radius: 0 10px 10px 0;
+            padding: 16px 20px;
+            margin-bottom: 28px;
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+        body.dark-mode .lodm-box { background: linear-gradient(135deg, #0a1929, #1e1e1e); }
+        .lodm-box strong { color: #1565c0; }
+
+        .lodm-discipliny {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .lodm-disc {
+            padding: 4px 12px;
+            background: rgba(21,101,192,0.08);
+            border: 1px solid rgba(21,101,192,0.2);
+            border-radius: 20px;
+            font-size: 0.82em;
+            font-weight: 600;
+            color: #1565c0;
+        }
+
+        .zavody-sekce { margin-bottom: 32px; }
+        .zavod-nadpis {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.05em;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #1565c0;
+            border-bottom: 2px solid #1565c0;
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+        }
+        .zavod-nadpis a { color: inherit; text-decoration: none; }
+        .zavod-nadpis a:hover { text-decoration: underline; }
+
+        .vysledky-tabulka { width: 100%; border-collapse: collapse; font-size: 0.92em; }
+        .vysledky-tabulka td { padding: 7px 6px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: middle; }
+        body.dark-mode .vysledky-tabulka td { border-color: #333; }
+        .vysledky-tabulka td:first-child { color: var(--barva-textu-mute, #777); width: 45%; }
+        .vysledky-tabulka td:last-child { text-align: right; }
+
+        .v-cas { font-weight: 600; color: #333; }
+        body.dark-mode .v-cas { color: #ddd; }
+        .fina { display: inline-block; font-size: 0.75em; color: #888; margin-left: 6px; vertical-align: middle; }
+
+        .lodm-tlacitko {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #1565c0;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.92em;
+            margin-top: 8px;
+            margin-bottom: 24px;
+            transition: background 0.2s;
+        }
+        .lodm-tlacitko:hover { background: #1976d2; }
+
+        .cs-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 0.85em;
+            color: var(--barva-textu-mute, #888);
+            text-decoration: none;
+        }
+        .cs-link:hover { color: #1565c0; }
+    </style>
+</head>
+<body>
+
+    <div id="spolecne-menu"></div>
+
+    <div class="profil-hero-wrap">
+        <img src="images/sofie_odm26.jpeg" class="profil-hero" alt="Sofie Kubálková">
+    </div>
+
+    <div class="obsah" style="max-width: 760px;">
+
+        <a href="hvezdy_26.html" class="profil-zpet">← Hvězdy roku 2026</a>
+
+        <div class="profil-hlavicka">
+            <div class="profil-titulek">
+                <h1>Sofie Kubálková</h1>
+                <span class="sub">ročník 2012 · TJ KIN České Budějovice</span>
+            </div>
+        </div>
+
+        <div class="profil-badges">
+            <span class="badge badge-lodm">🏅 LODM 2026 · Praha</span>
+            <span class="badge badge-lodm">🏊 4 disciplíny za JHČ kraj</span>
+            <span class="badge badge-klub">TJ KIN · žactvo 14 let</span>
+        </div>
+
+        <div class="lodm-box">
+            🏅 <strong>Letní olympiáda dětí a mládeže 2026</strong><br>
+            Sofie byla přijata na LODM 2026 v Praze a reprezentuje <strong>Jihočeský kraj</strong>.
+            Plavecká část proběhla 22.–24. 6. 2026 v Podolí. Sofie startovala ve čtyřech disciplínách:
+            <div class="lodm-discipliny">
+                <span class="lodm-disc">100 m motýlek</span>
+                <span class="lodm-disc">200 m motýlek</span>
+                <span class="lodm-disc">200 m polohový závod</span>
+                <span class="lodm-disc">400 m polohový závod</span>
+            </div>
+        </div>
+
+        <a href="https://www.olympijskytym.cz/athlete/sofie-kubalkova" target="_blank" rel="noopener" class="lodm-tlacitko">
+            🌐 Profil na olympijskytym.cz
+        </a>
+
+        <div class="zavody-sekce">
+            <div class="zavod-nadpis">
+                📊 Nejlepší výkony sezóny 2026
+            </div>
+            <table class="vysledky-tabulka">
+                <tr><td>50 m volný způsob</td>     <td><span class="v-cas">0:32,61</span><span class="fina">379 b.</span></td></tr>
+                <tr><td>200 m polohový závod</td>  <td><span class="v-cas">2:49,53</span><span class="fina">369 b.</span></td></tr>
+                <tr><td>100 m volný způsob</td>    <td><span class="v-cas">1:10,12</span><span class="fina">368 b.</span></td></tr>
+                <tr><td>200 m volný způsob</td>    <td><span class="v-cas">2:34,03</span><span class="fina">367 b.</span></td></tr>
+                <tr><td>800 m volný způsob</td>    <td><span class="v-cas">11:11,46</span><span class="fina">359 b.</span></td></tr>
+                <tr><td>50 m motýlek</td>          <td><span class="v-cas">0:34,39</span><span class="fina">358 b.</span></td></tr>
+            </table>
+            <p style="font-size: 0.82em; color: var(--barva-textu-mute, #999); margin-top: 10px;">
+                Seřazeno podle FINA bodů – jednotná škála výkonnosti napříč disciplínami.
+            </p>
+        </div>
+
+        <a href="https://vysledky.czechswimming.cz/lide/63446660" target="_blank" rel="noopener" class="cs-link">
+            ↗ Kompletní profil na Czech Swimming
+        </a>
+
+    </div>
+
+    <div id="spolecna-paticka"></div>
+    <script src="komponenty.js"></script>
+
+</body>
+</html>
