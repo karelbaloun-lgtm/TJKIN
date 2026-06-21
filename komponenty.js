@@ -383,7 +383,28 @@ function odmitnoutCookies() {
 }
 
 /* =========================================
-   5. HLAVNÍ INICIALIZACE (Start webu)
+   5. VYSVĚDČENÍ – prázdninový banner
+   ========================================= */
+function vlozVysvedceniBanner() {
+    const stranka = window.location.pathname.split('/').pop() || 'index.html';
+    if (stranka !== 'index.html' && stranka !== '') return;
+    if (document.getElementById('vysvedceni-banner')) return;
+
+    const banner = document.createElement('div');
+    banner.id = 'vysvedceni-banner';
+    banner.style.cssText = 'background:linear-gradient(135deg,#d32f2f,#b71c1c);color:#fff;text-align:center;padding:32px 20px;margin:40px 0;';
+    banner.innerHTML = `
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:2em;font-weight:900;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:12px;">🏊 Klidné a bezstarostné prázdniny! 🏊</div>
+        <p style="font-size:1.05em;line-height:1.7;max-width:680px;margin:0 auto;opacity:0.93;">
+            Jménem celého oddílu děkujeme všem trenérům, plavcům i rodičům za skvělý průběh roku 2026.<br>
+            Přejeme vám klidné a bezstarostné prázdniny – vidíme se nejdéle v září v plné síle!
+        </p>`;
+    const paticka = document.getElementById('spolecna-paticka');
+    if (paticka) paticka.insertAdjacentElement('beforebegin', banner);
+}
+
+/* =========================================
+   6. HLAVNÍ INICIALIZACE (Start webu)
    ========================================= */
 document.addEventListener("DOMContentLoaded", function() {
     const logo = document.getElementById('hlavni-logo');
@@ -486,9 +507,16 @@ document.addEventListener("DOMContentLoaded", function() {
         document.body.classList.remove('maj-mode');
     }
 
+    // 4f. Vysvědčení (26. – 27. června)
+    const jeVysvedceni = dnes >= new Date(rok, 5, 26) && dnes < new Date(rok, 5, 28);
+    if (jeVysvedceni) {
+        if (logo) logo.src = 'images/logos/logo_vysvedceni.png';
+    }
+
     // 5. Vložení menu, patičky, analytiky, mobilní nav
     vlozMenu();
     vlozPaticku();
+    if (jeVysvedceni) vlozVysvedceniBanner();
     vlozMobileNav();
     if (localStorage.getItem('cookie-souhlas') === 'ano') {
         spustitGoogleAnalytics();
