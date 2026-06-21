@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Josef Potužník – TJ KIN České Budějovice</title>
+    <link rel="icon" type="image/png" href="images/logos/logo.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .profil-hero-placeholder {
+            width:100%; height:280px; display:flex; align-items:center; justify-content:center;
+            background:linear-gradient(135deg,#1c0000,#5c0808);
+            border-radius:0 0 20px 20px;
+        }
+        .profil-hero-placeholder .initials {
+            font-family:'Barlow Condensed',sans-serif; font-size:7em; font-weight:900;
+            color:rgba(184,151,42,0.25); letter-spacing:0.05em; line-height:1;
+        }
+        .profil-zpet { display:inline-flex; align-items:center; gap:6px; font-size:0.85em; color:var(--barva-textu-mute,#888); text-decoration:none; margin-bottom:24px; }
+        .profil-zpet:hover { color:var(--hlavni-barva); }
+        .profil-titulek h1 { font-family:'Barlow Condensed',sans-serif; font-size:2.6em; font-weight:900; text-transform:uppercase; color:var(--hlavni-barva); margin:0 0 4px; line-height:1; }
+        .profil-titulek .sub { font-size:0.95em; color:var(--barva-textu-mute,#888); }
+        .profil-badges { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 24px; }
+        .badge { padding:5px 14px; border-radius:20px; font-size:0.82em; font-weight:700; }
+        .badge-gold { background:#fff8e1; color:#b8860b; border:1px solid #ffe082; }
+        .badge-klub { background:#f5f5f5; color:#555; border:1px solid #ddd; }
+        body.dark-mode .badge-klub { background:#2a2a2a; color:#aaa; border-color:#444; }
+        .bio-box { background:linear-gradient(135deg,#fce4ec,#fff); border-left:4px solid var(--hlavni-barva); border-radius:0 10px 10px 0; padding:16px 20px; margin-bottom:24px; font-size:0.95em; line-height:1.7; }
+        body.dark-mode .bio-box { background:linear-gradient(135deg,#2a0a0a,#1e1e1e); }
+        .milnik-sekce { margin-bottom:28px; }
+        .milnik-nadpis { font-family:'Barlow Condensed',sans-serif; font-size:1.05em; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:var(--hlavni-barva); border-bottom:2px solid var(--hlavni-barva); padding-bottom:6px; margin-bottom:14px; }
+        .milnik-radek { display:flex; gap:16px; padding:8px 0; border-bottom:1px solid rgba(0,0,0,0.06); font-size:0.92em; }
+        body.dark-mode .milnik-radek { border-color:#333; }
+        .milnik-rok { font-weight:700; color:var(--hlavni-barva); min-width:44px; flex-shrink:0; }
+    </style>
+</head>
+<body>
+    <div id="spolecne-menu"></div>
+
+    <div class="profil-hero-placeholder">
+        <span class="initials">JP</span>
+    </div>
+
+    <div class="obsah" style="max-width:760px;">
+
+        <a href="sin_slavy.html" class="profil-zpet">← Síň slávy KIN</a>
+
+        <div class="profil-titulek">
+            <h1>Josef Potužník</h1>
+            <span class="sub">Trenér · stavitel plaveckého areálu KIN</span>
+        </div>
+
+        <div class="profil-badges">
+            <span class="badge badge-gold">✦ Síň slávy KIN</span>
+            <span class="badge badge-gold">🏗️ Stavitel bazénu</span>
+            <span class="badge badge-klub">TJ KIN · trenér</span>
+        </div>
+
+        <div class="bio-box">
+            Dr.&nbsp;Ing. Josef Potužník byl trenérem a organizátorem, jehož největším odkazem je <strong>krytá plovárna KIN</strong>.
+            Po 20 letech vytrvalého úsilí se v roce 1971 podařilo otevřít nový plavecký areál, který byl svého času
+            <em>nejmodernějším plaveckým areálem ve Střední Evropě</em>. Bazén dodnes slouží jako domov TJ KIN.
+        </div>
+
+        <div class="milnik-sekce">
+            <div class="milnik-nadpis">📅 Milníky</div>
+            <div class="milnik-radek"><span class="milnik-rok">1951</span><span>Spolu s Vlastou Potužníkovou stál u zrodu plaveckého oddílu TJ KIN</span></div>
+            <div class="milnik-radek"><span class="milnik-rok">1951–</span><span>Dvacet let usiloval o výstavbu moderního krytého bazénu pro oddíl</span></div>
+            <div class="milnik-radek"><span class="milnik-rok">1971</span><span>Otevření nové kryté plovárny — tehdy nejmodernějšího plaveckého areálu ve Střední Evropě</span></div>
+        </div>
+
+    </div>
+
+    <div id="spolecna-paticka"></div>
+    <script src="komponenty.js"></script>
+</body>
+</html>
