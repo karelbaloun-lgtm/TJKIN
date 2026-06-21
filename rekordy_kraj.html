@@ -92,7 +92,7 @@
         <div class="kraj-stats-wrap">
             <div class="kraj-stats-box">
                 <div class="kraj-chart-wrap">
-                    <canvas id="krajChart" width="180" height="180"></canvas>
+                    <svg id="krajChart" width="180" height="180" viewBox="0 0 180 180" style="overflow:visible;display:block;"></svg>
                     <div class="kraj-chart-center">
                         <div class="kraj-chart-pct" id="kinPct">–</div>
                         <div class="kraj-chart-label">TJ KIN</div>
@@ -425,42 +425,64 @@
             legend.appendChild(item);
         });
 
-        // Draw donut chart on canvas
-        var canvas = document.getElementById('krajChart');
-        if (!canvas) return;
-        var ctx = canvas.getContext('2d');
-        var cx = 90, cy = 90, r = 80, innerR = 55;
+        // Build interactive SVG donut chart
+        var svg = document.getElementById('krajChart');
+        if (!svg) return;
+        var cx = 90, cy = 90, outerR = 80, innerR = 52;
+        var segments = top5.map(function(e, i){ return { club: e[0], count: e[1], color: colors[i] }; });
+        var sum = segments.reduce(function(s,e){ return s + e.count; }, 0);
+
+        function ptX(angle, r){ return cx + r * Math.cos(angle); }
+        function ptY(angle, r){ return cy + r * Math.sin(angle); }
+        function arcPath(a1, a2) {
+            var large = (a2 - a1) > Math.PI ? 1 : 0;
+            return ['M', ptX(a1,outerR).toFixed(2), ptY(a1,outerR).toFixed(2),
+                    'A', outerR, outerR, 0, large, 1, ptX(a2,outerR).toFixed(2), ptY(a2,outerR).toFixed(2),
+                    'L', ptX(a2,innerR).toFixed(2), ptY(a2,innerR).toFixed(2),
+                    'A', innerR, innerR, 0, large, 0, ptX(a1,innerR).toFixed(2), ptY(a1,innerR).toFixed(2),
+                    'Z'].join(' ');
+        }
+
+        var kinPctEl = document.getElementById('kinPct');
+        var kinLabelEl = document.querySelector('.kraj-chart-label');
+
         var startAngle = -Math.PI / 2;
-        var vals = top5.map(function(e){ return e[1]; });
-        var sum = vals.reduce(function(a,b){ return a+b; }, 0);
+        segments.forEach(function(seg) {
+            var sweep = (seg.count / sum) * 2 * Math.PI;
+            var endAngle = startAngle + sweep;
+            var midAngle = startAngle + sweep / 2;
+            var dx = Math.cos(midAngle) * 9;
+            var dy = Math.sin(midAngle) * 9;
+            var segPct = Math.round(seg.count / total * 100);
 
-        vals.forEach(function(v, i) {
-            var sweep = (v / sum) * 2 * Math.PI;
-            ctx.beginPath();
-            ctx.moveTo(cx, cy);
-            ctx.arc(cx, cy, r, startAngle, startAngle + sweep);
-            ctx.closePath();
-            ctx.fillStyle = colors[i];
-            ctx.fill();
-            startAngle += sweep;
-        });
+            var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', arcPath(startAngle, endAngle));
+            path.setAttribute('fill', seg.color);
+            path.setAttribute('stroke', '#fff');
+            path.setAttribute('stroke-width', '2');
+            path.style.cursor = 'pointer';
+            path.style.transition = 'transform 0.22s cubic-bezier(0.34,1.56,0.64,1), filter 0.18s';
+            if (seg.club === 'KIN') {
+                path.style.filter = 'drop-shadow(0 2px 8px rgba(211,47,47,0.45))';
+            }
 
-        // Inner circle (donut hole)
-        ctx.beginPath();
-        ctx.arc(cx, cy, innerR, 0, 2 * Math.PI);
-        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--barva-pozadi') || '#ffffff';
-        ctx.fill();
+            path.addEventListener('mouseenter', function() {
+                this.style.transform = 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px)';
+                if (seg.club !== 'KIN') this.style.filter = 'brightness(1.18) drop-shadow(0 2px 6px rgba(0,0,0,0.22))';
+                kinPctEl.textContent = segPct + '%';
+                kinPctEl.style.color = seg.color;
+                kinLabelEl.textContent = seg.club;
+            });
+            path.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+                this.style.filter = seg.club === 'KIN' ? 'drop-shadow(0 2px 8px rgba(211,47,47,0.45))' : '';
+                kinPctEl.textContent = pct + '%';
+                kinPctEl.style.color = '';
+                kinLabelEl.textContent = 'TJ KIN';
+            });
 
-        // Thin separator lines
-        startAngle = -Math.PI / 2;
-        vals.forEach(function(v) {
-            ctx.beginPath();
-            ctx.moveTo(cx + innerR * Math.cos(startAngle), cy + innerR * Math.sin(startAngle));
-            ctx.lineTo(cx + r * Math.cos(startAngle), cy + r * Math.sin(startAngle));
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            startAngle += (v / sum) * 2 * Math.PI;
+            svg.appendChild(path);
+            startAngle = endAngle;
         });
     })();
     </script>
