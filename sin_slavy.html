@@ -5,64 +5,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex">
     <title>Síň slávy – TJ KIN České Budějovice</title>
+    <link rel="icon" type="image/png" href="images/logos/logo.png">
     <link rel="stylesheet" href="style.css">
     <style>
-        .sin-sekce-nadpis {
-            font-family:'Barlow Condensed',sans-serif; font-size:1.15em; font-weight:900;
-            text-transform:uppercase; letter-spacing:0.06em; color:var(--hlavni-barva);
-            max-width:980px; margin:0 auto 18px; padding:0 16px;
-            border-bottom:2px solid var(--hlavni-barva); padding-bottom:6px;
+        .sin-wrap { max-width: 980px; margin: 0 auto; padding: 0 16px 80px; }
+
+        .sin-sekce {
+            display: flex; align-items: center; gap: 12px;
+            margin: 0 0 20px;
         }
+        .sin-sekce-text {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.78em; font-weight: 900; letter-spacing: 0.14em;
+            text-transform: uppercase; color: #b8972a; white-space: nowrap;
+        }
+        .sin-sekce-star { font-size: 0.9em; color: #b8972a; flex-shrink: 0; }
+        .sin-sekce-line {
+            flex: 1; height: 1px;
+            background: linear-gradient(to right, rgba(184,151,42,0.6), transparent);
+        }
+
         .hvezdy-grid {
-            display:grid; grid-template-columns:repeat(5,1fr); gap:20px;
-            max-width:980px; margin:0 auto 48px; padding:0 16px;
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;
+            margin-bottom: 48px;
         }
-        @media (max-width:860px) { .hvezdy-grid { grid-template-columns:repeat(3,1fr); } }
-        @media (max-width:560px) { .hvezdy-grid { grid-template-columns:repeat(2,1fr); } }
+        @media (max-width: 860px) { .hvezdy-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 540px) { .hvezdy-grid { grid-template-columns: repeat(2, 1fr); } }
 
         .hvezda-karta {
-            position:relative; border-radius:14px; overflow:hidden;
-            aspect-ratio:3/4; box-shadow:0 4px 20px rgba(0,0,0,0.12);
-            cursor:pointer; display:block; text-decoration:none;
-            transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s;
+            position: relative; border-radius: 13px; overflow: hidden;
+            aspect-ratio: 3/4; display: block; text-decoration: none;
+            background: linear-gradient(165deg, #1c0000 0%, #5c0808 55%, #8b1414 100%);
+            border: 1px solid rgba(184,151,42,0.3);
+            box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+            transition: transform 0.24s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s, border-color 0.22s;
         }
-        .hvezda-karta:hover { transform:translateY(-5px); box-shadow:0 14px 40px rgba(0,0,0,0.2); }
+        .hvezda-karta:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 40px rgba(100,5,5,0.5);
+            border-color: rgba(184,151,42,0.65);
+        }
 
         .sin-avatar {
-            width:100%; height:100%;
-            background:linear-gradient(135deg,#b71c1c 0%,#d32f2f 60%,#e57373 100%);
-            display:flex; align-items:center; justify-content:center;
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            background: radial-gradient(ellipse at 50% 25%, rgba(140,20,20,0.7) 0%, transparent 70%);
+        }
+        .sin-foto {
+            width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block;
         }
         .sin-initials {
-            font-family:'Barlow Condensed',sans-serif; font-size:3.5em; font-weight:900;
-            color:rgba(255,255,255,0.2); letter-spacing:0.05em; line-height:1;
-            user-select:none;
+            font-family: Georgia, 'Barlow Condensed', sans-serif;
+            font-size: 3.2em; font-weight: 700; letter-spacing: 0.06em;
+            color: rgba(184,151,42,0.22); line-height: 1; user-select: none;
         }
+
         .hvezda-overlay {
-            position:absolute; bottom:0; left:0; right:0; padding:40px 14px 14px;
-            background:linear-gradient(to top,rgba(120,10,10,0.92) 0%,transparent 100%);
-            color:#fff;
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 44px 13px 14px;
+            background: linear-gradient(to top, rgba(8,0,0,0.97) 0%, rgba(8,0,0,0.65) 55%, transparent 100%);
         }
+        .sin-goldline { width: 22px; height: 1px; background: #b8972a; margin-bottom: 7px; }
         .hvezda-jmeno {
-            font-family:'Barlow Condensed',sans-serif; font-size:1.1em; font-weight:800;
-            text-transform:uppercase; letter-spacing:0.03em; margin:0 0 3px; line-height:1.15;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.9em; font-weight: 800; letter-spacing: 0.05em;
+            text-transform: uppercase; color: #f0e8c8; line-height: 1.2; margin-bottom: 3px;
         }
-        .hvezda-rocnik { font-size:0.75em; opacity:0.8; display:block; margin-bottom:5px; }
-        .hvezda-badge {
-            display:inline-block; font-size:0.68em; background:rgba(255,255,255,0.18);
-            border:1px solid rgba(255,255,255,0.3); border-radius:20px; padding:2px 8px;
-        }
+        .hvezda-rocnik { font-size: 0.68em; color: rgba(184,151,42,0.85); letter-spacing: 0.02em; }
+
         .hvezda-sipka {
-            position:absolute; top:10px; right:12px; width:28px; height:28px;
-            background:rgba(255,255,255,0.2); border-radius:50%;
-            display:flex; align-items:center; justify-content:center; font-size:0.85em;
-            transition:background 0.2s;
+            position: absolute; top: 10px; right: 10px;
+            width: 24px; height: 24px; border-radius: 50%;
+            border: 1px solid rgba(184,151,42,0.35);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75em; color: rgba(184,151,42,0.65);
+            transition: border-color 0.2s, color 0.2s;
         }
-        .hvezda-karta:hover .hvezda-sipka { background:rgba(255,255,255,0.35); }
+        .hvezda-karta:hover .hvezda-sipka { border-color: rgba(184,151,42,0.8); color: #b8972a; }
 
         .foto-note {
-            max-width:980px; margin:-30px auto 40px; padding:0 16px;
-            font-size:0.8em; color:var(--barva-textu-mute,#aaa); font-style:italic;
+            font-size: 0.79em; color: var(--barva-textu-mute, #aaa);
+            font-style: italic; margin-top: -30px; margin-bottom: 40px; padding: 0 2px;
         }
     </style>
 </head>
@@ -76,120 +99,117 @@
     </header>
 
     <div class="obsah">
+    <div class="sin-wrap">
 
-        <div class="sin-sekce-nadpis">Muži</div>
+        <div class="sin-sekce">
+            <span class="sin-sekce-star">✦</span>
+            <span class="sin-sekce-text">Muži</span>
+            <span class="sin-sekce-line"></span>
+        </div>
         <div class="hvezdy-grid">
             <a href="tom_nov.html" class="hvezda-karta">
-                <div class="sin-avatar">
-                    <span class="sin-initials">TN</span>
-                </div>
+                <div class="sin-avatar"><span class="sin-initials">TN</span></div>
                 <div class="hvezda-sipka">→</div>
                 <div class="hvezda-overlay">
+                    <div class="sin-goldline"></div>
                     <div class="hvezda-jmeno">Tomáš Novoveský</div>
                     <span class="hvezda-rocnik">ročník 1995 · 820 b.</span>
                 </div>
             </a>
             <a href="ond_zac.html" class="hvezda-karta">
-                <div class="sin-avatar">
-                    <span class="sin-initials">OZ</span>
-                </div>
+                <div class="sin-avatar"><span class="sin-initials">OZ</span></div>
                 <div class="hvezda-sipka">→</div>
                 <div class="hvezda-overlay">
+                    <div class="sin-goldline"></div>
                     <div class="hvezda-jmeno">Ondřej Zach</div>
                     <span class="hvezda-rocnik">ročník 1997 · 809 b.</span>
                 </div>
             </a>
             <a href="kar_bal.html" class="hvezda-karta">
-                <div class="sin-avatar">
-                    <span class="sin-initials">KB</span>
-                </div>
+                <img src="images/sinslav/kar_bal.webp" class="sin-foto" alt="Karel Baloun">
                 <div class="hvezda-sipka">→</div>
                 <div class="hvezda-overlay">
+                    <div class="sin-goldline"></div>
                     <div class="hvezda-jmeno">Karel Baloun</div>
                     <span class="hvezda-rocnik">ročník 1990 · 763 b.</span>
                 </div>
             </a>
             <a href="jak_mel.html" class="hvezda-karta">
-                <div class="sin-avatar">
-                    <span class="sin-initials">JM</span>
-                </div>
+                <div class="sin-avatar"><span class="sin-initials">JM</span></div>
                 <div class="hvezda-sipka">→</div>
                 <div class="hvezda-overlay">
+                    <div class="sin-goldline"></div>
                     <div class="hvezda-jmeno">Jakub Meloun</div>
                     <span class="hvezda-rocnik">ročník 1984 · 753 b.</span>
                 </div>
             </a>
             <a href="mar_pig.html" class="hvezda-karta">
-                <div class="sin-avatar">
-                    <span class="sin-initials">MP</span>
-                </div>
+                <div class="sin-avatar"><span class="sin-initials">MP</span></div>
                 <div class="hvezda-sipka">→</div>
                 <div class="hvezda-overlay">
+                    <div class="sin-goldline"></div>
                     <div class="hvezda-jmeno">Marek Pígl</div>
                     <span class="hvezda-rocnik">ročník 1997 · 723 b.</span>
                 </div>
             </a>
         </div>
 
-        <div class="sin-sekce-nadpis">Ženy</div>
+        <div class="sin-sekce">
+            <span class="sin-sekce-star">✦</span>
+            <span class="sin-sekce-text">Ženy</span>
+            <span class="sin-sekce-line"></span>
+        </div>
         <div class="hvezdy-grid">
             <a href="ale_ben.html" class="hvezda-karta">
-                <div class="sin-avatar">
-                    <span class="sin-initials">AB</span>
-                </div>
+                <div class="sin-avatar"><span class="sin-initials">AB</span></div>
                 <div class="hvezda-sipka">→</div>
                 <div class="hvezda-overlay">
+                    <div class="sin-goldline"></div>
                     <div class="hvezda-jmeno">Alena Benešová</div>
                     <span class="hvezda-rocnik">ročník 1998 · 778 b.</span>
                 </div>
             </a>
             <a href="am_ben.html" class="hvezda-karta">
-                <div class="sin-avatar">
-                    <span class="sin-initials">AB</span>
-                </div>
+                <div class="sin-avatar"><span class="sin-initials">AB</span></div>
                 <div class="hvezda-sipka">→</div>
                 <div class="hvezda-overlay">
+                    <div class="sin-goldline"></div>
                     <div class="hvezda-jmeno">Anna-Marie Benešová</div>
                     <span class="hvezda-rocnik">ročník 1999 · 771 b.</span>
                 </div>
             </a>
             <a href="mar_reh.html" class="hvezda-karta">
-                <div class="sin-avatar">
-                    <span class="sin-initials">MŘ</span>
-                </div>
+                <div class="sin-avatar"><span class="sin-initials">MŘ</span></div>
                 <div class="hvezda-sipka">→</div>
                 <div class="hvezda-overlay">
+                    <div class="sin-goldline"></div>
                     <div class="hvezda-jmeno">Marcela Řehulová</div>
                     <span class="hvezda-rocnik">ročník 1970 · 740 b.</span>
                 </div>
             </a>
             <a href="pav_but.html" class="hvezda-karta">
-                <div class="sin-avatar">
-                    <span class="sin-initials">PB</span>
-                </div>
+                <div class="sin-avatar"><span class="sin-initials">PB</span></div>
                 <div class="hvezda-sipka">→</div>
                 <div class="hvezda-overlay">
+                    <div class="sin-goldline"></div>
                     <div class="hvezda-jmeno">Pavlína Butalová</div>
                     <span class="hvezda-rocnik">ročník 1999 · 733 b.</span>
                 </div>
             </a>
             <a href="dom_hov.html" class="hvezda-karta">
-                <div class="sin-avatar">
-                    <span class="sin-initials">DH</span>
-                </div>
+                <div class="sin-avatar"><span class="sin-initials">DH</span></div>
                 <div class="hvezda-sipka">→</div>
                 <div class="hvezda-overlay">
+                    <div class="sin-goldline"></div>
                     <div class="hvezda-jmeno">Dominika Hovorková</div>
                     <span class="hvezda-rocnik">ročník 1994 · 722 b.</span>
                 </div>
             </a>
         </div>
 
-        <p class="foto-note">
-            ⚠️ Fotografie jsou zatím zástupné – nahraďte soubory v adresáři images/sinslav/ a aktualizujte src atributy v profilech.
-            Pořadí podle nejlepšího FINA skóre dosaženého v KIN (data z Czech Swimming).
-        </p>
+        <p class="foto-note">Pořadí podle nejlepšího výkonu dosaženého v KIN (data z Czech Swimming). Fotografie postupně doplňovány.</p>
 
+    </div>
     </div>
 
     <div id="spolecna-paticka"></div>
