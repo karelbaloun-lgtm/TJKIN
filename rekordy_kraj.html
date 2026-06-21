@@ -446,8 +446,30 @@
         var kinPctEl = document.getElementById('kinPct');
         var kinLabelEl = document.querySelector('.kraj-chart-label');
 
+        var paths = [];
+        var segDataArr = [];
         var startAngle = -Math.PI / 2;
-        segments.forEach(function(seg) {
+
+        function activateSeg(i) {
+            var d = segDataArr[i];
+            if (!d) return;
+            paths[i].style.transform = 'translate(' + d.dx.toFixed(1) + 'px,' + d.dy.toFixed(1) + 'px)';
+            if (d.seg.club !== 'KIN') paths[i].style.filter = 'brightness(1.18) drop-shadow(0 2px 6px rgba(0,0,0,0.22))';
+            kinPctEl.textContent = d.pct + '%';
+            kinPctEl.style.color = d.seg.color;
+            kinLabelEl.textContent = d.seg.club;
+        }
+        function deactivateSeg(i) {
+            var d = segDataArr[i];
+            if (!d) return;
+            paths[i].style.transform = '';
+            paths[i].style.filter = d.seg.club === 'KIN' ? 'drop-shadow(0 2px 8px rgba(211,47,47,0.45))' : '';
+            kinPctEl.textContent = pct + '%';
+            kinPctEl.style.color = '';
+            kinLabelEl.textContent = 'TJ KIN';
+        }
+
+        segments.forEach(function(seg, i) {
             var sweep = (seg.count / sum) * 2 * Math.PI;
             var endAngle = startAngle + sweep;
             var midAngle = startAngle + sweep / 2;
@@ -465,24 +487,31 @@
             if (seg.club === 'KIN') {
                 path.style.filter = 'drop-shadow(0 2px 8px rgba(211,47,47,0.45))';
             }
+            path.addEventListener('mouseenter', function() { activateSeg(i); });
+            path.addEventListener('mouseleave', function() { deactivateSeg(i); });
 
-            path.addEventListener('mouseenter', function() {
-                this.style.transform = 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px)';
-                if (seg.club !== 'KIN') this.style.filter = 'brightness(1.18) drop-shadow(0 2px 6px rgba(0,0,0,0.22))';
-                kinPctEl.textContent = segPct + '%';
-                kinPctEl.style.color = seg.color;
-                kinLabelEl.textContent = seg.club;
-            });
-            path.addEventListener('mouseleave', function() {
-                this.style.transform = '';
-                this.style.filter = seg.club === 'KIN' ? 'drop-shadow(0 2px 8px rgba(211,47,47,0.45))' : '';
-                kinPctEl.textContent = pct + '%';
-                kinPctEl.style.color = '';
-                kinLabelEl.textContent = 'TJ KIN';
-            });
-
+            paths.push(path);
+            segDataArr.push({ dx: dx, dy: dy, pct: segPct, seg: seg, color: seg.color });
             svg.appendChild(path);
             startAngle = endAngle;
+        });
+
+        // Wire legend hover → chart segment
+        var legItems = document.querySelectorAll('#krajLegend .kraj-legend-item');
+        legItems.forEach(function(item, i) {
+            item.style.cursor = 'pointer';
+            item.style.borderRadius = '5px';
+            item.style.transition = 'background 0.15s';
+            item.style.padding = '3px 5px';
+            item.style.margin = '-3px -5px';
+            item.addEventListener('mouseenter', function() {
+                activateSeg(i);
+                item.style.background = 'rgba(0,0,0,0.06)';
+            });
+            item.addEventListener('mouseleave', function() {
+                deactivateSeg(i);
+                item.style.background = '';
+            });
         });
     })();
     </script>
