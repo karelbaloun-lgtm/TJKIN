@@ -95,7 +95,7 @@ function vlozPaticku() {
         <div class="footer-container">
             
             <div class="footer-sloupec">
-                <h3>TJ KIN České Budějovice</h3>
+                <h3>KIN České Budějovice</h3>
                 <p style="opacity: 0.8; margin-bottom: 20px;">
                     Plavecký oddíl s tradicí od roku 1951.<br>
                     Vychováváme plavce, tvoříme partu.
@@ -143,7 +143,7 @@ function vlozPaticku() {
         </div>
 
         <div class="footer-bottom">
-            <p>© 2026 TJ KIN České Budějovice - Všechna práva vyhrazena.</p>
+            <p>© 2026 KIN České Budějovice - Všechna práva vyhrazena.</p>
             <p class="made-with" 
                onmouseover="this.innerHTML='Vytvořeno s 💧 vůní chlóru pro plavání'" 
                onmouseout="this.innerHTML='Vytvořeno s ❤️ pro plavání'">
@@ -709,7 +709,7 @@ function vlozMdzModal() {
             
             <span class="zavrit-krizek" onclick="sessionStorage.setItem('mdzZavreno', 'true'); document.getElementById('modal-mdz').remove()">×</span>
             
-            <img src="images/logos/logo_mdz.png" alt="MDŽ TJ KIN" style="width: 100%; max-width: 250px; margin-bottom: 15px; border-radius: 10px;">
+            <img src="images/logos/logo_mdz.png" alt="MDŽ KIN" style="width: 100%; max-width: 250px; margin-bottom: 15px; border-radius: 10px;">
             <h2 style="color: #c2185b; margin-bottom: 10px; border:none;">Vše nejlepší našim ženám! 💐</h2>
             <p style="margin-bottom: 20px; font-size: 1em; line-height: 1.5;">
                 Dnes patří bazén i uznání všem našim úžasným ženám. 

@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Krajské rekordy Jihočeského kraje v plavání – nejlepší výkony jihočeských plavců ve všech disciplínách a věkových kategoriích.">
     <link rel="canonical" href="https://kinplavani.cz/rekordy_kraj.html">
-    <meta property="og:title" content="Krajské rekordy – TJ KIN České Budějovice">
+    <meta property="og:title" content="Krajské rekordy – KIN České Budějovice">
     <meta property="og:url" content="https://kinplavani.cz/rekordy_kraj.html">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="cs_CZ">
-    <meta property="og:site_name" content="TJ KIN České Budějovice">
+    <meta property="og:site_name" content="KIN České Budějovice">
     <link rel="icon" type="image/png" href="images/logos/logo.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
     <meta name="theme-color" content="#d32f2f">
-    <title>Krajské rekordy – TJ KIN České Budějovice</title>
+    <title>Krajské rekordy – KIN České Budějovice</title>
     <link rel="stylesheet" href="style.css">
     <style>
         .rek-tabs { display:flex; flex-wrap:wrap; gap:8px; margin:0 auto 28px; max-width:980px; padding:0 16px; }
@@ -82,7 +82,7 @@
     <div id="spolecne-menu"></div>
 
     <header class="hlavicka">
-        <img src="images/logos/logo.png" class="logo-oddilu" alt="Logo TJ KIN" id="hlavni-logo">
+        <img src="images/logos/logo.png" class="logo-oddilu" alt="Logo KIN" id="hlavni-logo">
         <h1>Krajské rekordy</h1>
         <p class="podnadpis">Nejlepší výkony plavců Jihočeského kraje ve všech věkových kategoriích</p>
     </header>
@@ -95,7 +95,7 @@
                     <svg id="krajChart" width="180" height="180" viewBox="0 0 180 180" style="overflow:visible;display:block;"></svg>
                     <div class="kraj-chart-center">
                         <div class="kraj-chart-pct" id="kinPct">–</div>
-                        <div class="kraj-chart-label">TJ KIN</div>
+                        <div class="kraj-chart-label">KIN</div>
                     </div>
                 </div>
                 <div class="kraj-stats-text">
@@ -108,7 +108,7 @@
 
         <div class="legenda">
             <span class="legenda-box"></span>
-            Zvýrazněné řádky drží plavci <strong>TJ KIN</strong>
+            Zvýrazněné řádky drží plavci <strong>KIN</strong>
         </div>
 
         <div class="rek-tabs">
@@ -409,7 +409,7 @@
             .reduce(function(m,e){ return Math.max(m, e[1].size); }, 0);
 
         document.getElementById('kinSummary').innerHTML =
-            'TJ KIN drží <strong>' + kinCount + ' z ' + total + '</strong> krajských rekordů ' +
+            'KIN drží <strong>' + kinCount + ' z ' + total + '</strong> krajských rekordů ' +
             'napříč všemi věkovými kategoriemi a disciplínami – víc než kterýkoliv jiný jihočeský klub.' +
             '<br><br>Rekordy drží <strong>' + kinAthletes + ' různých závodníků a závodnic</strong> KIN' +
             (maxOther < kinAthletes ? ' – více než u jakéhokoliv jiného klubu v kraji.' : '.');
@@ -471,7 +471,7 @@
             paths[i].style.filter = d.seg.club === 'KIN' ? 'drop-shadow(0 2px 8px rgba(211,47,47,0.45))' : '';
             kinPctEl.textContent = pct + '%';
             kinPctEl.style.color = '';
-            kinLabelEl.textContent = 'TJ KIN';
+            kinLabelEl.textContent = 'KIN';
         }
 
         segments.forEach(function(seg, i) {

@@ -1,7 +1,7 @@
-{
-  "name": "TJ KIN České Budějovice",
-  "short_name": "TJ KIN",
-  "description": "Plavecký klub TJ KIN České Budějovice – aktuality, termínovka, kontakt.",
+﻿{
+  "name": "KIN České Budějovice",
+  "short_name": "KIN",
+  "description": "Plavecký klub KIN České Budějovice – aktuality, termínovka, kontakt.",
   "start_url": "/index.html",
   "scope": "/",
   "display": "standalone",

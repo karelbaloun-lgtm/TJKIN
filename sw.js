@@ -1,5 +1,5 @@
-/* =========================================
-   SERVICE WORKER — TJ KIN České Budějovice
+﻿/* =========================================
+   SERVICE WORKER — KIN České Budějovice
    Verze: změň číslo při každém nasazení
    ========================================= */
 const CACHE_VERZE = 'kinplavani-v1';
