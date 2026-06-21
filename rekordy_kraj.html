@@ -53,6 +53,29 @@
         .legenda-box { display:inline-block; width:14px; height:14px; background:rgba(211,47,47,0.12); border-radius:2px; flex-shrink:0; }
         .zdroj-note { font-size:0.78em; color:var(--barva-textu-mute,#aaa); text-align:center; margin-top:4px; padding-bottom:20px; }
         .zdroj-note a { color:inherit; }
+
+        .kraj-stats-wrap { max-width:980px; margin:0 auto 32px; padding:0 16px; }
+        .kraj-stats-box {
+            display:flex; align-items:center; gap:32px; flex-wrap:wrap;
+            background:#fff; border-radius:14px; box-shadow:0 2px 16px rgba(0,0,0,0.07);
+            border:1px solid rgba(0,0,0,0.06); padding:24px 28px;
+        }
+        body.dark-mode .kraj-stats-box { background:#1e1e1e; border-color:#333; }
+        .kraj-chart-wrap { flex-shrink:0; position:relative; width:180px; height:180px; }
+        .kraj-chart-center {
+            position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+            text-align:center; pointer-events:none;
+        }
+        .kraj-chart-pct { font-family:'Barlow Condensed',sans-serif; font-size:2em; font-weight:900; color:var(--hlavni-barva); line-height:1; }
+        .kraj-chart-label { font-size:0.72em; color:var(--barva-textu-mute,#888); margin-top:2px; }
+        .kraj-stats-text { flex:1; min-width:200px; }
+        .kraj-stats-title { font-family:'Barlow Condensed',sans-serif; font-size:1.25em; font-weight:900; text-transform:uppercase; color:var(--hlavni-barva); margin:0 0 10px; letter-spacing:0.03em; }
+        .kraj-stats-summary { font-size:0.95em; line-height:1.6; margin-bottom:14px; }
+        .kraj-legend { display:flex; flex-direction:column; gap:5px; font-size:0.82em; }
+        .kraj-legend-item { display:flex; align-items:center; gap:8px; }
+        .kraj-legend-dot { width:11px; height:11px; border-radius:50%; flex-shrink:0; }
+        .kraj-legend-name { color:var(--barva-textu-mute,#888); }
+        .kraj-legend-count { font-weight:700; margin-left:auto; }
     </style>
 </head>
 <body>
@@ -65,6 +88,23 @@
     </header>
 
     <div class="obsah" style="padding-top:4px">
+
+        <div class="kraj-stats-wrap">
+            <div class="kraj-stats-box">
+                <div class="kraj-chart-wrap">
+                    <canvas id="krajChart" width="180" height="180"></canvas>
+                    <div class="kraj-chart-center">
+                        <div class="kraj-chart-pct" id="kinPct">–</div>
+                        <div class="kraj-chart-label">TJ KIN</div>
+                    </div>
+                </div>
+                <div class="kraj-stats-text">
+                    <div class="kraj-stats-title">KIN nejúspěšnější klub kraje</div>
+                    <div class="kraj-stats-summary" id="kinSummary">Načítám statistiky…</div>
+                    <div class="kraj-legend" id="krajLegend"></div>
+                </div>
+            </div>
+        </div>
 
         <div class="legenda">
             <span class="legenda-box"></span>
@@ -322,6 +362,88 @@
         document.getElementById(id).style.display='';
         if(btn) btn.classList.add('active');
     }
+
+    (function() {
+        // Count records per club across ALL categories/tables
+        var counts = {};
+        document.querySelectorAll('.rek-tab tbody tr').forEach(function(tr) {
+            var td = tr.querySelector('.rec-club');
+            if (!td) return;
+            // Get raw text node (ignores inner badge span)
+            var club = td.childNodes[0] ? td.childNodes[0].textContent.trim() : td.textContent.trim();
+            if (!club) return;
+            counts[club] = (counts[club] || 0) + 1;
+        });
+
+        var total = Object.values(counts).reduce(function(a,b){ return a+b; }, 0);
+        var kinCount = counts['KIN'] || 0;
+        var pct = total ? Math.round(kinCount / total * 100) : 0;
+
+        // Sort clubs by count descending, take top 5 + "Ostatní"
+        var sorted = Object.entries(counts).sort(function(a,b){ return b[1]-a[1]; });
+        var top5 = sorted.slice(0, 5);
+        var restCount = sorted.slice(5).reduce(function(s,e){ return s+e[1]; }, 0);
+
+        // Colors – KIN always red, others grey palette
+        var palette = ['#d32f2f','#546e7a','#78909c','#90a4ae','#b0bec5','#cfd8dc'];
+        var colors = top5.map(function(e,i){ return e[0]==='KIN' ? '#d32f2f' : palette[i] || '#cfd8dc'; });
+        if (restCount > 0) { top5.push(['Ostatní', restCount]); colors.push('#e0e0e0'); }
+
+        // Update text
+        document.getElementById('kinPct').textContent = pct + '%';
+        document.getElementById('kinSummary').innerHTML =
+            'TJ KIN drží <strong>' + kinCount + ' z ' + total + '</strong> krajských rekordů ' +
+            'napříč všemi věkovými kategoriemi a disciplínami – víc než kterýkoliv jiný jihočeský klub.';
+
+        // Legend
+        var legend = document.getElementById('krajLegend');
+        top5.forEach(function(e, i) {
+            var item = document.createElement('div');
+            item.className = 'kraj-legend-item';
+            item.innerHTML = '<span class="kraj-legend-dot" style="background:' + colors[i] + '"></span>' +
+                '<span class="kraj-legend-name">' + e[0] + '</span>' +
+                '<span class="kraj-legend-count">' + e[1] + '</span>';
+            legend.appendChild(item);
+        });
+
+        // Draw donut chart on canvas
+        var canvas = document.getElementById('krajChart');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+        var cx = 90, cy = 90, r = 80, innerR = 55;
+        var startAngle = -Math.PI / 2;
+        var vals = top5.map(function(e){ return e[1]; });
+        var sum = vals.reduce(function(a,b){ return a+b; }, 0);
+
+        vals.forEach(function(v, i) {
+            var sweep = (v / sum) * 2 * Math.PI;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.arc(cx, cy, r, startAngle, startAngle + sweep);
+            ctx.closePath();
+            ctx.fillStyle = colors[i];
+            ctx.fill();
+            startAngle += sweep;
+        });
+
+        // Inner circle (donut hole)
+        ctx.beginPath();
+        ctx.arc(cx, cy, innerR, 0, 2 * Math.PI);
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--barva-pozadi') || '#ffffff';
+        ctx.fill();
+
+        // Thin separator lines
+        startAngle = -Math.PI / 2;
+        vals.forEach(function(v) {
+            ctx.beginPath();
+            ctx.moveTo(cx + innerR * Math.cos(startAngle), cy + innerR * Math.sin(startAngle));
+            ctx.lineTo(cx + r * Math.cos(startAngle), cy + r * Math.sin(startAngle));
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            startAngle += (v / sum) * 2 * Math.PI;
+        });
+    })();
     </script>
 </body>
 </html>
