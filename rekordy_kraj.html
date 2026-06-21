@@ -391,9 +391,28 @@
 
         // Update text
         document.getElementById('kinPct').textContent = pct + '%';
+        // Count unique athletes per club
+        var athletes = {};
+        document.querySelectorAll('.rek-tab tbody tr').forEach(function(tr) {
+            var clubTd = tr.querySelector('.rec-club');
+            var nameTd = tr.querySelector('.rec-name');
+            if (!clubTd || !nameTd) return;
+            var club = clubTd.childNodes[0] ? clubTd.childNodes[0].textContent.trim() : '';
+            var name = nameTd.textContent.trim();
+            if (!club) return;
+            if (!athletes[club]) athletes[club] = new Set();
+            athletes[club].add(name);
+        });
+        var kinAthletes = athletes['KIN'] ? athletes['KIN'].size : 0;
+        var maxOther = Object.entries(athletes)
+            .filter(function(e){ return e[0] !== 'KIN'; })
+            .reduce(function(m,e){ return Math.max(m, e[1].size); }, 0);
+
         document.getElementById('kinSummary').innerHTML =
             'TJ KIN drží <strong>' + kinCount + ' z ' + total + '</strong> krajských rekordů ' +
-            'napříč všemi věkovými kategoriemi a disciplínami – víc než kterýkoliv jiný jihočeský klub.';
+            'napříč všemi věkovými kategoriemi a disciplínami – víc než kterýkoliv jiný jihočeský klub.' +
+            '<br><br>Rekordy drží <strong>' + kinAthletes + ' různých závodníků a závodnic</strong> KIN' +
+            (maxOther < kinAthletes ? ' – více než u jakéhokoliv jiného klubu v kraji.' : '.');
 
         // Legend
         var legend = document.getElementById('krajLegend');
