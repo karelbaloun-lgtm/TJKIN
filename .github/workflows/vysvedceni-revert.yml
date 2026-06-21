@@ -1,0 +1,30 @@
+name: Vysvědčení – revert (27.6. 23:59 CEST)
+
+on:
+  schedule:
+    - cron: '59 21 27 6 *'   # 21:59 UTC = 23:59 CEST (UTC+2)
+  workflow_dispatch:          # možnost spustit ručně
+
+jobs:
+  revert:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Obnovit originální logo
+        run: cp images/logos/logo_original.png images/logos/logo.png
+
+      - name: Odebrat prázdninový banner z index.html
+        run: |
+          perl -i -0pe 's/\s*<!-- PRAZDNINY BANNER START -->.*?<!-- PRAZDNINY BANNER END -->//s' index.html
+
+      - name: Commit a push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add images/logos/logo.png index.html
+          git commit -m "web: vrátit originální logo a odebrat prázdninový banner"
+          git push
