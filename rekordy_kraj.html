@@ -417,10 +417,15 @@
         // Legend
         var legend = document.getElementById('krajLegend');
         top5.forEach(function(e, i) {
+            var displayName = e[0];
+            if (e[0] === 'Ostatní' && sorted.length > 5) {
+                var sample = sorted.slice(5, 8).map(function(s){ return s[0]; }).join(', ');
+                displayName = 'Ostatní <span style="font-weight:400;opacity:0.6">(' + sample + '…)</span>';
+            }
             var item = document.createElement('div');
             item.className = 'kraj-legend-item';
             item.innerHTML = '<span class="kraj-legend-dot" style="background:' + colors[i] + '"></span>' +
-                '<span class="kraj-legend-name">' + e[0] + '</span>' +
+                '<span class="kraj-legend-name">' + displayName + '</span>' +
                 '<span class="kraj-legend-count">' + e[1] + '</span>';
             legend.appendChild(item);
         });
