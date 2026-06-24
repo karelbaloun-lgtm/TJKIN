@@ -24,6 +24,15 @@
 /* =========================================
    2. ZÁKLADNÍ STYLY & TYPOGRAFIE
    ========================================= */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 72px; /* výška sticky nav (56px) + buffer */
+}
+
+@media (max-width: 768px) {
+    html { scroll-padding-top: 16px; }
+}
+
 body {
     font-family: 'Barlow', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
