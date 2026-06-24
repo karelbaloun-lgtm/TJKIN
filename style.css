@@ -126,7 +126,7 @@ p.podnadpis {
 .logo-oddilu {
     width: 180px; max-width: 80%; margin-bottom: 20px;
     background: transparent; border: none; box-shadow: none;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.3s ease;
     filter: var(--logo-filter);
 } 
 .logo-oddilu:hover {
@@ -245,10 +245,10 @@ nav a.nav-aktivni::after {
     box-shadow: 0 4px 20px rgba(0,0,0,0.18);
     display: flex; align-items: center; justify-content: center;
     color: var(--hlavni-barva);
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.2s;
 }
 .vzhled-btn:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(0,0,0,0.22); }
-.vzhled-btn svg { transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.vzhled-btn svg { transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
 .vzhled-wrap.otevreno .vzhled-btn svg { transform: rotate(90deg); }
 
 .vzhled-panel {
@@ -263,7 +263,7 @@ nav a.nav-aktivni::after {
     opacity: 0; visibility: hidden;
     transform: translateY(8px) scale(0.96);
     transform-origin: bottom right;
-    transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.2s;
+    transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), visibility 0.2s;
 }
 .vzhled-wrap.otevreno .vzhled-panel {
     opacity: 1; visibility: visible; transform: translateY(0) scale(1);
@@ -421,7 +421,7 @@ body.dark-mode .vzhled-volba:hover { background: rgba(255,255,255,0.08); }
     border: 1px solid rgba(0,0,0,0.06);
     border-top: 4px solid var(--hlavni-barva);
     box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-    transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s;
+    transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.22s;
 }
 .karta:hover {
     transform: translateY(-8px);
@@ -714,7 +714,7 @@ body.dark-mode .loader__kruh { border-color: #444; border-top-color: var(--akcni
 }
 .foto-overlay svg {
     opacity: 0; color: white; transform: scale(0.7);
-    transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
 }
 .masonry-grid .foto-box:hover .foto-overlay { background: rgba(0,0,0,0.32); }
@@ -839,7 +839,7 @@ body.dark-mode .logo-hp img {
     box-shadow: 0 2px 16px rgba(0,0,0,0.06);
     border: 1px solid rgba(0,0,0,0.06);
     border-top: 5px solid var(--hlavni-barva);
-    transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s;
+    transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.22s;
 }
 .nabor-karta:hover {
     transform: translateY(-8px);
@@ -1112,7 +1112,7 @@ body.dark-mode .sponzor-karta:hover {
     padding: 24px;
     margin-bottom: 24px;
     box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-    transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s;
+    transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.22s;
 }
 .hp-clanek:hover {
     transform: translateY(-7px);
@@ -2010,7 +2010,7 @@ body.maj-mode #hlavni-logo {
     gap: 20px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.35);
     z-index: 9998;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     flex-wrap: wrap;
 }
 #cookie-banner.cookie-viditelny {
@@ -2084,7 +2084,7 @@ body.maj-mode #hlavni-logo {
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    transition: left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                 background 0.35s ease;
     pointer-events: none;
     box-shadow: 0 6px 20px rgba(0,0,0,0.35);
@@ -2115,7 +2115,7 @@ body.maj-mode #hlavni-logo {
 }
 
 .mob-nav__item svg {
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                 stroke 0.3s;
     stroke: currentColor;
 }
