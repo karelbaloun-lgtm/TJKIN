@@ -2,7 +2,7 @@
    SERVICE WORKER — KIN České Budějovice
    Verze: změň číslo při každém nasazení
    ========================================= */
-const CACHE_VERZE = 'kinplavani-v1';
+const CACHE_VERZE = 'kinplavani-v2';
 
 // Soubory předem stažené při první návštěvě
 const PRECACHE = [
