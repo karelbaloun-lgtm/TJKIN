@@ -425,9 +425,9 @@ body.dark-mode .vzhled-volba:hover { background: rgba(255,255,255,0.08); }
 .rozcestnik { display: flex; gap: 28px; margin: 56px 0; flex-wrap: wrap; }
 .karta {
     flex: 1; min-width: 250px;
-    background: linear-gradient(170deg, rgba(211,47,47,0.06) 0%, #ffffff 52%);
+    background: linear-gradient(170deg, rgba(251,192,45,0.13) 0%, #ffffff 55%);
     padding: 40px 28px; text-align: center; border-radius: 12px;
-    border: 1px solid rgba(0,0,0,0.06);
+    border: 1px solid rgba(251,192,45,0.18);
     border-top: 4px solid var(--hlavni-barva);
     box-shadow: 0 2px 16px rgba(0,0,0,0.06);
     transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.22s;
@@ -842,11 +842,11 @@ body.dark-mode .logo-hp img {
 }
 .nabor-kontejner { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
 .nabor-karta {
-    background: #ffffff;
-    flex: 1; min-width: 280px; padding: 25px;
+    background: linear-gradient(170deg, rgba(251,192,45,0.13) 0%, #ffffff 55%);
+    flex: 1; min-width: 280px; padding: 28px;
     border-radius: 12px;
     box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-    border: 1px solid rgba(0,0,0,0.06);
+    border: 1px solid rgba(251,192,45,0.18);
     border-top: 5px solid var(--hlavni-barva);
     transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.22s;
 }
@@ -974,7 +974,13 @@ body.dark-mode .logo-hp img {
     .obsah { padding: 28px 20px; }
     h2 { margin-top: 36px; }
     .rozcestnik { gap: 16px; margin: 36px 0; }
-    .karta { padding: 28px 20px; }
+    .karta {
+        padding: 28px 22px;
+        box-shadow: 0 4px 20px rgba(251,192,45,0.12), 0 1px 6px rgba(0,0,0,0.06);
+    }
+    .nabor-karta {
+        box-shadow: 0 4px 20px rgba(251,192,45,0.12), 0 1px 6px rgba(0,0,0,0.06);
+    }
 
     /* Ostatní prvky na mobilu */
     .timeline::after { left: 31px; }
