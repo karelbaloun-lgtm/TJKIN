@@ -2145,7 +2145,7 @@ body.maj-mode #hlavni-logo {
 
 .mob-nav__item.active svg {
     transform: translateY(-26px);
-    stroke: white;
+    stroke: #7b3f00;
 }
 
 .mob-nav__item span {
