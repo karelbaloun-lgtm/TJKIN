@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIN České Budějovice — Koncept 2030</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,700;0,800;0,900;1,800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --red:   #d32f2f;
+            --dark:  #7f0000;
+            --gold:  #fbc02d;
+            --ink:   #0d0d0d;
+            --snow:  #f9f6f1;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Barlow', sans-serif;
+            background: var(--ink);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* ── UTILS ── */
+        .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+        /* ══════════════════════════════════════════
+           1. HERO
+        ══════════════════════════════════════════ */
+        #hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: var(--ink);
+        }
+
+        #hero-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.18;
+        }
+
+        .hero-logo {
+            width: 96px;
+            height: 96px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            margin-bottom: 36px;
+            position: relative;
+            z-index: 2;
+            transform: scale(0.7);
+            opacity: 0;
+            transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        opacity 1s ease;
+        }
+        .hero-logo.visible { transform: scale(1); opacity: 1; }
+
+        .hero-eyebrow {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(0.65rem, 1.2vw, 0.8rem);
+            font-weight: 700;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--gold);
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.8s 0.4s ease, transform 0.8s 0.4s ease;
+        }
+        .hero-eyebrow.visible { opacity: 1; transform: none; }
+
+        .hero-headline {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(3.5rem, 10vw, 8.5rem);
+            font-weight: 900;
+            line-height: 0.92;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            position: relative;
+            z-index: 2;
+            margin-top: 18px;
+        }
+        .hero-headline .line {
+            display: block;
+            overflow: hidden;
+        }
+        .hero-headline .line span {
+            display: block;
+            transform: translateY(110%);
+            transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .hero-headline .line:nth-child(2) span { transition-delay: 0.12s; }
+        .hero-headline .line:nth-child(3) span { transition-delay: 0.24s; }
+        .hero-headline.visible .line span { transform: none; }
+
+        .hero-headline em {
+            font-style: normal;
+            color: var(--red);
+        }
+
+        .hero-sub {
+            margin-top: 28px;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            font-weight: 300;
+            color: rgba(255,255,255,0.55);
+            letter-spacing: 0.03em;
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.8s 0.7s ease, transform 0.8s 0.7s ease;
+        }
+        .hero-sub.visible { opacity: 1; transform: none; }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.8s 1.2s ease;
+        }
+        .scroll-hint.visible { opacity: 1; }
+        .scroll-hint span {
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+        }
+        .scroll-hint__line {
+            width: 1px;
+            height: 48px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+            animation: scrollLine 1.8s ease-in-out infinite;
+        }
+        @keyframes scrollLine {
+            0%, 100% { transform: scaleY(1); opacity: 1; }
+            50% { transform: scaleY(0.4); opacity: 0.3; }
+        }
+
+        /* ══════════════════════════════════════════
+           2. SWIMMER SHOWCASE (scroll-pinned)
+        ══════════════════════════════════════════ */
+        #swimmers {
+            position: relative;
+            height: 400vh;
+        }
+        #swimmers-sticky {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .swimmer-scene {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 6vw;
+            gap: 6vw;
+            opacity: 0;
+            transform: translateX(60px);
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            pointer-events: none;
+        }
+        .swimmer-scene.active {
+            opacity: 1;
+            transform: none;
+            pointer-events: auto;
+        }
+        .swimmer-scene.exit {
+            opacity: 0;
+            transform: translateX(-60px);
+        }
+
+        .swimmer-photo {
+            flex-shrink: 0;
+            width: clamp(220px, 28vw, 380px);
+            aspect-ratio: 3/4;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+            position: relative;
+        }
+        .swimmer-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+        }
+        .swimmer-photo__glow {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(211,47,47,0.5) 0%, transparent 50%);
+        }
+
+        .swimmer-info {
+            flex: 1;
+            max-width: 480px;
+        }
+        .swimmer-number {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(5rem, 12vw, 10rem);
+            font-weight: 900;
+            line-height: 1;
+            color: rgba(255,255,255,0.05);
+            position: absolute;
+            top: 50%;
+            right: 4vw;
+            transform: translateY(-50%);
+            user-select: none;
+            pointer-events: none;
+        }
+        .swimmer-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+        .swimmer-name {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(2.8rem, 6vw, 5rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 0.95;
+            letter-spacing: -0.01em;
+            margin-bottom: 20px;
+        }
+        .swimmer-year {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+            font-weight: 300;
+            margin-bottom: 28px;
+            letter-spacing: 0.06em;
+        }
+        .swimmer-achievement {
+            font-size: clamp(1rem, 1.8vw, 1.25rem);
+            font-weight: 300;
+            line-height: 1.65;
+            color: rgba(255,255,255,0.75);
+            border-left: 3px solid var(--red);
+            padding-left: 20px;
+            margin-bottom: 32px;
+        }
+        .swimmer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(251,192,45,0.1);
+            border: 1px solid rgba(251,192,45,0.3);
+            border-radius: 100px;
+            padding: 8px 18px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 0.04em;
+        }
+
+        .swimmers-progress {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+        .swimmers-progress__dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: background 0.3s, transform 0.3s;
+        }
+        .swimmers-progress__dot.active {
+            background: var(--gold);
+            transform: scale(1.4);
+        }
+
+        /* ══════════════════════════════════════════
+           3. STATS
+        ══════════════════════════════════════════ */
+        #stats {
+            background: var(--snow);
+            color: var(--ink);
+            padding: 120px 6vw;
+        }
+        .stats-eyebrow {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--red);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .stats-headline {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 1;
+            margin-bottom: 80px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        @media (max-width: 768px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+        .stat-cell {
+            background: #fff;
+            padding: 48px 32px;
+            text-align: center;
+        }
+        .stat-cell:first-child { border-radius: 16px 0 0 16px; }
+        .stat-cell:last-child  { border-radius: 0 16px 16px 0; }
+        @media (max-width: 768px) {
+            .stat-cell:first-child { border-radius: 16px 0 0 0; }
+            .stat-cell:nth-child(2) { border-radius: 0 16px 0 0; }
+            .stat-cell:nth-child(3) { border-radius: 0 0 0 16px; }
+            .stat-cell:last-child   { border-radius: 0 0 16px 0; }
+        }
+        .stat-number {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            font-weight: 900;
+            line-height: 1;
+            color: var(--red);
+            display: block;
+        }
+        .stat-unit {
+            font-size: 0.5em;
+            vertical-align: super;
+        }
+        .stat-label {
+            display: block;
+            margin-top: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: rgba(0,0,0,0.4);
+        }
+
+        /* ══════════════════════════════════════════
+           4. MANIFESTO (scroll-text reveal)
+        ══════════════════════════════════════════ */
+        #manifesto {
+            position: relative;
+            height: 300vh;
+            background: var(--ink);
+        }
+        #manifesto-sticky {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 8vw;
+        }
+        .manifesto-text {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(2rem, 5vw, 4.2rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            line-height: 1.15;
+            text-align: center;
+            max-width: 900px;
+        }
+        .manifesto-text .word {
+            display: inline-block;
+            color: rgba(255,255,255,0.12);
+            transition: color 0.4s ease;
+            margin-right: 0.2em;
+        }
+        .manifesto-text .word.lit { color: #fff; }
+        .manifesto-text .word.red { color: var(--red) !important; }
+
+        /* ══════════════════════════════════════════
+           5. SEASON TIMELINE
+        ══════════════════════════════════════════ */
+        #season {
+            background: var(--snow);
+            color: var(--ink);
+            padding: 120px 6vw;
+            overflow: hidden;
+        }
+        .season-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        .season-eyebrow {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 16px;
+        }
+        .season-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+        .timeline-strip {
+            display: flex;
+            gap: 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        @media (max-width: 768px) { .timeline-strip { flex-direction: column; } }
+        .timeline-card {
+            flex: 1;
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .timeline-card.visible { opacity: 1; transform: none; }
+        .timeline-card:nth-child(2) { transition-delay: 0.12s; }
+        .timeline-card:nth-child(3) { transition-delay: 0.24s; }
+        .timeline-card:nth-child(4) { transition-delay: 0.36s; }
+        .tc-header {
+            padding: 24px 24px 0;
+        }
+        .tc-month {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--red);
+        }
+        .tc-event {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-top: 6px;
+            line-height: 1.1;
+        }
+        .tc-body {
+            padding: 16px 24px 24px;
+            font-size: 0.88rem;
+            font-weight: 400;
+            color: rgba(0,0,0,0.55);
+            line-height: 1.6;
+        }
+        .tc-result {
+            margin-top: 16px;
+            padding: 10px 14px;
+            background: rgba(211,47,47,0.06);
+            border-left: 3px solid var(--red);
+            border-radius: 0 6px 6px 0;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--red);
+        }
+
+        /* ══════════════════════════════════════════
+           6. CTA
+        ══════════════════════════════════════════ */
+        #cta {
+            min-height: 100vh;
+            background: var(--red);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 6vw;
+            position: relative;
+            overflow: hidden;
+        }
+        #cta::before {
+            content: 'KIN';
+            position: absolute;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 40vw;
+            font-weight: 900;
+            color: rgba(0,0,0,0.08);
+            line-height: 1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            user-select: none;
+        }
+        .cta-eyebrow {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .cta-headline {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(3rem, 9vw, 8rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 0.95;
+            margin-bottom: 32px;
+            position: relative;
+        }
+        .cta-sub {
+            font-size: clamp(1rem, 1.6vw, 1.2rem);
+            font-weight: 300;
+            color: rgba(255,255,255,0.75);
+            max-width: 560px;
+            line-height: 1.7;
+            margin-bottom: 56px;
+            position: relative;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 18px 48px;
+            background: #fff;
+            color: var(--red);
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 100px;
+            position: relative;
+            transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        box-shadow 0.25s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+        .cta-btn:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 20px 48px rgba(0,0,0,0.3);
+        }
+
+        /* ══════════════════════════════════════════
+           NAV (průhledná přes hero)
+        ══════════════════════════════════════════ */
+        #nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.4s ease, padding 0.4s ease;
+        }
+        #nav.scrolled {
+            background: rgba(13,13,13,0.92);
+            backdrop-filter: blur(16px);
+            padding: 14px 40px;
+        }
+        .nav-logo {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #fff;
+            text-decoration: none;
+        }
+        .nav-logo span { color: var(--gold); }
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+        .nav-links a {
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: #fff; }
+        @media (max-width: 600px) { .nav-links { display: none; } }
+
+        /* NOTE badge */
+        .koncept-badge {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--gold);
+            color: var(--ink);
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 8px 14px;
+            border-radius: 100px;
+            z-index: 200;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+    <a href="#" class="nav-logo">KIN <span>ČB</span></a>
+    <div class="nav-links">
+        <a href="#swimmers">Závodníci</a>
+        <a href="#stats">Výsledky</a>
+        <a href="#season">Sezóna</a>
+        <a href="#cta">Kontakt</a>
+    </div>
+</nav>
+
+<!-- 1. HERO -->
+<section id="hero">
+    <canvas id="hero-canvas"></canvas>
+    <img src="../images/logos/logo.png" class="hero-logo" alt="KIN">
+    <p class="hero-eyebrow">TJ KIN České Budějovice</p>
+    <h1 class="hero-headline">
+        <span class="line"><span>Plaveme</span></span>
+        <span class="line"><span>pro <em>vítězství</em></span></span>
+        <span class="line"><span>i pro radost</span></span>
+    </h1>
+    <p class="hero-sub">Jihočeský plavecký oddíl s tradicí od roku 1966</p>
+    <div class="scroll-hint">
+        <span>Scrolluj</span>
+        <div class="scroll-hint__line"></div>
+    </div>
+</section>
+
+<!-- 2. SWIMMER SHOWCASE -->
+<section id="swimmers">
+    <div id="swimmers-sticky">
+
+        <div class="swimmer-scene active" data-swimmer="0">
+            <div class="swimmer-photo">
+                <img src="../images/fotogalerie/2026/lmcrstz_26/lmcr_26_29.jpeg" alt="Ela Kubálková">
+                <div class="swimmer-photo__glow"></div>
+            </div>
+            <div class="swimmer-info">
+                <div class="swimmer-label">Závodnice roku 2026</div>
+                <h2 class="swimmer-name">Ela<br>Kubálková</h2>
+                <p class="swimmer-year">Ročník 2014</p>
+                <p class="swimmer-achievement">
+                    Letošní sezóna patřila Ele. Na Letním MČR srazila čas pod hranici rekordu České republiky – výkon, který nemá ve své věkové kategorii obdoby.
+                </p>
+                <span class="swimmer-badge">🥇 Rekord České republiky</span>
+            </div>
+            <div class="swimmer-number">01</div>
+        </div>
+
+        <div class="swimmer-scene" data-swimmer="1">
+            <div class="swimmer-photo">
+                <img src="../images/fotogalerie/2025/zmcr_pisek/zavod (15).jpg" alt="Zoe Tůmová" style="object-position: center 48%;">
+                <div class="swimmer-photo__glow"></div>
+            </div>
+            <div class="swimmer-info">
+                <div class="swimmer-label">Zlatá sezóna</div>
+                <h2 class="swimmer-name">Zoe<br>Tůmová</h2>
+                <p class="swimmer-year">Ročník 2014</p>
+                <p class="swimmer-achievement">
+                    Tři zlaté medaile na Letním MČR. Tři. Každý závod jiná trať, stejný výsledek – nejvýše na stupních vítězů.
+                </p>
+                <span class="swimmer-badge">🥇 3× zlatá na MČR</span>
+            </div>
+            <div class="swimmer-number">02</div>
+        </div>
+
+        <div class="swimmer-scene" data-swimmer="2">
+            <div class="swimmer-photo">
+                <img src="../images/sofie_odm26.jpeg" alt="Sofie Kubálková" style="object-fit: contain; background: #edddd8; object-position: center 38%;">
+                <div class="swimmer-photo__glow"></div>
+            </div>
+            <div class="swimmer-info">
+                <div class="swimmer-label">Olympiáda dětí a mládeže</div>
+                <h2 class="swimmer-name">Sofie<br>Kubálková</h2>
+                <p class="swimmer-year">Ročník 2012</p>
+                <p class="swimmer-achievement">
+                    Praha – Podolí, červen 2026. Čtyři starty za Jihočeský kraj na největší sportovní akci pro mládež v ČR. Sofie tam byla.
+                </p>
+                <span class="swimmer-badge">🏅 ODM 2026 – 4 disciplíny</span>
+            </div>
+            <div class="swimmer-number">03</div>
+        </div>
+
+        <div class="swimmers-progress">
+            <div class="swimmers-progress__dot active"></div>
+            <div class="swimmers-progress__dot"></div>
+            <div class="swimmers-progress__dot"></div>
+        </div>
+    </div>
+</section>
+
+<!-- 3. STATS -->
+<section id="stats">
+    <p class="stats-eyebrow">KIN v číslech</p>
+    <h2 class="stats-headline">Sezóna 2026</h2>
+    <div class="stats-grid">
+        <div class="stat-cell">
+            <span class="stat-number" data-target="50">0</span>
+            <span class="stat-label">závodníků</span>
+        </div>
+        <div class="stat-cell">
+            <span class="stat-number" data-target="18">0</span>
+            <span class="stat-label">závodů</span>
+        </div>
+        <div class="stat-cell">
+            <span class="stat-number" data-target="1">0</span>
+            <span class="stat-label">rekord ČR</span>
+        </div>
+        <div class="stat-cell">
+            <span class="stat-number" data-target="60">0<span class="stat-unit">+</span></span>
+            <span class="stat-label">let tradice</span>
+        </div>
+    </div>
+</section>
+
+<!-- 4. MANIFESTO -->
+<section id="manifesto">
+    <div id="manifesto-sticky">
+        <p class="manifesto-text" id="manifesto-words">
+            <span class="word">Každý</span>
+            <span class="word">metr</span>
+            <span class="word red">v bazénu</span>
+            <span class="word">je</span>
+            <span class="word">krok</span>
+            <span class="word">blíž</span>
+            <span class="word">ke</span>
+            <span class="word red">svému</span>
+            <span class="word">nejlepšímu</span>
+            <span class="word">výkonu.</span>
+            <span class="word">Tréninky,</span>
+            <span class="word">závody,</span>
+            <span class="word red">parta</span>
+            <span class="word">—</span>
+            <span class="word">to</span>
+            <span class="word">je</span>
+            <span class="word red">KIN.</span>
+        </p>
+    </div>
+</section>
+
+<!-- 5. SEASON TIMELINE -->
+<section id="season">
+    <div class="season-header">
+        <p class="season-eyebrow">Highlights sezóny</p>
+        <h2 class="season-title">Rok 2026</h2>
+    </div>
+    <div class="timeline-strip">
+        <div class="timeline-card">
+            <div class="tc-header">
+                <div class="tc-month">Únor 2026</div>
+                <div class="tc-event">Zimní MČR<br>Písek</div>
+            </div>
+            <div class="tc-body">
+                Sezóna startuje v kryté hale v Písku. KIN vyslal závodníky v celé šíři kategorií.
+                <div class="tc-result">Výrazné osobní rekordy napříč oddílem</div>
+            </div>
+        </div>
+        <div class="timeline-card">
+            <div class="tc-header">
+                <div class="tc-month">Červen 2026</div>
+                <div class="tc-event">ODM Praha<br>Podolí</div>
+            </div>
+            <div class="tc-body">
+                Sofie Kubálková reprezentuje Jihočeský kraj na Letní olympiádě dětí a mládeže v 50m bazénu.
+                <div class="tc-result">4 starty · 200M · 100M · 400PZ · 200PZ</div>
+            </div>
+        </div>
+        <div class="timeline-card">
+            <div class="tc-header">
+                <div class="tc-month">Červenec 2026</div>
+                <div class="tc-event">Letní MČR<br>Stuttgartská</div>
+            </div>
+            <div class="tc-body">
+                Vrchol sezóny. Ela překonává rekord ČR, Zoe slaví třikrát zlato. Historický výsledek oddílu.
+                <div class="tc-result">🥇 Rekord ČR – Ela Kubálková</div>
+            </div>
+        </div>
+        <div class="timeline-card">
+            <div class="tc-header">
+                <div class="tc-month">Září 2026</div>
+                <div class="tc-event">Krajský<br>přebor JHČ</div>
+            </div>
+            <div class="tc-body">
+                Uzavření sezóny na domácí vodě. Přehled výkonů a nominace na podzimní závody.
+                <div class="tc-result">Domácí prostředí, silné výkony</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 6. CTA -->
+<section id="cta">
+    <p class="cta-eyebrow">Přidej se k nám</p>
+    <h2 class="cta-headline">Začni<br>plavat<br>s KIN.</h2>
+    <p class="cta-sub">Jsme otevřený oddíl pro děti i dospělé. Závodní plavání, kondiční plavání, nebo jen dobrá parta — místo je pro každého.</p>
+    <a href="../kontakt.html" class="cta-btn">Chci vědět víc</a>
+</section>
+
+<div class="koncept-badge">Koncept 2030</div>
+
+<script>
+    /* ── NAV scroll ── */
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    /* ── HERO entrance ── */
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.querySelector('.hero-logo').classList.add('visible');
+            document.querySelector('.hero-eyebrow').classList.add('visible');
+            document.querySelector('.hero-headline').classList.add('visible');
+            document.querySelector('.hero-sub').classList.add('visible');
+            document.querySelector('.scroll-hint').classList.add('visible');
+        }, 200);
+    });
+
+    /* ── HERO canvas (water ripple) ── */
+    (function() {
+        const canvas = document.getElementById('hero-canvas');
+        const ctx = canvas.getContext('2d');
+        let W, H, t = 0;
+
+        function resize() {
+            W = canvas.width = canvas.offsetWidth;
+            H = canvas.height = canvas.offsetHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        function draw() {
+            ctx.clearRect(0, 0, W, H);
+            const lines = 18;
+            for (let i = 0; i < lines; i++) {
+                const y = (H / lines) * i + H / (lines * 2);
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                for (let x = 0; x <= W; x += 4) {
+                    const wave = Math.sin((x / W) * Math.PI * 6 + t + i * 0.4) * (8 + i * 0.5);
+                    ctx.lineTo(x, y + wave);
+                }
+                ctx.strokeStyle = `rgba(211, 47, 47, ${0.15 + i * 0.02})`;
+                ctx.lineWidth = 1.2;
+                ctx.stroke();
+            }
+            t += 0.012;
+            requestAnimationFrame(draw);
+        }
+        draw();
+    })();
+
+    /* ── SWIMMER SHOWCASE (scroll-driven) ── */
+    (function() {
+        const section = document.getElementById('swimmers');
+        const scenes = document.querySelectorAll('.swimmer-scene');
+        const dots = document.querySelectorAll('.swimmers-progress__dot');
+        let current = 0;
+
+        function update() {
+            const rect = section.getBoundingClientRect();
+            const scrollable = section.offsetHeight - window.innerHeight;
+            const progress = Math.max(0, Math.min(1, -rect.top / scrollable));
+            const idx = Math.min(scenes.length - 1, Math.floor(progress * scenes.length));
+
+            if (idx !== current) {
+                scenes[current].classList.remove('active');
+                scenes[current].classList.add('exit');
+                setTimeout(() => scenes[current].classList.remove('exit'), 600);
+                current = idx;
+                scenes[current].classList.add('active');
+                dots.forEach((d, i) => d.classList.toggle('active', i === current));
+            }
+        }
+
+        window.addEventListener('scroll', update, { passive: true });
+    })();
+
+    /* ── MANIFESTO word reveal ── */
+    (function() {
+        const section = document.getElementById('manifesto');
+        const words = document.querySelectorAll('.manifesto-text .word');
+
+        function update() {
+            const rect = section.getBoundingClientRect();
+            const scrollable = section.offsetHeight - window.innerHeight;
+            const progress = Math.max(0, Math.min(1, -rect.top / scrollable));
+            const litCount = Math.floor(progress * (words.length + 4));
+            words.forEach((w, i) => w.classList.toggle('lit', i < litCount));
+        }
+
+        window.addEventListener('scroll', update, { passive: true });
+    })();
+
+    /* ── STATS counter ── */
+    (function() {
+        const cells = document.querySelectorAll('[data-target]');
+        let done = false;
+
+        function countUp(el, target) {
+            const unit = el.querySelector('.stat-unit');
+            const unitText = unit ? unit.outerHTML : '';
+            let start = 0;
+            const duration = 1400;
+            const step = timestamp => {
+                if (!start) start = timestamp;
+                const p = Math.min((timestamp - start) / duration, 1);
+                const val = Math.round(p * target);
+                el.innerHTML = val + unitText;
+                if (p < 1) requestAnimationFrame(step);
+            };
+            requestAnimationFrame(step);
+        }
+
+        const observer = new IntersectionObserver(entries => {
+            if (done) return;
+            if (entries.some(e => e.isIntersecting)) {
+                done = true;
+                cells.forEach(el => countUp(el, +el.dataset.target));
+            }
+        }, { threshold: 0.4 });
+
+        cells.forEach(el => observer.observe(el));
+    })();
+
+    /* ── TIMELINE cards reveal ── */
+    (function() {
+        const cards = document.querySelectorAll('.timeline-card');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.15 });
+        cards.forEach(c => observer.observe(c));
+    })();
+</script>
+
+</body>
+</html>
