@@ -357,6 +357,30 @@ body.dark-mode .vzhled-volba:hover { background: rgba(255,255,255,0.08); }
     box-shadow: 0 8px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.12);
 }
 
+.pocitadla-header {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding-bottom: 16px;
+}
+.pocitadla-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--akcni-barva);
+    margin-bottom: 8px;
+}
+.pocitadla-nadpis {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #fff;
+    border: none;
+    margin: 0;
+    letter-spacing: 0.02em;
+}
+
 .pocitadlo {
     display: flex;
     flex-direction: column;
