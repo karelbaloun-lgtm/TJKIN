@@ -48,6 +48,22 @@
         .rek-tab tbody tr.kin-rekord .rec-name { color:var(--hlavni-barva); }
         .rec-club { color:var(--barva-textu-mute,#888); font-size:0.85em; white-space:nowrap; }
         .rec-yr   { color:var(--barva-textu-mute,#888); font-size:0.85em; white-space:nowrap; }
+
+        @media (max-width: 600px) {
+            .rek-tab { font-size: 0.8em; }
+            .rek-tab thead th { padding: 4px 4px 5px; }
+            .rek-tab tbody td { padding: 4px 4px; }
+            .rec-yr { display: none; }
+            .rec-club {
+                display: block;
+                font-size: 0.82em;
+                white-space: normal;
+                margin-top: 1px;
+            }
+            /* Klub teče pod jménem — sloučíme vizuálně do jednoho sloupce */
+            td.rec-club { padding-top: 0; border-bottom: none; }
+            td.rec-name { padding-bottom: 0; }
+        }
         .kin-badge { display:inline-block; margin-left:4px; background:var(--hlavni-barva); color:#fff; font-size:0.68em; font-weight:700; letter-spacing:0.04em; padding:1px 4px; border-radius:3px; vertical-align:middle; line-height:1.4; }
         .legenda { max-width:980px; margin:0 auto 16px; padding:0 16px; font-size:0.82em; color:var(--barva-textu-mute,#888); display:flex; align-items:center; gap:8px; }
         .legenda-box { display:inline-block; width:14px; height:14px; background:rgba(211,47,47,0.12); border-radius:2px; flex-shrink:0; }
