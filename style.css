@@ -2119,7 +2119,7 @@ body.maj-mode #hlavni-logo {
     align-items: center;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 768px) {
     .mob-nav { display: flex; }
     body { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
 }
