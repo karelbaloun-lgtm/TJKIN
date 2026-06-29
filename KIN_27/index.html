@@ -55,14 +55,15 @@
             text-decoration: none;
         }
         .nav-ring {
-            width: 38px; height: 38px;
-            border-radius: 50%;
-            border: 1.5px solid var(--gold);
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 14px; font-weight: 900;
-            color: var(--gold); letter-spacing: 1px;
+            width: 42px; height: 42px;
             flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .nav-ring img {
+            width: 42px; height: 42px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            opacity: 0.9;
         }
         .nav-name {
             font-family: 'Barlow Condensed', sans-serif;
@@ -118,18 +119,27 @@
             max-width: 860px;
         }
         .hero-eyebrow {
-            display: inline-flex; align-items: center; gap: 10px;
-            font-size: 10px; font-weight: 600;
-            letter-spacing: 0.28em; text-transform: uppercase;
-            color: var(--gold);
+            display: flex; flex-direction: column; align-items: center; gap: 14px;
             margin-bottom: 28px;
             opacity: 0; transform: translateY(16px);
             animation: au 0.8s 0.4s forwards;
         }
-        .hero-eyebrow::before,
-        .hero-eyebrow::after {
+        .hero-logo {
+            width: 72px; height: 72px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            opacity: 0.92;
+        }
+        .hero-eyebrow-text {
+            display: inline-flex; align-items: center; gap: 10px;
+            font-size: 10px; font-weight: 600;
+            letter-spacing: 0.28em; text-transform: uppercase;
+            color: var(--gold);
+        }
+        .hero-eyebrow-text::before,
+        .hero-eyebrow-text::after {
             content: '';
-            display: block; width: 28px; height: 1px;
+            display: block; width: 24px; height: 1px;
             background: rgba(251,192,45,0.45);
         }
         .hero-h1 {
@@ -513,7 +523,7 @@
 <!-- NAV -->
 <nav class="nav" id="mainNav">
     <a href="#" class="nav-logo">
-        <div class="nav-ring">KIN</div>
+        <div class="nav-ring"><img src="../images/logos/logo_original.png" alt="KIN"></div>
         <span class="nav-name">
             TJ KIN
             <small>České Budějovice</small>
@@ -533,7 +543,10 @@
     <canvas id="heroCanvas"></canvas>
     <div class="hero-vignette"></div>
     <div class="hero-content">
-        <div class="hero-eyebrow">TJ KIN České Budějovice · od roku 1951</div>
+        <div class="hero-eyebrow">
+            <img src="../images/logos/logo_original.png" alt="KIN" class="hero-logo">
+            <span class="hero-eyebrow-text">TJ KIN České Budějovice · od roku 1951</span>
+        </div>
         <h1 class="hero-h1">
             Plavání<br>je naše<br><em>posedlost.</em>
         </h1>
