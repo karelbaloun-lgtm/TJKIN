@@ -33,8 +33,68 @@
         }
 
         @media (max-width: 860px) {
-            .aktuality-layout { grid-template-columns: 1fr; padding: 24px 16px 48px; }
-            .aktuality-sidebar { display: none; }
+            .aktuality-layout {
+                grid-template-columns: 1fr;
+                padding: 0 0 48px;
+                gap: 0;
+            }
+            /* Sidebar nad články */
+            .aktuality-sidebar {
+                display: block !important;
+                order: -1;
+                position: static;
+            }
+            /* První karta = horizontální chip-lišta */
+            .aktuality-sidebar .sidebar-karta:first-child {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                align-items: center;
+                gap: 8px;
+                border-radius: 0;
+                box-shadow: none;
+                border: none;
+                border-bottom: 1px solid rgba(0,0,0,0.08);
+                border-top: 3px solid var(--hlavni-barva);
+                padding: 10px 16px;
+                margin-bottom: 0;
+                scrollbar-width: none;
+            }
+            .aktuality-sidebar .sidebar-karta:first-child::-webkit-scrollbar { display: none; }
+            body.dark-mode .aktuality-sidebar .sidebar-karta:first-child { border-bottom-color: #333; }
+            .aktuality-sidebar .sidebar-karta:first-child h4 {
+                flex-shrink: 0;
+                font-size: 0.68rem;
+                margin: 0;
+                padding: 0 8px 0 0;
+                border: none;
+                border-right: 1px solid rgba(0,0,0,0.12);
+                writing-mode: initial;
+                white-space: nowrap;
+            }
+            .aktuality-sidebar .sidebar-karta:first-child .sidebar-link {
+                flex-shrink: 0;
+                display: inline-flex;
+                align-items: center;
+                white-space: nowrap;
+                padding: 7px 14px;
+                min-height: 36px;
+                border: 1.5px solid rgba(211,47,47,0.35);
+                border-radius: 20px;
+                border-bottom: 1.5px solid rgba(211,47,47,0.35);
+                font-size: 0.8rem;
+                color: var(--hlavni-barva);
+            }
+            body.dark-mode .aktuality-sidebar .sidebar-karta:first-child .sidebar-link {
+                border-color: rgba(239,154,154,0.4);
+                color: #ef9a9a;
+            }
+            .aktuality-sidebar .sidebar-karta:first-child .sidebar-link .link-datum { display: none; }
+            /* Archiv karta na mobilu skryta */
+            .aktuality-sidebar .sidebar-karta:nth-child(2) { display: none; }
+            /* Hlavní obsah dostane odsazení */
+            .aktuality-clanky { padding: 24px 16px 0; }
         }
 
         /* ===== ARTICLE CARD ===== */
@@ -324,7 +384,7 @@
 
         .sidebar-link {
             display: block;
-            padding: 9px 0;
+            padding: 11px 0;
             border-bottom: 1px solid #f0f0f0;
             color: #333;
             text-decoration: none;
@@ -429,45 +489,6 @@
                 </div>
             </article>
 
-            <!-- ===================== ODM 2026 ===================== -->
-            <article class="clanek" id="odm-2026">
-                <img src="images/sofie_odm26.jpeg" class="clanek-hero" alt="Sofie Kubálková – Olympiáda dětí a mládeže 2026" style="max-height: 340px; object-fit: contain; background: #edddd8;">
-<div class="clanek-telo-wrap">
-                    <h2>Sofie míří na Olympiádu dětí a mládeže! Čtyři disciplíny za Jihočeský kraj</h2>
-                    <div class="meta-info">
-                        <span class="meta-datum">21.–25. června 2026</span>
-                        <span class="meta-misto">Praha</span>
-                        <span class="meta-akce">LODM 2026</span>
-                    </div>
-
-                    <p>
-                        Máme v klubu účastnici <strong>Letní olympiády dětí a mládeže 2026</strong>! Sofie Kubálková (roč. 2012) byla přijata do startovní listiny tohoto prestižního celostátního klání. Akce se koná <strong>21.–25. června 2026 v Praze</strong>, plavecké disciplíny jsou na programu <strong>22.–24. června</strong>. Sofie bude reprezentovat <strong>Jihočeský kraj (JHČ)</strong>.
-                    </p>
-
-                    <div style="background: #fff5f5; border-left: 4px solid var(--hlavni-barva); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 20px 0;">
-                        <strong style="display: block; margin-bottom: 10px; color: var(--hlavni-barva); font-size: 1.05em;">🏊 Sofie startuje ve čtyřech disciplínách:</strong>
-                        <ul style="margin: 0; padding-left: 20px; line-height: 2;">
-                            <li>100m Motýlek</li>
-                            <li>200m Motýlek</li>
-                            <li>200m Polohový závod</li>
-                            <li>400m Polohový závod</li>
-                        </ul>
-                    </div>
-
-                    <p>
-                        Olympiáda dětí a mládeže je největší celostátní sportovní akcí pro mládež v České republice. Na rozdíl od oddílových závodů zde závodnice <strong>nestartuje za KIN, ale přímo za Jihočeský kraj</strong> – stejně jako by reprezentovala svou zemi na olympijských hrách.
-                    </p>
-                    <p>
-                        Sofii držíme palce a věříme, že jihočeské barvy ponese se ctí! 🔵⚪
-                    </p>
-
-                    <p style="margin-top: 16px;">
-                        <a href="https://www.olympijskytym.cz/athlete/sofie-kubalkova" target="_blank" rel="noopener" class="tlacitko" style="font-size: 0.9em;">
-                            🏅 Profil Sofie na olympijskytym.cz
-                        </a>
-                    </p>
-                </div>
-            </article>
 
             <!-- ===================== PRAHA 2026 ===================== -->
             <article class="clanek" id="praha-2026" style="border-top-color: #d32f2f;">
