@@ -358,6 +358,8 @@
                     <th>Datum 📅</th>
                     <th>Název akce</th>
                     <th>Místo 📍</th>
+                    <th>Výsledky</th>
+                    <th>Článek</th>
                 </tr></thead>
                 <tbody id="tabulka-dalka"></tbody>
             </table>
@@ -708,11 +710,11 @@
 
             vykresliTabulku(zavodyJaro,   "tabulka-jaro",   true);
             vykresliTabulku(zavodyPodzim, "tabulka-podzim", true);
-            vykresliTabulku(zavodyDalka,  "tabulka-dalka",  false);
+            vykresliTabulku(zavodyDalka,  "tabulka-dalka",  true);
 
             vykresliKarty(zavodyJaro,   "karty-jaro",   "",       true);
             vykresliKarty(zavodyPodzim, "karty-podzim", "podzim", true);
-            vykresliKarty(zavodyDalka,  "karty-dalka",  "dalka",  false);
+            vykresliKarty(zavodyDalka,  "karty-dalka",  "dalka",  true);
         });
     </script>
     <div id="spolecna-paticka"></div>
