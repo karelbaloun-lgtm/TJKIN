@@ -7,6 +7,7 @@ function vlozMenu() {
     const jeVelikonoceMenu = dnesMenu >= new Date(rokMenu, 2, 30) && dnesMenu < new Date(rokMenu, 3, 7);
     const jeCarodejniceMenu = dnesMenu >= new Date(rokMenu, 3, 28) && dnesMenu < new Date(rokMenu, 4, 2);
     const jeMajMenu = dnesMenu >= new Date(rokMenu, 4, 1) && dnesMenu < new Date(rokMenu, 4, 3);
+    const jeMeziMostyMenu = dnesMenu < new Date(2026, 7, 9); // viditelné do 9. 8. 2026
 
     const menuHTML = `
     <nav>
@@ -15,6 +16,7 @@ function vlozMenu() {
             <a href="index.html">Úvod</a>
             <a href="aktuality.html">Aktuality</a>
             <a href="terminovka.html">Termínovka</a>
+            ${jeMeziMostyMenu ? `<a href="mezi_mosty.html" style="color:#ffd700;font-weight:700;">🌊 Mezi mosty</a>` : ''}
             <a href="fotogalerie.html">Galerie</a>
             <a href="historie.html">Rekordy & Historie</a>
             <a href="sponzori.html">Partneři</a>
@@ -542,6 +544,7 @@ document.addEventListener("DOMContentLoaded", function() {
    ========================================= */
 function vlozMobileNav() {
     const stranka = window.location.pathname.split('/').pop() || 'index.html';
+    const jeMeziMostyMob = new Date() < new Date(2026, 7, 9);
 
     const polozky = [
         {
@@ -556,6 +559,12 @@ function vlozMobileNav() {
             barva: '#fbc02d',
             ikona: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>`
         },
+        ...(jeMeziMostyMob ? [{
+            href: 'mezi_mosty.html',
+            label: 'Mezi mosty',
+            barva: '#0d47a1',
+            ikona: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="M2 12c2-4 4-6 6-6s4 4 6 4 4-4 6-4"/><path d="M2 17c2-1 4-2 6-2s4 2 6 2 4-2 6-2"/></svg>`
+        }] : []),
         {
             href: 'terminovka.html',
             label: 'Termínovka',
