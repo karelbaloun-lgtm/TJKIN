@@ -22,32 +22,45 @@
     <style>
         /* ── HERO ZÁVODU ─────────────────────────── */
         .mm-hero {
-            background: linear-gradient(135deg, #0d47a1 0%, #1565c0 35%, #0277bd 65%, #01579b 100%);
-            color: #fff;
-            padding: 48px 28px 36px;
-            text-align: center;
             position: relative;
+            min-height: 520px;
+            display: flex;
+            align-items: flex-end;
             overflow: hidden;
+            color: #fff;
         }
-        .mm-hero::before {
-            content: '~';
+        .mm-hero-foto {
             position: absolute;
-            font-size: 28rem;
-            font-weight: 900;
-            color: rgba(255,255,255,0.04);
-            top: -60px;
-            left: 50%;
-            transform: translateX(-50%);
-            pointer-events: none;
-            letter-spacing: -20px;
-            line-height: 1;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+        .mm-hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(0,0,0,0.05) 0%,
+                rgba(0,0,0,0.15) 40%,
+                rgba(0,0,0,0.72) 75%,
+                rgba(0,0,0,0.88) 100%
+            );
+        }
+        .mm-hero-obsah {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding: 40px 36px 44px;
+            text-align: center;
         }
         .mm-hero-rocnik {
             font-size: 0.78em;
             font-weight: 700;
             letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.7);
+            color: rgba(255,255,255,0.75);
             margin-bottom: 10px;
         }
         .mm-hero-nadpis {
@@ -62,13 +75,15 @@
             border: none;
             background: none;
             -webkit-text-fill-color: #fff;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.5);
         }
         .mm-hero-rok {
             font-family: 'Barlow Condensed', sans-serif;
             font-size: clamp(1.6rem, 4vw, 2.6rem);
             font-weight: 700;
-            color: rgba(255,255,255,0.7);
+            color: rgba(255,255,255,0.8);
             letter-spacing: 0.1em;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
         }
         .mm-hero-datum {
             display: inline-block;
@@ -76,15 +91,17 @@
             font-size: 1.05em;
             font-weight: 600;
             background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.25);
+            border: 1px solid rgba(255,255,255,0.3);
             border-radius: 8px;
             padding: 8px 20px;
             letter-spacing: 0.04em;
+            backdrop-filter: blur(4px);
         }
         .mm-hero-misto {
             margin-top: 10px;
             font-size: 0.93em;
-            opacity: 0.8;
+            opacity: 0.85;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.5);
         }
 
         /* ── AKCE TLAČÍTKA ────────────────────────── */
@@ -491,6 +508,9 @@
 
         <!-- HERO -->
         <div class="mm-hero odkryt-na-scroll">
+            <img src="images/mezi_mosty_2026_plakat.jpg" alt="Plakát závodu Mezi mosty 2026" class="mm-hero-foto">
+            <div class="mm-hero-overlay"></div>
+            <div class="mm-hero-obsah">
             <p class="mm-hero-rocnik">V. ročník</p>
             <h2 class="mm-hero-nadpis">Mezi mosty</h2>
             <p class="mm-hero-rok">města České Budějovice</p>
@@ -506,6 +526,7 @@
                     Plakát (PDF)
                 </a>
             </div>
+            </div><!-- /mm-hero-obsah -->
         </div>
 
         <div class="mm-sekce">
