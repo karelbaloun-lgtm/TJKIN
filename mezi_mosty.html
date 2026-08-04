@@ -779,24 +779,32 @@
                             const doc = parser.parseFromString(html, 'text/html');
                             // Najdi tabulku s daty (obsahuje "Datum a čas")
                             const tables = doc.querySelectorAll('table');
-                            let dataRow = null, casStr = '';
-                            for (const tbl of tables) {
+                            let dataRow = null, casStr = '', colOffset = 0;
+                            outer: for (const tbl of tables) {
                                 const rows = tbl.querySelectorAll('tr');
                                 for (const row of rows) {
                                     const cells = row.querySelectorAll('td');
-                                    if (cells.length >= 4 && cells[0].textContent.match(/\d{2}\.\d{2}\.\d{4}/)) {
-                                        dataRow = cells;
-                                        casStr = cells[0].textContent.trim();
-                                        break;
+                                    for (let i = 0; i < cells.length; i++) {
+                                        const txt = cells[i].textContent.trim();
+                                        if (txt.match(/^\d{2}\.\d{2}\.\d{4}/) && cells.length >= i + 4) {
+                                            dataRow = cells;
+                                            colOffset = i;
+                                            casStr = txt;
+                                            // čas může být ve zvláštní buňce
+                                            if (i + 1 < cells.length && cells[i+1].textContent.trim().match(/^\d{2}:\d{2}/)) {
+                                                casStr += ' ' + cells[i+1].textContent.trim();
+                                                colOffset++;
+                                            }
+                                            break outer;
+                                        }
                                     }
                                 }
-                                if (dataRow) break;
                             }
                             if (!dataRow) { document.getElementById('vltava-nacitani').textContent = 'Data nejsou dostupná.'; return; }
 
-                            const stav = parseFloat(dataRow[1].textContent) || '–';
-                            const prutok = parseFloat(dataRow[2].textContent) || '–';
-                            const teplota = parseFloat(dataRow[3].textContent);
+                            const stav = parseFloat(dataRow[colOffset+1].textContent) || '–';
+                            const prutok = parseFloat(dataRow[colOffset+2].textContent) || '–';
+                            const teplota = parseFloat(dataRow[colOffset+3].textContent);
 
                             let teplClass = 'prijemno';
                             if (!isNaN(teplota)) {
