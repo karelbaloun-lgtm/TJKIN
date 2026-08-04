@@ -705,24 +705,123 @@
             </div>
 
             <!-- STAV VLTAVY -->
-            <div class="mm-karta odkryt-na-scroll">
+            <div class="mm-karta odkryt-na-scroll" id="vltava-widget">
                 <h3 class="mm-karta-nadpis">Aktuální stav Vltavy</h3>
-                <p style="font-size:0.88em;color:var(--barva-textu-mute);margin:0 0 14px;">Živá data ČHMÚ – stav vody, průtok a teplota v Českých Budějovicích (aktualizace každých 10 min).</p>
-                <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(0,0,0,0.08);">
-                    <iframe
-                        src="https://hydro.chmi.cz/hppsoldv/popup_hpps_prfdyn.php?seq=307049"
-                        width="100%"
-                        height="680"
-                        frameborder="0"
-                        scrolling="auto"
-                        title="Stav Vltavy – České Budějovice (ČHMÚ)"
-                        style="display:block;background:#fff;">
-                    </iframe>
+                <div id="vltava-data">
+                    <div id="vltava-nacitani" style="text-align:center;padding:24px;color:var(--barva-textu-mute);font-size:0.92em;">Načítám data…</div>
                 </div>
-                <p style="font-size:0.78em;color:var(--barva-textu-mute);margin:8px 0 0;text-align:right;">
-                    Zdroj: <a href="https://hydro.chmi.cz/hppsoldv/popup_hpps_prfdyn.php?seq=307049" target="_blank" style="color:var(--hlavni-barva);">Český hydrometeorologický ústav</a>
+                <p style="font-size:0.78em;color:var(--barva-textu-mute);margin:12px 0 0;text-align:right;">
+                    Zdroj: <a href="https://hydro.chmi.cz/hppsoldv/popup_hpps_prfdyn.php?seq=307049" target="_blank" style="color:var(--hlavni-barva);">ČHMÚ – stanice České Budějovice</a>
                 </p>
             </div>
+            <style>
+                .vltava-grid {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 14px;
+                    margin-bottom: 16px;
+                }
+                .vltava-tile {
+                    background: var(--zebra-radek);
+                    border-radius: 10px;
+                    padding: 16px 14px;
+                    text-align: center;
+                }
+                .vltava-tile-label {
+                    font-size: 0.72em;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: 0.08em;
+                    color: var(--barva-textu-mute);
+                    opacity: 0.7;
+                    margin-bottom: 6px;
+                }
+                .vltava-tile-hodnota {
+                    font-family: 'Barlow Condensed', sans-serif;
+                    font-size: 2rem;
+                    font-weight: 800;
+                    line-height: 1;
+                    color: var(--barva-textu);
+                }
+                .vltava-tile-hodnota.teplo { color: #e65100; }
+                .vltava-tile-hodnota.prijemno { color: #2e7d32; }
+                .vltava-tile-hodnota.chladno { color: #1565c0; }
+                .vltava-tile-jednotka {
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    opacity: 0.6;
+                    margin-left: 2px;
+                }
+                .vltava-cas {
+                    font-size: 0.8em;
+                    color: var(--barva-textu-mute);
+                    text-align: center;
+                }
+                @media (max-width: 500px) {
+                    .vltava-grid { grid-template-columns: 1fr 1fr; }
+                    .vltava-grid .vltava-tile:last-child { grid-column: 1 / -1; }
+                }
+            </style>
+            <script>
+            (function() {
+                function nactiVltavu() {
+                    fetch('/chmi-vltava')
+                        .then(r => r.text())
+                        .then(html => {
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(html, 'text/html');
+                            // Najdi tabulku s daty (obsahuje "Datum a čas")
+                            const tables = doc.querySelectorAll('table');
+                            let dataRow = null, casStr = '';
+                            for (const tbl of tables) {
+                                const rows = tbl.querySelectorAll('tr');
+                                for (const row of rows) {
+                                    const cells = row.querySelectorAll('td');
+                                    if (cells.length >= 4 && cells[0].textContent.match(/\d{2}\.\d{2}\.\d{4}/)) {
+                                        dataRow = cells;
+                                        casStr = cells[0].textContent.trim();
+                                        break;
+                                    }
+                                }
+                                if (dataRow) break;
+                            }
+                            if (!dataRow) { document.getElementById('vltava-nacitani').textContent = 'Data nejsou dostupná.'; return; }
+
+                            const stav = parseFloat(dataRow[1].textContent) || '–';
+                            const prutok = parseFloat(dataRow[2].textContent) || '–';
+                            const teplota = parseFloat(dataRow[3].textContent);
+
+                            let teplClass = 'prijemno';
+                            if (!isNaN(teplota)) {
+                                if (teplota >= 23) teplClass = 'teplo';
+                                else if (teplota < 18) teplClass = 'chladno';
+                            }
+
+                            document.getElementById('vltava-data').innerHTML = `
+                                <div class="vltava-grid">
+                                    <div class="vltava-tile">
+                                        <div class="vltava-tile-label">Teplota vody</div>
+                                        <div class="vltava-tile-hodnota ${teplClass}">${isNaN(teplota) ? '–' : teplota.toFixed(1)}<span class="vltava-tile-jednotka">°C</span></div>
+                                    </div>
+                                    <div class="vltava-tile">
+                                        <div class="vltava-tile-label">Stav vody</div>
+                                        <div class="vltava-tile-hodnota">${stav}<span class="vltava-tile-jednotka">cm</span></div>
+                                    </div>
+                                    <div class="vltava-tile">
+                                        <div class="vltava-tile-label">Průtok</div>
+                                        <div class="vltava-tile-hodnota">${prutok}<span class="vltava-tile-jednotka">m³/s</span></div>
+                                    </div>
+                                </div>
+                                <p class="vltava-cas">Měřeno: ${casStr} · <a href="https://hydro.chmi.cz/hppsoldv/popup_hpps_prfdyn.php?seq=307049" target="_blank" style="color:var(--hlavni-barva);">Celá tabulka →</a></p>
+                            `;
+                        })
+                        .catch(() => {
+                            document.getElementById('vltava-nacitani').textContent = 'Data se nepodařilo načíst.';
+                        });
+                }
+                document.addEventListener('DOMContentLoaded', nactiVltavu);
+            })();
+            </script>
 
             <!-- PŘIHLÁŠENÍ -->
             <div class="mm-karta odkryt-na-scroll">
