@@ -438,6 +438,10 @@
                             Přihlásit se
                         </a>
                     </div>
+                    <!-- Stav Vltavy -->
+                    <div id="hp-vltava" style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
+                        <div style="font-size:0.78em;color:rgba(255,255,255,0.5);align-self:center;">Načítám stav Vltavy…</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -450,17 +454,6 @@
         })();
         </script>
 
-        <article class="hp-clanek odkryt-na-scroll highlight-clanek">
-            <img src="images/sofie_odm26.jpeg" alt="Sofie Kubálková – ODM 2026" style="width: 100%; height: 220px; object-fit: contain; background: #edddd8; border-radius: 8px; margin-bottom: 14px; display: block;">
-            <span class="hp-datum">🏅 22.–24. června 2026 · Praha – Podolí</span>
-            <h3>Sofie na ODM 2026: čtyři starty za Jihočeský kraj</h3>
-            <p>
-                Sofie Kubálková (roč. 2012) odplavalaplavala plaveckou část Letní olympiády dětí a mládeže v Podolí a absolvovala všechny čtyři disciplíny – 100m a 200m Motýlek, 200m a 400m Polohový závod.
-            </p>
-            <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
-                <a href="aktuality.html#odm-vysledky-2026" class="tlacitko">Výsledky →</a>
-            </div>
-        </article>
 
 
             <section class="nabor-sekce odkryt-na-scroll">
@@ -608,6 +601,55 @@
             `;
         })
         .catch(() => {});
+    </script>
+
+    <script>
+    (function() {
+        function nactiHpVltavu() {
+            var el = document.getElementById('hp-vltava');
+            if (!el) return;
+            fetch('/chmi-vltava')
+                .then(function(r) { return r.text(); })
+                .then(function(html) {
+                    var parser = new DOMParser();
+                    var doc = parser.parseFromString(html, 'text/html');
+                    var tables = doc.querySelectorAll('table');
+                    var dataRow = null, colOffset = 0;
+                    outer: for (var t = 0; t < tables.length; t++) {
+                        var rows = tables[t].querySelectorAll('tr');
+                        for (var r = 0; r < rows.length; r++) {
+                            var cells = rows[r].querySelectorAll('td');
+                            for (var i = 0; i < cells.length; i++) {
+                                var txt = cells[i].textContent.trim();
+                                if (txt.match(/^\d{2}\.\d{2}\.\d{4}/) && cells.length >= i + 4) {
+                                    dataRow = cells;
+                                    colOffset = i;
+                                    if (i + 1 < cells.length && cells[i+1].textContent.trim().match(/^\d{2}:\d{2}/)) colOffset++;
+                                    break outer;
+                                }
+                            }
+                        }
+                    }
+                    if (!dataRow) { el.innerHTML = ''; return; }
+                    var stav = parseFloat(dataRow[colOffset+1].textContent) || '–';
+                    var prutok = parseFloat(dataRow[colOffset+2].textContent) || '–';
+                    var teplota = parseFloat(dataRow[colOffset+3].textContent);
+                    var teplColor = isNaN(teplota) ? '#fff' : (teplota >= 23 ? '#ffab40' : (teplota < 18 ? '#82b1ff' : '#a5d6a7'));
+                    var tile = function(label, val, unit) {
+                        return '<div style="background:rgba(255,255,255,0.12);border-radius:8px;padding:8px 14px;text-align:center;min-width:80px;">'
+                            + '<div style="font-size:0.65em;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.55);margin-bottom:2px;">' + label + '</div>'
+                            + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:1.35rem;font-weight:800;line-height:1;color:' + (label === 'Teplota vody' ? teplColor : '#fff') + ';">' + val + '<span style="font-size:0.6em;opacity:0.7;margin-left:1px;">' + unit + '</span></div>'
+                            + '</div>';
+                    };
+                    el.innerHTML = tile('Teplota vody', isNaN(teplota) ? '–' : teplota.toFixed(1), '°C')
+                        + tile('Stav vody', stav, 'cm')
+                        + tile('Průtok', prutok, 'm³/s');
+                })
+                .catch(function() { document.getElementById('hp-vltava').innerHTML = ''; });
+        }
+        document.addEventListener('DOMContentLoaded', nactiHpVltavu);
+        setInterval(nactiHpVltavu, 60 * 60 * 1000);
+    })();
     </script>
 
     <div id="modal-whatsapp" class="modal-overlay" style="display: none;">
