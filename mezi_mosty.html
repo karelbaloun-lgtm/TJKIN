@@ -568,7 +568,10 @@
 
             <!-- STAV VLTAVY -->
             <div class="mm-karta odkryt-na-scroll" id="vltava-widget">
-                <h3 class="mm-karta-nadpis">Aktuální stav Vltavy</h3>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:0;">
+                    <h3 class="mm-karta-nadpis" style="margin:0;">Aktuální stav Vltavy</h3>
+                    <button id="vltava-refresh" onclick="nactiVltavu()" title="Obnovit data" style="background:none;border:1px solid var(--hlavni-barva);color:var(--hlavni-barva);border-radius:6px;padding:4px 10px;font-size:0.8em;cursor:pointer;flex-shrink:0;">↻ Obnovit</button>
+                </div>
                 <div id="vltava-data">
                     <div id="vltava-nacitani" style="text-align:center;padding:24px;color:var(--barva-textu-mute);font-size:0.92em;">Načítám data…</div>
                 </div>
@@ -773,7 +776,7 @@
             </style>
             <script>
             (function() {
-                function nactiVltavu() {
+                window.nactiVltavu = function nactiVltavu() {
                     fetch('/chmi-vltava')
                         .then(r => r.text())
                         .then(html => {
