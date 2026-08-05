@@ -441,8 +441,8 @@
                 </div>
             </div>
             <!-- Stav Vltavy – pod plakátem -->
-            <div id="hp-vltava" style="margin-top:10px;margin-bottom:32px;background:linear-gradient(135deg,#0d47a1 0%,#1565c0 60%,#1976d2 100%);border-radius:14px;padding:20px 24px;color:#fff;box-shadow:0 4px 20px rgba(13,71,161,0.3);">
-                <div style="font-size:0.8em;color:rgba(255,255,255,0.6);">Načítám stav Vltavy…</div>
+            <div id="hp-vltava" style="margin-top:10px;margin-bottom:32px;background:var(--pozadi-obsahu);border-radius:12px;border:1px solid rgba(0,0,0,0.06);border-top:4px solid var(--hlavni-barva);padding:20px 24px;box-shadow:0 2px 14px rgba(0,0,0,0.06);">
+                <div style="font-size:0.85em;color:var(--barva-textu-mute);">Načítám stav Vltavy…</div>
             </div>
         </div>
         <script>
@@ -634,32 +634,32 @@
                     var stav = parseFloat(dataRow[colOffset+1].textContent) || '–';
                     var prutok = parseFloat(dataRow[colOffset+2].textContent) || '–';
                     var teplota = parseFloat(dataRow[colOffset+3].textContent);
-                    var teplBadge = isNaN(teplota) ? '' : (teplota >= 23 ? '🔥 Teplá' : (teplota < 18 ? '🥶 Studená' : '✅ Příjemná'));
-                    var teplValueColor = isNaN(teplota) ? '#fff' : (teplota >= 23 ? '#ffcc02' : (teplota < 18 ? '#90caf9' : '#a5d6a7'));
+                    var teplBadge = isNaN(teplota) ? '' : (teplota >= 23 ? 'Teplá' : (teplota < 18 ? 'Studená' : 'Příjemná'));
+                    var teplColor = isNaN(teplota) ? 'var(--barva-textu)' : (teplota >= 23 ? '#d32f2f' : (teplota < 18 ? '#1565c0' : '#2e7d32'));
                     var tile = function(label, val, unit) {
-                        return '<div style="flex:1;min-width:80px;text-align:center;padding:0 12px;border-left:1px solid rgba(255,255,255,0.15);">'
-                            + '<div style="font-size:0.6em;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.55);margin-bottom:4px;">' + label + '</div>'
-                            + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:1.7rem;font-weight:900;line-height:1;color:#fff;">' + val + '<span style="font-size:0.5em;opacity:0.65;margin-left:2px;">' + unit + '</span></div>'
+                        return '<div style="flex:1;min-width:80px;text-align:center;padding:0 16px;border-left:1px solid rgba(0,0,0,0.08);">'
+                            + '<div style="font-size:0.6em;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--barva-textu-mute);margin-bottom:4px;">' + label + '</div>'
+                            + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:1.8rem;font-weight:900;line-height:1;color:var(--barva-textu);">' + val + '<span style="font-size:0.45em;opacity:0.5;margin-left:2px;">' + unit + '</span></div>'
                             + '</div>';
                     };
-                    el.innerHTML = '<div style="display:flex;align-items:center;gap:0;width:100;">'
-                        + '<div style="flex-shrink:0;padding-right:16px;">'
-                        +   '<div style="display:flex;align-items:center;gap:7px;margin-bottom:4px;">'
-                        +     '<span style="width:8px;height:8px;border-radius:50%;background:#4fc3f7;display:inline-block;animation:pulse-dot 2s ease-in-out infinite;flex-shrink:0;"></span>'
-                        +     '<span style="font-size:0.65em;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.7);">Stav Vltavy</span>'
+                    el.innerHTML = '<div style="display:flex;align-items:center;gap:0;flex-wrap:wrap;row-gap:12px;">'
+                        + '<div style="flex-shrink:0;padding-right:20px;">'
+                        +   '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">'
+                        +     '<span style="width:7px;height:7px;border-radius:50%;background:var(--hlavni-barva);display:inline-block;animation:pulse-dot 2s ease-in-out infinite;flex-shrink:0;"></span>'
+                        +     '<span style="font-size:0.6em;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--barva-textu-mute);">Aktuální stav Vltavy</span>'
                         +   '</div>'
-                        +   '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:2.6rem;font-weight:900;line-height:1;color:' + teplValueColor + ';">'
-                        +     (isNaN(teplota) ? '–' : teplota.toFixed(1)) + '<span style="font-size:0.4em;opacity:0.8;">°C</span>'
+                        +   '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:2.8rem;font-weight:900;line-height:1;color:' + teplColor + ';">'
+                        +     (isNaN(teplota) ? '–' : teplota.toFixed(1)) + '<span style="font-size:0.38em;opacity:0.7;margin-left:2px;">°C</span>'
                         +   '</div>'
-                        +   (teplBadge ? '<div style="font-size:0.7em;color:rgba(255,255,255,0.6);margin-top:2px;">' + teplBadge + '</div>' : '')
+                        +   (teplBadge ? '<div style="font-size:0.72em;color:' + teplColor + ';font-weight:600;margin-top:1px;">🌊 ' + teplBadge + '</div>' : '')
                         + '</div>'
                         + tile('Výška hladiny', stav, 'cm')
                         + tile('Průtok', prutok, 'm³/s')
-                        + '<div style="flex-shrink:0;padding-left:14px;border-left:1px solid rgba(255,255,255,0.15);text-align:right;">'
-                        +   '<a href="mezi_mosty.html#vltava-widget" style="font-size:0.7em;color:rgba(255,255,255,0.55);text-decoration:none;white-space:nowrap;">Detail →</a>'
+                        + '<div style="flex-shrink:0;padding-left:16px;border-left:1px solid rgba(0,0,0,0.08);align-self:center;">'
+                        +   '<a href="mezi_mosty.html" style="font-size:0.75em;color:var(--hlavni-barva);text-decoration:none;font-weight:600;white-space:nowrap;">Detail →</a>'
                         + '</div>'
                         + '</div>'
-                        + '<style>@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(1.4);}}</style>';
+                        + '<style>@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(1.5);}}</style>';
                 })
                 .catch(function() { document.getElementById('hp-vltava').innerHTML = ''; });
         }
