@@ -614,7 +614,7 @@
                     var parser = new DOMParser();
                     var doc = parser.parseFromString(html, 'text/html');
                     var tables = doc.querySelectorAll('table');
-                    var dataRow = null, colOffset = 0;
+                    var dataRow = null, colOffset = 0, casStr = '';
                     outer: for (var t = 0; t < tables.length; t++) {
                         var rows = tables[t].querySelectorAll('tr');
                         for (var r = 0; r < rows.length; r++) {
@@ -624,7 +624,11 @@
                                 if (txt.match(/^\d{2}\.\d{2}\.\d{4}/) && cells.length >= i + 4) {
                                     dataRow = cells;
                                     colOffset = i;
-                                    if (i + 1 < cells.length && cells[i+1].textContent.trim().match(/^\d{2}:\d{2}/)) colOffset++;
+                                    casStr = txt;
+                                    if (i + 1 < cells.length && cells[i+1].textContent.trim().match(/^\d{2}:\d{2}/)) {
+                                        casStr += ' ' + cells[i+1].textContent.trim();
+                                        colOffset++;
+                                    }
                                     break outer;
                                 }
                             }
@@ -644,14 +648,10 @@
                     };
                     el.innerHTML = '<div style="display:flex;align-items:center;gap:0;flex-wrap:wrap;row-gap:12px;">'
                         + '<div style="flex-shrink:0;padding-right:20px;">'
-                        +   '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">'
-                        +     '<span style="width:7px;height:7px;border-radius:50%;background:var(--hlavni-barva);display:inline-block;animation:pulse-dot 2s ease-in-out infinite;flex-shrink:0;"></span>'
-                        +     '<span style="font-size:0.6em;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--barva-textu-mute);">Aktuální stav Vltavy</span>'
-                        +   '</div>'
                         +   '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:2.8rem;font-weight:900;line-height:1;color:' + teplColor + ';">'
                         +     (isNaN(teplota) ? '–' : teplota.toFixed(1)) + '<span style="font-size:0.38em;opacity:0.7;margin-left:2px;">°C</span>'
                         +   '</div>'
-                        +   (teplBadge ? '<div style="font-size:0.72em;color:' + teplColor + ';font-weight:600;margin-top:1px;">🌊 ' + teplBadge + '</div>' : '')
+                        +   (teplBadge ? '<div style="font-size:0.72em;color:' + teplColor + ';font-weight:600;margin-top:2px;">🌊 ' + teplBadge + '</div>' : '')
                         + '</div>'
                         + tile('Výška hladiny', stav, 'cm')
                         + tile('Průtok', prutok, 'm³/s')
@@ -659,7 +659,7 @@
                         +   '<a href="mezi_mosty.html" style="font-size:0.75em;color:var(--hlavni-barva);text-decoration:none;font-weight:600;white-space:nowrap;">Detail →</a>'
                         + '</div>'
                         + '</div>'
-                        + '<style>@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(1.5);}}</style>';
+                        + (casStr ? '<div style="margin-top:10px;font-size:0.72em;color:#aaa;">data platná k ' + casStr + '</div>' : '');
                 })
                 .catch(function() { document.getElementById('hp-vltava').innerHTML = ''; });
         }
