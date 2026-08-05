@@ -640,7 +640,7 @@
                             }
                         }
                     }
-                    if (!dataRow) { el.innerHTML = ''; return; }
+                    if (!dataRow) { el.style.display = 'none'; return; }
                     var stav = parseFloat(dataRow[colOffset+1].textContent) || '–';
                     var prutok = parseFloat(dataRow[colOffset+2].textContent) || '–';
                     var teplota = parseFloat(dataRow[colOffset+3].textContent);
@@ -667,7 +667,7 @@
                         + '</div>'
                         + (casStr ? '<div style="margin-top:10px;font-size:0.72em;color:#aaa;">data platná k ' + casStr + '</div>' : '');
                 })
-                .catch(function() { document.getElementById('hp-vltava').innerHTML = ''; });
+                .catch(function() { var e = document.getElementById('hp-vltava'); if (e) e.style.display = 'none'; });
         }
         nactiHpVltavu();
         setInterval(nactiHpVltavu, 60 * 60 * 1000);
