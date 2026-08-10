@@ -11,7 +11,16 @@ const GALERIE = {
         misto: "Sokolský ostrov, České Budějovice",
         slozka: "images/fotogalerie/2026/mezi_mosty_26/",
         fotky: [
-            // sem přidej názvy souborů po nahrání fotek do složky
+            "1000022570.jpg",
+            "1000022571.jpg",
+            "1000022572.jpg",
+            "1000022573.jpg",
+            "1000022582.jpg",
+            "1000022601.jpg",
+            "1000022605.jpg",
+            "1000022608.jpg",
+            "1000022613.jpg",
+            "1000022617.jpg"
         ],
         popisek: "V. ročník závodu v plavání na otevřené vodě Mezi mosty – soutok Vltavy a Malše, Sokolský ostrov.",
         video: null
