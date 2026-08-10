@@ -5,6 +5,18 @@
    ========================================= */
 const GALERIE = {
 
+    mezi_mosty_26: {
+        nazev: "Mezi mosty 2026",
+        datum: "8.8.2026",
+        misto: "Sokolský ostrov, České Budějovice",
+        slozka: "images/fotogalerie/2026/mezi_mosty_26/",
+        fotky: [
+            // sem přidej názvy souborů po nahrání fotek do složky
+        ],
+        popisek: "V. ročník závodu v plavání na otevřené vodě Mezi mosty – soutok Vltavy a Malše, Sokolský ostrov.",
+        video: null
+    },
+
     praha_26: {
         nazev: "Praha 2026",
         datum: "13.6.2026",
