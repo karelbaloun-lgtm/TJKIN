@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
@@ -22,219 +22,191 @@
     <link rel="stylesheet" href="style.css">
     <style>
         /* =========================================
-           TERMÍNOVKA – lokální styly
+           TERMÍNOVKA – lokální styly (Varianta C)
            ========================================= */
 
-        /* Legenda ikon */
-        .term-legenda {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            background: var(--zebra-radek);
-            border-radius: 10px;
-            padding: 16px 20px;
-            margin: 0 0 16px;
-            font-size: 0.88em;
-            color: #555;
-        }
-        .term-legenda span { display: flex; align-items: center; gap: 6px; }
-
-        /* Upozornění ČSPS */
         .term-upozorneni {
             text-align: center;
             font-size: 0.88em;
             font-style: italic;
             color: #888;
-            margin-bottom: 44px;
+            margin-bottom: 36px;
         }
         .term-upozorneni a { color: var(--hlavni-barva); font-weight: 600; }
 
-        /* Nadpis sekce */
-        .term-sekce-nadpis {
+        /* Sekce */
+        .term-sekce {
+            background: var(--pozadi-obsahu);
+            border-radius: 14px;
+            border: 1px solid rgba(0,0,0,0.07);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .term-sekce-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(211,47,47,0.05);
+        }
+        .term-sekce-header.dalka  { background: rgba(192,88,26,0.06); }
+        .term-sekce-header.podzim { background: rgba(122,90,40,0.06); }
+
+        .term-sekce-pill {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.05em;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: var(--hlavni-barva);
+        }
+        .term-sekce-pill.dalka { color: #c0581a; }
+        .term-sekce-pill.podzim { color: #7a5a28; }
+
+        .term-sekce-sub {
+            font-size: 0.82em;
+            color: #999;
+            margin-left: 4px;
+        }
+
+        /* Měsíční nadpisy */
+        .term-mesic {
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #bbb;
+            padding: 10px 20px 4px;
+        }
+        .term-mesic:first-child { padding-top: 14px; }
+
+        /* Řádky závodu */
+        .term-item {
             display: flex;
             align-items: center;
             gap: 14px;
-            margin: 48px 0 20px;
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 1.4em;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #ffffff;
-            background: linear-gradient(135deg, #111827 0%, #1c0a0a 100%);
-            padding: 14px 22px;
-            border-radius: 10px;
-            border-bottom: none;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        }
-        .term-sekce-nadpis.dalka {
-            background: linear-gradient(135deg, #1a0e00 0%, #2c1800 100%);
-            color: #ffb74d;
-        }
-        .term-sekce-nadpis.podzim {
-            background: linear-gradient(135deg, #1a1400 0%, #2a2000 100%);
-            color: #ffe082;
-        }
-
-        /* ---- TABULKA desktop ---- */
-        .term-tabulka-wrap {
-            overflow-x: auto;
-            margin-bottom: 8px;
-            border-radius: 12px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-        .term-tabulka {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.95em;
-        }
-        .term-tabulka thead tr {
-            background: var(--hlavni-barva);
-            color: white;
-        }
-        .term-tabulka thead th {
-            padding: 12px 14px;
-            text-align: left;
-            font-family: 'Barlow Condensed', sans-serif;
-            font-weight: 700;
-            font-size: 1em;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-        .term-tabulka.dalka thead tr { background: #c0581a; }
-        .term-tabulka.podzim thead tr { background: #7a5a28; }
-
-        .term-tabulka tbody tr {
-            border-bottom: 1px solid rgba(0,0,0,0.06);
+            padding: 10px 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
             transition: background 0.15s;
         }
-        .term-tabulka tbody tr:hover { background: var(--zebra-radek); }
-        .term-tabulka tbody td {
-            padding: 11px 14px;
-            vertical-align: middle;
-            line-height: 1.4;
-        }
+        .term-item:last-child { border-bottom: none; }
+        .term-item:hover { background: var(--zebra-radek); }
 
-        /* Datum klik */
-        .datum-klik {
+        .term-item.minuly .term-datum {
+            color: #ccc;
+        }
+        .term-item.minuly .term-nazev {
+            color: #bbb;
+        }
+        .term-item.minuly .term-misto,
+        .term-item.minuly .term-misto a {
+            color: #ddd;
+        }
+        .term-item.minuly .term-dot {
+            opacity: 0.3;
+        }
+        .term-item.minuly .term-akce {
+            opacity: 0.5;
+        }
+        .term-item.minuly:hover .term-nazev { color: #999; }
+        .term-item.minuly:hover .term-datum { color: #aaa; }
+
+        /* Barevná tečka */
+        .term-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background: var(--hlavni-barva);
+        }
+        .term-dot.dalka  { background: #e67e22; }
+        .term-dot.podzim { background: #b07d3a; }
+
+        /* Datum */
+        .term-datum {
+            font-size: 0.82em;
+            color: #888;
+            white-space: nowrap;
+            min-width: 90px;
+            flex-shrink: 0;
             cursor: pointer;
+        }
+        .term-datum:hover { color: var(--hlavni-barva); text-decoration: underline dotted; }
+
+        /* Obsah (název + místo) */
+        .term-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .term-nazev {
+            font-size: 0.95em;
             font-weight: 600;
+            line-height: 1.35;
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .term-nazev a {
+            color: inherit;
+            text-decoration: none;
+        }
+        .term-nazev a:hover {
             color: var(--hlavni-barva);
+            text-decoration: underline;
+        }
+        .term-misto {
+            font-size: 0.8em;
+            color: #999;
+            margin-top: 1px;
+        }
+        .term-misto a { color: #999; text-decoration: none; }
+        .term-misto a:hover { color: var(--hlavni-barva); text-decoration: underline; }
+
+        /* Akce (tlačítka) */
+        .term-akce {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
         }
 
-        /* Zvýraznění celého řádku při hoveru */
-        .term-tabulka tbody tr:not(.term-specialni-radek):hover {
-            background: rgba(var(--hlavni-barva-rgb, 180, 140, 0), 0.06) !important;
-        }
-        .term-tabulka.dalka tbody tr:not(.term-specialni-radek):hover {
-            background: rgba(192, 88, 26, 0.06) !important;
-        }
-        .term-tabulka.podzim tbody tr:not(.term-specialni-radek):hover {
-            background: rgba(122, 90, 40, 0.06) !important;
-        }
-
-        /* Odznáčky v tabulce */
-        .term-badge {
-            display: inline-block;
-            font-size: 0.75em;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 20px;
-            margin-left: 6px;
-            vertical-align: middle;
-            background: #ffd700;
-            color: #6b4800;
-            white-space: nowrap;
-        }
-
-        /* Akce – ikony tlačítek */
-        .term-akce { display: flex; gap: 8px; align-items: center; }
         .term-btn {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
-            font-size: 0.82em;
+            gap: 3px;
+            font-size: 0.75em;
             font-weight: 600;
-            padding: 4px 10px;
+            padding: 3px 9px;
             border-radius: 5px;
             text-decoration: none;
             white-space: nowrap;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            transition: transform 0.15s, box-shadow 0.15s;
         }
-        .term-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 3px 8px rgba(0,0,0,0.13);
-        }
-        .term-btn.vysledky { background: #f5f5f5; color: #555; }
-        .term-btn.clanek   { background: #ffebee; color: #c62828; }
+        .term-btn:hover { transform: translateY(-1px); box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
+        .term-btn.vysledky { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+        .term-btn.clanek   { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
 
-        /* ---- KARTY mobil ---- */
-        .term-karty { display: none; flex-direction: column; gap: 12px; margin-bottom: 8px; }
-
-        .term-karta {
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            background: var(--pozadi-obsahu, white);
-            overflow: hidden;
-            border-left: 4px solid var(--hlavni-barva);
-        }
-        .term-karta.dalka  { border-left-color: #e67e22; }
-        .term-karta.podzim { border-left-color: #b07d3a; }
-        .term-karta.specialni { border-left-color: #aaa; background: var(--zebra-radek); }
-
-        .term-karta-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 12px 14px 8px;
-            gap: 10px;
-        }
-        .term-karta-datum {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.9em;
+        /* Badge nejbližšího závodu */
+        .term-badge-brzy {
+            display: inline-block;
+            font-size: 0.72em;
             font-weight: 700;
-            color: var(--hlavni-barva);
+            background: var(--hlavni-barva);
+            color: white;
+            padding: 2px 7px;
+            border-radius: 20px;
+            margin-left: 6px;
+            vertical-align: middle;
+            letter-spacing: 0.02em;
             white-space: nowrap;
         }
-        .term-karta-datum.dalka  { color: #c0581a; }
-        .term-karta-datum.podzim { color: #7a5a28; }
-        .term-karta-datum.klik {
-            cursor: pointer;
-            border-bottom: 1px dashed currentColor;
-        }
-        .term-karta-nazev {
-            font-weight: 600;
-            font-size: 0.97em;
-            line-height: 1.4;
-            flex: 1;
-            padding: 12px 14px 0;
-        }
-        .term-karta-footer {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 14px 12px;
-        }
-        .term-karta-misto {
-            font-size: 0.85em;
-            color: #666;
-            flex: 1;
-        }
-        .term-karta-misto a { color: #666; }
 
-        /* Speciální řádek / karta */
-        .term-specialni-radek {
-            font-style: italic;
-        }
-
-        /* ---- Patička sekce ---- */
+        /* Patička */
         .term-paticka {
-            margin-top: 56px;
-            padding-top: 36px;
+            margin-top: 40px;
+            padding-top: 32px;
             border-top: 1px solid #e0e0e0;
             display: flex;
             flex-wrap: wrap;
@@ -250,61 +222,35 @@
             padding: 20px 22px;
             text-align: center;
         }
-        .term-paticka-box.tisk {
-            background: #f5f5f5;
-            border: 1px solid #ddd;
-        }
-        .term-paticka-box.ekonom {
-            background: #f1f8e9;
-            border: 1px solid #c5e1a5;
-        }
+        .term-paticka-box.tisk  { background: #f5f5f5; border: 1px solid #ddd; }
+        .term-paticka-box.ekonom { background: #f1f8e9; border: 1px solid #c5e1a5; }
         .term-paticka-box p { margin: 0 0 12px; font-size: 0.92em; }
         .term-paticka-box .tlacitko { display: inline-block; }
 
-        /* Badge nejbližšího závodu */
-        .term-badge-brzy {
-            display: inline-block;
-            font-size: 0.72em; font-weight: 700;
-            background: var(--hlavni-barva); color: white;
-            padding: 2px 8px; border-radius: 20px;
-            margin-left: 8px; vertical-align: middle;
-            letter-spacing: 0.02em;
-            white-space: nowrap;
-        }
-        body.dark-mode .term-badge-brzy { opacity: 0.9; }
-
         /* Dark mode */
-        body.dark-mode .term-legenda { color: #bbb; }
-        body.dark-mode .term-tabulka tbody tr:not(.term-specialni-radek):hover { background: rgba(255,255,255,0.05) !important; }
+        body.dark-mode .term-sekce { border-color: rgba(255,255,255,0.07); }
+        body.dark-mode .term-sekce-header { border-color: rgba(255,255,255,0.06); }
+        body.dark-mode .term-item { border-color: rgba(255,255,255,0.04); }
+        body.dark-mode .term-item:hover { background: rgba(255,255,255,0.04); }
+        body.dark-mode .term-mesic { color: #555; }
+        body.dark-mode .term-datum { color: #666; }
+        body.dark-mode .term-misto, body.dark-mode .term-misto a { color: #666; }
         body.dark-mode .term-btn.vysledky { background: #1b3a1c; color: #81c784; }
         body.dark-mode .term-btn.clanek   { background: #0d2137; color: #64b5f6; }
-        body.dark-mode .term-karta        { background: var(--pozadi-obsahu, #1e1e1e); }
-        body.dark-mode .term-karta.specialni { background: rgba(255,255,255,0.04); }
-        body.dark-mode .term-karta-misto  { color: #999; }
-        body.dark-mode .term-karta-misto a { color: #999; }
         body.dark-mode .term-paticka-box.tisk { background: #222; border-color: #333; }
-        /* Přebití globálního žlutého hover efektu z style.css */
-        .term-tabulka .datum-klik:hover {
-            background-color: transparent !important;
-            transform: none !important;
-            box-shadow: none !important;
-            text-decoration: none !important;
-            color: var(--hlavni-barva) !important;
+
+        /* Responzivita */
+        @media (max-width: 580px) {
+            .term-datum { min-width: 72px; font-size: 0.78em; }
+            .term-nazev { font-size: 0.88em; white-space: normal; }
+            .term-akce { flex-direction: column; gap: 4px; }
+            .term-item { gap: 10px; padding: 10px 14px; }
         }
 
-        /* ---- RESPONZIVITA ---- */
-        @media (max-width: 680px) {
-            .term-tabulka-wrap { display: none; }
-            .term-karty { display: flex; }
-            .term-sekce-nadpis { font-size: 1.3em; }
-        }
-
-        /* ---- TISK ---- */
+        /* Tisk */
         @media print {
-            .term-karty { display: none !important; }
-            .term-tabulka-wrap { display: block !important; }
-            .term-paticka-box.tisk,
-            #spolecne-menu, #spolecna-paticka { display: none; }
+            .term-sekce { box-shadow: none; border: 1px solid #ccc; }
+            .term-paticka-box.tisk, #spolecne-menu, #spolecna-paticka { display: none; }
         }
     </style>
 </head>
@@ -320,68 +266,36 @@
 
     <div class="obsah">
 
-        <div class="term-legenda">
-            <span>📅 <strong>Datum</strong> = uložit do kalendáře</span>
-            <span>📍 <strong>Místo</strong> = navigace v Mapách</span>
-            <span>🔗 <strong>Název</strong> = propozice / výsledky ČSPS</span>
-        </div>
-
         <p class="term-upozorneni">
             ⚠️ Termíny jsou předběžné a mohou se měnit dle oficiální
             <a href="https://vysledky.czechswimming.cz/souteze" target="_blank">termínové listiny ČSPS</a>.
+            Datum = přidat do kalendáře · Název = propozice ČSPS · 📍 = navigace.
         </p>
 
-        <!-- ===== JARO ===== -->
-        <div class="term-sekce-nadpis">🏊 Jarní sezóna</div>
-
-        <div class="term-tabulka-wrap">
-            <table class="term-tabulka">
-                <thead><tr>
-                    <th>Datum 📅</th>
-                    <th>Název akce</th>
-                    <th>Místo 📍</th>
-                    <th>Výsledky</th>
-                    <th>Článek</th>
-                </tr></thead>
-                <tbody id="tabulka-jaro"></tbody>
-            </table>
+        <!-- ===== LEDEN – ČERVEN ===== -->
+        <div class="term-sekce">
+            <div class="term-sekce-header">
+                <span class="term-sekce-pill">🏊 Leden – Červen</span>
+            </div>
+            <div id="list-jaro"></div>
         </div>
-        <div class="term-karty" id="karty-jaro"></div>
 
-        <!-- ===== DÁLKA ===== -->
-        <div class="term-sekce-nadpis dalka">🌊 Dálkové plavání & otevřená voda</div>
-        <p style="margin: -10px 0 20px; color: #888; font-size: 0.92em;">Soutěže na otevřené vodě. Doporučujeme opalovák! ☀️</p>
-
-        <div class="term-tabulka-wrap">
-            <table class="term-tabulka dalka">
-                <thead><tr>
-                    <th>Datum 📅</th>
-                    <th>Název akce</th>
-                    <th>Místo 📍</th>
-                    <th>Výsledky</th>
-                    <th>Článek</th>
-                </tr></thead>
-                <tbody id="tabulka-dalka"></tbody>
-            </table>
+        <!-- ===== ČERVENEC – SRPEN · DÁLKOVÉ ===== -->
+        <div class="term-sekce">
+            <div class="term-sekce-header dalka">
+                <span class="term-sekce-pill dalka">🌊 Červenec – Srpen</span>
+                <span class="term-sekce-sub">Dálkové plavání & otevřená voda ☀️</span>
+            </div>
+            <div id="list-dalka"></div>
         </div>
-        <div class="term-karty" id="karty-dalka"></div>
 
-        <!-- ===== PODZIM ===== -->
-        <div class="term-sekce-nadpis podzim">🍂 Podzimní sezóna</div>
-
-        <div class="term-tabulka-wrap">
-            <table class="term-tabulka podzim">
-                <thead><tr>
-                    <th>Datum 📅</th>
-                    <th>Název akce</th>
-                    <th>Místo 📍</th>
-                    <th>Výsledky</th>
-                    <th>Článek</th>
-                </tr></thead>
-                <tbody id="tabulka-podzim"></tbody>
-            </table>
+        <!-- ===== ZÁŘÍ – PROSINEC ===== -->
+        <div class="term-sekce">
+            <div class="term-sekce-header podzim">
+                <span class="term-sekce-pill podzim">🍂 Září – Prosinec</span>
+            </div>
+            <div id="list-podzim"></div>
         </div>
-        <div class="term-karty" id="karty-podzim"></div>
 
         <!-- ===== PATIČKA ===== -->
         <div class="term-paticka">
@@ -402,7 +316,7 @@
     </div>
 
     <script>
-        // 1. ZÁVODY JARO
+        // 1. ZÁVODY JARO (Leden – Červen)
         const zavodyJaro = [
             {
                 datumText: "17. 1. 2026",
@@ -416,18 +330,18 @@
                 clanek: "archiv.html#vs_26"
             },
             {
-                datumText: "20. 2. - 22. 2. 2026",
+                datumText: "20. 2. – 22. 2. 2026",
                 kalendarStart: "2026-02-20",
                 kalendarKonec: "2026-02-22",
                 nazev: "Plzeňský vytrvalec 2026",
                 odkazZavod: "https://vysledky.czechswimming.cz/souteze/10141",
-                misto: "Plzeň - Slovany",
+                misto: "Plzeň – Slovany",
                 odkazMapa: "https://maps.app.goo.gl/bCHqTXTfZFFwTxAL9",
                 vysledky: "https://vysledky.czechswimming.cz/cz.zma.csps.portal.rest/api/public/competitions/10141/documents/RESULTS_PDF?fileName=Celkov%C3%A9%20v%C3%BDsledky%20-%20Plze%C5%88sk%C3%BD%20vytrvalec%202026.pdf",
                 clanek: "aktuality.html#vytrvalec_26"
             },
             {
-                datumText: "28. 2. - 1. 3. 2026",
+                datumText: "28. 2. – 1. 3. 2026",
                 kalendarStart: "2026-02-28",
                 kalendarKonec: "2026-03-01",
                 nazev: "České Budějovice 2026",
@@ -437,11 +351,11 @@
                 vysledky: "https://vysledky.czechswimming.cz/cz.zma.csps.portal.rest/api/public/competitions/9909/documents/RESULTS_PDF?fileName=VYSLEDKY_CB2026.pdf",
                 clanek: "aktuality.html#zavody-cb-50m"
             },
-                        {
-                datumText: "18. 04. 2026",
+            {
+                datumText: "18. 4. 2026",
                 kalendarStart: "2026-04-18",
                 kalendarKonec: "",
-                nazev: "Krajský přebor - dlouhé tratě",
+                nazev: "Krajský přebor – dlouhé tratě",
                 odkazZavod: "https://vysledky.czechswimming.cz/souteze/10749",
                 misto: "Jindřichův Hradec",
                 odkazMapa: "https://www.google.com/maps/search/?api=1&query=Jindřichův+Hradec+bazén",
@@ -449,10 +363,10 @@
                 clanek: "aktuality.html#zavody-jh-drop-dt"
             },
             {
-                datumText: "18. 04. 2026",
+                datumText: "18. 4. 2026",
                 kalendarStart: "2026-04-18",
                 kalendarKonec: "",
-                nazev: "DRoP Cup 2026 - Jihočeský kraj",
+                nazev: "DRoP Cup 2026 – Jihočeský kraj",
                 odkazZavod: "https://vysledky.czechswimming.cz/souteze/10750",
                 misto: "Jindřichův Hradec",
                 odkazMapa: "https://www.google.com/maps/search/?api=1&query=Jindřichův+Hradec+bazén",
@@ -463,7 +377,7 @@
                 datumText: "25. 4. 2026",
                 kalendarStart: "2026-04-25",
                 kalendarKonec: "",
-                nazev: "Písecký pulec, 10.ročník",
+                nazev: "Písecký pulec, 10. ročník",
                 odkazZavod: "https://vysledky.czechswimming.cz/souteze/10655",
                 misto: "Písek",
                 odkazMapa: "https://www.google.com/maps/search/?api=1&query=Písek+plavecký+stadion",
@@ -471,10 +385,10 @@
                 clanek: "aktuality.html#pisecky-pulec-2026"
             },
             {
-                datumText: "16. - 17. 05. 2026",
+                datumText: "16. – 17. 5. 2026",
                 kalendarStart: "2026-05-16",
                 kalendarKonec: "2026-05-17",
-                nazev: "Letní Krajský přebor žactvo, dorost, dospělí",
+                nazev: "Letní KP žactvo, dorost, dospělí",
                 odkazZavod: "https://vysledky.czechswimming.cz/souteze/10751",
                 misto: "Prachatice",
                 odkazMapa: "https://maps.app.goo.gl/AvabT27yTfn9ajV7A",
@@ -485,7 +399,7 @@
                 datumText: "23. 5. 2026",
                 kalendarStart: "2026-05-23",
                 kalendarKonec: "",
-                nazev: "Letní krajský přebor ml. žactva - Jihočeský kraj",
+                nazev: "Letní KP ml. žactva – Jihočeský kraj",
                 odkazZavod: "https://vysledky.czechswimming.cz/souteze/10734",
                 misto: "Písek",
                 odkazMapa: "https://www.google.com/maps/search/?api=1&query=Písek+plavecký+stadion",
@@ -493,10 +407,10 @@
                 clanek: "aktuality.html#pisek-lkp-ml-2026"
             },
             {
-                datumText: "6. - 7. 6. 2026",
+                datumText: "6. – 7. 6. 2026",
                 kalendarStart: "2026-06-06",
                 kalendarKonec: "2026-06-07",
-                nazev: "🏆 Letní mistrovství ČR mladšího žactva",
+                nazev: "🏆 Letní MČR mladšího žactva",
                 odkazZavod: "https://vysledky.czechswimming.cz/souteze/10126",
                 misto: "Trutnov",
                 odkazMapa: "https://www.google.com/maps/search/?api=1&query=Trutnov+bazén",
@@ -504,7 +418,7 @@
                 clanek: "aktuality.html#mcr-trutnov-vysledky-2026"
             },
             {
-                datumText: "13. 06. 2026",
+                datumText: "13. 6. 2026",
                 kalendarStart: "2026-06-13",
                 kalendarKonec: "2026-06-13",
                 nazev: "Praha 2026",
@@ -515,33 +429,25 @@
                 clanek: "aktuality.html#praha-2026"
             },
             {
-                datumText: "22.-24.06.2026",
+                datumText: "22. – 24. 6. 2026",
                 kalendarStart: "2026-06-22",
                 kalendarKonec: "2026-06-24",
                 nazev: "Letní olympiáda dětí a mládeže 2026",
                 odkazZavod: "https://vysledky.czechswimming.cz/souteze/9736",
-                misto: "Praha - Podolí",
+                misto: "Praha – Podolí",
                 odkazMapa: "https://maps.app.goo.gl/Xyj8JEXNhVWnmtcA9",
                 vysledky: "https://vysledky.czechswimming.cz/cz.zma.csps.portal.rest/api/public/competitions/9736/documents/RESULTS_PDF?fileName=Vysledky_LODM_2026.pdf",
                 clanek: "aktuality.html#odm-vysledky-2026"
-            },
-            {
-                specialniRadek: true,
-                barvaPozadi: "#f8f9fa",
-                barvaTextu: "#777",
-                datumText: "1. 7. - 31. 8. 2026",
-                nazev: "<strong>🏖️ Hlavní letní prázdniny</strong><br><small>Volno / Závody na otevřené vodě viz níže</small>",
-                misto: "-"
             }
         ];
 
-        // 2. ZÁVODY PODZIM
+        // 2. ZÁVODY PODZIM (Září – Prosinec)
         const zavodyPodzim = [
             {
-                datumText: "03.10.2026",
+                datumText: "3. 10. 2026",
                 kalendarStart: "2026-10-03",
                 kalendarKonec: "",
-                nazev: "Krajský přebor - dlouhé tratě",
+                nazev: "Krajský přebor – dlouhé tratě",
                 odkazZavod: "https://vysledky.czechswimming.cz/souteze/10766",
                 misto: "Prachatice",
                 odkazMapa: "https://maps.app.goo.gl/oHyG5fa2xdvLupZ6A",
@@ -549,10 +455,10 @@
                 clanek: ""
             },
             {
-                datumText: "24.10.2026",
+                datumText: "24. 10. 2026",
                 kalendarStart: "2026-10-24",
                 kalendarKonec: "",
-                nazev: "Otavský pohár - 10.ročník",
+                nazev: "Otavský pohár – 10. ročník",
                 odkazZavod: "https://vysledky.czechswimming.cz/souteze/10790",
                 misto: "Písek",
                 odkazMapa: "https://www.google.com/maps/search/?api=1&query=Písek+plavecký+stadion",
@@ -560,10 +466,10 @@
                 clanek: ""
             },
             {
-                datumText: "14.11.2026",
+                datumText: "14. 11. 2026",
                 kalendarStart: "2026-11-14",
                 kalendarKonec: "",
-                nazev: "Zimní krajský přebor ml. žactva - Jihočeský kraj",
+                nazev: "Zimní KP ml. žactva – Jihočeský kraj",
                 odkazZavod: "https://vysledky.czechswimming.cz/souteze/10753",
                 misto: "Tábor",
                 odkazMapa: "https://maps.app.goo.gl/FT2PT6EDmDqWVzAW9",
@@ -571,109 +477,46 @@
                 clanek: ""
             },
             {
-                datumText: "21.11.2026",
+                datumText: "21. 11. 2026",
                 kalendarStart: "2026-11-21",
                 kalendarKonec: "",
-                nazev: "Zimní krajský přebor žactva, juniorů a dospělých - Jihočeský kraj",
+                nazev: "Zimní KP žactva, juniorů a dospělých",
                 odkazZavod: "https://vysledky.czechswimming.cz/souteze/10754",
                 misto: "Strakonice",
                 odkazMapa: "https://maps.app.goo.gl/63EUyKtnPDAbyigQ7",
                 vysledky: "",
                 clanek: ""
-            },
+            }
         ];
 
-        // 3. ZÁVODY DÁLKA
+        // 3. ZÁVODY DÁLKA (Červenec – Srpen)
         const zavodyDalka = [
             {
                 datumText: "8. 8. 2026",
                 kalendarStart: "2026-08-08",
                 kalendarKonec: "",
-                nazev: "<strong style='color: var(--hlavni-barva); text-decoration: underline;'>Mezi mosty Českých Budějovic</strong>",
+                nazev: "Mezi mosty Českých Budějovic",
                 odkazZavod: "https://www.plavani.info/events/mezi-mosty-ceskych-budejovic-2/",
                 misto: "České Budějovice",
                 odkazMapa: "https://www.google.com/maps/search/?api=1&query=Malše+České+Budějovice",
                 vysledky: "https://www.plavani.info/wp-content/files/vysledky/Vysledky_20260808_CBudejovice.pdf",
                 clanek: "mezi_mosty.html"
-            },
+            }
         ];
 
-        // ---- RENDEROVÁNÍ ----
+        // ---- UTILITY ----
+
+        const MESICE = ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'];
 
         function cistyNazev(nazev) {
             return nazev.replace(/<[^>]*>?/gm, '');
-        }
-
-        function vykresliTabulku(dataSeznam, idTabulky, zobrazVysledky) {
-            const tbody = document.getElementById(idTabulky);
-            let html = "";
-            dataSeznam.forEach(zavod => {
-                if (zavod.specialniRadek) {
-                    html += `<tr class="term-specialni-radek" style="background:${zavod.barvaPozadi}; color:${zavod.barvaTextu};">
-                        <td style="color:${zavod.barvaTextu}; font-weight:600; white-space:nowrap;">${zavod.datumText}</td>
-                        <td style="color:${zavod.barvaTextu};">${zavod.nazev}</td>
-                        <td>${zavod.misto}</td>
-                        ${zobrazVysledky ? '<td>–</td><td>–</td>' : ''}
-                    </tr>`;
-                } else {
-                    const mistoHtml   = zavod.odkazMapa  ? `<a href="${zavod.odkazMapa}" target="_blank">${zavod.misto}</a>` : zavod.misto;
-                    const nazevHtml   = zavod.odkazZavod ? `<a href="${zavod.odkazZavod}" target="_blank">${zavod.nazev}</a>` : zavod.nazev;
-                    const vyslHtml    = zavod.vysledky   ? `<a class="term-btn vysledky" href="${zavod.vysledky}" target="_blank">🏁 Výsledky</a>` : "–";
-                    const clanekHtml  = zavod.clanek     ? `<a class="term-btn clanek"   href="${zavod.clanek}">📰 Článek</a>` : "–";
-                    const datumAttr   = zavod.kalendarStart
-                        ? `class="datum-klik" onclick="pridatDoKalendare('${cistyNazev(zavod.nazev)}','${zavod.kalendarStart}','${zavod.kalendarKonec||''}','${zavod.misto}','${zavod.odkazZavod||''}')"`
-                        : "";
-                    html += `<tr>
-                        <td ${datumAttr}>${zavod.datumText}</td>
-                        <td>${nazevHtml}${badgeHtml(zavod)}</td>
-                        <td>${mistoHtml}</td>
-                        ${zobrazVysledky ? `<td>${vyslHtml}</td><td>${clanekHtml}</td>` : ''}
-                    </tr>`;
-                }
-            });
-            tbody.innerHTML = html;
-        }
-
-        function vykresliKarty(dataSeznam, idKarty, typSecce, zobrazVysledky) {
-            const wrap = document.getElementById(idKarty);
-            let html = "";
-            dataSeznam.forEach(zavod => {
-                if (zavod.specialniRadek) {
-                    html += `<div class="term-karta specialni" style="border-left-color:${zavod.barvaTextu};">
-                        <div class="term-karta-header">
-                            <span class="term-karta-datum" style="color:${zavod.barvaTextu};">${zavod.datumText}</span>
-                        </div>
-                        <div class="term-karta-nazev term-specialni-radek" style="color:${zavod.barvaTextu}; padding-bottom:12px;">${zavod.nazev}</div>
-                    </div>`;
-                } else {
-                    const datumCls  = "term-karta-datum" + (typSecce ? " " + typSecce : "") + (zavod.kalendarStart ? " klik" : "");
-                    const datumOnCl = zavod.kalendarStart
-                        ? `onclick="pridatDoKalendare('${cistyNazev(zavod.nazev)}','${zavod.kalendarStart}','${zavod.kalendarKonec||''}','${zavod.misto}','${zavod.odkazZavod||''}')"`
-                        : "";
-                    const mistoHtml = zavod.odkazMapa  ? `<a href="${zavod.odkazMapa}" target="_blank">📍 ${zavod.misto}</a>` : `📍 ${zavod.misto}`;
-                    const nazevHtml = zavod.odkazZavod ? `<a href="${zavod.odkazZavod}" target="_blank">${zavod.nazev}</a>` : zavod.nazev;
-                    const vyslHtml  = zavod.vysledky   ? `<a class="term-btn vysledky" href="${zavod.vysledky}" target="_blank">🏁 Výsledky</a>` : "";
-                    const clanekHtml= zavod.clanek     ? `<a class="term-btn clanek"   href="${zavod.clanek}">📰 Článek</a>` : "";
-                    html += `<div class="term-karta${typSecce ? " " + typSecce : ""}">
-                        <div class="term-karta-header">
-                            <span class="${datumCls}" ${datumOnCl}>📅 ${zavod.datumText}</span>
-                        </div>
-                        <div class="term-karta-nazev">${nazevHtml}${badgeHtml(zavod)}</div>
-                        <div class="term-karta-footer">
-                            <span class="term-karta-misto">${mistoHtml}</span>
-                            ${zobrazVysledky ? vyslHtml + clanekHtml : ""}
-                        </div>
-                    </div>`;
-                }
-            });
-            wrap.innerHTML = html;
         }
 
         function oznacNejblizsi(seznamy) {
             const dnes = new Date(); dnes.setHours(0,0,0,0);
             let nejblizsi = null, nejmensiDni = Infinity;
             seznamy.forEach(seznam => seznam.forEach(z => {
-                if (!z.kalendarStart || z.specialniRadek) return;
+                if (!z.kalendarStart) return;
                 const d = new Date(z.kalendarStart); d.setHours(0,0,0,0);
                 const dniDo = Math.round((d - dnes) / 86400000);
                 if (dniDo >= 0 && dniDo < nejmensiDni) { nejmensiDni = dniDo; nejblizsi = z; }
@@ -689,18 +532,69 @@
             return `<span class="term-badge-brzy">${text}</span>`;
         }
 
+        // ---- RENDEROVÁNÍ ----
+
+        function vykresliSeznam(data, idListu, typDotu) {
+            const wrap = document.getElementById(idListu);
+            const dnes = new Date(); dnes.setHours(0,0,0,0);
+            let html = '';
+            let aktualniMesic = -1;
+
+            data.forEach(zavod => {
+                const mesic = zavod.kalendarStart ? new Date(zavod.kalendarStart).getMonth() : -1;
+                if (mesic !== -1 && mesic !== aktualniMesic) {
+                    aktualniMesic = mesic;
+                    html += `<div class="term-mesic">${MESICE[mesic]}</div>`;
+                }
+
+                const isPast = zavod.kalendarStart && new Date(zavod.kalendarStart) < dnes;
+                const itemCls = 'term-item' + (isPast ? ' minuly' : '');
+
+                const nazevText = cistyNazev(zavod.nazev);
+                const nazevHtml = zavod.odkazZavod
+                    ? `<a href="${zavod.odkazZavod}" target="_blank">${nazevText}</a>`
+                    : nazevText;
+
+                const mistoHtml = zavod.odkazMapa
+                    ? `<a href="${zavod.odkazMapa}" target="_blank">📍 ${zavod.misto}</a>`
+                    : `📍 ${zavod.misto}`;
+
+                const datumAttr = zavod.kalendarStart
+                    ? `title="Přidat do kalendáře" onclick="pridatDoKalendare('${nazevText.replace(/'/g,"\\'")}','${zavod.kalendarStart}','${zavod.kalendarKonec||''}','${zavod.misto}','${zavod.odkazZavod||''}')"`
+                    : '';
+
+                const vyslHtml   = zavod.vysledky ? `<a class="term-btn vysledky" href="${zavod.vysledky}" target="_blank">🏁 Výsledky</a>` : '';
+                const clanekHtml = zavod.clanek   ? `<a class="term-btn clanek"   href="${zavod.clanek}">📰 Článek</a>` : '';
+
+                html += `<div class="${itemCls}">
+                    <div class="term-dot ${typDotu}"></div>
+                    <div class="term-datum" ${datumAttr}>${zavod.datumText}</div>
+                    <div class="term-content">
+                        <div class="term-nazev">${nazevHtml}${badgeHtml(zavod)}</div>
+                        <div class="term-misto">${mistoHtml}</div>
+                    </div>
+                    <div class="term-akce">${vyslHtml}${clanekHtml}</div>
+                </div>`;
+            });
+
+            wrap.innerHTML = html;
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             oznacNejblizsi([zavodyJaro, zavodyPodzim, zavodyDalka]);
+            vykresliSeznam(zavodyJaro,   "list-jaro",   "jaro");
+            vykresliSeznam(zavodyDalka,  "list-dalka",  "dalka");
+            vykresliSeznam(zavodyPodzim, "list-podzim", "podzim");
 
-            vykresliTabulku(zavodyJaro,   "tabulka-jaro",   true);
-            vykresliTabulku(zavodyPodzim, "tabulka-podzim", true);
-            vykresliTabulku(zavodyDalka,  "tabulka-dalka",  true);
-
-            vykresliKarty(zavodyJaro,   "karty-jaro",   "",       true);
-            vykresliKarty(zavodyPodzim, "karty-podzim", "podzim", true);
-            vykresliKarty(zavodyDalka,  "karty-dalka",  "dalka",  true);
+            const prvniBuduci = document.querySelector('.term-item:not(.minuly)');
+            if (prvniBuduci) {
+                setTimeout(() => {
+                    prvniBuduci.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            }
         });
     </script>
+
     <div id="spolecna-paticka"></div>
     <script src="komponenty.js"></script>
 </body>
