@@ -366,12 +366,20 @@ function initChatbot() {
         }, 900 + Math.random() * 400);
     }
 
+    function gaEvent(action, label) {
+        if (typeof gtag === 'function') {
+            gtag('event', action, { event_category: 'chatbot', event_label: label });
+        }
+    }
+
     function send() {
         const val = input.value.trim();
         if (!val) return;
         addMsg(val, 'user');
         input.value = '';
-        botReply(detectKey(val));
+        const key = detectKey(val);
+        gaEvent('zprava_odeslana', key || val.substring(0, 50));
+        botReply(key);
     }
 
     sendBtn.addEventListener('click', send);
@@ -380,6 +388,7 @@ function initChatbot() {
     document.querySelectorAll('.kin-chip').forEach(c => {
         c.addEventListener('click', () => {
             addMsg(c.textContent.trim(), 'user');
+            gaEvent('chip_kliknuti', c.dataset.q);
             botReply(c.dataset.q);
         });
     });
@@ -387,15 +396,18 @@ function initChatbot() {
     closeBtn.addEventListener('click', () => {
         chatWindow.classList.add('skryto');
         fab.style.display = 'flex';
+        gaEvent('chat_zavreni', 'close_button');
     });
 
     fab.addEventListener('click', () => {
         fab.style.display = 'none';
         chatWindow.classList.remove('skryto');
         msgs.scrollTop = msgs.scrollHeight;
+        gaEvent('chat_otevreni', 'fab');
     });
 
-    // Pozdrav
+    // Pozdrav + GA event při prvním zobrazení
+    gaEvent('chat_otevreni', 'autoload');
     setTimeout(() => addMsg("Dobrý den! 👋 Jsem asistent KIN ČB. Pomohu vám s informacemi o trénincích, zápisech nebo cenách.", 'bot'), 400);
     setTimeout(() => addMsg("Na co se chcete zeptat?", 'bot'), 1100);
 }
