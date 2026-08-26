@@ -105,8 +105,8 @@ function vlozPaticku() {
                 <a href="mailto:plavani@tjkin.cz" style="color: white; font-weight: bold;">
                     <span class="footer-icon">📧</span> plavani@tjkin.cz
                 </a>
-                <a href="mailto:info@kinplavani.cz" style="color: white; font-weight: bold;">
-                    <span class="footer-icon">📧</span> info@kinplavani.cz
+                <a href="mailto:plavani.tjkin@gmail.com" style="color: white; font-weight: bold;">
+                    <span class="footer-icon">📧</span> plavani.tjkin@gmail.com
                 </a>
                 <a href="404.html" target="_blank" style="color: #E1306C;">
                     <span class="footer-icon">📸</span> Sledujte nás na Instagramu
