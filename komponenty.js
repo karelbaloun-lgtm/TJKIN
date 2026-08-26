@@ -781,6 +781,9 @@ function nactiChatbota() {
     document.body.appendChild(skript);
 }
 
+// Spustit chatbota na všech stránkách
+document.addEventListener('DOMContentLoaded', nactiChatbota);
+
 /* =========================================
    SMART HIDE NAVIGACE – pouze desktop
    Schová se při scrollu dolů, ukáže při scrollu nahoru.
