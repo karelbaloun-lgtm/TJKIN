@@ -47,7 +47,7 @@ function initChatbot() {
     }
 
     .kin-chat-header {
-        background: linear-gradient(135deg, #b71c1c 0%, #d32f2f 55%, #e53935 100%);
+        background: linear-gradient(160deg, #7b1313 0%, #c62828 45%, #d32f2f 100%);
         padding: 14px 16px;
         display: flex;
         align-items: center;
@@ -57,12 +57,16 @@ function initChatbot() {
 
     .kin-chat-avatar {
         width: 38px; height: 38px;
-        background: linear-gradient(135deg, #fbc02d, #f9a825);
+        background: #fbc02d;
         border-radius: 50%;
         display: flex; align-items: center; justify-content: center;
+        font-family: 'Barlow Condensed', 'Segoe UI', sans-serif;
+        font-weight: 800;
         font-size: 1.15rem;
+        color: #7b1313;
         flex-shrink: 0;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+        letter-spacing: -0.02em;
     }
 
     .kin-chat-header-info { flex: 1; min-width: 0; }
@@ -110,7 +114,7 @@ function initChatbot() {
         flex-direction: column;
         gap: 10px;
         scroll-behavior: smooth;
-        background: #fdf8f8;
+        background: #fff;
     }
 
     .kin-chat-messages::-webkit-scrollbar { width: 4px; }
@@ -122,10 +126,13 @@ function initChatbot() {
 
     .kin-msg-avatar {
         width: 28px; height: 28px;
-        background: linear-gradient(135deg, #fbc02d, #f9a825);
+        background: #fbc02d;
         border-radius: 50%;
         display: flex; align-items: center; justify-content: center;
-        font-size: 0.85rem;
+        font-family: 'Barlow Condensed', 'Segoe UI', sans-serif;
+        font-weight: 800;
+        font-size: 0.65rem;
+        color: #7b1313;
         flex-shrink: 0;
         box-shadow: 0 1px 4px rgba(0,0,0,0.15);
     }
@@ -138,7 +145,7 @@ function initChatbot() {
         max-width: 100%;
     }
 
-    .kin-msg.bot  .kin-bubble { background: #fff; color: #1a1010; border-bottom-left-radius: 4px; border: 1px solid rgba(211,47,47,0.1); box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .kin-msg.bot  .kin-bubble { background: #f6f4f4; color: #1a1010; border-bottom-left-radius: 4px; border: none; box-shadow: none; }
     .kin-msg.user .kin-bubble { background: linear-gradient(135deg, #d32f2f, #e53935); color: #fff; border-bottom-right-radius: 4px; box-shadow: 0 2px 8px rgba(211,47,47,0.3); }
 
     .kin-typing-dots { display: flex; gap: 4px; align-items: center; padding: 4px 2px; }
@@ -162,7 +169,8 @@ function initChatbot() {
         flex-wrap: wrap;
         gap: 6px;
         flex-shrink: 0;
-        background: #fdf8f8;
+        background: #fff;
+        border-top: 1px solid #f0ecec;
     }
 
     .kin-chip {
@@ -200,12 +208,12 @@ function initChatbot() {
 
     .kin-chat-input {
         flex: 1;
-        border: 1.5px solid rgba(211,47,47,0.2);
+        border: 1.5px solid rgba(211,47,47,0.15);
         border-radius: 20px;
         padding: 8px 14px;
         font-family: inherit;
         font-size: 0.85rem;
-        background: #fdf8f8;
+        background: #f6f4f4;
         color: #1a1010;
         outline: none;
     }
@@ -313,7 +321,7 @@ function initChatbot() {
     widget.innerHTML = `
         <div id="kin-chat-window">
             <div class="kin-chat-header">
-                <div class="kin-chat-avatar">🏊</div>
+                <div class="kin-chat-avatar">K</div>
                 <div class="kin-chat-header-info">
                     <div class="kin-chat-name">KIN Asistent</div>
                     <div class="kin-chat-status"><span class="kin-status-dot"></span> Online – odpovím hned</div>
@@ -389,7 +397,7 @@ function initChatbot() {
         const div = document.createElement('div');
         div.className = `kin-msg ${who}`;
         div.innerHTML = who === 'bot'
-            ? `<div class="kin-msg-avatar">🏊</div><div class="kin-bubble">${text}</div>`
+            ? `<div class="kin-msg-avatar">K</div><div class="kin-bubble">${text}</div>`
             : `<div class="kin-bubble">${text}</div>`;
         msgs.appendChild(div);
         msgs.scrollTop = msgs.scrollHeight;
@@ -399,7 +407,7 @@ function initChatbot() {
         const div = document.createElement('div');
         div.className = 'kin-msg bot';
         div.id = 'kin-typing';
-        div.innerHTML = `<div class="kin-msg-avatar">🏊</div><div class="kin-bubble"><div class="kin-typing-dots"><span></span><span></span><span></span></div></div>`;
+        div.innerHTML = `<div class="kin-msg-avatar">K</div><div class="kin-bubble"><div class="kin-typing-dots"><span></span><span></span><span></span></div></div>`;
         msgs.appendChild(div);
         msgs.scrollTop = msgs.scrollHeight;
         return div;
