@@ -178,6 +178,13 @@ function initChatbot() {
     }
     .kin-chip:hover { background: #d32f2f; color: #fff; border-color: #d32f2f; transform: translateY(-1px); }
 
+    .kin-chip.kin-chip-napsat {
+        background: #fff8e1;
+        border-color: rgba(251,192,45,0.5);
+        color: #b8860b;
+    }
+    .kin-chip.kin-chip-napsat:hover { background: #fbc02d; color: #1a1010; border-color: #fbc02d; }
+
     .kin-chat-input-row {
         padding: 10px 12px;
         display: flex;
@@ -243,6 +250,42 @@ function initChatbot() {
         display: flex; align-items: center; justify-content: center;
     }
 
+    /* Kontaktní formulář uvnitř chatu */
+    .kin-contact-form-wrap { max-width: 100% !important; width: 100%; }
+    .kin-contact-form { padding: 12px 14px !important; width: 220px; }
+    .kin-contact-form p { font-weight: 600; margin-bottom: 8px; font-size: 0.82rem; }
+    .kin-form-field {
+        width: 100%;
+        border: 1.5px solid rgba(211,47,47,0.2);
+        border-radius: 10px;
+        padding: 7px 10px;
+        font-family: inherit;
+        font-size: 0.82rem;
+        background: #fdf8f8;
+        color: #1a1010;
+        outline: none;
+        margin-bottom: 6px;
+        display: block;
+    }
+    .kin-form-field:focus { border-color: #d32f2f; }
+    textarea.kin-form-field { resize: vertical; min-height: 60px; }
+    .kin-form-send-btn {
+        background: #d32f2f;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        padding: 7px 16px;
+        font-family: inherit;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+        transition: background 0.15s;
+        margin-top: 2px;
+    }
+    .kin-form-send-btn:hover { background: #b71c1c; }
+    .kin-form-send-btn:disabled { background: #aaa; cursor: default; }
+
     @media (max-width: 400px) {
         #kin-chat-window { width: calc(100vw - 32px); }
         #kin-chat-widget { right: 16px; bottom: 16px; }
@@ -275,6 +318,7 @@ function initChatbot() {
                 <button class="kin-chip" data-q="zápis">📝 Jak se zapsat?</button>
                 <button class="kin-chip" data-q="kurzy">🐠 Kurzy neplavců</button>
                 <button class="kin-chip" data-q="věk">👶 Od kolika let?</button>
+                <button class="kin-chip kin-chip-napsat" data-q="napsat">✉️ Napište nám</button>
             </div>
             <div class="kin-chat-input-row">
                 <input class="kin-chat-input" id="kinInput" type="text" placeholder="Napište dotaz…" autocomplete="off">
@@ -352,17 +396,82 @@ function initChatbot() {
         return div;
     }
 
+    function showContactForm() {
+        // Neukázat formulář, pokud už je jeden viditelný
+        if (document.querySelector('.kin-contact-form-wrap')) return;
+
+        const formWrap = document.createElement('div');
+        formWrap.className = 'kin-msg bot kin-contact-form-wrap';
+        formWrap.innerHTML = `
+            <div class="kin-msg-avatar">🏊</div>
+            <div class="kin-bubble kin-contact-form">
+                <p>Nenašli jste, co jste hledali?<br>Napište nám přímo:</p>
+                <input class="kin-form-field" id="kinFormEmail" type="email" placeholder="Váš e-mail (pro odpověď)" autocomplete="email">
+                <textarea class="kin-form-field" id="kinFormMsg" placeholder="Vaše zpráva…" rows="3"></textarea>
+                <button class="kin-form-send-btn" id="kinFormSend">Odeslat ➤</button>
+            </div>
+        `;
+        msgs.appendChild(formWrap);
+        msgs.scrollTop = msgs.scrollHeight;
+
+        document.getElementById('kinFormSend').addEventListener('click', function() {
+            const email = (document.getElementById('kinFormEmail').value || '').trim();
+            const msg = (document.getElementById('kinFormMsg').value || '').trim();
+            if (!msg) {
+                document.getElementById('kinFormMsg').focus();
+                return;
+            }
+
+            const btn = document.getElementById('kinFormSend');
+            btn.disabled = true;
+            btn.textContent = 'Odesílám…';
+
+            fetch('/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    'form-name': 'kin-chatbot',
+                    'email': email,
+                    'zprava': msg
+                }).toString()
+            })
+            .then(function(r) {
+                formWrap.remove();
+                if (r.ok) {
+                    addMsg("✅ Zpráva odeslána! Ozveme se vám co nejdříve. 😊", 'bot');
+                    gaEvent('napsat_nam_odeslano', email ? 's_emailem' : 'bez_emailu');
+                } else {
+                    addMsg("❌ Nepodařilo se odeslat. Zkuste nás kontaktovat přímo: <a href='mailto:plavani.tjkin@gmail.com' style='color:#d32f2f;font-weight:600;'>plavani.tjkin@gmail.com</a>", 'bot');
+                }
+                msgs.scrollTop = msgs.scrollHeight;
+            })
+            .catch(function() {
+                formWrap.remove();
+                addMsg("❌ Nepodařilo se odeslat. Zkuste nás kontaktovat přímo: <a href='mailto:plavani.tjkin@gmail.com' style='color:#d32f2f;font-weight:600;'>plavani.tjkin@gmail.com</a>", 'bot');
+                msgs.scrollTop = msgs.scrollHeight;
+            });
+        });
+    }
+
     function botReply(key) {
         quickReplies.style.display = 'none';
         const t = addTyping();
-        setTimeout(() => {
+        setTimeout(function() {
             t.remove();
-            const ans = answers[key] || "Na tuto otázku Vám nejlépe odpoví paní Šmausová osobně. 😊";
-            addMsg(ans, 'bot');
-            setTimeout(() => {
-                addMsg(CTA, 'bot');
-                quickReplies.style.display = 'flex';
-            }, 600);
+            if (!key) {
+                // Neznámý dotaz → ukáž formulář
+                addMsg("Hmm, tuto otázku teď neumím zodpovědět. 🤔", 'bot');
+                setTimeout(function() {
+                    showContactForm();
+                    quickReplies.style.display = 'flex';
+                }, 500);
+            } else {
+                addMsg(answers[key], 'bot');
+                setTimeout(function() {
+                    addMsg(CTA, 'bot');
+                    quickReplies.style.display = 'flex';
+                }, 600);
+            }
         }, 900 + Math.random() * 400);
     }
 
@@ -383,23 +492,30 @@ function initChatbot() {
     }
 
     sendBtn.addEventListener('click', send);
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+    input.addEventListener('keydown', function(e) { if (e.key === 'Enter') send(); });
 
-    document.querySelectorAll('.kin-chip').forEach(c => {
-        c.addEventListener('click', () => {
+    document.querySelectorAll('.kin-chip').forEach(function(c) {
+        c.addEventListener('click', function() {
+            if (c.dataset.q === 'napsat') {
+                gaEvent('napsat_nam_kliknuto', 'chip');
+                quickReplies.style.display = 'none';
+                showContactForm();
+                quickReplies.style.display = 'flex';
+                return;
+            }
             addMsg(c.textContent.trim(), 'user');
             gaEvent('chip_kliknuti', c.dataset.q);
             botReply(c.dataset.q);
         });
     });
 
-    closeBtn.addEventListener('click', () => {
+    closeBtn.addEventListener('click', function() {
         chatWindow.classList.add('skryto');
         fab.style.display = 'flex';
         gaEvent('chat_zavreni', 'close_button');
     });
 
-    fab.addEventListener('click', () => {
+    fab.addEventListener('click', function() {
         fab.style.display = 'none';
         chatWindow.classList.remove('skryto');
         msgs.scrollTop = msgs.scrollHeight;
@@ -408,6 +524,6 @@ function initChatbot() {
 
     // Pozdrav + GA event při prvním zobrazení
     gaEvent('chat_otevreni', 'autoload');
-    setTimeout(() => addMsg("Dobrý den! 👋 Jsem asistent KIN ČB. Pomohu vám s informacemi o trénincích, zápisech nebo cenách.", 'bot'), 400);
-    setTimeout(() => addMsg("Na co se chcete zeptat?", 'bot'), 1100);
+    setTimeout(function() { addMsg("Dobrý den! 👋 Jsem asistent KIN ČB. Pomohu vám s informacemi o trénincích, zápisech nebo cenách.", 'bot'); }, 400);
+    setTimeout(function() { addMsg("Na co se chcete zeptat?", 'bot'); }, 1100);
 }

@@ -710,5 +710,12 @@
             </p>
         </div>
     </div>
+
+    <!-- Netlify form pro KIN Asistent chatbot (hidden, nutný pro detekci při buildu) -->
+    <form name="kin-chatbot" netlify netlify-honeypot="bot-field" hidden>
+        <input name="bot-field">
+        <input name="email" type="email">
+        <textarea name="zprava"></textarea>
+    </form>
 </body>
 </html>
