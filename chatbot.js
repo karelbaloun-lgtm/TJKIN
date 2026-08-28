@@ -27,14 +27,14 @@ function initChatbot() {
         width: 340px;
         max-height: 520px;
         background: #fff;
-        border-radius: 18px;
-        box-shadow: 0 8px 32px rgba(211,47,47,0.18);
+        border-radius: 20px;
+        box-shadow: 0 16px 48px rgba(211,47,47,0.22), 0 4px 12px rgba(0,0,0,0.08);
         display: flex;
         flex-direction: column;
         overflow: hidden;
-        border: 1px solid rgba(211,47,47,0.12);
+        border: none;
         transform-origin: bottom right;
-        animation: kinChatPopIn 0.25s cubic-bezier(0.34,1.56,0.64,1) both;
+        animation: kinChatPopIn 0.28s cubic-bezier(0.34,1.56,0.64,1) both;
     }
 
     @keyframes kinChatPopIn {
@@ -47,7 +47,7 @@ function initChatbot() {
     }
 
     .kin-chat-header {
-        background: #d32f2f;
+        background: linear-gradient(135deg, #b71c1c 0%, #d32f2f 55%, #e53935 100%);
         padding: 14px 16px;
         display: flex;
         align-items: center;
@@ -56,12 +56,13 @@ function initChatbot() {
     }
 
     .kin-chat-avatar {
-        width: 36px; height: 36px;
-        background: #fbc02d;
+        width: 38px; height: 38px;
+        background: linear-gradient(135deg, #fbc02d, #f9a825);
         border-radius: 50%;
         display: flex; align-items: center; justify-content: center;
-        font-size: 1.1rem;
+        font-size: 1.15rem;
         flex-shrink: 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.18);
     }
 
     .kin-chat-header-info { flex: 1; min-width: 0; }
@@ -120,12 +121,13 @@ function initChatbot() {
     .kin-msg.user { align-self: flex-end; flex-direction: row-reverse; }
 
     .kin-msg-avatar {
-        width: 26px; height: 26px;
-        background: #fbc02d;
+        width: 28px; height: 28px;
+        background: linear-gradient(135deg, #fbc02d, #f9a825);
         border-radius: 50%;
         display: flex; align-items: center; justify-content: center;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         flex-shrink: 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.15);
     }
 
     .kin-bubble {
@@ -136,8 +138,8 @@ function initChatbot() {
         max-width: 100%;
     }
 
-    .kin-msg.bot  .kin-bubble { background: #fff; color: #1a1010; border-bottom-left-radius: 4px; border: 1px solid rgba(211,47,47,0.12); }
-    .kin-msg.user .kin-bubble { background: #d32f2f; color: #fff; border-bottom-right-radius: 4px; }
+    .kin-msg.bot  .kin-bubble { background: #fff; color: #1a1010; border-bottom-left-radius: 4px; border: 1px solid rgba(211,47,47,0.1); box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .kin-msg.user .kin-bubble { background: linear-gradient(135deg, #d32f2f, #e53935); color: #fff; border-bottom-right-radius: 4px; box-shadow: 0 2px 8px rgba(211,47,47,0.3); }
 
     .kin-typing-dots { display: flex; gap: 4px; align-items: center; padding: 4px 2px; }
     .kin-typing-dots span {
@@ -164,19 +166,20 @@ function initChatbot() {
     }
 
     .kin-chip {
-        background: #fff0f0;
-        border: 1.5px solid rgba(211,47,47,0.25);
-        color: #d32f2f;
+        background: #fff;
+        border: 1.5px solid rgba(211,47,47,0.22);
+        color: #c62828;
         font-family: inherit;
         font-size: 0.78rem;
         font-weight: 600;
-        padding: 5px 11px;
+        padding: 5px 12px;
         border-radius: 20px;
         cursor: pointer;
-        transition: background 0.15s, transform 0.1s;
+        transition: background 0.15s, transform 0.12s, box-shadow 0.15s;
         white-space: nowrap;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }
-    .kin-chip:hover { background: #d32f2f; color: #fff; border-color: #d32f2f; transform: translateY(-1px); }
+    .kin-chip:hover { background: #d32f2f; color: #fff; border-color: #d32f2f; transform: translateY(-1px); box-shadow: 0 3px 8px rgba(211,47,47,0.25); }
 
     .kin-chip.kin-chip-napsat {
         background: #fff8e1;
@@ -224,19 +227,25 @@ function initChatbot() {
     .kin-send-btn:hover { background: #b71c1c; transform: scale(1.05); }
 
     #kin-chat-fab {
-        width: 56px; height: 56px;
-        background: #d32f2f;
+        width: 58px; height: 58px;
+        background: linear-gradient(135deg, #d32f2f, #e53935);
         border: none;
         border-radius: 50%;
         color: #fff;
         font-size: 1.5rem;
         cursor: pointer;
-        box-shadow: 0 8px 24px rgba(211,47,47,0.35);
+        box-shadow: 0 8px 24px rgba(211,47,47,0.4);
         display: flex; align-items: center; justify-content: center;
-        transition: background 0.15s, transform 0.15s;
+        transition: transform 0.15s, box-shadow 0.15s;
         position: relative;
+        animation: kinFabPulse 2.5s ease-in-out infinite;
     }
-    #kin-chat-fab:hover { background: #b71c1c; transform: scale(1.08); }
+    #kin-chat-fab:hover { transform: scale(1.08); box-shadow: 0 10px 30px rgba(211,47,47,0.5); }
+
+    @keyframes kinFabPulse {
+        0%, 100% { box-shadow: 0 8px 24px rgba(211,47,47,0.4); }
+        50% { box-shadow: 0 8px 28px rgba(211,47,47,0.5), 0 0 0 8px rgba(211,47,47,0.12); }
+    }
 
     .kin-fab-badge {
         position: absolute;
