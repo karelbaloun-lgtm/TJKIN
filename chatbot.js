@@ -345,13 +345,13 @@ function initChatbot() {
     const answers = {
         tréninky: "Tréninky probíhají v bazénu na Střeleckém ostrově. Nová sezóna 2026/2027 začíná <strong>2. září 2026</strong> pro všechny skupiny. Přesný rozvrh sdělíme osobně při zápisu. 🏊",
         cena: "Členský příspěvek se liší podle skupiny a sezóny. Podrobnosti najdete v <a href='/terminovka.html' style='color:#d32f2f;font-weight:600;'>ekonomických podmínkách</a>. Rádi vše vysvětlíme osobně!",
-        zápis: "Zápis do sezóny 2026/2027 probíhá – <strong>25.–27. 8. 2026</strong> od 16:00 do 18:30, vstup přes dětské hřiště. Přijďte osobně. 📝",
-        kurzy: "Kurzy pro neplavce (Plavecká škola Rybky) začínají <strong>7. září 2026</strong>. Děti od 4 let, 1× týdně. Závodění není podmínkou! 🐠",
+        zápis: "Zápis do sezóny 2026/2027 probíhá – <strong>25.–27. 8. 2026</strong> od 16:00 do 18:30, vstup přes dětské hřiště. Přijďte osobně.📝",
+        kurzy: "Kurzy pro neplavce (Plavecká škola Rybky) začínají <strong>7. zárí 2026</strong>. Děti od 4 let, 1× týdně. Závodění není podmínkou! 🐠",
         věk: "Do závodní skupiny přijímáme od <strong>6 let</strong>. Kurzy pro neplavce jsou od <strong>4 let</strong>. Nejste si jistí? Přijďte na zápis, vše probereme. 👋",
         kontakt: "Napište nám na <a href='mailto:plavani.tjkin@gmail.com' style='color:#d32f2f;font-weight:600;'>plavani.tjkin@gmail.com</a> nebo volejte <strong>723 062 048</strong>. 📞",
-        bazén: "Trénujeme v bazénu na <strong>Střeleckém ostrově</strong> v Českých Budějovicích. 📍",
+        bazén: "Trénujeme v bazénu na <strong>Střeleckém ostrovę</strong> v Českých Budějovicích. 📍",
         závody: "Termínovku závodů najdete na <a href='/terminovka.html' style='color:#d32f2f;font-weight:600;'>stránce Termínovka</a>. Závodění není povinné. 🏁",
-        soustředění: "Soustředění pořádáme v průběhu sezóny. Termíny sledujte v <a href='/aktuality.html' style='color:#d32f2f;font-weight:600;'>Aktualitách</a>. 🏕️",
+        soustředěnõ: "Soustředění pořádáme v průběhu sez�óny. Termíny sledujte v <a href='/aktuality.html' style='color:#d32f2f;font-weight:600;'>Aktualitách</a>. 🏕️",
     };
 
     const keywords = [
@@ -359,8 +359,8 @@ function initChatbot() {
         ["trénink", "tréninky"], ["trénin", "tréninky"], ["plavání", "tréninky"], ["rozvrh", "tréninky"],
         ["příspěvek", "cena"], ["poplatek", "cena"], ["cen", "cena"], ["plat", "cena"], ["stojí", "cena"],
         ["zápis", "zápis"], ["zapsat", "zápis"], ["přihlásit", "zápis"], ["registrace", "zápis"],
-        ["kurz", "kurzy"], ["neplavec", "kurzy"], ["rybky", "kurzy"], ["začátečník", "kurzy"], ["neumí plavat", "kurzy"],
-        ["bazén", "bazén"], ["bazenu", "bazén"], ["kde plavete", "bazén"],
+        ["kurz.", "kurzy"], ["neplavec", "kurzy"], ["rybky", "kurzy"], ["začátečník", "kurzy"], ["neumí plavat", "kurzy"],
+        ["bazén", "bazén"], ["bazenu", "bazén"], ["kde plavete", "bazìn"],
         ["závod", "závody"], ["soutěž", "závody"],
         ["soustředění", "soustředění"], ["soustředeni", "soustředění"],
         ["kontakt", "kontakt"], ["telefon", "kontakt"], ["email", "kontakt"], ["e-mail", "kontakt"], ["napsat", "kontakt"], ["obrátit", "kontakt"], ["volat", "kontakt"],
@@ -414,8 +414,8 @@ function initChatbot() {
         formWrap.innerHTML = `
             <div class="kin-msg-avatar">🏊</div>
             <div class="kin-bubble kin-contact-form">
-                <p>Nenašli jste, co jste hledali?<br>Napište nám přímo:</p>
-                <input class="kin-form-field" id="kinFormEmail" type="email" placeholder="Váš e-mail (pro odpověď)" autocomplete="email">
+                <p>Nenařli jste, co jste hledali?<br>Napište nám přímo:</p>
+                <input class="kin-form-field" id="kinFormEmail" type="email" placeholder="Váš e-mail (pro odpověĩ)" autocomplete="email">
                 <textarea class="kin-form-field" id="kinFormMsg" placeholder="Vaše zpráva…" rows="3"></textarea>
                 <button class="kin-form-send-btn" id="kinFormSend">Odeslat ➤</button>
             </div>
@@ -533,6 +533,6 @@ function initChatbot() {
 
     // Pozdrav + GA event při prvním zobrazení
     gaEvent('chat_otevreni', 'autoload');
-    setTimeout(function() { addMsg("Dobrý den! 👋 Jsem asistent KIN ČB. Pomohu vám s informacemi o trénincích, zápisech nebo cenách.", 'bot'); }, 400);
-    setTimeout(function() { addMsg("Na co se chcete zeptat?", 'bot'); }, 1100);
+    setTimeout(function() { addMsg('Dobrý den! 👋 Jsem asistent KIN ČB. Pomohu vám s informacemi o trénincích, zápisech nebo cenách.', 'bot'); }, 400);
+    setTimeout(function() { addMsg('Na co se chcete zeptat?', 'bot'); }, 1100);
 }
