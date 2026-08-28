@@ -380,8 +380,8 @@ function initChatbot() {
         const div = document.createElement('div');
         div.className = `kin-msg ${who}`;
         div.innerHTML = who === 'bot'
-            ? `$div class="kin-msg-avatar">🏊</div><div class="kin-bubble">${text}</div>`
-            : `$div class="kin-bubble">${text}</div>`;
+            ? `<div class="kin-msg-avatar">🏊</div><div class="kin-bubble">${text}</div>`
+            : `<div class="kin-bubble">${text}</div>`;
         msgs.appendChild(div);
         msgs.scrollTop = msgs.scrollHeight;
     }
@@ -390,7 +390,7 @@ function initChatbot() {
         const div = document.createElement('div');
         div.className = 'kin-msg bot';
         div.id = 'kin-typing';
-        div.innerHTML = `$div class="kin-msg-avatar">🏊</div>$div class="kin-bubble">$div class="kin-typing-dots"><span></span><span></span><span></span></div></div>`;
+        div.innerHTML = `<div class="kin-msg-avatar">🏊</div><div class="kin-bubble"><div class="kin-typing-dots"><span></span><span></span><span></span></div></div>`;
         msgs.appendChild(div);
         msgs.scrollTop = msgs.scrollHeight;
         return div;
@@ -402,7 +402,7 @@ function initChatbot() {
         const formWrap = document.createElement('div');
         formWrap.className = 'kin-msg bot kin-contact-form-wrap';
         formWrap.innerHTML = `
-            $div class="kin-msg-avatar">🏊</div>
+            <div class="kin-msg-avatar">🏊</div>
             <div class="kin-bubble kin-contact-form">
                 <p>Nenařli jste, co jste hledali?<br>Napište nám přímo:</p>
                 <input class="kin-form-field" id="kinFormEmail" type="email" placeholder="Váš e-mail (pro odpověĩ)" autocomplete="email">
