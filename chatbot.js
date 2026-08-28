@@ -319,7 +319,7 @@ function initChatbot() {
     const widget = document.createElement('div');
     widget.id = 'kin-chat-widget';
     widget.innerHTML = `
-        <div id="kin-chat-window">
+        <div id="kin-chat-window" class="skryto">
             <div class="kin-chat-header">
                 <div class="kin-chat-avatar">K</div>
                 <div class="kin-chat-header-info">
@@ -342,7 +342,7 @@ function initChatbot() {
                 <button class="kin-send-btn" id="kinSend" aria-label="Odeslat">➤</button>
             </div>
         </div>
-        <button id="kin-chat-fab" style="display:none;" aria-label="Otevřít chat">
+        <button id="kin-chat-fab" aria-label="Otevřít chat">
             💬
             <span class="kin-fab-badge">1</span>
         </button>
@@ -532,15 +532,16 @@ function initChatbot() {
         gaEvent('chat_zavreni', 'close_button');
     });
 
+    let pozdravZobrazen = false;
     fab.addEventListener('click', function() {
         fab.style.display = 'none';
         chatWindow.classList.remove('skryto');
         msgs.scrollTop = msgs.scrollHeight;
         gaEvent('chat_otevreni', 'fab');
+        if (!pozdravZobrazen) {
+            pozdravZobrazen = true;
+            setTimeout(function() { addMsg('Dobrý den! 👋 Jsem asistent KIN ČB. Pomohu vám s informacemi o trénincích, zápisech nebo cenách.', 'bot'); }, 400);
+            setTimeout(function() { addMsg('Na co se chcete zeptat?', 'bot'); }, 1100);
+        }
     });
-
-    // Pozdrav + GA event při prvním zobrazení
-    gaEvent('chat_otevreni', 'autoload');
-    setTimeout(function() { addMsg('Dobrý den! 👋 Jsem asistent KIN ČB. Pomohu vám s informacemi o trénincích, zápisech nebo cenách.', 'bot'); }, 400);
-    setTimeout(function() { addMsg('Na co se chcete zeptat?', 'bot'); }, 1100);
 }
