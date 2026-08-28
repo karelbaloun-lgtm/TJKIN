@@ -245,7 +245,7 @@ nav a.nav-aktivni::after {
     z-index: 900;
 }
 @media (max-width: 860px) {
-    .vzhled-wrap { bottom: calc(68px + env(safe-area-inset-bottom) + 12px); }
+    .vzhled-wrap { right: 24px; bottom: calc(68px + env(safe-area-inset-bottom) + 12px); }
 }
 .vzhled-btn {
     width: 46px; height: 46px; border-radius: 50%;
