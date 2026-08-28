@@ -240,7 +240,7 @@ nav a.nav-aktivni::after {
 /* Plovoucí tlačítko Vzhled */
 .vzhled-wrap {
     position: fixed;
-    right: 24px;
+    right: 90px;
     bottom: 24px;
     z-index: 900;
 }
