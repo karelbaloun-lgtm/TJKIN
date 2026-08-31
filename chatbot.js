@@ -312,6 +312,25 @@ function initChatbot() {
         #kin-chat-window { animation: none; }
         .kin-typing-dots span { animation: none; opacity: 0.6; }
     }
+
+    #kin-fab-hint {
+        background: #fff;
+        color: #c62828;
+        border: 1.5px solid rgba(211,47,47,0.22);
+        border-radius: 20px;
+        padding: 8px 14px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        box-shadow: 0 4px 16px rgba(211,47,47,0.18);
+        animation: kinHintPop 0.28s cubic-bezier(0.34,1.56,0.64,1) both;
+        cursor: pointer;
+        white-space: nowrap;
+        max-width: 220px;
+    }
+    @keyframes kinHintPop {
+        from { opacity: 0; transform: scale(0.85) translateY(8px); }
+        to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
     `;
     document.head.appendChild(style);
 
@@ -330,10 +349,10 @@ function initChatbot() {
             </div>
             <div class="kin-chat-messages" id="kinMessages"></div>
             <div class="kin-quick-replies" id="kinQuickReplies">
-                <button class="kin-chip" data-q="tréninky">🕐 Kdy jsou tréninky?</button>
-                <button class="kin-chip" data-q="cena">💰 Kolik to stojí?</button>
-                <button class="kin-chip" data-q="zápis">📝 Jak se zapsat?</button>
-                <button class="kin-chip" data-q="kurzy">🐠 Kurzy neplavců</button>
+                <button class="kin-chip" data-q="tréninky">🕐 Kdy trénuje přípravka?</button>
+                <button class="kin-chip" data-q="cena">💰 Kolik stojí členství?</button>
+                <button class="kin-chip" data-q="zápis">📝 Jak se zapsat do oddílu?</button>
+                <button class="kin-chip" data-q="kurzy">🐠 Kurzy pro neplavce</button>
                 <button class="kin-chip" data-q="věk">👶 Od kolika let?</button>
                 <button class="kin-chip kin-chip-napsat" data-q="napsat">✉️ Napište nám</button>
             </div>
@@ -533,15 +552,51 @@ function initChatbot() {
     });
 
     let pozdravZobrazen = false;
+    let fabHint = null;
+
+    const hintTimer = setTimeout(function() {
+        if (chatWindow.classList.contains('skryto')) {
+            const page = window.location.pathname;
+            const hintText = page.includes('treninky') ? 'Hledáte tréninkové časy? →'
+                           : page.includes('terminovka') ? 'Termíny závodů nebo zápisů? →'
+                           : page.includes('kontakt') ? 'Potřebujete kontakt? →'
+                           : 'Hledáte tréninkové časy? →';
+            fabHint = document.createElement('div');
+            fabHint.id = 'kin-fab-hint';
+            fabHint.textContent = hintText;
+            widget.insertBefore(fabHint, fab);
+            fabHint.addEventListener('click', function() {
+                fabHint.remove();
+                fabHint = null;
+                fab.click();
+            });
+            setTimeout(function() { if (fabHint) { fabHint.remove(); fabHint = null; } }, 6000);
+        }
+    }, 10000);
+
     fab.addEventListener('click', function() {
+        clearTimeout(hintTimer);
+        if (fabHint) { fabHint.remove(); fabHint = null; }
         fab.style.display = 'none';
         chatWindow.classList.remove('skryto');
         msgs.scrollTop = msgs.scrollHeight;
         gaEvent('chat_otevreni', 'fab');
         if (!pozdravZobrazen) {
             pozdravZobrazen = true;
-            setTimeout(function() { addMsg('Dobrý den! 👋 Jsem asistent KIN ČB. Pomohu vám s informacemi o trénincích, zápisech nebo cenách.', 'bot'); }, 400);
-            setTimeout(function() { addMsg('Na co se chcete zeptat?', 'bot'); }, 1100);
+            const page = window.location.pathname;
+            let pozdrav;
+            if (page.includes('treninky')) {
+                pozdrav = 'Hledáte informace o trénincích? 🏊 Sdělím vám časy skupin nebo podmínky přijetí.';
+            } else if (page.includes('kontakt')) {
+                pozdrav = 'Potřebujete nás kontaktovat? 📞 Poradím s e-mailem, telefonem nebo kde nás najdete.';
+            } else if (page.includes('terminovka')) {
+                pozdrav = 'Hledáte termíny závodů nebo zápisů? 🏁 Zeptejte se, poradím!';
+            } else if (page.includes('aktuality')) {
+                pozdrav = 'Zajímají vás aktuality nebo plánované akce? 📰 Rád pomůžu.';
+            } else {
+                pozdrav = 'Dobrý den! 👋 Pomohu vám s informacemi o trénincích, zápisech nebo cenách.';
+            }
+            setTimeout(function() { addMsg(pozdrav, 'bot'); }, 300);
         }
     });
 }
