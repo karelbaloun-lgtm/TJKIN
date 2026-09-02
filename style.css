@@ -865,8 +865,8 @@ body.dark-mode .logo-hp img {
 }
 .nabor-sekce {
     background: var(--pozadi-obsahu);
-    padding: 24px 28px 40px;
-    margin: 16px auto;
+    padding: 12px 28px 40px;
+    margin: 12px auto;
     border-radius: 16px;
     max-width: 900px;
     text-align: center;
