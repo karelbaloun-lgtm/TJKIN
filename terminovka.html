@@ -38,8 +38,8 @@
         .term-sekce {
             background: var(--pozadi-obsahu);
             border-radius: 14px;
-            border: 1px solid rgba(0,0,0,0.07);
-            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.13);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.09);
             margin-bottom: 20px;
             overflow: hidden;
         }
@@ -74,22 +74,23 @@
 
         /* Měsíční nadpisy */
         .term-mesic {
-            font-size: 0.75em;
-            font-weight: 600;
+            font-size: 0.72em;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #bbb;
-            padding: 10px 20px 4px;
+            letter-spacing: 0.12em;
+            color: #888;
+            padding: 12px 20px 4px;
+            border-top: 1px solid rgba(0,0,0,0.06);
         }
-        .term-mesic:first-child { padding-top: 14px; }
+        .term-mesic:first-child { padding-top: 14px; border-top: none; }
 
         /* Řádky závodu */
         .term-item {
             display: flex;
             align-items: center;
             gap: 14px;
-            padding: 10px 20px;
-            border-bottom: 1px solid rgba(0,0,0,0.04);
+            padding: 11px 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
             transition: background 0.15s;
         }
         .term-item:last-child { border-bottom: none; }
@@ -128,11 +129,13 @@
         /* Datum */
         .term-datum {
             font-size: 0.82em;
-            color: #888;
+            font-weight: 500;
+            color: #444;
             white-space: nowrap;
             min-width: 90px;
             flex-shrink: 0;
             cursor: pointer;
+            font-variant-numeric: tabular-nums;
         }
         .term-datum:hover { color: var(--hlavni-barva); text-decoration: underline dotted; }
 
@@ -232,8 +235,8 @@
         body.dark-mode .term-sekce-header { border-color: rgba(255,255,255,0.06); }
         body.dark-mode .term-item { border-color: rgba(255,255,255,0.04); }
         body.dark-mode .term-item:hover { background: rgba(255,255,255,0.04); }
-        body.dark-mode .term-mesic { color: #555; }
-        body.dark-mode .term-datum { color: #666; }
+        body.dark-mode .term-mesic { color: #666; }
+        body.dark-mode .term-datum { color: #aaa; }
         body.dark-mode .term-misto, body.dark-mode .term-misto a { color: #666; }
         body.dark-mode .term-btn.vysledky { background: #1b3a1c; color: #81c784; }
         body.dark-mode .term-btn.clanek   { background: #0d2137; color: #64b5f6; }
