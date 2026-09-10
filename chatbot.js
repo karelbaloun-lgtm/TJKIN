@@ -353,7 +353,7 @@ function initChatbot() {
                 <button class="kin-chip" data-q="cena">💰 Kolik stojí členství?</button>
                 <button class="kin-chip" data-q="zápis">📝 Jak se zapsat do oddílu?</button>
                 <button class="kin-chip" data-q="kurzy">🐠 Kurzy pro neplavce</button>
-                <button class="kin-chip" data-q="věk">👶 Od kolika let?</button>
+                <button class="kin-chip" data-q="dite">🧒 Mám dítě – co nabízíte?</button>
                 <button class="kin-chip kin-chip-napsat" data-q="napsat">✉️ Napište nám</button>
             </div>
             <div class="kin-chat-input-row">
@@ -375,6 +375,7 @@ function initChatbot() {
         zápis: "Zápis do sezóny 2026/2027 probíhá – <strong>25.–27. 8. 2026</strong> od 16:00 do 18:30, vstup přes dětské hřiště. Přijďte osobně.📝",
         kurzy: "Kurzy pro neplavce (Plavecká škola Rybky) začínají <strong>7. zárí 2026</strong>. Děti od 4 let, 1× týdně. Závodění není podmínkou! 🐠",
         věk: "Do závodní skupiny přijímáme od <strong>6 let</strong>. Kurzy pro neplavce jsou od <strong>4 let</strong>. Nejste si jistí? Přijďte na zápis, vše probereme. 👋",
+        dite: "👶 Podle věku dítěte nabízíme:<br><br>🐠 <strong>4–5 let</strong> – Plavecká škola Rybky: kurzy pro neplavce, 1× týdně, začínáme <strong>7. 9. 2026</strong><br>🏊 <strong>6–10 let</strong> – Závodní přípravka KIN: tréninky 3–4× týdně (i pro začátečníky!)<br>🏆 <strong>10+ let</strong> – Závodní skupiny s účastí na závodech<br><br>Promeškali jste zápis? Nevadí – napište nebo zavolejte: <strong><a href='tel:723062048' style='color:#d32f2f;font-weight:600;'>723 062 048</a></strong> 📞",
         kontakt: "Napište nám na <a href='mailto:plavani.tjkin@gmail.com' style='color:#d32f2f;font-weight:600;'>plavani.tjkin@gmail.com</a> nebo volejte <strong>723 062 048</strong>. 📞",
         bazén: "Trénujeme v bazénu na <strong>Střeleckém ostrovę</strong> v Českých Budějovicích. 📍",
         závody: "Termínovku závodů najdete na <a href='/terminovka.html' style='color:#d32f2f;font-weight:600;'>stránce Termínovka</a>. Závodění není povinné. 🏁",
@@ -382,7 +383,8 @@ function initChatbot() {
     };
 
     const keywords = [
-        ["od kolika", "věk"], ["kolika let", "věk"], ["kolik let", "věk"], ["roků", "věk"], ["staré", "věk"], ["dítě", "věk"],
+        ["od kolika", "věk"], ["kolika let", "věk"], ["kolik let", "věk"], ["roků", "věk"], ["staré", "věk"],
+        ["dítě", "dite"], ["syn", "dite"], ["dcera", "dite"], ["chlapec", "dite"], ["kluk", "dite"], ["holka", "dite"], ["dívka", "dite"], ["potomk", "dite"], ["promeška", "dite"],
         ["trénink", "tréninky"], ["trénin", "tréninky"], ["plavání", "tréninky"], ["rozvrh", "tréninky"],
         ["příspěvek", "cena"], ["poplatek", "cena"], ["cen", "cena"], ["plat", "cena"], ["stojí", "cena"],
         ["zápis", "zápis"], ["zapsat", "zápis"], ["přihlásit", "zápis"], ["registrace", "zápis"],
