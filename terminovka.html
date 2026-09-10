@@ -254,13 +254,89 @@
         }
 
         /* Tisk */
+        #print-hlavicka {
+            display: none;
+        }
         @media print {
-            .term-sekce { box-shadow: none; border: 1px solid #ccc; }
-            .term-paticka-box.tisk, #spolecne-menu, #spolecna-paticka { display: none; }
+            @page { size: A4; margin: 14mm 12mm 10mm; }
+
+            body { background: #fff !important; color: #000 !important; font-size: 10.5pt; }
+
+            /* Zobrazit tiskovou hlavičku */
+            #print-hlavicka {
+                display: flex !important;
+                align-items: center;
+                gap: 16px;
+                border-bottom: 2px solid #d32f2f;
+                padding-bottom: 10px;
+                margin-bottom: 14px;
+            }
+            #print-hlavicka img { height: 48px; width: auto; }
+            #print-hlavicka-nazev {
+                font-family: 'Barlow Condensed', sans-serif;
+                font-size: 1.5rem;
+                font-weight: 900;
+                text-transform: uppercase;
+                color: #d32f2f;
+                line-height: 1.1;
+                letter-spacing: 0.02em;
+            }
+            #print-hlavicka-podnadpis { font-size: 0.9rem; font-weight: 600; color: #333; margin-top: 2px; }
+            #print-hlavicka-datum { font-size: 0.75rem; color: #888; margin-top: 2px; }
+
+            /* Skrýt webové prvky */
+            .hlavicka, #spolecne-menu, #spolecna-paticka,
+            .term-paticka, #kin-chat-widget,
+            .term-upozorneni { display: none !important; }
+
+            /* Sekce */
+            .term-sekce {
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+                border-radius: 5px !important;
+                margin-bottom: 10px !important;
+                background: #fff !important;
+                page-break-inside: avoid;
+            }
+            .term-sekce-header { background: #f5f5f5 !important; border-bottom: 1px solid #ddd !important; }
+            .term-sekce-pill { color: #c00 !important; }
+            .term-sekce-pill.dalka  { color: #c0581a !important; }
+            .term-sekce-pill.podzim { color: #7a5a28 !important; }
+
+            /* Měsíční pásy */
+            .term-mesic {
+                background: #f9f9f9 !important;
+                color: #333 !important;
+                border-top: 1px solid #ddd !important;
+                border-bottom: 1px solid #ddd !important;
+            }
+
+            /* Řádky */
+            .term-item { padding: 7px 14px !important; border-bottom: 1px solid #eee !important; page-break-inside: avoid; }
+            .term-item:hover { background: none !important; }
+            .term-datum { color: #333 !important; border-right: 1.5px solid #ccc !important; }
+            .term-nazev { white-space: normal !important; }
+            .term-misto, .term-misto a { color: #666 !important; }
+
+            /* Skrýt tlačítka a badge */
+            .term-akce, .term-btn, .term-badge-brzy { display: none !important; }
+
+            /* Tečky zachovat barevné */
+            .term-dot { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
         }
     </style>
 </head>
 <body>
+
+    <!-- Hlavička pouze pro tisk -->
+    <div id="print-hlavicka">
+        <img src="images/logos/logo.png" alt="Logo KIN">
+        <div>
+            <div id="print-hlavicka-nazev">TJ KIN České Budějovice</div>
+            <div id="print-hlavicka-podnadpis">Termínovka závodů – sezóna 2026/2027</div>
+            <div id="print-hlavicka-datum"></div>
+        </div>
+    </div>
 
     <div id="spolecne-menu"></div>
 
@@ -307,7 +383,7 @@
         <div class="term-paticka">
             <div class="term-paticka-box tisk">
                 <p>Chcete termínovku v papírové podobě?</p>
-                <a href="#" onclick="window.print(); return false;" class="tlacitko">
+                <a href="#" onclick="document.getElementById('print-hlavicka-datum').textContent='Vytisknuto: '+new Date().toLocaleDateString('cs-CZ',{day:'numeric',month:'long',year:'numeric'}); window.print(); return false;" class="tlacitko">
                     🖨️ Vytisknout termínovku
                 </a>
             </div>
