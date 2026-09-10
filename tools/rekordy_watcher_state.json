@@ -2,5 +2,8 @@
   "last_run": "2026-09-10",
   "pending_result_ids": [
     11048
-  ]
+  ],
+  "pending_since": {
+    "11048": "2026-09-10"
+  }
 }

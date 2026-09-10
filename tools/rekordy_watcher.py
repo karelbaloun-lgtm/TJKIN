@@ -24,6 +24,10 @@ Použití:
     python tools/rekordy_watcher.py --days 14       # širší okno
     python tools/rekordy_watcher.py --no-date       # neměnit HTML vůbec
     python tools/rekordy_watcher.py --comp 10635    # jen konkrétní závod (ladění)
+    python tools/rekordy_watcher.py --commit        # bez návrhů na rekord: rovnou commit+push
+
+Závod, u kterého se přes PENDING_MAX_DAYS dní neobjeví výsledky, se ze sledování
+vyřadí (zmíní se v reportu).
 
 Závislosti: standardní knihovna. pdfplumber jen volitelně pro záložní čtení PDF.
 """
@@ -35,6 +39,7 @@ import io
 import json
 import os
 import re
+import subprocess
 import sys
 import unicodedata
 import urllib.request
@@ -52,6 +57,9 @@ API = "https://vysledky.czechswimming.cz/cz.zma.csps.portal.rest/api/public"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REKORDY_HTML = os.path.join(ROOT, "rekordy_kraj.html")
 STATE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "rekordy_watcher_state.json")
+
+# Po kolika dnech bez zveřejněných výsledků přestat závod hlídat.
+PENDING_MAX_DAYS = 21
 
 # Jihočeské kluby – zkratka -> klíčová slova v názvu klubu (pro případ, že se
 # LENEX kód liší od zkratky). Kód i název se porovnávají bez diakritiky, velkými.
@@ -420,21 +428,62 @@ def save_state(state: dict) -> None:
         json.dumps(state, ensure_ascii=False, indent=2) + "\n")
 
 
+# ---------------------------------------------------------------------- git
+def git_commit_push(paths: list[str], message: str) -> tuple[str, str] | None:
+    """Stage daných cest, commit + push. None = nic ke commitu."""
+    def run(*args):
+        return subprocess.run(["git", "-C", ROOT, *args],
+                              capture_output=True, text=True, encoding="utf-8")
+
+    run("add", "--", *paths)
+    if run("diff", "--cached", "--quiet", "--", *paths).returncode == 0:
+        return None
+    c = run("commit", "-m", message, "--", *paths)
+    if c.returncode != 0:
+        return "commit", (c.stderr or c.stdout).strip()
+    p = run("push")
+    if p.returncode != 0:
+        return "push", (p.stderr or p.stdout).strip()
+    return "ok", message
+
+
 # ---------------------------------------------------------------------- main
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--days", type=int, default=7, help="okno zpět ve dnech (default 7)")
     ap.add_argument("--no-date", action="store_true", help="neaktualizovat datum v HTML")
     ap.add_argument("--comp", type=int, action="append", help="zkontrolovat jen daný závod (lze víckrát)")
+    ap.add_argument("--commit", action="store_true",
+                    help="pokud nejsou návrhy na rekord: git add/commit/push rekordy_kraj.html + stavu")
     ap.add_argument("--tmp", default=os.path.join(ROOT, ".rekordy_tmp"), help="adresář pro stažené soubory")
     args = ap.parse_args()
 
     today = dt.date.today()
     os.makedirs(args.tmp, exist_ok=True)
     state = load_state()
-    pending = set(state.get("pending_result_ids", []))
+
+    # {id (str): datum prvního zařazení do fronty}; migrace ze starého seznamu ID.
+    pending_since: dict[str, str] = dict(state.get("pending_since", {}))
+    for pid in state.get("pending_result_ids", []):
+        pending_since.setdefault(str(pid), today.isoformat())
+
+    expired: dict[str, str] = {}
+    for pid, since in list(pending_since.items()):
+        try:
+            d = dt.date.fromisoformat(since)
+        except ValueError:
+            d = today
+        if (today - d).days > PENDING_MAX_DAYS:
+            expired[pid] = since
+            pending_since.pop(pid, None)
+    pending = {int(p) for p in pending_since}
 
     print(f"# Kontrola krajských rekordů – {today.day}. {today.month}. {today.year}\n")
+
+    if expired:
+        for pid, since in sorted(expired.items(), key=lambda x: int(x[0])):
+            print(f"- **{pid}** – přes {PENDING_MAX_DAYS} dní bez výsledků "
+                  f"(čeká se od {since}) → vyřazeno ze sledování")
 
     try:
         comps_raw = fetch_year_competitions(today.year)
@@ -532,9 +581,30 @@ def main() -> int:
             print("**CHYBA:** řádek „Data aktuální k …“ nebyl v HTML nalezen.\n")
 
     # ---- stav
+    new_since = {str(pid): pending_since.get(str(pid), today.isoformat())
+                 for pid in set(new_pending)}
     state["last_run"] = today.isoformat()
-    state["pending_result_ids"] = sorted(set(new_pending))
+    state["pending_result_ids"] = sorted(int(p) for p in new_since)
+    state["pending_since"] = new_since
     save_state(state)
+
+    # ---- commit
+    print("## Commit\n")
+    commit_msg = (f"chore: aktualizovat datum kontroly krajských rekordů – "
+                  f"{today.day}. {today.month}. {today.year}")
+    if not args.commit:
+        print(f"_Přeskočeno (bez --commit)._ Navržená zpráva: `{commit_msg}`\n")
+    elif all_hits:
+        print("_Vynecháno – jsou návrhy na nové rekordy. Zkontroluj je, zanes do "
+              "`rekordy_kraj.html` a commitni ručně._\n")
+    else:
+        res = git_commit_push([REKORDY_HTML, STATE_FILE], commit_msg)
+        if res is None:
+            print("_Nic ke commitu – v souborech není žádná změna._\n")
+        elif res[0] == "ok":
+            print(f"Commitnuto a pushnuto: `{commit_msg}`\n")
+        else:
+            print(f"**CHYBA při `git {res[0]}`:** {res[1]}\n")
 
     # ---- shrnutí pro report
     print("## Shrnutí\n")
@@ -543,10 +613,13 @@ def main() -> int:
         print(f"  - {c['id']} – {c['title']} · {course} · jihočeských klubů: {nclubs}")
     if new_pending:
         print(f"- Čeká na výsledky (příští běh): {', '.join(map(str, sorted(set(new_pending))))}")
+    if expired:
+        print(f"- Vyřazeno (přes {PENDING_MAX_DAYS} dní bez výsledků): "
+              f"{', '.join(sorted(expired, key=int))}")
     print(f"- Nových rekordů k zápisu: {len(all_hits)}")
-    print("\n> Commit: pokud jsou návrhy prázdné -> "
-          "`chore: aktualizovat datum kontroly krajských rekordů – "
-          f"{today.day}. {today.month}. {today.year}`")
+    if not args.commit:
+        print("\n> Commit: pokud jsou návrhy prázdné -> "
+              f"`{commit_msg}`")
     return 0
 
 
