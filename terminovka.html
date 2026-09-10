@@ -25,15 +25,14 @@
            TERMÍNOVKA – lokální styly (Varianta C)
            ========================================= */
 
-        /* Čistá hlavička bez hero obrázku */
-        .hlavicka {
-            background: var(--hlavni-barva) !important;
-            background-image: none !important;
+        .term-upozorneni {
+            text-align: center;
+            font-size: 0.88em;
+            font-style: italic;
+            color: #888;
+            margin-bottom: 36px;
         }
-        .hlavicka h1 {
-            text-shadow: none !important;
-        }
-        .term-upozorneni { display: none; }
+        .term-upozorneni a { color: var(--hlavni-barva); font-weight: 600; }
 
         /* Sekce */
         .term-sekce {
@@ -344,10 +343,16 @@
     <header class="hlavicka">
         <img src="images/logos/logo.png" class="logo-oddilu" alt="Logo KIN" id="hlavni-logo">
         <h1>Termínová listina 2026</h1>
-        <p class="podnadpis">Plán závodů a soustředění – sezóna 2026/2027</p>
+        <p class="podnadpis">Plán závodů a soustředění na nadcházející sezónu</p>
     </header>
 
     <div class="obsah">
+
+        <p class="term-upozorneni">
+            ⚠️ Termíny jsou předběžné a mohou se měnit dle oficiální
+            <a href="https://vysledky.czechswimming.cz/souteze" target="_blank">termínové listiny ČSPS</a>.
+            Datum = přidat do kalendáře · Název = propozice ČSPS · 📍 = navigace.
+        </p>
 
         <!-- ===== LEDEN – ČERVEN ===== -->
         <div class="term-sekce">
