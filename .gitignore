@@ -1,2 +1,4 @@
 # dočasné soubory týdenního watcheru krajských rekordů
 .rekordy_tmp/
+__pycache__/
+*.pyc
