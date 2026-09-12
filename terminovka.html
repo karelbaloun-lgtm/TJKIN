@@ -25,19 +25,54 @@
            TERMÍNOVKA – lokální styly (Varianta C)
            ========================================= */
 
-        .term-legenda {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            margin-bottom: 28px;
-            padding: 14px 18px;
-            background: rgba(211,47,47,0.04);
-            border-left: 3px solid var(--hlavni-barva);
-            border-radius: 0 8px 8px 0;
-            font-size: 0.86em;
-            color: #555;
+        /* ── WRAPPER GRID ── */
+        .term-wrapper {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 1fr 200px;
+            gap: 0 24px;
+            align-items: start;
         }
-        .term-legenda span { display: block; }
+        .term-wrapper .obsah {
+            margin-left: 0;
+            margin-right: 0;
+        }
+        .term-sidebar {
+            position: sticky;
+            top: 80px;
+            margin-top: -30px;
+        }
+        .term-legenda-box {
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 16px 18px 12px;
+        }
+        .term-legenda-box h4 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.75em;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--hlavni-barva);
+            margin: 0 0 10px;
+        }
+        .term-legenda-box span {
+            display: block;
+            font-size: 0.82em;
+            color: #555;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .term-legenda-box span:last-child { border-bottom: none; }
+
+        @media (max-width: 860px) {
+            .term-wrapper { grid-template-columns: 1fr; }
+            .term-sidebar { display: none; }
+        }
 
         .term-upozorneni-paticka {
             text-align: center;
@@ -363,13 +398,8 @@
         <p class="podnadpis">Plán závodů a soustředění na nadcházející sezónu</p>
     </header>
 
+    <div class="term-wrapper">
     <div class="obsah">
-
-        <div class="term-legenda">
-            <span>📅 Datum = přidat do kalendáře</span>
-            <span>📄 Název = propozice ČSPS</span>
-            <span>📍 = navigace na místo konání</span>
-        </div>
 
         <!-- ===== LEDEN – ČERVEN ===== -->
         <div class="term-sekce">
@@ -417,7 +447,18 @@
             <a href="https://vysledky.czechswimming.cz/souteze" target="_blank">termínové listiny ČSPS</a>.
         </p>
 
-    </div>
+    </div><!-- /obsah -->
+
+    <aside class="term-sidebar">
+        <div class="term-legenda-box">
+            <h4>Jak číst termínovku</h4>
+            <span>📅 Datum = přidat do kalendáře</span>
+            <span>📄 Název = propozice ČSPS</span>
+            <span>📍 = navigace na místo konání</span>
+        </div>
+    </aside>
+
+    </div><!-- /term-wrapper -->
 
     <script>
         // 1. ZÁVODY JARO (Leden – Červen)
