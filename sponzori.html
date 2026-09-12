@@ -84,6 +84,67 @@
             margin: 0;
             color: var(--text-barva, #333);
         }
+
+        /* ── CTA PARTNER ── */
+        .sp-cta {
+            margin-top: 48px;
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+        }
+        .sp-cta-foto {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: center 40%;
+        }
+        .sp-cta::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(180,0,0,0.92) 0%, rgba(100,0,0,0.75) 100%);
+        }
+        .sp-cta-obsah {
+            position: relative; z-index: 1;
+            padding: 48px 44px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+            color: white;
+        }
+        .sp-cta-nadpis {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(1.6em, 3.5vw, 2.2em);
+            font-weight: 900;
+            text-transform: uppercase;
+            margin: 0 0 8px;
+            line-height: 1;
+        }
+        .sp-cta-sub {
+            font-size: 0.9em;
+            color: rgba(255,255,255,0.75);
+            margin: 0;
+            max-width: 440px;
+            line-height: 1.55;
+        }
+        .sp-cta-btn {
+            display: inline-block;
+            background: #ffd700;
+            color: #111;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.05em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 14px 32px;
+            border-radius: 6px;
+            text-decoration: none;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .sp-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
     </style>
 </head>
 <body>
@@ -140,10 +201,15 @@
             Dotace nám umožňuje udržet dostupné členské příspěvky, zajistit odborné trenéry, pronájem plaveckých drah a potřebné sportovní vybavení. Zároveň podporuje organizaci závodů, soustředění a dalších akcí, které motivují děti a mládež k dlouhodobému sportování.
         </div>
 
-        <div class="nabor-box">
-            <h3>Chcete se stát naším partnerem?</h3>
-            <p>Podpořte mladé plavce a zviditelněte svou firmu. Nabízíme umístění loga na klubovém oblečení, webu i při závodech.</p>
-            <a href="kontakt.html" class="tlacitko-invert">Kontaktovat vedení</a>
+        <div class="sp-cta">
+            <img src="images/fotogalerie/2026/lmcrstz_26/lmcr_26_1.jpeg" class="sp-cta-foto" alt="">
+            <div class="sp-cta-obsah">
+                <div>
+                    <h3 class="sp-cta-nadpis">Staňte se naším partnerem</h3>
+                    <p class="sp-cta-sub">Podpořte mladé plavce a zviditelněte svou firmu. Logo na klubovém oblečení, webu i při závodech.</p>
+                </div>
+                <a href="kontakt.html" class="sp-cta-btn">Kontaktovat →</a>
+            </div>
         </div>
 
     </div>

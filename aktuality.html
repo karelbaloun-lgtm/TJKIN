@@ -18,84 +18,183 @@
     <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
     <meta name="theme-color" content="#d32f2f">
     <title>Aktuality - KIN České Budějovice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         /* ===== LAYOUT ===== */
-        .aktuality-layout {
-            display: grid;
-            grid-template-columns: 1fr 260px;
-            gap: 32px;
-            max-width: 1100px;
+        .aktuality-wrapper {
+            max-width: 1180px;
             margin: 0 auto;
-            padding: 40px 24px 60px;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 1fr 240px;
+            gap: 0 24px;
             align-items: start;
         }
 
-        @media (max-width: 860px) {
-            .aktuality-layout {
-                grid-template-columns: 1fr;
-                padding: 0 0 48px;
-                gap: 0;
-            }
-            /* Sidebar nad články */
-            .aktuality-sidebar {
-                display: block !important;
-                order: -1;
-                position: static;
-            }
-            /* První karta = horizontální chip-lišta */
-            .aktuality-sidebar .sidebar-karta:first-child {
-                display: flex;
-                flex-direction: row;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                align-items: center;
-                gap: 8px;
-                border-radius: 0;
-                box-shadow: none;
-                border: none;
-                border-bottom: 1px solid rgba(0,0,0,0.08);
-                border-top: 3px solid var(--hlavni-barva);
-                padding: 10px 16px;
-                margin-bottom: 0;
-                scrollbar-width: none;
-            }
-            .aktuality-sidebar .sidebar-karta:first-child::-webkit-scrollbar { display: none; }
-            body.dark-mode .aktuality-sidebar .sidebar-karta:first-child { border-bottom-color: #333; }
-            .aktuality-sidebar .sidebar-karta:first-child h4 {
-                flex-shrink: 0;
-                font-size: 0.68rem;
-                margin: 0;
-                padding: 0 8px 0 0;
-                border: none;
-                border-right: 1px solid rgba(0,0,0,0.12);
-                writing-mode: initial;
-                white-space: nowrap;
-            }
-            .aktuality-sidebar .sidebar-karta:first-child .sidebar-link {
-                flex-shrink: 0;
-                display: inline-flex;
-                align-items: center;
-                white-space: nowrap;
-                padding: 7px 14px;
-                min-height: 36px;
-                border: 1.5px solid rgba(211,47,47,0.35);
-                border-radius: 20px;
-                border-bottom: 1.5px solid rgba(211,47,47,0.35);
-                font-size: 0.8rem;
-                color: var(--hlavni-barva);
-            }
-            body.dark-mode .aktuality-sidebar .sidebar-karta:first-child .sidebar-link {
-                border-color: rgba(239,154,154,0.4);
-                color: #ef9a9a;
-            }
-            .aktuality-sidebar .sidebar-karta:first-child .sidebar-link .link-datum { display: none; }
-            /* Archiv karta na mobilu skryta */
-            .aktuality-sidebar .sidebar-karta:nth-child(2) { display: none; }
-            /* Hlavní obsah dostane odsazení */
-            .aktuality-clanky { padding: 24px 16px 0; }
+        .aktuality-layout {
+            margin: -30px 0 80px;
+            padding: 44px 52px 60px;
+            background: #ffffff;
+            box-shadow:
+                0 0 0 1px rgba(0,0,0,0.05),
+                0 8px 32px rgba(0,0,0,0.08),
+                0 32px 80px rgba(0,0,0,0.05);
+            border-radius: 14px;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
         }
+        /* Animovaná KITT lišta nahoře – stejná jako .obsah::before */
+        .aktuality-layout::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--hlavni-barva), var(--akcni-barva), var(--hlavni-barva));
+            background-size: 200% 100%;
+            animation: gradient-posun 4s ease infinite;
+            border-radius: 12px 12px 0 0;
+            z-index: 2;
+        }
+        /* Barevné bloby */
+        .aktuality-layout::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 65% 45% at 0% 0%,    rgba(211,47,47,0.13) 0%, transparent 65%),
+                radial-gradient(ellipse 55% 55% at 100% 95%, rgba(183,28,28,0.10) 0%, transparent 65%),
+                radial-gradient(ellipse 45% 40% at 82% 12%,  rgba(255,152,0,0.08) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .aktuality-layout > * { position: relative; z-index: 1; }
+
+        .akt-sidebar {
+            position: sticky;
+            top: 80px;
+            margin-top: -30px;
+        }
+
+        .akt-box {
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 20px 20px 8px;
+        }
+
+        @media (max-width: 860px) {
+            .aktuality-wrapper { grid-template-columns: 1fr; }
+            .akt-sidebar { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .aktuality-wrapper { padding: 0 12px; }
+            .aktuality-layout { padding: 24px 18px 48px; }
+        }
+
+        /* ===== SECTION HEADER with watermark ===== */
+        .akt-sekce-hlavicka {
+            position: relative;
+            overflow: hidden;
+            padding: 10px 0 24px;
+            margin-bottom: 4px;
+        }
+        .akt-sekce-hlavicka::before {
+            content: attr(data-bg);
+            position: absolute;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 5.5rem;
+            font-weight: 900;
+            color: rgba(211,47,47,0.05);
+            top: 50%; left: -4px;
+            transform: translateY(-50%);
+            pointer-events: none;
+            white-space: nowrap;
+            letter-spacing: -4px;
+            user-select: none;
+            line-height: 1;
+        }
+        .akt-sekce-eyebrow {
+            font-size: 0.72em;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--hlavni-barva);
+            display: block;
+            margin-bottom: 6px;
+        }
+        .akt-sekce-nadpis {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.5em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            color: var(--barva-nadpisu);
+            margin: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        body.dark-mode .akt-box { background: #1e1e1e; border-color: #333; }
+        /* ===== EDITORIAL ARTICLE LIST ===== */
+        .akt-clanek {
+            display: grid;
+            grid-template-columns: 56px 1fr;
+            gap: 0 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.07);
+            text-decoration: none;
+            color: inherit;
+            align-items: start;
+        }
+        .akt-clanek:last-child { border-bottom: none; }
+        .akt-clanek:hover .akt-clanek-nazev { color: var(--hlavni-barva); }
+
+        .akt-clanek-datum-blok {
+            text-align: right;
+            padding-right: 14px;
+            border-right: 2px solid rgba(211,47,47,0.15);
+            padding-top: 2px;
+        }
+        .akt-clanek-den {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.6em;
+            font-weight: 900;
+            color: var(--hlavni-barva);
+            line-height: 1;
+            display: block;
+        }
+        .akt-clanek-mesic {
+            font-size: 0.65em;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #aaa;
+            display: block;
+        }
+        .akt-clanek-nazev {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1em;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.01em;
+            color: var(--barva-nadpisu);
+            margin: 0;
+            line-height: 1.2;
+            transition: color 0.15s;
+        }
+
+        /* DARK MODE – editorial list */
+        body.dark-mode .akt-clanek { border-color: #2a2a2a; }
+        body.dark-mode .akt-clanek-datum-blok { border-right-color: rgba(239,154,154,0.2); }
+        body.dark-mode .akt-clanek-mesic { color: #666; }
+
+        /* ===== ARTICLE CARDS (full articles below) ===== */
+        .aktuality-clanky { margin-top: 40px; }
 
         /* ===== ARTICLE CARD ===== */
         .clanek {
@@ -344,6 +443,58 @@
             transform: translateY(-2px);
         }
 
+        /* ===== HERO ===== */
+        .akt-hero {
+            position: relative;
+            height: 52vh;
+            max-height: 560px;
+            min-height: 280px;
+            overflow: hidden;
+        }
+        .akt-hero-foto {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: center 30%;
+        }
+        .akt-hero::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.25) 50%, transparent 100%);
+        }
+        .akt-hero-obsah {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            z-index: 1;
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 24px 36px;
+            color: white;
+        }
+        .akt-hero-eyebrow {
+            font-size: 0.72em;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+            display: block;
+            margin-bottom: 8px;
+        }
+        .akt-hero-nadpis {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(2.4em, 6vw, 4em);
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 1;
+            margin: 0 0 8px;
+            letter-spacing: -0.01em;
+        }
+        .akt-hero-sub {
+            font-size: 0.9em;
+            color: rgba(255,255,255,0.7);
+            margin: 0;
+        }
+
         /* ===== ARCHIV ===== */
         .archiv-odkaz {
             text-align: center;
@@ -351,62 +502,69 @@
             border-top: 2px dashed #ddd;
             margin-top: 8px;
         }
-
         .archiv-odkaz p { color: #777; margin-bottom: 14px; font-size: 0.95rem; }
 
-        /* ===== SIDEBAR ===== */
-        .aktuality-sidebar {
-            position: sticky;
-            top: 88px;
+        /* ===== PLNÉ ČLÁNKY – SEKCE HEADER ===== */
+        .akt-clanky-header {
+            padding: 48px 0 0;
+            margin-bottom: 32px;
+            border-top: 1px solid rgba(0,0,0,0.07);
         }
+        .akt-clanky-header .akt-sekce-eyebrow { margin-bottom: 4px; }
+        .akt-clanky-header .akt-sekce-nadpis { font-size: 1.6em; border-bottom: none; padding-bottom: 0; }
 
-        .sidebar-karta {
+        /* ===== REDIZAJN ČLÁNKŮ ===== */
+        .clanek {
             background: #ffffff;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.07);
-            margin-bottom: 20px;
+            border-radius: 14px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
             border: 1px solid rgba(0,0,0,0.06);
-            border-top: 3px solid var(--hlavni-barva);
+            overflow: hidden;
+            margin-bottom: 24px;
+            transition: box-shadow 0.22s;
         }
+        .clanek:hover { box-shadow: 0 6px 28px rgba(0,0,0,0.10); }
 
-        .sidebar-karta h4 {
+        .clanek h2 {
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.75rem;
+            font-size: clamp(1.5rem, 3vw, 2rem);
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--hlavni-barva);
-            margin: 0 0 14px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--akcni-barva);
+            letter-spacing: -0.01em;
+            line-height: 1.05;
+            color: var(--barva-nadpisu);
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-top: 0;
+            margin-bottom: 14px;
         }
 
-        .sidebar-link {
+        .clanek h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #666;
+            margin: 28px 0 8px;
+            font-weight: 700;
+        }
+
+        .clanek-hero {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
             display: block;
-            padding: 11px 0;
-            border-bottom: 1px solid #f0f0f0;
-            color: #333;
-            text-decoration: none;
-            font-size: 0.85rem;
-            line-height: 1.4;
-            font-weight: 500;
-            transition: color 0.2s;
         }
+        @media (max-width: 600px) { .clanek-hero { height: 200px; } }
 
-        .sidebar-link:last-child { border-bottom: none; }
-        .sidebar-link:hover { color: var(--hlavni-barva); }
-
-        .sidebar-link .link-datum {
-            display: block;
-            font-size: 0.73rem;
-            color: #aaa;
-            font-weight: 400;
-            margin-top: 2px;
+        .clanek-telo-wrap {
+            padding: 28px 32px 32px;
+            overflow-x: hidden;
+            max-width: 100%;
         }
+        @media (max-width: 600px) { .clanek-telo-wrap { padding: 20px 18px 26px; } }
 
         /* ===== DARK MODE ===== */
-        body.dark-mode .clanek { background: #1e1e1e; border-color: #333; }
+        body.dark-mode .clanek { background: transparent; border-color: #2a2a2a; }
         body.dark-mode .clanek h2 { color: #f0f0f0; }
         body.dark-mode .clanek h3 { color: #aaa; }
         body.dark-mode .meta-datum { background: #3e1500; color: #ffab76; }
@@ -414,14 +572,12 @@
         body.dark-mode .meta-akce  { background: #001933; color: #90caf9; }
         body.dark-mode .vysledky-box { background: #2a2a2a; border-color: #555; }
         body.dark-mode .vysledky-list li { border-color: #333; }
-        body.dark-mode .sidebar-karta { background: #1e1e1e; border-color: #333; }
-        body.dark-mode .sidebar-link { color: #ccc; border-color: #333; }
-        body.dark-mode .sidebar-link:hover { color: #ef9a9a; }
         body.dark-mode .archiv-odkaz { border-color: #444; }
         body.dark-mode .archiv-odkaz p { color: #999; }
         body.dark-mode .zlata    { color: #ffd700; }
         body.dark-mode .stribrna { color: #b0bec5; }
         body.dark-mode .bronzova { color: #e69b5a; }
+        body.dark-mode .akt-clanky-header { border-color: #2a2a2a; }
     </style>
 </head>
 <body>
@@ -431,12 +587,12 @@
     <header class="hlavicka">
         <img src="images/logos/logo.png" class="logo-oddilu" alt="Logo KIN" id="hlavni-logo">
         <h1>Aktuality</h1>
-        <p class="podnadpis">Co se děje v bazénu i mimo něj</p>
+        <p class="podnadpis">Výsledky, novinky a zprávy z oddílu</p>
     </header>
 
+    <div class="aktuality-wrapper">
     <div class="aktuality-layout">
 
-        <!-- HLAVNÍ OBSAH -->
         <main class="aktuality-clanky">
 
             <div class="loader" id="aktuality-loader">
@@ -1215,66 +1371,117 @@
 
         </main>
 
-        <!-- SIDEBAR -->
-        <aside class="aktuality-sidebar">
-            <div class="sidebar-karta">
-                <h4>V tomto vydání</h4>
-                <a href="#mezi-mosty-2026-vysledky" class="sidebar-link">
-                    🥇 Mezi mosty 2026 – výsledky KIN
-                    <span class="link-datum">8. srpna 2026</span>
-                </a>
-                <a href="#odm-vysledky-2026" class="sidebar-link">
-                    🏅 Sofie na ODM – výsledky ze 4 disciplín
-                    <span class="link-datum">22.–24. června 2026</span>
-                </a>
-                <a href="#praha-2026" class="sidebar-link">
-                    🏅 Praha 2026 – rekord ČR!
-                    <span class="link-datum">13. června 2026</span>
-                </a>
-                <a href="#mcr-trutnov-vysledky-2026" class="sidebar-link">
-                    🏆 LMČR Trutnov – výsledky: 12 medailí!
-                    <span class="link-datum">6.–7. června 2026</span>
-                </a>
+    </div><!-- /aktuality-layout -->
 
-                <a href="#pisek-lkp-ml-2026" class="sidebar-link">
-                    LKP Písek – Jan Kubálek stříbrný
-                    <span class="link-datum">23. května 2026</span>
+    <aside class="akt-sidebar">
+            <div class="akt-box odkryt-na-scroll">
+                <div class="akt-sekce-hlavicka" data-bg="2026">
+                    <span class="akt-sekce-eyebrow">Všechny zprávy</span>
+                    <h2 class="akt-sekce-nadpis">Sezóna 2026</h2>
+                </div>
+                <a href="#sportem-do-skolniho-roku-2026" class="akt-clanek">
+                    <div class="akt-clanek-datum-blok">
+                        <span class="akt-clanek-den">31</span>
+                        <span class="akt-clanek-mesic">Srp.</span>
+                    </div>
+                    <div>
+                        <h3 class="akt-clanek-nazev">Sportem do školního roku</h3>
+                    </div>
                 </a>
-                <a href="#prachatice-lkp-2026" class="sidebar-link">
-                    LKP Prachatice 2026 – 16 medailí
-                    <span class="link-datum">16.–17. května 2026</span>
+                <a href="#start-treninku-2026" class="akt-clanek">
+                    <div class="akt-clanek-datum-blok">
+                        <span class="akt-clanek-den">26</span>
+                        <span class="akt-clanek-mesic">Srp.</span>
+                    </div>
+                    <div>
+                        <h3 class="akt-clanek-nazev">Start sezóny 2026/2027</h3>
+                    </div>
                 </a>
-                <a href="#pisecky-pulec-2026" class="sidebar-link">
-                    Písecký Pulec 2026 – Jan Kubálek bronz
-                    <span class="link-datum">26. dubna 2026</span>
+                <a href="#mezi-mosty-2026-vysledky" class="akt-clanek">
+                    <div class="akt-clanek-datum-blok">
+                        <span class="akt-clanek-den">08</span>
+                        <span class="akt-clanek-mesic">Srp.</span>
+                    </div>
+                    <div>
+                        <h3 class="akt-clanek-nazev">Mezi mosty 2026</h3>
+                    </div>
                 </a>
-                <a href="#zavody-jh-drop-dt" class="sidebar-link">
-                    DRoP Cup a Dlouhé tratě – JH
-                    <span class="link-datum">18. dubna 2026</span>
+                <a href="#odm-vysledky-2026" class="akt-clanek">
+                    <div class="akt-clanek-datum-blok">
+                        <span class="akt-clanek-den">22</span>
+                        <span class="akt-clanek-mesic">Čer.</span>
+                    </div>
+                    <div>
+                        <h3 class="akt-clanek-nazev">Sofie na ODM – Praha</h3>
+                    </div>
                 </a>
-                <a href="#nova-pravidla-2026" class="sidebar-link">
-                    Nová pravidla plavání 2026
-                    <span class="link-datum">11. dubna 2026</span>
+                <a href="#praha-2026" class="akt-clanek">
+                    <div class="akt-clanek-datum-blok">
+                        <span class="akt-clanek-den">13</span>
+                        <span class="akt-clanek-mesic">Čer.</span>
+                    </div>
+                    <div>
+                        <h3 class="akt-clanek-nazev">Praha 2026 – rekord ČR!</h3>
+                    </div>
                 </a>
-                <a href="#zavody-cb-50m" class="sidebar-link">
-                    Vládci domácího bazénu
-                    <span class="link-datum">2. března 2026</span>
+                <a href="#mcr-trutnov-vysledky-2026" class="akt-clanek">
+                    <div class="akt-clanek-datum-blok">
+                        <span class="akt-clanek-den">07</span>
+                        <span class="akt-clanek-mesic">Čer.</span>
+                    </div>
+                    <div>
+                        <h3 class="akt-clanek-nazev">LMČR Trutnov – 12 medailí!</h3>
+                    </div>
                 </a>
-                <a href="#vytrvalec_26" class="sidebar-link">
-                    Ela ovládla Plzeňského vytrvalce
-                    <span class="link-datum">22. ledna 2026</span>
+                <a href="#prachatice-lkp-2026" class="akt-clanek">
+                    <div class="akt-clanek-datum-blok">
+                        <span class="akt-clanek-den">17</span>
+                        <span class="akt-clanek-mesic">Kvě.</span>
+                    </div>
+                    <div>
+                        <h3 class="akt-clanek-nazev">LKP Prachatice</h3>
+                    </div>
                 </a>
-            </div>
-            <div class="sidebar-karta">
-                <h4>Archiv</h4>
-                <a href="archiv.html" class="sidebar-link">
-                    Starší články a výsledky
-                    <span class="link-datum">od roku 2024</span>
+                <a href="#pisek-lkp-ml-2026" class="akt-clanek">
+                    <div class="akt-clanek-datum-blok">
+                        <span class="akt-clanek-den">23</span>
+                        <span class="akt-clanek-mesic">Kvě.</span>
+                    </div>
+                    <div>
+                        <h3 class="akt-clanek-nazev">LKP Písek – Honza stříbrný</h3>
+                    </div>
+                </a>
+                <a href="#zavody-jh-drop-dt" class="akt-clanek">
+                    <div class="akt-clanek-datum-blok">
+                        <span class="akt-clanek-den">18</span>
+                        <span class="akt-clanek-mesic">Dub.</span>
+                    </div>
+                    <div>
+                        <h3 class="akt-clanek-nazev">DRoP Cup – Jindřichův Hradec</h3>
+                    </div>
+                </a>
+                <a href="#zavody-cb-50m" class="akt-clanek">
+                    <div class="akt-clanek-datum-blok">
+                        <span class="akt-clanek-den">02</span>
+                        <span class="akt-clanek-mesic">Bře.</span>
+                    </div>
+                    <div>
+                        <h3 class="akt-clanek-nazev">Vládci domácího bazénu</h3>
+                    </div>
+                </a>
+                <a href="#vytrvalec_26" class="akt-clanek">
+                    <div class="akt-clanek-datum-blok">
+                        <span class="akt-clanek-den">22</span>
+                        <span class="akt-clanek-mesic">Led.</span>
+                    </div>
+                    <div>
+                        <h3 class="akt-clanek-nazev">Plzeňský vytrvalec – Ela vítězí</h3>
+                    </div>
                 </a>
             </div>
         </aside>
 
-    </div>
+    </div><!-- /aktuality-wrapper -->
 
     <div id="spolecna-paticka"></div>
 
