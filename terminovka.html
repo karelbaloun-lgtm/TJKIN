@@ -263,26 +263,37 @@
         /* Patička */
         .term-paticka {
             margin-top: 40px;
-            padding-top: 32px;
-            border-top: 1px solid #e0e0e0;
+            padding-top: 0;
+            border-top: none;
             display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            align-items: stretch;
-            justify-content: center;
+            gap: 1px;
+            background: rgba(0,0,0,0.07);
+            border-radius: 12px;
+            overflow: hidden;
         }
-        .term-paticka-box {
+        .term-paticka-akce {
             flex: 1;
-            min-width: 240px;
-            max-width: 340px;
-            border-radius: 10px;
-            padding: 20px 22px;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 20px;
+            background: var(--pozadi-obsahu, #fff);
+            text-decoration: none;
+            color: var(--barva-textu, #333);
+            cursor: pointer;
+            border: none;
+            transition: background 0.15s;
         }
-        .term-paticka-box.tisk  { background: #f5f5f5; border: 1px solid #ddd; }
-        .term-paticka-box.ekonom { background: #f1f8e9; border: 1px solid #c5e1a5; }
-        .term-paticka-box p { margin: 0 0 12px; font-size: 0.92em; }
-        .term-paticka-box .tlacitko { display: inline-block; }
+        .term-paticka-akce:hover { background: rgba(0,0,0,0.02); }
+        .term-paticka-akce:first-child { border-radius: 12px 0 0 12px; }
+        .term-paticka-akce:last-child  { border-radius: 0 12px 12px 0; }
+        .term-paticka-ico { font-size: 1.4em; flex-shrink: 0; }
+        .term-paticka-label { display: block; font-size: 0.88em; font-weight: 700; color: var(--barva-nadpisu, #1a1a1a); }
+        .term-paticka-sub   { display: block; font-size: 0.75em; color: #aaa; margin-top: 1px; }
+        body.dark-mode .term-paticka { background: rgba(255,255,255,0.08); }
+        body.dark-mode .term-paticka-akce { background: #1e1e1e; }
+        body.dark-mode .term-paticka-akce:hover { background: #242424; }
+        body.dark-mode .term-paticka-label { color: #e8e8e8; }
 
         /* Dark mode */
         body.dark-mode .term-sekce { border-color: rgba(255,255,255,0.07); }
@@ -428,18 +439,21 @@
 
         <!-- ===== PATIČKA ===== -->
         <div class="term-paticka">
-            <div class="term-paticka-box tisk">
-                <p>Chcete termínovku v papírové podobě?</p>
-                <a href="#" onclick="document.getElementById('print-hlavicka-datum').textContent='Vytisknuto: '+new Date().toLocaleDateString('cs-CZ',{day:'numeric',month:'long',year:'numeric'}); window.print(); return false;" class="tlacitko">
-                    🖨️ Vytisknout termínovku
-                </a>
-            </div>
-            <div class="term-paticka-box ekonom">
-                <p style="color: #558b2f; font-weight: 600;">💰 Jak je to s placením startovného a dopravy?</p>
-                <a href="documents/ekonom_26.pdf" target="_blank" class="tlacitko" style="background-color: #2ecc71;">
-                    📄 Ekonomické podmínky (PDF)
-                </a>
-            </div>
+            <a href="#" class="term-paticka-akce"
+               onclick="document.getElementById('print-hlavicka-datum').textContent='Vytisknuto: '+new Date().toLocaleDateString('cs-CZ',{day:'numeric',month:'long',year:'numeric'}); window.print(); return false;">
+                <span class="term-paticka-ico">🖨️</span>
+                <div>
+                    <span class="term-paticka-label">Vytisknout termínovku</span>
+                    <span class="term-paticka-sub">Verze připravená pro A4</span>
+                </div>
+            </a>
+            <a href="documents/ekonom_26.pdf" target="_blank" class="term-paticka-akce">
+                <span class="term-paticka-ico">📄</span>
+                <div>
+                    <span class="term-paticka-label">Ekonomické podmínky</span>
+                    <span class="term-paticka-sub">Startovné a doprava (PDF)</span>
+                </div>
+            </a>
         </div>
 
         <p class="term-upozorneni-paticka">
