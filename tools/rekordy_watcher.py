@@ -581,30 +581,36 @@ def main() -> int:
             print("**CHYBA:** řádek „Data aktuální k …“ nebyl v HTML nalezen.\n")
 
     # ---- stav
-    new_since = {str(pid): pending_since.get(str(pid), today.isoformat())
-                 for pid in set(new_pending)}
-    state["last_run"] = today.isoformat()
-    state["pending_result_ids"] = sorted(int(p) for p in new_since)
-    state["pending_since"] = new_since
-    save_state(state)
-
-    # ---- commit
-    print("## Commit\n")
     commit_msg = (f"chore: aktualizovat datum kontroly krajských rekordů – "
                   f"{today.day}. {today.month}. {today.year}")
-    if not args.commit:
-        print(f"_Přeskočeno (bez --commit)._ Navržená zpráva: `{commit_msg}`\n")
-    elif all_hits:
-        print("_Vynecháno – jsou návrhy na nové rekordy. Zkontroluj je, zanes do "
-              "`rekordy_kraj.html` a commitni ručně._\n")
+    # --comp zkoumá jen vybrané závody, nikoli celé okno -> nesmí přepsat frontu
+    # čekajících závodů (jinak by o ně "zapomněl").
+    if args.comp:
+        print("## Commit\n")
+        print("_Přeskočeno (--comp je jen ruční ladění, stav se neukládá)._\n")
     else:
-        res = git_commit_push([REKORDY_HTML, STATE_FILE], commit_msg)
-        if res is None:
-            print("_Nic ke commitu – v souborech není žádná změna._\n")
-        elif res[0] == "ok":
-            print(f"Commitnuto a pushnuto: `{commit_msg}`\n")
+        new_since = {str(pid): pending_since.get(str(pid), today.isoformat())
+                     for pid in set(new_pending)}
+        state["last_run"] = today.isoformat()
+        state["pending_result_ids"] = sorted(int(p) for p in new_since)
+        state["pending_since"] = new_since
+        save_state(state)
+
+        # ---- commit
+        print("## Commit\n")
+        if not args.commit:
+            print(f"_Přeskočeno (bez --commit)._ Navržená zpráva: `{commit_msg}`\n")
+        elif all_hits:
+            print("_Vynecháno – jsou návrhy na nové rekordy. Zkontroluj je, zanes do "
+                  "`rekordy_kraj.html` a commitni ručně._\n")
         else:
-            print(f"**CHYBA při `git {res[0]}`:** {res[1]}\n")
+            res = git_commit_push([REKORDY_HTML, STATE_FILE], commit_msg)
+            if res is None:
+                print("_Nic ke commitu – v souborech není žádná změna._\n")
+            elif res[0] == "ok":
+                print(f"Commitnuto a pushnuto: `{commit_msg}`\n")
+            else:
+                print(f"**CHYBA při `git {res[0]}`:** {res[1]}\n")
 
     # ---- shrnutí pro report
     print("## Shrnutí\n")
@@ -617,7 +623,7 @@ def main() -> int:
         print(f"- Vyřazeno (přes {PENDING_MAX_DAYS} dní bez výsledků): "
               f"{', '.join(sorted(expired, key=int))}")
     print(f"- Nových rekordů k zápisu: {len(all_hits)}")
-    if not args.commit:
+    if not args.commit and not args.comp:
         print("\n> Commit: pokud jsou návrhy prázdné -> "
               f"`{commit_msg}`")
     return 0
