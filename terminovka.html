@@ -25,14 +25,30 @@
            TERMÍNOVKA – lokální styly (Varianta C)
            ========================================= */
 
-        .term-upozorneni {
-            text-align: center;
-            font-size: 0.88em;
-            font-style: italic;
-            color: #888;
-            margin-bottom: 36px;
+        .term-legenda {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 28px;
+            padding: 14px 18px;
+            background: rgba(211,47,47,0.04);
+            border-left: 3px solid var(--hlavni-barva);
+            border-radius: 0 8px 8px 0;
+            font-size: 0.86em;
+            color: #555;
         }
-        .term-upozorneni a { color: var(--hlavni-barva); font-weight: 600; }
+        .term-legenda span { display: block; }
+
+        .term-upozorneni-paticka {
+            text-align: center;
+            font-size: 0.82em;
+            font-style: italic;
+            color: #aaa;
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 1px dashed #ddd;
+        }
+        .term-upozorneni-paticka a { color: #888; font-weight: 600; }
 
         /* Sekce */
         .term-sekce {
@@ -349,11 +365,11 @@
 
     <div class="obsah">
 
-        <p class="term-upozorneni">
-            ⚠️ Termíny jsou předběžné a mohou se měnit dle oficiální
-            <a href="https://vysledky.czechswimming.cz/souteze" target="_blank">termínové listiny ČSPS</a>.
-            Datum = přidat do kalendáře · Název = propozice ČSPS · 📍 = navigace.
-        </p>
+        <div class="term-legenda">
+            <span>📅 Datum = přidat do kalendáře</span>
+            <span>📄 Název = propozice ČSPS</span>
+            <span>📍 = navigace na místo konání</span>
+        </div>
 
         <!-- ===== LEDEN – ČERVEN ===== -->
         <div class="term-sekce">
@@ -395,6 +411,11 @@
                 </a>
             </div>
         </div>
+
+        <p class="term-upozorneni-paticka">
+            Termíny jsou předběžné a mohou se měnit dle oficiální
+            <a href="https://vysledky.czechswimming.cz/souteze" target="_blank">termínové listiny ČSPS</a>.
+        </p>
 
     </div>
 
