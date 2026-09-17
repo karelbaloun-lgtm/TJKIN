@@ -181,10 +181,13 @@ def download_results(comp_id: int, docs: dict, dest_dir: str) -> tuple[str, str]
         ("C_FILE_LENEX_RESULTS", "lenex"),
         ("RESULTS_PDF", "pdf"),
     ]
-    # jakýkoli další "*LENEX*" typ
+    # záložní varianty výsledkového LENEXu (ne rozpis/přihlášky!) – jen jako
+    # doplněk NA KONEC, aby nikdy nepředběhly C_FILE_LENEX_RESULTS.
+    known = {t for t, _ in order}
     for t in types:
-        if "LENEX" in (t or "") and (t, "lenex") not in order:
-            order.insert(0, (t, "lenex"))
+        if t and "LENEX" in t and "RESULT" in t and t not in known:
+            order.append((t, "lenex"))
+            known.add(t)
     for t, kind in order:
         if t not in types:
             continue
