@@ -379,6 +379,7 @@ function initChatbot() {
         kontakt: "Napište nám na <a href='mailto:plavani.tjkin@gmail.com' style='color:#d32f2f;font-weight:600;'>plavani.tjkin@gmail.com</a> nebo volejte <strong>723 062 048</strong>. 📞",
         bazén: "Trénujeme v bazénu na <strong>Střeleckém ostrovę</strong> v Českých Budějovicích. 📍",
         závody: "Termínovku závodů najdete na <a href='/terminovka.html' style='color:#d32f2f;font-weight:600;'>stránce Termínovka</a>. Závodění není povinné. 🏁",
+        volnost: "Zavolejte paní Šmausové na <strong><a href='tel:723062048' style='color:#d32f2f;font-weight:600;'>723 062 048</a></strong> – poradí vám s místem i zápisem. 📞",
         soustředěnõ: "Soustředění pořádáme v průběhu sez�óny. Termíny sledujte v <a href='/aktuality.html' style='color:#d32f2f;font-weight:600;'>Aktualitách</a>. 🏕️",
     };
 
@@ -392,6 +393,7 @@ function initChatbot() {
         ["bazén", "bazén"], ["bazenu", "bazén"], ["kde plavete", "bazìn"],
         ["závod", "závody"], ["soutěž", "závody"],
         ["soustředění", "soustředění"], ["soustředeni", "soustředění"],
+        ["místo", "volnost"], ["volné", "volnost"], ["volno", "volnost"], ["kapacita", "volnost"], ["ještě přijímáte", "volnost"], ["přijímáte", "volnost"],
         ["kontakt", "kontakt"], ["telefon", "kontakt"], ["email", "kontakt"], ["e-mail", "kontakt"], ["napsat", "kontakt"], ["obrátit", "kontakt"], ["volat", "kontakt"],
         ["kdy", "tréninky"],
     ];
