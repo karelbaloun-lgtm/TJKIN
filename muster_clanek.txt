@@ -1,0 +1,201 @@
+MUSTER ČLÁNKU – KIN České Budějovice
+Šablona pro psaní závodních reportáží na web kinplavani.cz
+======================================================================
+
+KONTEXT WEBU
+------------
+- Jazyk: česky, přátelský tón, fanouškovský ale stručný
+- Font nadpisů: Barlow Condensed, verzálky
+- WhatsApp skupina fotek: https://chat.whatsapp.com/F3wOiqvbZro3JcuR93BoGg
+- Google formulář pro nahrání fotek: https://forms.gle/ogYmzCAypzpctphz5
+- ID článku: slug z názvu závodu, např. chomutov-vc-2026
+
+
+VSTUPY – tyto proměnné vyplň před psaním
+-----------------------------------------
+[NAZEV_ZAVODU]       – celý název závodu, např. Velká cena města Chomutova
+[DATUM_TEXT]         – datum pro zobrazení, např. 11.–12. září 2026
+[DATUM_ISO]          – ISO datum začátku, např. 2026-09-11
+[MISTO]              – místo konání, např. Chomutov
+[ODKAZ_VYSLEDKY_PDF] – URL PDF výsledků z ČSPS
+[ODKAZ_SOUTEZE]      – URL stránky závodu, např. https://vysledky.czechswimming.cz/souteze/9969
+[ARTICLE_ID]         – HTML id článku, např. chomutov-vc-2026
+[HERO_FOTO]          – cesta k titulní fotce (volitelné), např. images/fotogalerie/2026/...
+[VYSLEDKY_KIN_RADKY] – výsledky plavců KIN (viz sekce níže)
+
+
+======================================================================
+ČÁST 1 – TEASER PRO index.html
+======================================================================
+
+Vložit jako první div uvnitř hlavního obsahu stránky, před ostatní teasery.
+
+<!-- INFO: [NAZEV_ZAVODU] -->
+<div style="background:var(--pozadi-obsahu);border-radius:14px;border:1px solid rgba(0,0,0,0.07);border-top:4px solid var(--hlavni-barva);padding:20px 24px;box-shadow:0 2px 12px rgba(0,0,0,0.05);margin-bottom:12px;">
+    <p style="font-size:0.72em;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--barva-textu-mute);margin:0 0 6px;">Výsledky · [DATUM_TEXT]</p>
+    <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:900;text-transform:uppercase;margin:0 0 10px;color:var(--hlavni-barva);">[NAZEV_ZAVODU] – jak si vedli naši?</h3>
+    <p style="margin:0 0 14px;">[JEDEN_VĚTA_PEREX – nejzajímavější výsledek, max 1–2 věty]</p>
+    <a href="aktuality.html#[ARTICLE_ID]" style="font-size:0.85em;color:var(--hlavni-barva);font-weight:600;text-decoration:none;">Číst celou reportáž →</a>
+</div>
+
+
+======================================================================
+ČÁST 2 – PLNÝ ČLÁNEK PRO aktuality.html
+======================================================================
+
+Vložit jako PRVNÍ <article> uvnitř <main class="aktuality-clanky">, před stávající články.
+
+----------------------------------------------------------------------
+VARIANTA A – bez hero fotky
+----------------------------------------------------------------------
+
+<!-- ===================== [NAZEV_ZAVODU] ===================== -->
+<article class="clanek" id="[ARTICLE_ID]" style="border-top-color: var(--hlavni-barva);">
+    <div class="clanek-telo-wrap">
+
+        <h2>[NAZEV_ZAVODU]: [KRÁTKÝ TITULEK – co se povedlo, max 10 slov]</h2>
+
+        <div class="meta-info">
+            <span class="meta-datum">[DATUM_TEXT]</span>
+            <span class="meta-misto">[MISTO]</span>
+            <span class="meta-akce">Výsledky</span>
+        </div>
+
+        <!-- ÚVODNÍ ODSTAVEC: kde, kdy, kolik KIN závodníků startovalo, celkový dojem. Max 3 věty. -->
+        <p>[UVODNI_ODSTAVEC]</p>
+
+        <!-- VÝSLEDKY KIN PLAVCŮ -->
+        <div class="vysledky-box">
+            <h3>🏊 Výsledky KIN – [NAZEV_ZAVODU]</h3>
+            <ul class="vysledky-list">
+                <!-- Jeden řádek = jeden závodník nebo disciplína -->
+                <!-- Formát: Příjmení Jméno – disciplína – umístění · čas -->
+                <!-- Pro medaile použij třídy: zlata / stribrna / bronzova -->
+                <!-- Příklady: -->
+                <!-- <li><span class="zlata">🥇</span> Kubálková Ela – 100 m Z – 1. místo · <strong>1:02,45</strong></li> -->
+                <!-- <li>Tůmová Zoe – 200 m V – 4. místo · <strong>2:18,30</strong></li> -->
+                [VYSLEDKY_KIN_RADKY]
+            </ul>
+        </div>
+
+        <!-- ROZVINUTÝ TEXT: 2–4 odstavce. Kontext závodu, zajímavosti, atmosféra. -->
+        <p>[ROZVITY_TEXT_1]</p>
+        <p>[ROZVITY_TEXT_2]</p>
+
+        <!-- ODKAZ NA VÝSLEDKY -->
+        <p style="font-size:0.85em;color:var(--barva-textu-mute);">
+            Kompletní výsledky:
+            <a href="[ODKAZ_VYSLEDKY_PDF]" target="_blank" rel="noopener">PDF výsledků ↗</a>
+            ·
+            <a href="[ODKAZ_SOUTEZE]" target="_blank" rel="noopener">stránka závodu (ČSPS) ↗</a>
+        </p>
+
+        <!-- FOTO VÝZVA – vždy na konci, nepřeskakovat -->
+        <div class="foto-vyzva">
+            <div class="foto-vyzva-ikona">📸</div>
+            <p class="foto-vyzva-text"><strong>Fotili jste na závodech?</strong> Pošlete snímky do naší skupiny nebo nahrajte přes formulář – nejlepší fotky přidáme do galerie!</p>
+            <a href="https://forms.gle/ogYmzCAypzpctphz5" target="_blank" class="foto-vyzva-btn">Nahrát fotky</a>
+            <a href="https://chat.whatsapp.com/F3wOiqvbZro3JcuR93BoGg" target="_blank" class="foto-vyzva-btn" style="background-color:#25D366;">💬 WhatsApp</a>
+        </div>
+
+    </div>
+</article>
+
+----------------------------------------------------------------------
+VARIANTA B – s hero fotkou (přidat img před clanek-telo-wrap)
+----------------------------------------------------------------------
+
+<article class="clanek" id="[ARTICLE_ID]" style="border-top-color: var(--hlavni-barva);">
+    <img src="[HERO_FOTO]" class="clanek-hero" alt="[NAZEV_ZAVODU] [ROK]" style="object-position: center 30%;">
+    <div class="clanek-telo-wrap">
+        <!-- ... stejný obsah jako Varianta A ... -->
+    </div>
+</article>
+
+
+======================================================================
+ČÁST 3 – TABULKA VÝSLEDKŮ (volitelné, místo vysledky-list)
+======================================================================
+
+Použít pokud závodníků je 5+ nebo jsou výsledky přehledné v tabulce.
+Vložit dovnitř .vysledky-box místo <ul class="vysledky-list">.
+
+<table style="width:100%;border-collapse:collapse;margin:20px 0;font-size:0.92em;">
+    <thead>
+        <tr style="background:var(--hlavni-barva);color:#fff;">
+            <th style="padding:8px 12px;text-align:left;">Závodník/ce</th>
+            <th style="padding:8px 12px;text-align:left;">Disciplína</th>
+            <th style="padding:8px 12px;text-align:center;">Umístění</th>
+            <th style="padding:8px 12px;text-align:right;">Čas</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Zlatá: background rgba(251,192,45,0.15) -->
+        <!-- Ostatní: background rgba(0,0,0,0.02), střídat -->
+        <tr style="background:rgba(251,192,45,0.15);">
+            <td style="padding:8px 12px;font-weight:600;">[PRIJMENI Jméno]</td>
+            <td style="padding:8px 12px;">[DISCIPLINA]</td>
+            <td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--hlavni-barva);">🥇 1. místo</td>
+            <td style="padding:8px 12px;text-align:right;font-family:monospace;">[CAS]</td>
+        </tr>
+        <tr style="background:rgba(0,0,0,0.02);">
+            <td style="padding:8px 12px;font-weight:600;">[PRIJMENI Jméno]</td>
+            <td style="padding:8px 12px;">[DISCIPLINA]</td>
+            <td style="padding:8px 12px;text-align:center;">🥈 2. místo</td>
+            <td style="padding:8px 12px;text-align:right;font-family:monospace;">[CAS]</td>
+        </tr>
+    </tbody>
+</table>
+
+
+======================================================================
+PRAVIDLA PRO AGENTA
+======================================================================
+
+VÝSLEDKY – DŮLEŽITÉ INSTRUKCE
+- Zobrazuj pouze umístění v TOP 5 (1.–5. místo). Horší umístění vynech.
+- Data výsledků MUSÍ být zadána v promptu jako čistý text – agent PDF nečte.
+  Pokud výsledky v promptu chybí, NEVYMÝŠLEJ je. Napiš:
+  "Výsledky KIN závodníků ještě nejsou k dispozici – doplníme co nejdříve."
+- Před psaním článku si vyžádej od uživatele:
+    1. Odkaz na stránku závodu z vysledky.czechswimming.cz (např. /souteze/9969)
+    2. Výsledky KIN závodníků jako čistý text (viz formát níže)
+  Bez těchto dat nezačínej psát výsledkový box.
+- Formát vstupu výsledků v promptu:
+    Kubálková Ela (2014):
+    200 M – 1. místo – 2:48,79
+    50 VZ – 1. místo – 0:30,24
+    400 VZ – 2. místo – 4:55,58
+    ...
+
+OBSAH
+- Výsledky KIN pouze – ostatní závodníky nebo kluby zmiňuj jen jako kontext
+  (např. "z celkových 120 závodníků")
+- Příjmení před jménem v tabulkách a výsledkových listech (Kubálková Ela)
+- Časy vždy tučně: <strong>1:02,45</strong>
+- Titulek (<h2>) max 10 slov, strhující, bez tečky na konci
+- Teaser na index.html max 2 věty, bez spoilerování celé zprávy
+- Foto výzva vždy přidat na konec – oba tlačítky (formulář + WhatsApp)
+- NEUVÁDĚT World Aquatics body (ani zkratku "b.")
+- Formát datumu v meta-datum: "11.–12. září 2026" (slovně, s pomlčkou)
+- Pokud nejsou časy ani umístění: napsat "Výsledky KIN závodníků ještě
+  nejsou k dispozici – doplníme co nejdříve."
+
+UMÍSTĚNÍ V SOUBORU
+- Teaser: vložit jako první div v hlavním obsahu index.html
+- Článek: vložit jako první <article> uvnitř <main class="aktuality-clanky">
+  v aktuality.html, před všechny ostatní články
+
+SIDEBAR (aktuality.html)
+- Do <aside class="akt-sidebar"> přidat nový .akt-clanek odkaz na začátek
+  příslušné sekce (2026 nebo aktuální rok):
+
+  <a href="#[ARTICLE_ID]" class="akt-clanek">
+      <div class="akt-clanek-datum-blok">
+          <span class="akt-clanek-den">[DEN]</span>
+          <span class="akt-clanek-mesic">[MESIC_ZKRATKA]</span>
+      </div>
+      <div>
+          <p class="akt-clanek-nazev">[NAZEV_ZAVODU – zkráceno na max 5 slov]</p>
+      </div>
+  </a>
