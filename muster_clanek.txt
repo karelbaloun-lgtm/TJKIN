@@ -58,7 +58,7 @@ VARIANTA A – bez hero fotky
         <div class="meta-info">
             <span class="meta-datum">[DATUM_TEXT]</span>
             <span class="meta-misto">[MISTO]</span>
-            <span class="meta-akce">Výsledky</span>
+            <span class="meta-akce">[NAZEV_ZAVODU]</span>
         </div>
 
         <!-- ÚVODNÍ ODSTAVEC: kde, kdy, kolik KIN závodníků startovalo, celkový dojem. Max 3 věty. -->
@@ -67,28 +67,31 @@ VARIANTA A – bez hero fotky
         <!-- VÝSLEDKY KIN PLAVCŮ -->
         <div class="vysledky-box">
             <h3>🏊 Výsledky KIN – [NAZEV_ZAVODU]</h3>
+            <!-- Medailový souhrn: součet všech medailí za celý tým -->
+            <div class="medalovy-souhrn">
+                <span class="ms-item ms-zlato">🥇 <strong>[POCET_ZLATO]</strong></span>
+                <span class="ms-item ms-stribro">🥈 <strong>[POCET_STRIBRO]</strong></span>
+                <span class="ms-item ms-bronz">🥉 <strong>[POCET_BRONZ]</strong></span>
+            </div>
+            <!-- Jeden závodník = jeden h4 + ul -->
+            <!-- Zobrazovat jen TOP 5 umístění (1.–5. místo) -->
+            <!-- Pro medaile použij třídy na span: zlata / stribrna / bronzova -->
+            <!-- Příklady: -->
+            <!-- <li><span class="zlata">🥇</span> 200 m M – 1. místo · <strong>2:48,79</strong></li> -->
+            <!-- <li>100 m Z – 5. místo · <strong>1:16,87</strong></li> -->
+            <h4>[PRIJMENI Jméno (rok)]</h4>
             <ul class="vysledky-list">
-                <!-- Jeden řádek = jeden závodník nebo disciplína -->
-                <!-- Formát: Příjmení Jméno – disciplína – umístění · čas -->
-                <!-- Pro medaile použij třídy: zlata / stribrna / bronzova -->
-                <!-- Příklady: -->
-                <!-- <li><span class="zlata">🥇</span> Kubálková Ela – 100 m Z – 1. místo · <strong>1:02,45</strong></li> -->
-                <!-- <li>Tůmová Zoe – 200 m V – 4. místo · <strong>2:18,30</strong></li> -->
-                [VYSLEDKY_KIN_RADKY]
+                [VYSLEDKY_ZAVODNIK_1]
+            </ul>
+            <h4>[PRIJMENI Jméno (rok)]</h4>
+            <ul class="vysledky-list">
+                [VYSLEDKY_ZAVODNIK_2]
             </ul>
         </div>
 
         <!-- ROZVINUTÝ TEXT: 2–4 odstavce. Kontext závodu, zajímavosti, atmosféra. -->
         <p>[ROZVITY_TEXT_1]</p>
         <p>[ROZVITY_TEXT_2]</p>
-
-        <!-- ODKAZ NA VÝSLEDKY -->
-        <p style="font-size:0.85em;color:var(--barva-textu-mute);">
-            Kompletní výsledky:
-            <a href="[ODKAZ_VYSLEDKY_PDF]" target="_blank" rel="noopener">PDF výsledků ↗</a>
-            ·
-            <a href="[ODKAZ_SOUTEZE]" target="_blank" rel="noopener">stránka závodu (ČSPS) ↗</a>
-        </p>
 
         <!-- FOTO VÝZVA – vždy na konci, nepřeskakovat -->
         <div class="foto-vyzva">
@@ -167,6 +170,16 @@ VÝSLEDKY – DŮLEŽITÉ INSTRUKCE
     50 VZ – 1. místo – 0:30,24
     400 VZ – 2. místo – 4:55,58
     ...
+
+WORKFLOW – DĚLBA PRÁCE
+- Gemini píše POUZE: perex (teaser), úvodní odstavec, rozvinutý text (atmosféra,
+  kontext závodu). Posílá jako prostý text, BEZ HTML.
+- Výsledkový box, HTML strukturu, zařazení na web a push dělá Claude.
+- Gemini HTML negeneruje – jen text.
+
+ODKAZ NA VÝSLEDKY
+- Na web se NIKDY nedává odkaz na PDF ani na stránku ČSPS. Box s výsledky
+  je vše, co čtenář potřebuje.
 
 OBSAH
 - Výsledky KIN pouze – ostatní závodníky nebo kluby zmiňuj jen jako kontext
