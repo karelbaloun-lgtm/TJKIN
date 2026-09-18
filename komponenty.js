@@ -144,6 +144,13 @@ function vlozPaticku() {
 
         </div>
 
+        <div class="footer-partneri">
+            <span class="footer-partneri-label">Partneři oddílu</span>
+            <a href="https://www.akkubalek.cz/" target="_blank" rel="noopener" class="footer-partneri-logo">
+                <img src="images/sponzori/kubalek.png" alt="Kubálek a partneři – Advokátní kancelář">
+            </a>
+        </div>
+
         <div class="footer-bottom">
             <p>© 2026 KIN České Budějovice - Všechna práva vyhrazena.</p>
             <p class="made-with" 

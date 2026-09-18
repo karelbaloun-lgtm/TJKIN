@@ -1435,6 +1435,37 @@ footer {
     position: relative;
 }
 
+/* Partneři v zápatí */
+.footer-partneri {
+    max-width: 1100px;
+    margin: 28px auto 0;
+    padding: 22px 0 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.footer-partneri-label {
+    font-size: 0.68em;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    white-space: nowrap;
+}
+.footer-partneri-logo {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255,255,255,0.92);
+    padding: 5px 12px;
+    border-radius: 7px;
+    opacity: 0.75;
+    transition: opacity 0.2s;
+}
+.footer-partneri-logo:hover { opacity: 1; }
+.footer-partneri-logo img { height: 30px; width: auto; display: block; }
+
 /* Mřížka pro sloupce */
 .footer-container {
     max-width: 1100px;
