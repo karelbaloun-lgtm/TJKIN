@@ -102,44 +102,20 @@ function vlozPaticku() {
                     Plavecký oddíl s tradicí od roku 1951.<br>
                     Vychováváme plavce, tvoříme partu.
                 </p>
-                <a href="mailto:plavani@tjkin.cz" style="color: white; font-weight: bold;">
-                    <span class="footer-icon">📧</span> plavani@tjkin.cz
-                </a>
-                <a href="mailto:plavani.tjkin@gmail.com" style="color: white; font-weight: bold;">
-                    <span class="footer-icon">📧</span> plavani.tjkin@gmail.com
-                </a>
-                <a href="404.html" target="_blank" style="color: #E1306C;">
-                    <span class="footer-icon">📸</span> Sledujte nás na Instagramu
-                </a>
+                <a href="mailto:plavani@tjkin.cz" style="color: white; font-weight: bold;">plavani@tjkin.cz</a>
+                <a href="mailto:plavani.tjkin@gmail.com" style="color: white; font-weight: bold;">plavani.tjkin@gmail.com</a>
+                <a href="404.html" target="_blank" style="color: #E1306C;">Instagram →</a>
             </div>
 
             <div class="footer-sloupec">
-                <h3>Rychlé odkazy</h3>
-                <a href="index.html">🏠 Úvod</a>
-                <a href="aktuality.html">📰 Aktuality</a>
-                <a href="terminovka.html">📅 Termínovka</a>
-                <a href="hvezdy_26.html">⭐ Top roku 2026</a>
-                <a href="fotogalerie.html">📷 Fotogalerie</a>
-                <a href="kontakt.html">📞 Kontakty</a>
-                <a href="archiv.html" style="color: var(--akcni-barva); margin-top: 10px; border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 10px;">
-                    🗄️ Archiv článků
-                </a>
-            </div>
-
-            <div class="footer-sloupec">
-                <h3>Důležité info</h3>
-                <a href="documents/GDPR_2025.pdf" target="_blank">
-                    <span class="footer-icon">🔒</span> Ochrana údajů (GDPR)
-                </a>
-                <a href="404.html" target="_blank">
-                    <span class="footer-icon">📜</span> Stanovy spolku
-                </a>
-                <a href="documents/ekonom_26.pdf" target="_blank">
-                    <span class="footer-icon">💰</span> Příspěvky a platby
-                </a>
-                <a href="https://kin-plavecky-oddil.webnode.cz" target="_blank" style="opacity: 0.6; margin-top: 15px;">
-                    <span class="footer-icon">⏳</span> Archiv starého webu
-                </a>
+                <h3>Odkazy</h3>
+                <a href="aktuality.html">Aktuality</a>
+                <a href="terminovka.html">Termínovka</a>
+                <a href="fotogalerie.html">Fotogalerie</a>
+                <a href="kontakt.html">Kontakty</a>
+                <a href="sponzori.html">Partneři</a>
+                <a href="documents/GDPR_2025.pdf" target="_blank" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; opacity: 0.7;">Ochrana údajů (GDPR)</a>
+                <a href="documents/ekonom_26.pdf" target="_blank" style="opacity: 0.7;">Příspěvky a platby</a>
             </div>
 
         </div>
