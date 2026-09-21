@@ -96,7 +96,7 @@ function vlozPaticku() {
     <footer>
         <div class="footer-bar">
             <span class="footer-brand">KIN České Budějovice</span>
-            <nav class="footer-nav">
+            <div class="footer-nav">
                 <a href="aktuality.html">Aktuality</a>
                 <a href="terminovka.html">Termínovka</a>
                 <a href="fotogalerie.html">Fotogalerie</a>
@@ -104,7 +104,7 @@ function vlozPaticku() {
                 <a href="sponzori.html">Partneři</a>
                 <a href="documents/GDPR_2025.pdf" target="_blank">GDPR</a>
                 <a href="documents/ekonom_26.pdf" target="_blank">Příspěvky</a>
-            </nav>
+            </div>
         </div>
         <div class="footer-contact">
             <a href="mailto:plavani@tjkin.cz">plavani@tjkin.cz</a>
