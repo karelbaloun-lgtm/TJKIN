@@ -94,30 +94,24 @@ function vlozMenu() {
 function vlozPaticku() {
     const patickaHTML = `
     <footer>
-        <div class="footer-container">
-            
-            <div class="footer-sloupec">
-                <h3>KIN České Budějovice</h3>
-                <p style="opacity: 0.8; margin-bottom: 10px;">
-                    Plavecký oddíl s tradicí od roku 1951.<br>
-                    Vychováváme plavce, tvoříme partu.
-                </p>
-                <a href="mailto:plavani@tjkin.cz" style="color: white; font-weight: bold;">plavani@tjkin.cz</a>
-                <a href="mailto:plavani.tjkin@gmail.com" style="color: white; font-weight: bold;">plavani.tjkin@gmail.com</a>
-                <a href="404.html" target="_blank" style="color: #E1306C;">Instagram →</a>
-            </div>
-
-            <div class="footer-sloupec">
-                <h3>Odkazy</h3>
+        <div class="footer-bar">
+            <span class="footer-brand">KIN České Budějovice</span>
+            <nav class="footer-nav">
                 <a href="aktuality.html">Aktuality</a>
                 <a href="terminovka.html">Termínovka</a>
                 <a href="fotogalerie.html">Fotogalerie</a>
                 <a href="kontakt.html">Kontakty</a>
                 <a href="sponzori.html">Partneři</a>
-                <a href="documents/GDPR_2025.pdf" target="_blank" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; opacity: 0.7;">Ochrana údajů (GDPR)</a>
-                <a href="documents/ekonom_26.pdf" target="_blank" style="opacity: 0.7;">Příspěvky a platby</a>
-            </div>
-
+                <a href="documents/GDPR_2025.pdf" target="_blank">GDPR</a>
+                <a href="documents/ekonom_26.pdf" target="_blank">Příspěvky</a>
+            </nav>
+        </div>
+        <div class="footer-contact">
+            <a href="mailto:plavani@tjkin.cz">plavani@tjkin.cz</a>
+            <span>·</span>
+            <a href="mailto:plavani.tjkin@gmail.com">plavani.tjkin@gmail.com</a>
+            <span>·</span>
+            <a href="404.html" target="_blank" style="color:#E1306C;">Instagram</a>
         </div>
 
         <div class="footer-partneri">

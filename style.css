@@ -1428,7 +1428,7 @@ body.zoh-mode footer {
 footer {
     background-color: #222;
     color: #ecf0f1;
-    padding: 36px 20px 16px;
+    padding: 24px 20px 12px;
     margin-top: 80px;
     font-size: 0.95em;
     border-top: 5px solid var(--hlavni-barva);
@@ -1466,53 +1466,59 @@ footer {
 .footer-partneri-logo:hover { opacity: 1; }
 .footer-partneri-logo img { height: 30px; width: auto; display: block; }
 
-/* Mřížka pro sloupce */
-.footer-container {
+/* Horní bar s názvem a navigací */
+.footer-bar {
     max-width: 1100px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 24px;
-    text-align: left;
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
 }
-@media (max-width: 600px) {
-    .footer-container { grid-template-columns: 1fr; }
-}
-
-/* Nadpisy ve sloupcích */
-.footer-sloupec h3 {
-    color: var(--akcni-barva);
-    font-size: 1.2em;
-    margin-bottom: 12px;
+.footer-brand {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.05em;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    border-bottom: 2px solid rgba(255,255,255,0.1);
-    padding-bottom: 6px;
-    display: inline-block;
+    letter-spacing: 0.05em;
+    color: var(--akcni-barva);
 }
-
-/* Odkazy v patičce */
-.footer-sloupec a {
-    display: block;
+.footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+}
+.footer-nav a {
     color: #bdc3c7;
     text-decoration: none;
-    margin-bottom: 6px;
-    transition: all 0.3s ease;
+    font-size: 0.88em;
+    transition: color 0.2s;
 }
+.footer-nav a:hover { color: #fff; }
 
-.footer-sloupec a:hover {
-    color: white;
-    transform: translateX(5px); /* Posun doprava při najetí */
-    text-shadow: 0 0 5px rgba(255,255,255,0.5);
+/* Kontaktní řádek */
+.footer-contact {
+    max-width: 1100px;
+    margin: 0 auto 4px;
+    font-size: 0.78em;
+    color: rgba(255,255,255,0.4);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
 }
-
-/* Ikony v patičce */
-.footer-icon { margin-right: 10px; }
+.footer-contact a {
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.footer-contact a:hover { color: #fff; }
 
 /* Spodní lišta (Copyright) */
 .footer-bottom {
-    margin-top: 24px;
-    padding-top: 14px;
+    margin-top: 14px;
+    padding-top: 10px;
     border-top: 1px solid rgba(255,255,255,0.1);
     text-align: center;
     font-size: 0.85em;
