@@ -98,7 +98,7 @@ function vlozPaticku() {
             
             <div class="footer-sloupec">
                 <h3>KIN České Budějovice</h3>
-                <p style="opacity: 0.8; margin-bottom: 20px;">
+                <p style="opacity: 0.8; margin-bottom: 10px;">
                     Plavecký oddíl s tradicí od roku 1951.<br>
                     Vychováváme plavce, tvoříme partu.
                 </p>

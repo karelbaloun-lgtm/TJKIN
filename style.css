@@ -1428,7 +1428,7 @@ body.zoh-mode footer {
 footer {
     background-color: #222;
     color: #ecf0f1;
-    padding: 60px 20px 20px;
+    padding: 36px 20px 16px;
     margin-top: 80px;
     font-size: 0.95em;
     border-top: 5px solid var(--hlavni-barva);
@@ -1472,7 +1472,7 @@ footer {
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 40px;
+    gap: 24px;
     text-align: left;
 }
 
@@ -1480,11 +1480,11 @@ footer {
 .footer-sloupec h3 {
     color: var(--akcni-barva);
     font-size: 1.2em;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     text-transform: uppercase;
     letter-spacing: 1px;
     border-bottom: 2px solid rgba(255,255,255,0.1);
-    padding-bottom: 10px;
+    padding-bottom: 6px;
     display: inline-block;
 }
 
@@ -1493,7 +1493,7 @@ footer {
     display: block;
     color: #bdc3c7;
     text-decoration: none;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     transition: all 0.3s ease;
 }
 
@@ -1508,8 +1508,8 @@ footer {
 
 /* Spodní lišta (Copyright) */
 .footer-bottom {
-    margin-top: 50px;
-    padding-top: 20px;
+    margin-top: 24px;
+    padding-top: 14px;
     border-top: 1px solid rgba(255,255,255,0.1);
     text-align: center;
     font-size: 0.85em;
