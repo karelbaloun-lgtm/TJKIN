@@ -149,6 +149,18 @@ function vlozPaticku() {
             <a href="https://www.akkubalek.cz/" target="_blank" rel="noopener" class="footer-partneri-logo">
                 <img src="images/sponzori/kubalek.png" alt="Kubálek a partneři – Advokátní kancelář">
             </a>
+            <a href="https://www.kraj-jihocesky.cz/cs" target="_blank" rel="noopener" class="footer-partneri-logo">
+                <img src="images/sponzori/jc_kraj.jpg" alt="Jihočeský kraj">
+            </a>
+            <a href="https://www.c-budejovice.cz/" target="_blank" rel="noopener" class="footer-partneri-logo">
+                <img src="images/sponzori/cb.png" alt="Město České Budějovice">
+            </a>
+            <a href="https://nsa.gov.cz/" target="_blank" rel="noopener" class="footer-partneri-logo">
+                <img src="images/sponzori/nsa.png" alt="Národní sportovní agentura">
+            </a>
+            <a href="https://czechswimming.cz/" target="_blank" rel="noopener" class="footer-partneri-logo">
+                <img src="images/sponzori/csps.jpg" alt="Český svaz plaveckých sportů">
+            </a>
         </div>
 
         <div class="footer-bottom">
