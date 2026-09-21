@@ -1470,11 +1470,6 @@ footer {
 .footer-bar {
     max-width: 1100px;
     margin: 0 auto 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
 }
 .footer-brand {
     font-family: 'Barlow Condensed', sans-serif;
@@ -1484,18 +1479,6 @@ footer {
     letter-spacing: 0.05em;
     color: var(--akcni-barva);
 }
-.footer-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 18px;
-}
-.footer-nav a {
-    color: #bdc3c7;
-    text-decoration: none;
-    font-size: 0.88em;
-    transition: color 0.2s;
-}
-.footer-nav a:hover { color: #fff; }
 
 /* Kontaktní řádek */
 .footer-contact {
