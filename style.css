@@ -1457,14 +1457,17 @@ footer {
 .footer-partneri-logo {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     background: rgba(255,255,255,0.92);
-    padding: 5px 12px;
+    padding: 6px 10px;
     border-radius: 7px;
     opacity: 0.75;
     transition: opacity 0.2s;
+    width: 84px;
+    box-sizing: border-box;
 }
 .footer-partneri-logo:hover { opacity: 1; }
-.footer-partneri-logo img { height: 30px; width: auto; display: block; }
+.footer-partneri-logo img { height: 32px; width: 64px; object-fit: contain; display: block; }
 
 /* Horní bar s názvem a navigací */
 .footer-bar {
