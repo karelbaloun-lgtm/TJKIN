@@ -43,6 +43,10 @@ function vlozMenu() {
         </button>
         <div class="vzhled-panel">
             <p class="vzhled-nadpis">Vzhled</p>
+            <button class="vzhled-volba" onclick="zmenRezim('auto'); document.getElementById('vzhled-wrap').classList.remove('otevreno')">
+                <span class="vzhled-swatch" style="background:linear-gradient(135deg,#fff 50%,#1a1a2e 50%)"></span>
+                Automaticky
+            </button>
             <button class="vzhled-volba" onclick="zmenRezim('light'); document.getElementById('vzhled-wrap').classList.remove('otevreno')">
                 <span class="vzhled-swatch" style="background:#d32f2f"></span>
                 Klubový styl
@@ -167,7 +171,12 @@ function zmenRezim(rezim) {
     document.querySelectorAll('.srdicko, .vlocka, .vajicko, .metla, .kvetina').forEach(e => e.remove());
 
     // Nastavíme nový režim
-    if (rezim === 'dark') {
+    if (rezim === 'auto') {
+        localStorage.removeItem('tema');
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            body.classList.add('dark-mode');
+        }
+    } else if (rezim === 'dark') {
         body.classList.add('dark-mode');
         localStorage.setItem('tema', 'dark');
     } else if (rezim === 'velikonoce') {
@@ -400,7 +409,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const platneCarodejnice = dnes >= new Date(rokLoad, 3, 28) && dnes < new Date(rokLoad, 4, 2);
     const platneMaj         = dnes >= new Date(rokLoad, 4,  1) && dnes < new Date(rokLoad, 4, 3);
 
-    if (ulozeneTema === 'dark') {
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (ulozeneTema === 'dark' || (ulozeneTema === null && systemDark)) {
         document.body.classList.add('dark-mode');
         if (logo) logo.src = 'images/logos/logo.png';
     } else if (ulozeneTema === 'velikonoce' && platneVelikonoce) {
@@ -418,8 +429,15 @@ document.addEventListener("DOMContentLoaded", function() {
     } else {
         if (logo) logo.src = 'images/logos/logo.png';
         // Sezónní téma mimo platný termín → reset na light
-        if (ulozeneTema !== 'light' && ulozeneTema !== 'dark') localStorage.setItem('tema', 'light');
+        if (ulozeneTema !== 'light' && ulozeneTema !== 'dark' && ulozeneTema !== null) localStorage.setItem('tema', 'light');
     }
+
+    // Sleduj změnu systémové preference – platí jen když uživatel nezvolil manuálně
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (localStorage.getItem('tema') === null) {
+            document.body.classList.toggle('dark-mode', e.matches);
+        }
+    });
 
     // 2. MDŽ (8. března)
     const jeMdz = (dnes.getDate() === 8 && dnes.getMonth() === 2);
