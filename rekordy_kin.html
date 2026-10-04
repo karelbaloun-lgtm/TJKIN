@@ -98,6 +98,36 @@
             text-align: center; margin-top: 4px; padding-bottom: 20px;
         }
         .zdroj-note a { color: inherit; }
+
+        /* ── Gender toggle ── */
+        .gender-toggle { display:flex; gap:6px; margin:0 0 16px; }
+        .g-btn { padding:6px 18px; border:2px solid var(--hlavni-barva); border-radius:20px; background:transparent; color:var(--hlavni-barva); font-size:0.85em; font-weight:700; cursor:pointer; font-family:inherit; transition:all 0.18s; }
+        .g-btn.g-active { background:var(--hlavni-barva); color:#fff; }
+        body.dark-mode .g-btn { color:#ef9a9a; border-color:#ef9a9a; }
+        body.dark-mode .g-btn.g-active { background:#c62828; color:#fff; border-color:#c62828; }
+
+        /* ── Merged pool table ── */
+        .rek-merged { width:100%; border-collapse:collapse; font-size:0.84em; margin-bottom:24px; }
+        .rek-merged thead th { text-align:left; font-size:0.74em; text-transform:uppercase; letter-spacing:0.05em; color:var(--barva-textu-mute,#999); padding:5px 6px 6px; border-bottom:2px solid rgba(0,0,0,0.1); background:rgba(0,0,0,0.02); }
+        .rek-merged thead .pool-th { text-align:center; border-left:2px solid rgba(0,0,0,0.07); padding-left:14px; }
+        body.dark-mode .rek-merged thead th { border-color:#333; background:rgba(255,255,255,0.03); }
+        body.dark-mode .rek-merged thead .pool-th { border-left-color:rgba(255,255,255,0.10); }
+        .rek-merged tbody td { padding:5px 6px; border-bottom:1px solid rgba(0,0,0,0.04); vertical-align:middle; line-height:1.3; }
+        .rek-merged tbody .td-pool { border-left:2px solid rgba(0,0,0,0.05); padding-left:14px; }
+        body.dark-mode .rek-merged tbody td { border-color:#252525; }
+        body.dark-mode .rek-merged tbody .td-pool { border-left-color:rgba(255,255,255,0.07); }
+        .rek-merged tbody tr:last-child td { border-bottom:none; }
+        .rek-merged tr.even td { background:rgba(0,0,0,0.028); }
+        body.dark-mode .rek-merged tr.even td { background:rgba(255,255,255,0.04); }
+        .rek-merged tr.stroke-row td { background:rgba(0,0,0,0.03); font-size:0.74em; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--barva-textu-mute,#888); padding:5px 6px 4px; border-top:2px solid rgba(0,0,0,0.08); border-bottom:none !important; }
+        body.dark-mode .rek-merged tr.stroke-row td { background:rgba(255,255,255,0.04); border-top-color:rgba(255,255,255,0.10); }
+        .t-disc { white-space:nowrap; font-size:0.9em; }
+        .rec-name-cell .rec-name { display:block; }
+        @media (max-width:580px) {
+            .rek-merged { font-size:0.79em; }
+            .rek-merged tbody .td-pool { padding-left:8px; border-left-width:1px; }
+            .rek-merged thead .pool-th { padding-left:8px; border-left-width:1px; }
+        }
     </style>
 </head>
 <body>
@@ -356,12 +386,101 @@
     <div id="spolecna-paticka"></div>
     <script src="komponenty.js"></script>
     <script>
+    var IDX = { disc:0, time:1, name:2, yr:3 };
+
+    function fmtName(raw, yr) {
+        var parts = (raw || '').trim().split(/\s+/);
+        var last = parts.pop() || '';
+        var first = parts[0] || '';
+        var name = last.charAt(0).toUpperCase() + last.slice(1).toLowerCase();
+        var init = first ? first.charAt(0) + '.' : '';
+        var y = (yr || '').trim();
+        return (init ? init + ' ' : '') + name + (y ? ' (' + y + ')' : '');
+    }
+
+    function cellPair(row) {
+        if (!row) return '<td class="rec-time td-pool">–</td><td class="td-pool rec-name-cell">–</td>';
+        var time = row.cells[IDX.time] ? row.cells[IDX.time].textContent.trim() : '–';
+        var rawName = row.cells[IDX.name] ? row.cells[IDX.name].textContent.trim() : '';
+        var yr = row.cells[IDX.yr] ? row.cells[IDX.yr].textContent.trim() : '';
+        var name = fmtName(rawName, yr);
+        return '<td class="rec-time td-pool">' + time + '</td>' +
+               '<td class="td-pool rec-name-cell"><span class="rec-name">' + name + '</span></td>';
+    }
+
+    function mergeSection(sec) {
+        var grid = sec.querySelector('.pool-grid');
+        if (!grid || grid._done) return;
+        grid._done = true;
+        var divs = grid.children;
+        var rows25 = [].slice.call(divs[0].querySelectorAll('tbody tr'));
+        var rows50 = [].slice.call(divs[1].querySelectorAll('tbody tr'));
+        var map25 = {}, map50 = {}, order = [];
+        rows25.forEach(function(r){ var d = r.cells[IDX.disc].textContent.trim(); map25[d]=r; order.push(d); });
+        rows50.forEach(function(r){ var d = r.cells[IDX.disc].textContent.trim(); map50[d]=r; if(!map25[d]) order.push(d); });
+
+        var html = '<table class="rek-merged"><thead><tr>' +
+            '<th>Disciplína</th>' +
+            '<th class="pool-th" colspan="2">25m bazén</th>' +
+            '<th class="pool-th" colspan="2">50m bazén</th>' +
+            '</tr></thead><tbody>';
+        var lastStroke = '', evenIdx = 0;
+        order.forEach(function(disc) {
+            var r25 = map25[disc]||null, r50 = map50[disc]||null;
+            var stroke = disc.replace(/^\d+\s*m\s+/i,'').trim();
+            stroke = stroke.charAt(0).toUpperCase() + stroke.slice(1);
+            if (stroke !== lastStroke) { lastStroke = stroke; evenIdx = 0; html += '<tr class="stroke-row"><td colspan="5">' + stroke + '</td></tr>'; }
+            var cls = (evenIdx % 2) ? 'even' : '';
+            evenIdx++;
+            var discShort = disc.replace(/^(\d+\s*m).*/i,'$1').trim();
+            html += '<tr' + (cls ? ' class="' + cls + '"' : '') + '>' +
+                '<td class="t-disc">' + discShort + '</td>' + cellPair(r25) + cellPair(r50) + '</tr>';
+        });
+        html += '</tbody></table>';
+        var tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        grid.parentNode.insertBefore(tmp.firstChild, grid);
+        grid.style.display = 'none';
+    }
+
+    function setupGenderToggle(catEl) {
+        if (catEl._gt) return;
+        catEl._gt = true;
+        var secs = [].slice.call(catEl.querySelectorAll('.gender-sekce'));
+        if (secs.length < 2) { if (secs.length === 1) mergeSection(secs[0]); return; }
+        secs.forEach(function(s){ var h = s.querySelector('.gender-nadpis'); if (h) h.style.display = 'none'; });
+        var div = document.createElement('div');
+        div.className = 'gender-toggle';
+        div.innerHTML = '<button class="g-btn g-active">Muži</button><button class="g-btn">Ženy</button>';
+        catEl.insertBefore(div, secs[0]);
+        var cur = 0;
+        secs[1].style.display = 'none';
+        mergeSection(secs[0]);
+        div.addEventListener('click', function(e) {
+            var btn = e.target.closest ? e.target.closest('.g-btn') : (e.target.classList.contains('g-btn') ? e.target : null);
+            if (!btn) return;
+            var btns = [].slice.call(div.querySelectorAll('.g-btn'));
+            var idx = btns.indexOf(btn);
+            if (idx < 0 || idx === cur) return;
+            cur = idx;
+            btns.forEach(function(b, i){ b.classList.toggle('g-active', i === idx); });
+            secs.forEach(function(s, i){ s.style.display = i === idx ? '' : 'none'; if (i === idx) mergeSection(s); });
+        });
+    }
+
     function showCat(id, btn) {
         document.querySelectorAll('.rekordy-cat').forEach(function(s){ s.style.display='none'; });
         document.querySelectorAll('.rek-tab-btn').forEach(function(b){ b.classList.remove('active'); });
-        document.getElementById(id).style.display='';
-        if(btn) btn.classList.add('active');
+        var cat = document.getElementById(id);
+        cat.style.display = '';
+        if (btn) btn.classList.add('active');
+        setupGenderToggle(cat);
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var first = document.querySelector('.rekordy-cat');
+        if (first) setupGenderToggle(first);
+    });
     </script>
 </body>
 </html>
