@@ -94,7 +94,7 @@
         body.dark-mode .rek-merged tr.stroke-row td { background:rgba(255,255,255,0.04); border-top-color:rgba(255,255,255,0.10); }
         .t-disc { white-space:nowrap; font-size:0.9em; }
         .rec-name-cell .rec-name { display:block; }
-        .rek-merged tbody tr.kin-rekord .rec-name { color:var(--hlavni-barva); }
+        .rek-merged tbody .kin-side .rec-name { color:var(--hlavni-barva); }
         @media (max-width:580px) {
             .rek-merged { font-size:0.79em; }
             .rek-merged tbody .td-pool { padding-left:8px; border-left-width:1px; }
@@ -417,7 +417,7 @@
         return (init ? init + ' ' : '') + name + (paren ? ' ' + paren : '');
     }
 
-    function cellPair(row) {
+    function cellPair(row, isKin) {
         if (!row) return '<td class="rec-time td-pool">–</td><td class="td-pool rec-name-cell">–</td>';
         var time = row.cells[IDX.time] ? row.cells[IDX.time].textContent.trim() : '–';
         var rawName = row.cells[IDX.name] ? row.cells[IDX.name].textContent.trim() : '';
@@ -425,8 +425,9 @@
         var clubCell = row.cells[IDX.club];
         var club = clubCell ? (clubCell.childNodes[0] ? clubCell.childNodes[0].textContent.trim() : clubCell.textContent.trim()) : '';
         var name = fmtName(rawName, yr, club);
-        return '<td class="rec-time td-pool">' + time + '</td>' +
-               '<td class="td-pool rec-name-cell"><span class="rec-name">' + name + '</span></td>';
+        var k = isKin ? ' kin-side' : '';
+        return '<td class="rec-time td-pool' + k + '">' + time + '</td>' +
+               '<td class="td-pool rec-name-cell' + k + '"><span class="rec-name">' + name + '</span></td>';
     }
 
     function mergeSection(sec) {
@@ -451,12 +452,14 @@
             var stroke = disc.replace(/^\d+\s*m\s+/i,'').trim();
             stroke = stroke.charAt(0).toUpperCase() + stroke.slice(1);
             if (stroke !== lastStroke) { lastStroke = stroke; evenIdx = 0; html += '<tr class="stroke-row"><td colspan="5">' + stroke + '</td></tr>'; }
-            var isKin = (r25 && r25.classList.contains('kin-rekord')) || (r50 && r50.classList.contains('kin-rekord'));
+            var isKin25 = !!(r25 && r25.classList.contains('kin-rekord'));
+            var isKin50 = !!(r50 && r50.classList.contains('kin-rekord'));
+            var isKin = isKin25 || isKin50;
             var cls = (isKin ? 'kin-rekord' : '') + ((evenIdx % 2) ? ' even' : '');
             evenIdx++;
             var discShort = disc.replace(/^(\d+\s*m).*/i,'$1').trim();
             html += '<tr' + (cls.trim() ? ' class="' + cls.trim() + '"' : '') + '>' +
-                '<td class="t-disc">' + discShort + '</td>' + cellPair(r25) + cellPair(r50) + '</tr>';
+                '<td class="t-disc">' + discShort + '</td>' + cellPair(r25, isKin25) + cellPair(r50, isKin50) + '</tr>';
         });
         html += '</tbody></table>';
         var tmp = document.createElement('div');
