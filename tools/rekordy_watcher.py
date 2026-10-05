@@ -11,11 +11,13 @@ Co dělá:
   4. Z LENEXu vytáhne výkony jihočeských klubů (podle kódu i názvu klubu),
      určí délku bazénu (SCM = 25 m / LCM = 50 m).
   5. Porovná je s aktuálními rekordy v rekordy_kraj.html (ve STEJNÉ délce bazénu)
-     napříč věkovými kategoriemi a vypíše návrhy na nové rekordy.
+     napříč věkovými kategoriemi a vypíše návrhy na nové rekordy; výkony KIN
+     navíc porovná s oddílovými rekordy v rekordy_kin.html. U závodů jen s PDF
+     čte výkony z výsledkovky (formát Swim Meet Manager), nečitelné řádky vypíše.
   5b. Výkony Ely Kubálkové a Zoe Tůmové porovná s TOP10 v jejich profilech
      (ela_kub.html, zoe_tum.html) ve stejné délce bazénu; zlepšení rovnou zapíše
      (čas + body, přeřazení podle bodů, max. 10 řádků). LENEX i PDF.
-  6. VŽDY přepíše datum "Data aktuální k ..." na dnešní (pokud není --no-date).
+  6. VŽDY přepíše datum "Data aktuální k ..." (rekordy_kraj.html i rekordy_kin.html) na dnešní (pokud není --no-date).
   7. Uloží stav (tools/rekordy_watcher_state.json) – datum běhu a ID závodů,
      u nichž ještě nebyly výsledky, aby je příští běh zkontroloval znovu.
 
@@ -59,6 +61,7 @@ for _s in (sys.stdout, sys.stderr):
 API = "https://vysledky.czechswimming.cz/cz.zma.csps.portal.rest/api/public"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REKORDY_HTML = os.path.join(ROOT, "rekordy_kraj.html")
+REKORDY_KIN_HTML = os.path.join(ROOT, "rekordy_kin.html")
 STATE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "rekordy_watcher_state.json")
 
 # Po kolika dnech bez zveřejněných výsledků přestat závod hlídat.
@@ -312,21 +315,68 @@ def pdf_text(path: str) -> str | None:
     return text
 
 
-def scan_pdf_for_jc(path: str) -> list[str]:
-    """Bez časového porovnání – jen vytáhne řádky se zkratkami JČ klubů k ruční kontrole."""
+_PDF_STROKES = [  # (regex, LENEX stroke) pro hlavičky disciplín v PDF
+    (r"voln\w* zp", "FREE"), (r"znak", "BACK"), (r"prsa", "BREAST"),
+    (r"mot[ýy]l", "FLY"), (r"polohov", "MEDLEY"),
+]
+_PDF_TIME = r"\d{1,2}:\d\d[,.]\d\d|\d\d[,.]\d\d"
+
+
+def parse_pdf_results(path: str) -> tuple[list[dict], list[str]] | None:
+    """Z PDF výsledkovky (formát Swim Meet Manager apod.) vytáhne výkony jihočeských klubů.
+
+    Disciplína a pohlaví se berou z poslední hlavičky typu '1) 800 Volný způsob Ženy';
+    štafety se přeskakují. Vrací (výsledky ve stejném tvaru jako parse_lenex,
+    řádky JČ klubů, které nešly přečíst) nebo None, když chybí pdfplumber.
+    """
     text = pdf_text(path)
     if text is None:
-        return ["(pdfplumber není nainstalován – PDF nelze přečíst)"]
-    keys = [norm(a) for a in JC_CLUBS] + [
-        "JINDRICHUV HRADEC", "FEZKO", "KOH-I-NOOR", "KLUB PISEK", "TJ TABOR",
-        "CESKOKRUMLOVSKY", "PLAVANI PRACHATICE", "PLAVANI CESKE BUDEJOVICE",
-    ]
-    hits = []
+        return None
+    clubs = "|".join(re.escape(a) for a in JC_CLUBS)
+    # za klubem může být mezičas (a/nebo '-') a teprve pak výsledný čas -> bere se poslední čas
+    line_re = re.compile(rf"^\d+\.\s+(.+?)\s+((?:19|20)\d\d)\b.*?\s({clubs})\s+"
+                         rf"(?:(?:{_PDF_TIME}|-)\s+)*({_PDF_TIME})(?:\s+(\d{{1,4}})\b)?")
+    head_re = re.compile(r"(?<![\d:,.])(\d{2,4})\s*m?\s+(" + "|".join(r for r, _ in _PDF_STROKES) + ")", re.I)
+    club_re = re.compile(rf"\s({clubs})\s+({_PDF_TIME})")
+    results, unparsed, cur = [], [], None
     for line in text.splitlines():
-        nl = norm(line)
-        if any(k in nl for k in keys):
-            hits.append(line.strip())
-    return hits
+        line = line.strip()
+        if re.search(r"\d\s*[x×]\s*\d{2,3}", line):  # štafeta
+            cur = False
+            continue
+        hm = head_re.search(line)
+        if hm and not re.search(_PDF_TIME, line):
+            stroke = next(s for r, s in _PDF_STROKES if re.match(r, hm.group(2), re.I))
+            nl = norm(line)
+            if re.search(r"NOHY|NOHAMA|PLOUTV|DESK|PADDL|SKOK|STAFET", nl):  # nerekordové disciplíny
+                cur = False
+                continue
+            gender = ("Ženy" if re.search(r"ZENY|ZACKY|DIVKY|JUNIORKY", nl)
+                      else "Muži" if re.search(r"MUZI|ZACI|CHLAPCI|JUNIORI", nl) else None)
+            cur = (int(hm.group(1)), stroke, gender)
+            continue
+        if cur is False or not club_re.search(line) or re.search(r"\b(DSQ|DNS|DNF|DIS)\b", line):
+            continue  # cur False = štafeta / nerekordová disciplína
+        m = line_re.search(line)
+        if not m or not cur or not cur[2]:
+            unparsed.append(line)
+            continue
+        sec = to_seconds(m.group(4))
+        if sec is None:
+            continue
+        if not 0.4 <= sec / cur[0] <= 4.0:  # nesmyslná rychlost = špatně přečtený řádek/hlavička
+            unparsed.append(line)
+            continue
+        toks = m.group(1).split()
+        n_last = next((i for i, t in enumerate(toks) if t != t.upper()), len(toks)) or 1
+        results.append({
+            "club": m.group(3), "club_name": m.group(3),
+            "last": " ".join(toks[:n_last]), "first": " ".join(toks[n_last:]),
+            "birthyear": int(m.group(2)), "gender": cur[2],
+            "dist": cur[0], "stroke": cur[1], "sec": sec, "swimtime": m.group(4),
+            "points": int(m.group(5)) if m.group(5) and int(m.group(5)) > 0 else None,
+        })
+    return results, unparsed
 
 
 # --------------------------------------------------------------- records parsing
@@ -355,10 +405,14 @@ def load_records(html_path: str) -> tuple[dict, dict]:
                     sec = to_seconds(tstr)
                     if sec is None:
                         continue
+                    if clean(tds[3]).startswith("*"):
+                        # rekordy_kin.html: Disciplína | Čas | Jméno | Roč. | Body
+                        club, yr = "KIN", clean(tds[3])
+                    else:
+                        # rekordy_kraj.html: Disciplína | Čas | Jméno | Oddíl | Roč.
+                        club, yr = clean(tds[3]).replace("KIN KIN", "KIN"), clean(tds[4])
                     records[(catid, gender, pool, disc)] = (
-                        sec, tstr, clean(tds[2]),
-                        clean(tds[3]).replace("KIN KIN", "KIN"),
-                        clean(tds[4]).lstrip("*"),
+                        sec, tstr, clean(tds[2]), club, yr.lstrip("*"),
                     )
     return records, catname
 
@@ -401,7 +455,7 @@ def compare(results: list[dict], course: str, records: dict, catname: dict,
                 "gender": r["gender"], "pool": course, "disc": disc,
                 "name": f"{r['first']} {r['last']}", "club": r["club"],
                 "birthyear": r["birthyear"], "new_time": r["swimtime"],
-                "new_cell": fmt_cell_time(r["sec"]),
+                "new_cell": fmt_cell_time(r["sec"]), "points": r.get("points"),
             }
             if rec is None:
                 row["kind"] = "chybí řádek v tabulce"
@@ -427,10 +481,6 @@ PROFILE_STROKE = {
     "FLY": "motýlek", "MEDLEY": "polohový závod",
 }
 PROFILE_TOP = 10
-_PDF_STROKES = [  # (regex, LENEX stroke) pro hlavičky disciplín v PDF
-    (r"voln\w* zp", "FREE"), (r"znak", "BACK"), (r"prsa", "BREAST"),
-    (r"mot[ýy]l", "FLY"), (r"polohov", "MEDLEY"),
-]
 
 
 def profile_disc(dist: int, stroke: str) -> str:
@@ -440,43 +490,6 @@ def profile_disc(dist: int, stroke: str) -> str:
 def is_profile_athlete(prof: dict, first: str, last: str, birthyear: int) -> bool:
     return (norm(last) == norm(prof["last"]) and norm(first).startswith(norm(prof["first"]))
             and birthyear == prof["birthyear"])
-
-
-def pdf_profile_results(path: str, prof: dict) -> list[dict]:
-    """Z PDF výsledkovky (Swim Meet Manager apod.) vytáhne výkony dané závodnice.
-
-    Disciplína se bere z poslední hlavičky typu '800 Volný způsob Ženy'; štafety
-    se přeskakují. Řádky, kde nejde určit disciplínu, vrací s dist=None (ruční kontrola).
-    """
-    text = pdf_text(path) or ""
-    out, cur = [], None
-    name_re = re.compile(rf"{re.escape(prof['last'])}\s+{re.escape(prof['first'])}\b.*?"
-                         rf"{prof['birthyear']}.*?\s(\d{{1,2}}:\d\d[,.]\d\d|\d\d[,.]\d\d)\s+(\d{{2,4}})?",
-                         re.I)
-    for line in text.splitlines():
-        if re.search(r"\d\s*[x×]\s*\d{2,3}", line):  # štafeta
-            cur = None
-            continue
-        hm = re.search(r"(?<![\d:,.])(\d{2,4})\s*m?\s+(" + "|".join(r for r, _ in _PDF_STROKES) + ")",
-                       line, re.I)
-        if hm and not re.search(r"\d{1,2}:\d\d[,.]\d\d", line):
-            stroke = next(s for r, s in _PDF_STROKES if re.match(r, hm.group(2), re.I))
-            cur = (int(hm.group(1)), stroke)
-            continue
-        m = name_re.search(line)
-        if not m:
-            continue
-        if re.search(r"\b(DSQ|DNS|DNF|DIS)\b", line):
-            continue
-        sec = to_seconds(m.group(1))
-        if sec is None:
-            continue
-        out.append({
-            "dist": cur[0] if cur else None, "stroke": cur[1] if cur else None,
-            "sec": sec, "points": int(m.group(2)) if m.group(2) else None,
-            "raw": line.strip(),
-        })
-    return out
 
 
 _ROW_RE = re.compile(r'<tr><td>([^<]+)</td>\s*<td><span class="v-cas">([^<]+)</span>(.*?)'
@@ -557,9 +570,6 @@ def update_profiles(perf: dict[str, list[dict]]) -> tuple[list[str], list[str], 
                 new_doc = new_doc[:a + offset] + body + new_doc[b + offset:]
                 offset += len(body) - (b - a)
                 touched = True
-        for it in items:
-            if it["dist"] is None:
-                manual.append(f"{prof['first']} {prof['last']} – nelze určit disciplínu z PDF: `{it['raw']}`")
         if touched:
             open(path, "w", encoding="utf-8", newline="\n").write(new_doc)
             changed.append(path)
@@ -619,7 +629,7 @@ def main() -> int:
     ap.add_argument("--no-date", action="store_true", help="neaktualizovat datum v HTML")
     ap.add_argument("--comp", type=int, action="append", help="zkontrolovat jen daný závod (lze víckrát)")
     ap.add_argument("--commit", action="store_true",
-                    help="pokud nejsou návrhy na rekord: git add/commit/push rekordy_kraj.html + stavu")
+                    help="pokud nejsou návrhy na rekord: git add/commit/push rekordy_kraj/kin.html, profilů a stavu")
     ap.add_argument("--tmp", default=os.path.join(ROOT, ".rekordy_tmp"), help="adresář pro stažené soubory")
     args = ap.parse_args()
 
@@ -669,7 +679,10 @@ def main() -> int:
     if not comps:
         print("_V zadaném okně nebyl nalezen žádný bazénový plavecký závod._\n")
 
-    checked, all_hits, new_pending = [], [], []
+    checked, all_hits, all_kin_hits, new_pending = [], [], [], []
+    pdf_manual: list[tuple[str, list[str]]] = []
+    records, catname = load_records(REKORDY_HTML)
+    kin_records, kin_catname = load_records(REKORDY_KIN_HTML)
     profile_perf: dict[str, list[dict]] = {}
     for c in comps:
         label = f"**{c['id']}** – {c['title']} ({c['start']}"
@@ -691,38 +704,43 @@ def main() -> int:
             new_pending.append(c["id"])
             continue
         path, kind = got
-        if kind == "pdf":
-            for prof in PROFILES:
-                for r in pdf_profile_results(path, prof):
-                    profile_perf.setdefault(prof["file"], []).append(
-                        {**r, "pool": f"{c['pool']}m bazén", "comp": f"{c['title']}, {c['start']}"})
-            hits_lines = scan_pdf_for_jc(path)
-            checked.append((c, "pdf", 0))
-            if hits_lines:
-                print(f"- {label}: **jen PDF** – ruční kontrola těchto řádků:")
-                for ln in hits_lines[:40]:
-                    print(f"    - `{ln}`")
-            else:
-                print(f"- {label}: jen PDF, žádná jihočeská zmínka nenalezena")
-            continue
-        try:
-            course, results = parse_lenex(path)
-        except Exception as e:  # noqa: BLE001
-            print(f"- {label}: chyba při parsování LENEXu: {e}")
-            new_pending.append(c["id"])
-            continue
         pool_from_meta = f"{c['pool']}m bazén"
-        if course == "?":
-            course = pool_from_meta
+        if kind == "pdf":
+            parsed = parse_pdf_results(path)
+            if parsed is None:
+                checked.append((c, "pdf", 0))
+                print(f"- {label}: **jen PDF** a chybí pdfplumber – nutná ruční kontrola")
+                continue
+            results, unparsed = parsed
+            course, src = pool_from_meta, "jen PDF"
+            if unparsed:
+                pdf_manual.append((label, unparsed))
+        else:
+            try:
+                course, results = parse_lenex(path)
+            except Exception as e:  # noqa: BLE001
+                print(f"- {label}: chyba při parsování LENEXu: {e}")
+                new_pending.append(c["id"])
+                continue
+            if course == "?":
+                course = pool_from_meta
+            src = "LENEX OK"
         comp_year = int(c["start"][:4])
-        records, catname = load_records(REKORDY_HTML)
         hits = compare(results, course, records, catname, comp_year)
+        kin_hits = compare([r for r in results if r["club"] == "KIN"], course,
+                           kin_records, kin_catname, comp_year)
         clubs_present = sorted({r["club"] for r in results})
         checked.append((c, course, len(clubs_present)))
-        print(f"- {label}: LENEX OK, bazén {course}, "
+        found = []
+        if hits:
+            found.append(f"**{len(hits)} návrh(ů) na krajský rekord**")
+        if kin_hits:
+            found.append(f"**{len(kin_hits)} návrh(ů) na rekord KIN**")
+        print(f"- {label}: {src}, bazén {course}, "
               f"jihočeská účast: {', '.join(clubs_present) or 'žádná'}, "
-              f"{'**' + str(len(hits)) + ' návrh(ů) na rekord**' if hits else 'bez nových rekordů'}")
+              f"{', '.join(found) or 'bez nových rekordů'}")
         all_hits.extend(hits)
+        all_kin_hits.extend(kin_hits)
         for r in results:
             for prof in PROFILES:
                 if r["gender"] == "Ženy" and r["stroke"] in PROFILE_STROKE \
@@ -731,20 +749,34 @@ def main() -> int:
                         {"pool": course, "dist": r["dist"], "stroke": r["stroke"], "sec": r["sec"],
                          "points": r.get("points"), "comp": f"{c['title']}, {c['start']}"})
 
-    # ---- souhrn návrhů
-    print("\n## Návrhy na nové rekordy\n")
-    if not all_hits:
-        print("_Žádné._ Žádný jihočeský výkon nepřekonal stávající krajský rekord "
-              "ve stejné délce bazénu.\n")
-    else:
-        print("| Kategorie | Pohlaví | Bazén | Disciplína | Nový čas | Závodník/ce | Klub | Roč. | Stávající rekord |")
-        print("|---|---|---|---|---|---|---|---|---|")
-        for h in all_hits:
+    def print_hits(hits: list[dict], what: str, with_points: bool) -> None:
+        if not hits:
+            print(f"_Žádné._ Žádný výkon nepřekonal stávající {what} ve stejné délce bazénu.\n")
+            return
+        pts_h, pts_s = (" Body |", "---|") if with_points else ("", "")
+        print(f"| Kategorie | Pohlaví | Bazén | Disciplína | Nový čas |{pts_h} Závodník/ce | Klub | Roč. | Stávající rekord |")
+        print(f"|---|---|---|---|---|{pts_s}---|---|---|---|")
+        for h in hits:
             old = h["old"] if h["old"] else f"_{h['kind']}_"
+            pts = f" {h['points'] or '?'} |" if with_points else ""
             print(f"| {h['cat']} | {h['gender']} | {h['pool']} | {h['disc']} | "
-                  f"**{h['new_cell']}** | {h['name']} | {h['club']} | *{h['birthyear']} | {old} |")
+                  f"**{h['new_cell']}** |{pts} {h['name']} | {h['club']} | *{h['birthyear']} | {old} |")
         print("\n> Pozn.: věková způsobilost je jen orientační (věk = rok závodu − ročník); "
-              "před zápisem ověřit kategorii ručně. Skript tabulky needituje.\n")
+              "před zápisem ověřit kategorii ručně. Skript tabulky rekordů needituje.\n")
+
+    if pdf_manual:
+        print("\n## PDF řádky k ruční kontrole\n")
+        print("_Jihočeské výkony, u kterých se z PDF nepodařilo určit disciplínu/pohlaví/čas:_\n")
+        for label, rows in pdf_manual:
+            print(f"- {label}:")
+            for ln in rows[:40]:
+                print(f"    - `{ln}`")
+
+    # ---- souhrn návrhů
+    print("\n## Návrhy na nové krajské rekordy (rekordy_kraj.html)\n")
+    print_hits(all_hits, "krajský rekord", with_points=False)
+    print("## Návrhy na nové rekordy KIN (rekordy_kin.html)\n")
+    print_hits(all_kin_hits, "oddílový rekord KIN", with_points=True)
 
     # ---- profily závodnic
     print("## Profily závodnic (TOP10)\n")
@@ -767,14 +799,16 @@ def main() -> int:
     if args.no_date:
         print("_Přeskočeno (--no-date)._\n")
     else:
-        res = bump_date(REKORDY_HTML, today)
-        if res:
-            print(f"`rekordy_kraj.html`: „{res}“\n")
-        else:
-            print("**CHYBA:** řádek „Data aktuální k …“ nebyl v HTML nalezen.\n")
+        for html in (REKORDY_HTML, REKORDY_KIN_HTML):
+            res = bump_date(html, today)
+            if res:
+                print(f"- `{os.path.basename(html)}`: „{res}“")
+            else:
+                print(f"- **CHYBA:** v `{os.path.basename(html)}` nebyl řádek „Data aktuální k …“ nalezen.")
+        print()
 
     # ---- stav
-    commit_msg = (f"chore: aktualizovat datum kontroly krajských rekordů – "
+    commit_msg = (f"chore: aktualizovat datum kontroly rekordů (kraj + KIN) – "
                   f"{today.day}. {today.month}. {today.year}")
     # --comp zkoumá jen vybrané závody, nikoli celé okno -> nesmí přepsat frontu
     # čekajících závodů (jinak by o ně "zapomněl").
@@ -793,14 +827,15 @@ def main() -> int:
         print("## Commit\n")
         if not args.commit:
             print(f"_Přeskočeno (bez --commit)._ Navržená zpráva: `{commit_msg}`\n")
-        elif all_hits:
+        elif all_hits or all_kin_hits:
             print("_Vynecháno – jsou návrhy na nové rekordy. Zkontroluj je, zanes do "
-                  "`rekordy_kraj.html` a commitni ručně (i s upravenými profily)._\n")
+                  "`rekordy_kraj.html` / `rekordy_kin.html` a commitni ručně "
+                  "(i s datem a upravenými profily)._\n")
         else:
             if prof_changed:
                 commit_msg = (f"data: aktualizovat profily závodnic (TOP10) a datum kontroly rekordů – "
                               f"{today.day}. {today.month}. {today.year}")
-            res = git_commit_push([REKORDY_HTML, STATE_FILE, *prof_changed], commit_msg)
+            res = git_commit_push([REKORDY_HTML, REKORDY_KIN_HTML, STATE_FILE, *prof_changed], commit_msg)
             if res is None:
                 print("_Nic ke commitu – v souborech není žádná změna._\n")
             elif res[0] == "ok":
@@ -818,7 +853,8 @@ def main() -> int:
     if expired:
         print(f"- Vyřazeno (přes {PENDING_MAX_DAYS} dní bez výsledků): "
               f"{', '.join(sorted(expired, key=int))}")
-    print(f"- Nových rekordů k zápisu: {len(all_hits)}")
+    print(f"- Návrhů na krajský rekord: {len(all_hits)}")
+    print(f"- Návrhů na rekord KIN: {len(all_kin_hits)}")
     if not args.commit and not args.comp:
         print("\n> Commit: pokud jsou návrhy prázdné -> "
               f"`{commit_msg}`")
