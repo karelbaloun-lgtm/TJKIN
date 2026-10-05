@@ -92,14 +92,6 @@
         .rec-name { color: var(--hlavni-barva); font-weight: 600; }
         .rec-profil-link { color: inherit; text-decoration: underline; text-decoration-style: dashed; text-underline-offset: 2px; text-decoration-color: rgba(211,47,47,0.45); }
         .rec-profil-link:hover { text-decoration-color: var(--hlavni-barva); }
-        .kin-rekordmanky { display:flex; gap:10px; flex-wrap:wrap; padding:10px 0 20px; }
-        .kin-rekordman-pill { display:inline-flex; align-items:center; gap:8px; border:1px solid rgba(211,47,47,0.35); border-radius:20px; padding:5px 14px 5px 10px; font-size:0.85rem; text-decoration:none; color:inherit; transition:border-color 0.15s; }
-        .kin-rekordman-pill:hover { border-color:var(--hlavni-barva); }
-        .kin-rekordman-name { font-weight:700; color:var(--hlavni-barva); }
-        .kin-rekordman-count { color:var(--barva-textu-mute,#888); }
-        body.dark-mode .kin-rekordman-pill { border-color:rgba(239,154,154,0.35); }
-        body.dark-mode .kin-rekordman-pill:hover { border-color:#ef9a9a; }
-        body.dark-mode .kin-rekordman-name { color:#ef9a9a; }
         .rec-yr { color: var(--barva-textu-mute, #888); font-size: 0.85em; white-space: nowrap; }
         .rec-pts { color: var(--barva-textu-mute, #999); font-size: 0.82em; text-align: right; white-space: nowrap; }
 
@@ -151,7 +143,6 @@
 
     <div class="obsah" style="padding-top:4px">
 
-        <div id="kin-rekordmanky" class="kin-rekordmanky" style="display:none"></div>
 
         <div class="rek-tabs">
 <button class="rek-tab-btn active" onclick="showCat('cat_open',this)">Open</button>
@@ -401,7 +392,6 @@
     var IDX = { disc:0, time:1, name:2, yr:3 };
 
     var _PROFILY_KIN = { 'Ela KUBÁLKOVÁ': 'ela_kub.html', 'Zoe TŮMOVÁ': 'zoe_tum.html' };
-    var _PROFILY_JMENA = { 'Ela KUBÁLKOVÁ': 'Ela Kubálková', 'Zoe TŮMOVÁ': 'Zoe Tůmová' };
 
     function fmtName(raw, yr) {
         var parts = (raw || '').trim().split(/\s+/);
@@ -498,23 +488,6 @@
         var first = document.querySelector('.rekordy-cat');
         if (first) setupGenderToggle(first);
 
-        // Rekordmanky – souhrn
-        var kinCounts = {};
-        document.querySelectorAll('.rek-tab tbody .rec-name').forEach(function(td) {
-            var raw = td.textContent.trim();
-            if (_PROFILY_KIN[raw]) kinCounts[raw] = (kinCounts[raw] || 0) + 1;
-        });
-        var box = document.getElementById('kin-rekordmanky');
-        var html = '';
-        Object.keys(_PROFILY_KIN).forEach(function(raw) {
-            var n = kinCounts[raw];
-            if (!n) return;
-            html += '<a href="' + _PROFILY_KIN[raw] + '" class="kin-rekordman-pill">' +
-                    '<span class="kin-rekordman-name">' + _PROFILY_JMENA[raw] + '</span>' +
-                    '<span class="kin-rekordman-count"> ' + n + ' rekordů KIN</span>' +
-                    '</a>';
-        });
-        if (html && box) { box.innerHTML = html; box.style.display = ''; }
     });
     </script>
 </body>
