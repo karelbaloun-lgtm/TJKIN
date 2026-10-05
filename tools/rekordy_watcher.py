@@ -12,12 +12,15 @@ Co dělá:
      určí délku bazénu (SCM = 25 m / LCM = 50 m).
   5. Porovná je s aktuálními rekordy v rekordy_kraj.html (ve STEJNÉ délce bazénu)
      napříč věkovými kategoriemi a vypíše návrhy na nové rekordy.
+  5b. Výkony Ely Kubálkové a Zoe Tůmové porovná s TOP10 v jejich profilech
+     (ela_kub.html, zoe_tum.html) ve stejné délce bazénu; zlepšení rovnou zapíše
+     (čas + body, přeřazení podle bodů, max. 10 řádků). LENEX i PDF.
   6. VŽDY přepíše datum "Data aktuální k ..." na dnešní (pokud není --no-date).
   7. Uloží stav (tools/rekordy_watcher_state.json) – datum běhu a ID závodů,
      u nichž ještě nebyly výsledky, aby je příští běh zkontroloval znovu.
 
-Výstup je Markdown report na stdout. Skript sám NErediguje tabulky rekordů ani
-necommituje – návrhy je potřeba zkontrolovat a zanést ručně (viz report).
+Výstup je Markdown report na stdout. Skript sám NErediguje tabulky rekordů (profily
+závodnic ano) ani necommituje bez --commit – návrhy je potřeba zkontrolovat a zanést ručně (viz report).
 
 Použití:
     python tools/rekordy_watcher.py                 # report + aktualizace data
@@ -274,12 +277,14 @@ def parse_lenex(path: str) -> tuple[str, list[dict]]:
                 sec = to_seconds(res.get("swimtime"))
                 if sec is None:
                     continue
+                pts = res.get("points") or ""
                 results.append({
                     "club": abbr, "club_name": name,
                     "first": first, "last": last, "birthyear": int(by),
                     "gender": "Muži" if ev["gender"] == "M" else "Ženy",
                     "dist": ev["dist"], "stroke": ev["stroke"],
                     "sec": sec, "swimtime": res.get("swimtime"),
+                    "points": int(pts) if pts.isdigit() and int(pts) > 0 else None,
                 })
     return course, results
 
@@ -295,16 +300,23 @@ def match_jc_club(code: str, name: str) -> str | None:
 
 
 # ------------------------------------------------------------------ PDF fallback
-def scan_pdf_for_jc(path: str) -> list[str]:
-    """Bez časového porovnání – jen vytáhne řádky se zkratkami JČ klubů k ruční kontrole."""
+def pdf_text(path: str) -> str | None:
     try:
         import pdfplumber  # type: ignore
     except ImportError:
-        return ["(pdfplumber není nainstalován – PDF nelze přečíst)"]
+        return None
     text = ""
     with pdfplumber.open(path) as pdf:
         for p in pdf.pages:
             text += (p.extract_text() or "") + "\n"
+    return text
+
+
+def scan_pdf_for_jc(path: str) -> list[str]:
+    """Bez časového porovnání – jen vytáhne řádky se zkratkami JČ klubů k ruční kontrole."""
+    text = pdf_text(path)
+    if text is None:
+        return ["(pdfplumber není nainstalován – PDF nelze přečíst)"]
     keys = [norm(a) for a in JC_CLUBS] + [
         "JINDRICHUV HRADEC", "FEZKO", "KOH-I-NOOR", "KLUB PISEK", "TJ TABOR",
         "CESKOKRUMLOVSKY", "PLAVANI PRACHATICE", "PLAVANI CESKE BUDEJOVICE",
@@ -402,6 +414,156 @@ def compare(results: list[dict], course: str, records: dict, catname: dict,
                 hits.append(row)
     hits.sort(key=lambda x: (x["pool"], x["gender"], x["cat_id"], x["disc"]))
     return hits
+
+
+# ---------------------------------------------------------------- athlete profiles
+# Profilové stránky závodnic s tabulkami TOP10 (25m / 50m), řazenými podle bodů.
+PROFILES = [
+    {"file": "ela_kub.html", "first": "Ela", "last": "KUBÁLKOVÁ", "birthyear": 2014},
+    {"file": "zoe_tum.html", "first": "Zoe", "last": "TŮMOVÁ", "birthyear": 2014},
+]
+PROFILE_STROKE = {
+    "FREE": "volný způsob", "BACK": "znak", "BREAST": "prsa",
+    "FLY": "motýlek", "MEDLEY": "polohový závod",
+}
+PROFILE_TOP = 10
+_PDF_STROKES = [  # (regex, LENEX stroke) pro hlavičky disciplín v PDF
+    (r"voln\w* zp", "FREE"), (r"znak", "BACK"), (r"prsa", "BREAST"),
+    (r"mot[ýy]l", "FLY"), (r"polohov", "MEDLEY"),
+]
+
+
+def profile_disc(dist: int, stroke: str) -> str:
+    return f"{dist} m {PROFILE_STROKE[stroke]}"
+
+
+def is_profile_athlete(prof: dict, first: str, last: str, birthyear: int) -> bool:
+    return (norm(last) == norm(prof["last"]) and norm(first).startswith(norm(prof["first"]))
+            and birthyear == prof["birthyear"])
+
+
+def pdf_profile_results(path: str, prof: dict) -> list[dict]:
+    """Z PDF výsledkovky (Swim Meet Manager apod.) vytáhne výkony dané závodnice.
+
+    Disciplína se bere z poslední hlavičky typu '800 Volný způsob Ženy'; štafety
+    se přeskakují. Řádky, kde nejde určit disciplínu, vrací s dist=None (ruční kontrola).
+    """
+    text = pdf_text(path) or ""
+    out, cur = [], None
+    name_re = re.compile(rf"{re.escape(prof['last'])}\s+{re.escape(prof['first'])}\b.*?"
+                         rf"{prof['birthyear']}.*?\s(\d{{1,2}}:\d\d[,.]\d\d|\d\d[,.]\d\d)\s+(\d{{2,4}})?",
+                         re.I)
+    for line in text.splitlines():
+        if re.search(r"\d\s*[x×]\s*\d{2,3}", line):  # štafeta
+            cur = None
+            continue
+        hm = re.search(r"(?<![\d:,.])(\d{2,4})\s*m?\s+(" + "|".join(r for r, _ in _PDF_STROKES) + ")",
+                       line, re.I)
+        if hm and not re.search(r"\d{1,2}:\d\d[,.]\d\d", line):
+            stroke = next(s for r, s in _PDF_STROKES if re.match(r, hm.group(2), re.I))
+            cur = (int(hm.group(1)), stroke)
+            continue
+        m = name_re.search(line)
+        if not m:
+            continue
+        if re.search(r"\b(DSQ|DNS|DNF|DIS)\b", line):
+            continue
+        sec = to_seconds(m.group(1))
+        if sec is None:
+            continue
+        out.append({
+            "dist": cur[0] if cur else None, "stroke": cur[1] if cur else None,
+            "sec": sec, "points": int(m.group(2)) if m.group(2) else None,
+            "raw": line.strip(),
+        })
+    return out
+
+
+_ROW_RE = re.compile(r'<tr><td>([^<]+)</td>\s*<td><span class="v-cas">([^<]+)</span>(.*?)'
+                     r'<span class="fina">(\d+) b\.</span></td></tr>')
+
+
+def _profile_tables(doc: str):
+    """Vrátí [(pool, (start, end) tabulky, [řádky])]; řádek = dict(disc, time, sec, tags, pts)."""
+    out = []
+    for m in re.finditer(r'Nejlepší výkony – (25m|50m) bazén</div>\s*<table class="vysledky-tabulka">'
+                         r'(.*?)</table>', doc, re.S):
+        rows = [{"disc": r.group(1).strip(), "time": r.group(2), "sec": to_seconds(r.group(2)),
+                 "tags": r.group(3), "pts": int(r.group(4))}
+                for r in _ROW_RE.finditer(m.group(2))]
+        out.append((f"{m.group(1)} bazén", m.span(2), rows))
+    return out
+
+
+def _render_rows(rows: list[dict]) -> str:
+    lines = []
+    for r in rows:
+        td = f"<td>{r['disc']}</td>"
+        lines.append(f"                <tr>{td}{' ' * max(0, 29 - len(td))}<td><span class=\"v-cas\">"
+                     f"{r['time']}</span>{r['tags']}<span class=\"fina\">{r['pts']} b.</span></td></tr>")
+    return "\n" + "\n".join(lines) + "\n            "
+
+
+def update_profiles(perf: dict[str, list[dict]]) -> tuple[list[str], list[str], list[str]]:
+    """perf: soubor -> [{pool, dist, stroke, sec, points, comp}].
+
+    Zlepšení v TOP10 rovnou zapíše do profilu (čas + body, přeřazení podle bodů).
+    Vrací (změněné soubory, řádky reportu, řádky k ruční kontrole).
+    """
+    changed, report, manual = [], [], []
+    for prof in PROFILES:
+        items = perf.get(prof["file"], [])
+        if not items:
+            continue
+        path = os.path.join(ROOT, prof["file"])
+        doc = open(path, encoding="utf-8").read()
+        tables = _profile_tables(doc)
+        new_doc, offset, touched = doc, 0, False
+        for pool, (a, b), rows in tables:
+            best: dict[str, dict] = {}
+            for it in items:
+                if it["pool"] != pool or it["dist"] is None:
+                    continue
+                d = profile_disc(it["dist"], it["stroke"])
+                if d not in best or it["sec"] < best[d]["sec"]:
+                    best[d] = it
+            tchanged = False
+            for d, it in best.items():
+                t = fmt_cell_time(it["sec"])
+                row = next((r for r in rows if r["disc"] == d), None)
+                if row and it["sec"] >= row["sec"] - 1e-6:
+                    continue
+                if it["points"] is None:
+                    manual.append(f"{prof['first']} {prof['last']} – {pool}, {d}: {t} ({it['comp']}) "
+                                  f"je lepší než TOP10, ale chybí body → doplnit ručně")
+                    continue
+                if row:
+                    report.append(f"{prof['first']} {prof['last']} – {pool}, {d}: "
+                                  f"{row['time']} → **{t}** ({it['points']} b., {it['comp']})")
+                    row.update(time=t, sec=it["sec"], pts=it["points"])
+                    tchanged = True
+                elif len(rows) < PROFILE_TOP or it["points"] > min(r["pts"] for r in rows):
+                    report.append(f"{prof['first']} {prof['last']} – {pool}, {d}: nově v TOP10 "
+                                  f"**{t}** ({it['points']} b., {it['comp']})")
+                    rows.append({"disc": d, "time": t, "sec": it["sec"], "tags": "", "pts": it["points"]})
+                    tchanged = True
+            if tchanged:
+                rows.sort(key=lambda r: -r["pts"])
+                for r in rows[PROFILE_TOP:]:
+                    report.append(f"{prof['first']} {prof['last']} – {pool}: z TOP10 vypadl "
+                                  f"{r['disc']} {r['time']} ({r['pts']} b.)")
+                del rows[PROFILE_TOP:]
+                body = _render_rows(rows)
+                new_doc = new_doc[:a + offset] + body + new_doc[b + offset:]
+                offset += len(body) - (b - a)
+                touched = True
+        for it in items:
+            if it["dist"] is None:
+                manual.append(f"{prof['first']} {prof['last']} – nelze určit disciplínu z PDF: `{it['raw']}`")
+        if touched:
+            open(path, "w", encoding="utf-8", newline="\n").write(new_doc)
+            changed.append(path)
+    return changed, report, manual
 
 
 # ---------------------------------------------------------------------- date bump
@@ -508,6 +670,7 @@ def main() -> int:
         print("_V zadaném okně nebyl nalezen žádný bazénový plavecký závod._\n")
 
     checked, all_hits, new_pending = [], [], []
+    profile_perf: dict[str, list[dict]] = {}
     for c in comps:
         label = f"**{c['id']}** – {c['title']} ({c['start']}"
         label += f"–{c['end']}" if c["end"] != c["start"] else ""
@@ -529,6 +692,10 @@ def main() -> int:
             continue
         path, kind = got
         if kind == "pdf":
+            for prof in PROFILES:
+                for r in pdf_profile_results(path, prof):
+                    profile_perf.setdefault(prof["file"], []).append(
+                        {**r, "pool": f"{c['pool']}m bazén", "comp": f"{c['title']}, {c['start']}"})
             hits_lines = scan_pdf_for_jc(path)
             checked.append((c, "pdf", 0))
             if hits_lines:
@@ -556,6 +723,13 @@ def main() -> int:
               f"jihočeská účast: {', '.join(clubs_present) or 'žádná'}, "
               f"{'**' + str(len(hits)) + ' návrh(ů) na rekord**' if hits else 'bez nových rekordů'}")
         all_hits.extend(hits)
+        for r in results:
+            for prof in PROFILES:
+                if r["gender"] == "Ženy" and r["stroke"] in PROFILE_STROKE \
+                        and is_profile_athlete(prof, r["first"], r["last"], r["birthyear"]):
+                    profile_perf.setdefault(prof["file"], []).append(
+                        {"pool": course, "dist": r["dist"], "stroke": r["stroke"], "sec": r["sec"],
+                         "points": r.get("points"), "comp": f"{c['title']}, {c['start']}"})
 
     # ---- souhrn návrhů
     print("\n## Návrhy na nové rekordy\n")
@@ -571,6 +745,22 @@ def main() -> int:
                   f"**{h['new_cell']}** | {h['name']} | {h['club']} | *{h['birthyear']} | {old} |")
         print("\n> Pozn.: věková způsobilost je jen orientační (věk = rok závodu − ročník); "
               "před zápisem ověřit kategorii ručně. Skript tabulky needituje.\n")
+
+    # ---- profily závodnic
+    print("## Profily závodnic (TOP10)\n")
+    prof_changed, prof_report, prof_manual = update_profiles(profile_perf)
+    if not profile_perf:
+        print("_Ela ani Zoe v kontrolovaných výsledcích nestartovaly._\n")
+    elif not prof_report and not prof_manual:
+        print("_Žádný čas nepřekonal stávající TOP10 v profilech._\n")
+    for ln in prof_report:
+        print(f"- {ln}")
+    for ln in prof_manual:
+        print(f"- ⚠ {ln}")
+    if prof_changed:
+        print(f"\nUpraveno: {', '.join(os.path.basename(p) for p in prof_changed)}\n")
+    elif prof_report or prof_manual:
+        print()
 
     # ---- datum
     print("## Aktualizace data\n")
@@ -605,9 +795,12 @@ def main() -> int:
             print(f"_Přeskočeno (bez --commit)._ Navržená zpráva: `{commit_msg}`\n")
         elif all_hits:
             print("_Vynecháno – jsou návrhy na nové rekordy. Zkontroluj je, zanes do "
-                  "`rekordy_kraj.html` a commitni ručně._\n")
+                  "`rekordy_kraj.html` a commitni ručně (i s upravenými profily)._\n")
         else:
-            res = git_commit_push([REKORDY_HTML, STATE_FILE], commit_msg)
+            if prof_changed:
+                commit_msg = (f"data: aktualizovat profily závodnic (TOP10) a datum kontroly rekordů – "
+                              f"{today.day}. {today.month}. {today.year}")
+            res = git_commit_push([REKORDY_HTML, STATE_FILE, *prof_changed], commit_msg)
             if res is None:
                 print("_Nic ke commitu – v souborech není žádná změna._\n")
             elif res[0] == "ok":
