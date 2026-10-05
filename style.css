@@ -237,67 +237,6 @@ nav a.nav-aktivni::after {
     color: white; padding: 10px 20px; margin-right: auto;
 }
 
-/* Plovoucí tlačítko Vzhled */
-.vzhled-wrap {
-    position: fixed;
-    right: 90px;
-    bottom: 24px;
-    z-index: 900;
-}
-@media (max-width: 860px) {
-    .vzhled-wrap { right: 24px; bottom: calc(68px + env(safe-area-inset-bottom) + 12px); }
-}
-.vzhled-btn {
-    width: 46px; height: 46px; border-radius: 50%;
-    background: white; border: none; cursor: pointer;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.18);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--hlavni-barva);
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.2s;
-}
-.vzhled-btn:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(0,0,0,0.22); }
-.vzhled-btn svg { transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-.vzhled-wrap.otevreno .vzhled-btn svg { transform: rotate(90deg); }
-
-.vzhled-panel {
-    position: absolute; bottom: calc(100% + 12px); right: 0;
-    width: 200px;
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(0,0,0,0.08);
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-    padding: 8px;
-    opacity: 0; visibility: hidden;
-    transform: translateY(8px) scale(0.96);
-    transform-origin: bottom right;
-    transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), visibility 0.2s;
-}
-.vzhled-wrap.otevreno .vzhled-panel {
-    opacity: 1; visibility: visible; transform: translateY(0) scale(1);
-}
-.vzhled-nadpis {
-    font-size: 0.7em; font-weight: 700; letter-spacing: 0.1em;
-    text-transform: uppercase; color: #999;
-    padding: 6px 10px 4px; margin: 0;
-}
-.vzhled-volba {
-    display: flex; align-items: center; gap: 10px;
-    width: 100%; padding: 10px 10px; border: none;
-    background: transparent; cursor: pointer; border-radius: 10px;
-    font-size: 0.9em; font-weight: 500; color: #222;
-    transition: background 0.15s;
-}
-.vzhled-volba:hover { background: rgba(0,0,0,0.06); }
-.vzhled-swatch {
-    width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-}
-body.dark-mode .vzhled-panel {
-    background: rgba(30,30,30,0.92); border-color: rgba(255,255,255,0.1);
-}
-body.dark-mode .vzhled-volba { color: #eee; }
-body.dark-mode .vzhled-volba:hover { background: rgba(255,255,255,0.08); }
 
 /* =========================================
    5. HLAVNÍ KONTEJNER A UI PRVKY

@@ -33,56 +33,9 @@ function vlozMenu() {
     </nav>
     `;
 
-    const vzhledHTML = `
-    <div class="vzhled-wrap" id="vzhled-wrap">
-        <button class="vzhled-btn" id="vzhled-btn" aria-label="Změnit vzhled" onclick="document.getElementById('vzhled-wrap').classList.toggle('otevreno')">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="3"/>
-                <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-            </svg>
-        </button>
-        <div class="vzhled-panel">
-            <p class="vzhled-nadpis">Vzhled</p>
-            <button class="vzhled-volba" onclick="zmenRezim('auto'); document.getElementById('vzhled-wrap').classList.remove('otevreno')">
-                <span class="vzhled-swatch" style="background:linear-gradient(135deg,#fff 50%,#1a1a2e 50%)"></span>
-                Automaticky
-            </button>
-            <button class="vzhled-volba" onclick="zmenRezim('light'); document.getElementById('vzhled-wrap').classList.remove('otevreno')">
-                <span class="vzhled-swatch" style="background:#d32f2f"></span>
-                Klubový styl
-            </button>
-            <button class="vzhled-volba" onclick="zmenRezim('dark'); document.getElementById('vzhled-wrap').classList.remove('otevreno')">
-                <span class="vzhled-swatch" style="background:#1a1a2e"></span>
-                Dark Mode
-            </button>
-            ${jeVelikonoceMenu ? `
-            <button class="vzhled-volba" onclick="zmenRezim('velikonoce'); document.getElementById('vzhled-wrap').classList.remove('otevreno')">
-                <span class="vzhled-swatch" style="background:#7b1fa2"></span>
-                Velikonoční mód
-            </button>` : ''}
-            ${jeCarodejniceMenu ? `
-            <button class="vzhled-volba" onclick="zmenRezim('carodejnice'); document.getElementById('vzhled-wrap').classList.remove('otevreno')">
-                <span class="vzhled-swatch" style="background:linear-gradient(135deg,#ff6d00,#7b1fa2)"></span>
-                Čarodějnický mód 🧙‍♀️
-            </button>` : ''}
-            ${jeMajMenu ? `
-            <button class="vzhled-volba" onclick="zmenRezim('maj'); document.getElementById('vzhled-wrap').classList.remove('otevreno')">
-                <span class="vzhled-swatch" style="background:linear-gradient(135deg,#2e7d32,#e91e63)"></span>
-                Prvomájový mód 🌸
-            </button>` : ''}
-        </div>
-    </div>
-    `;
     const menuElement = document.getElementById('spolecne-menu');
     if (menuElement) {
         menuElement.innerHTML = menuHTML;
-        document.body.insertAdjacentHTML('beforeend', vzhledHTML);
-
-        // Zavři panel kliknutím mimo
-        document.addEventListener('click', e => {
-            const wrap = document.getElementById('vzhled-wrap');
-            if (wrap && !wrap.contains(e.target)) wrap.classList.remove('otevreno');
-        });
         // Označ aktivní stránku
         const aktualniStranka = window.location.pathname.split('/').pop() || 'index.html';
         menuElement.querySelectorAll('.menu-polozky > a[href]').forEach(odkaz => {
@@ -153,73 +106,6 @@ function jeDnesMdz() {
     return (dnes.getDate() === 8 && dnes.getMonth() === 2); // Březen je 2 (počítá se od nuly)
 }
 
-function zmenRezim(rezim) {
-    const body = document.body;
-    const logo = document.getElementById('hlavni-logo');
-
-    // Uložíme, že uživatel volil ručně → sezonní logika to bude respektovat po celou návštěvu
-    sessionStorage.setItem('tema-manual', rezim);
-
-    // Vyčistíme všechny staré sezónní režimy
-    body.classList.remove('dark-mode', 'silvestr-mode', 'valentyn-mode', 'zoh-mode', 'velikonoce-mode', 'carodejnice-mode', 'maj-mode');
-
-    // Zastavíme případné efekty a smažeme je
-    if (intervalEfektu) {
-        clearInterval(intervalEfektu);
-        intervalEfektu = null;
-    }
-    document.querySelectorAll('.srdicko, .vlocka, .vajicko, .metla, .kvetina').forEach(e => e.remove());
-
-    // Nastavíme nový režim
-    if (rezim === 'auto') {
-        localStorage.removeItem('tema');
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            body.classList.add('dark-mode');
-        }
-    } else if (rezim === 'dark') {
-        body.classList.add('dark-mode');
-        localStorage.setItem('tema', 'dark');
-    } else if (rezim === 'velikonoce') {
-        body.classList.add('velikonoce-mode');
-        localStorage.setItem('tema', 'velikonoce');
-        spustitVajicka();
-    } else if (rezim === 'carodejnice') {
-        body.classList.add('carodejnice-mode');
-        localStorage.setItem('tema', 'carodejnice');
-        spustitCarodejnice();
-    } else if (rezim === 'maj') {
-        body.classList.add('maj-mode');
-        localStorage.setItem('tema', 'maj');
-        spustitMaj();
-    } else {
-        localStorage.setItem('tema', 'light');
-    }
-
-    // CHYTRÁ VÝMĚNA LOGA (Respektuje MDŽ a sezónní módy)
-    if (logo) {
-        if (jeDnesMdz()) {
-            logo.src = 'images/logos/logo_mdz.png';
-            logo.classList.add('logo-mdz-aktivni');
-        } else if (rezim === 'carodejnice') {
-            logo.src = 'images/logos/logo_carodejnice.png';
-            logo.classList.remove('logo-mdz-aktivni');
-        } else if (rezim === 'maj') {
-            logo.src = 'images/logos/logo_maj.png';
-            logo.classList.remove('logo-mdz-aktivni');
-        } else {
-            logo.src = 'images/logos/logo.png';
-            logo.classList.remove('logo-mdz-aktivni');
-        }
-    }
-
-    // Odeslání do GA
-    if (typeof gtag === 'function') {
-        gtag('event', 'zmena_vzhledu', {
-            'event_category': 'Interakce',
-            'event_label': rezim
-        });
-    }
-}
 
 // Funkci pro padání tu nechám "spící"...
 function spustitPadani(symboly, trida) {
@@ -400,43 +286,12 @@ function vlozVysvedceniBanner() {
 document.addEventListener("DOMContentLoaded", function() {
     const logo = document.getElementById('hlavni-logo');
     const dnes = new Date();
-    const ulozeneTema = localStorage.getItem('tema');
-
-    // 1. Načtení uloženého tématu
-    // Pomocné datumové rozsahy pro ověření platnosti uloženého sezónního tématu
-    const rokLoad = dnes.getFullYear();
-    const platneVelikonoce  = dnes >= new Date(rokLoad, 2, 30) && dnes < new Date(rokLoad, 3, 7);
-    const platneCarodejnice = dnes >= new Date(rokLoad, 3, 28) && dnes < new Date(rokLoad, 4, 2);
-    const platneMaj         = dnes >= new Date(rokLoad, 4,  1) && dnes < new Date(rokLoad, 4, 3);
-
-    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (ulozeneTema === 'dark' || (ulozeneTema === null && systemDark)) {
+    // 1. Dark mode – čistě systémová preference
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark-mode');
-        if (logo) logo.src = 'images/logos/logo.png';
-    } else if (ulozeneTema === 'velikonoce' && platneVelikonoce) {
-        document.body.classList.add('velikonoce-mode');
-        if (logo) logo.src = 'images/logos/logo_velikonoce.png';
-        spustitVajicka();
-    } else if (ulozeneTema === 'carodejnice' && platneCarodejnice) {
-        document.body.classList.add('carodejnice-mode');
-        if (logo) logo.src = 'images/logos/logo_carodejnice.png';
-        spustitCarodejnice();
-    } else if (ulozeneTema === 'maj' && platneMaj) {
-        document.body.classList.add('maj-mode');
-        if (logo) logo.src = 'images/logos/logo_maj.png';
-        spustitMaj();
-    } else {
-        if (logo) logo.src = 'images/logos/logo.png';
-        // Sezónní téma mimo platný termín → reset na light
-        if (ulozeneTema !== 'light' && ulozeneTema !== 'dark' && ulozeneTema !== null) localStorage.setItem('tema', 'light');
     }
-
-    // Sleduj změnu systémové preference – platí jen když uživatel nezvolil manuálně
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (localStorage.getItem('tema') === null) {
-            document.body.classList.toggle('dark-mode', e.matches);
-        }
+        document.body.classList.toggle('dark-mode', e.matches);
     });
 
     // 2. MDŽ (8. března)
@@ -450,61 +305,25 @@ document.addEventListener("DOMContentLoaded", function() {
     const rok = dnes.getFullYear();
     const jeVelikonoce = dnes >= new Date(rok, 2, 30) && dnes < new Date(rok, 3, 7);
     if (jeVelikonoce && !jeMdz) {
-        const manualniVolba = sessionStorage.getItem('tema-manual');
-        if (!manualniVolba && ulozeneTema !== 'light') {
-            if (logo) logo.src = 'images/logos/logo_velikonoce.png';
-            if (ulozeneTema !== 'dark') {
-                document.body.classList.add('velikonoce-mode');
-                localStorage.setItem('tema', 'velikonoce');
-                spustitVajicka();
-            }
-        }
-    }
-
-    // 4. Reset po skončení Velikonoc
-    if (!jeVelikonoce && localStorage.getItem('tema') === 'velikonoce') {
-        localStorage.setItem('tema', 'light');
-        document.body.classList.remove('velikonoce-mode');
+        if (logo) logo.src = 'images/logos/logo_velikonoce.png';
+        document.body.classList.add('velikonoce-mode');
+        spustitVajicka();
     }
 
     // 4b. Čarodějnice (28. dubna – 1. května)
     const jeCarodejnice = dnes >= new Date(rok, 3, 28) && dnes < new Date(rok, 4, 2);
     if (jeCarodejnice && !jeMdz) {
-        const manualniVolba = sessionStorage.getItem('tema-manual');
-        if (!manualniVolba && ulozeneTema !== 'light') {
-            if (logo) logo.src = 'images/logos/logo_carodejnice.png';
-            if (ulozeneTema !== 'dark') {
-                document.body.classList.add('carodejnice-mode');
-                localStorage.setItem('tema', 'carodejnice');
-                spustitCarodejnice();
-            }
-        }
-    }
-
-    // 4c. Reset po skončení čarodějnic
-    if (!jeCarodejnice && localStorage.getItem('tema') === 'carodejnice') {
-        localStorage.setItem('tema', 'light');
-        document.body.classList.remove('carodejnice-mode');
+        if (logo) logo.src = 'images/logos/logo_carodejnice.png';
+        document.body.classList.add('carodejnice-mode');
+        spustitCarodejnice();
     }
 
     // 4d. Máj (1. – 7. května)
     const jeMaj = dnes >= new Date(rok, 4, 1) && dnes < new Date(rok, 4, 3);
     if (jeMaj && !jeMdz) {
-        const manualniVolba = sessionStorage.getItem('tema-manual');
-        if (!manualniVolba && ulozeneTema !== 'light') {
-            if (logo) logo.src = 'images/logos/logo_maj.png';
-            if (ulozeneTema !== 'dark') {
-                document.body.classList.add('maj-mode');
-                localStorage.setItem('tema', 'maj');
-                spustitMaj();
-            }
-        }
-    }
-
-    // 4e. Reset po skončení máje
-    if (!jeMaj && localStorage.getItem('tema') === 'maj') {
-        localStorage.setItem('tema', 'light');
-        document.body.classList.remove('maj-mode');
+        if (logo) logo.src = 'images/logos/logo_maj.png';
+        document.body.classList.add('maj-mode');
+        spustitMaj();
     }
 
     // 4f. Vysvědčení (26. – 27. června)
