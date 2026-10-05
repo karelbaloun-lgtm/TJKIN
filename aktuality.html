@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- SEO -->
-    <meta name="description" content="Nejnovější zprávy a aktuality z plaveckého oddílu KIN České Budějovice – výsledky závodů, pozvánky na akce a informace pro závodníky a rodiče.">
+    <meta name="description" content="Aktuality KIN České Budějovice 2026 – výsledky závodů, medaile Ely Kubálkové a Zoe Tůmové, LMČR Trutnov, jihočeské krajské závody a novinky z oddílu.">
     <link rel="canonical" href="https://kinplavani.cz/aktuality.html">
     <meta property="og:title" content="Aktuality – KIN České Budějovice">
-    <meta property="og:description" content="Nejnovější zprávy a aktuality z plaveckého oddílu KIN České Budějovice – výsledky závodů, pozvánky na akce a informace pro závodníky a rodiče.">
+    <meta property="og:description" content="Aktuality KIN České Budějovice 2026 – výsledky závodů, medaile Ely Kubálkové a Zoe Tůmové, LMČR Trutnov, jihočeské krajské závody a novinky z oddílu.">
     <meta property="og:image" content="https://kinplavani.cz/images/hero.jpeg">
     <meta property="og:url" content="https://kinplavani.cz/aktuality.html">
     <meta property="og:type" content="website">
@@ -611,6 +611,19 @@
         body.dark-mode .stribrna { color: #b0bec5; }
         body.dark-mode .bronzova { color: #e69b5a; }
         body.dark-mode .akt-clanky-header { border-color: #2a2a2a; }
+
+        /* Odkaz na profil závodníka */
+        .odkaz-zavodnik {
+            color: var(--hlavni-barva);
+            text-decoration: underline;
+            text-decoration-color: rgba(211,47,47,0.35);
+            text-underline-offset: 2px;
+            font-weight: inherit;
+            transition: text-decoration-color 0.15s;
+        }
+        .odkaz-zavodnik:hover { text-decoration-color: var(--hlavni-barva); }
+        body.dark-mode .odkaz-zavodnik { color: #ef9a9a; text-decoration-color: rgba(239,154,154,0.4); }
+        body.dark-mode .odkaz-zavodnik:hover { text-decoration-color: #ef9a9a; }
     </style>
 </head>
 <body>
@@ -1715,8 +1728,57 @@
                 ${galerie}
             </div>
         `;
+        propojZavodniki(article);
         return article;
     }
+
+    /* Automatické propojení jmen závodníků s jejich profily */
+    const ZAVODNICI_PROFILY = [
+        ['Elu Kubálkovou', 'ela_kub.html'],
+        ['Ely Kubálkové', 'ela_kub.html'],
+        ['Ele Kubálkové', 'ela_kub.html'],
+        ['Ela Kubálková', 'ela_kub.html'],
+        ['Zoe Tůmové', 'zoe_tum.html'],
+        ['Zoe Tůmovou', 'zoe_tum.html'],
+        ['Zoe Tůmová', 'zoe_tum.html'],
+        ['Soňou Šestákovou', 'son_ses.html'],
+        ['Soně Šestákové', 'son_ses.html'],
+        ['Soňa Šestáková', 'son_ses.html'],
+    ];
+    const _zavodRe = new RegExp('(' + ZAVODNICI_PROFILY.map(([n]) => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')', 'g');
+    const _zavodHref = Object.fromEntries(ZAVODNICI_PROFILY);
+
+    function propojZavodniki(el) {
+        const uzly = [];
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+            acceptNode: n => (n.parentElement.closest('a,h1,h2,h3,h4,th') || !_zavodRe.test(n.textContent))
+                ? NodeFilter.FILTER_REJECT
+                : NodeFilter.FILTER_ACCEPT
+        });
+        let n;
+        while ((n = walker.nextNode())) { _zavodRe.lastIndex = 0; uzly.push(n); }
+        uzly.forEach(tn => {
+            _zavodRe.lastIndex = 0;
+            const frag = document.createDocumentFragment();
+            let last = 0, m;
+            while ((m = _zavodRe.exec(tn.textContent)) !== null) {
+                if (m.index > last) frag.appendChild(document.createTextNode(tn.textContent.slice(last, m.index)));
+                const a = document.createElement('a');
+                a.href = _zavodHref[m[0]];
+                a.textContent = m[0];
+                a.className = 'odkaz-zavodnik';
+                frag.appendChild(a);
+                last = m.index + m[0].length;
+            }
+            if (last < tn.textContent.length) frag.appendChild(document.createTextNode(tn.textContent.slice(last)));
+            tn.parentNode.replaceChild(frag, tn);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.aktuality-clanky article').forEach(propojZavodnici);
+    });
+    function propojZavodnici(el) { propojZavodniki(el); }
 
     const aktualityLoader = document.getElementById('aktuality-loader');
     const skrijAktualityLoader = () => { if (aktualityLoader) aktualityLoader.remove(); };
