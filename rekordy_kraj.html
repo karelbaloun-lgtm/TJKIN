@@ -45,6 +45,8 @@
         body.dark-mode .rec-time { color:#ddd; }
         .rec-name { color:#333; font-weight:600; }
         body.dark-mode .rec-name { color:#ccc; }
+        .rec-profil-link { color:inherit; text-decoration:underline; text-decoration-style:dashed; text-underline-offset:2px; text-decoration-color:rgba(211,47,47,0.45); }
+        .rec-profil-link:hover { text-decoration-color:var(--hlavni-barva); }
         .rek-tab tbody tr.kin-rekord .rec-name { color:var(--hlavni-barva); }
         .rec-club { color:var(--barva-textu-mute,#888); font-size:0.85em; white-space:nowrap; }
         .rec-yr   { color:var(--barva-textu-mute,#888); font-size:0.85em; white-space:nowrap; }
@@ -405,6 +407,8 @@
     <script>
     var IDX = { disc:0, time:1, name:2, club:3, yr:4 };
 
+    var _PROFILY_KRAJ = { 'Ela KUBÁLKOVÁ': 'ela_kub.html', 'Zoe TŮMOVÁ': 'zoe_tum.html' };
+
     function fmtName(raw, yr, club) {
         var parts = (raw || '').trim().split(/\s+/);
         var last = parts.pop() || '';
@@ -414,7 +418,9 @@
         var y = (yr || '').trim();
         var c = (club || '').trim();
         var paren = y || c ? '(' + [y, c].filter(Boolean).join(', ') + ')' : '';
-        return (init ? init + ' ' : '') + name + (paren ? ' ' + paren : '');
+        var formatted = (init ? init + ' ' : '') + name + (paren ? ' ' + paren : '');
+        var profil = _PROFILY_KRAJ[(raw || '').trim()];
+        return profil ? '<a href="' + profil + '" class="rec-profil-link" title="Závodníce KIN">' + formatted + '</a>' : formatted;
     }
 
     function cellPair(row, isKin) {
@@ -552,11 +558,24 @@
             .filter(function(e){ return e[0] !== 'KIN'; })
             .reduce(function(m,e){ return Math.max(m, e[1].size); }, 0);
 
+        // Individuální počty závodnic
+        var krajniCounts = {};
+        document.querySelectorAll('.rek-tab tbody .rec-name').forEach(function(td) {
+            var raw = td.textContent.trim();
+            if (_PROFILY_KRAJ[raw]) krajniCounts[raw] = (krajniCounts[raw] || 0) + 1;
+        });
+        var kinniDetail = Object.keys(_PROFILY_KRAJ).filter(function(r){ return krajniCounts[r]; })
+            .map(function(r){
+                var jmeno = r.split(' ').map(function(w){ return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(); }).join(' ');
+                return '<a href="' + _PROFILY_KRAJ[r] + '" style="color:inherit;font-weight:700">' + jmeno + '</a> (' + krajniCounts[r] + ')';
+            }).join(' &amp; ');
+
         document.getElementById('kinSummary').innerHTML =
             'KIN drží <strong>' + kinCount + ' z ' + total + '</strong> krajských rekordů ' +
             'napříč všemi věkovými kategoriemi a disciplínami – víc než kterýkoliv jiný jihočeský klub.' +
             '<br><br>Rekordy drží <strong>' + kinAthletes + ' různých závodníků a závodnic</strong> KIN' +
-            (maxOther < kinAthletes ? ' – více než u jakéhokoliv jiného klubu v kraji.' : '.');
+            (maxOther < kinAthletes ? ' – více než u jakéhokoliv jiného klubu v kraji.' : '.') +
+            (kinniDetail ? '<br><br>Nejvíce rekordů drží: ' + kinniDetail + '.' : '');
 
         // Legend
         var legend = document.getElementById('krajLegend');
