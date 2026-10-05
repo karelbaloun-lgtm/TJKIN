@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Historie plaveckého oddílu KIN České Budějovice od roku 1951.">
+    <link rel="icon" type="image/png" href="../images/logos/logo.png">
+    <meta name="theme-color" content="#d32f2f">
+    <title>Historie – KIN České Budějovice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="k26.css">
+    <style>
+        /* ── MILNÍK – každý rok jako velká plná sekce ── */
+        .hs-milnik {
+            position: relative;
+            margin-bottom: 6px;
+            border-radius: 16px;
+            overflow: hidden;
+            min-height: 280px;
+            display: flex;
+            align-items: flex-end;
+        }
+        .hs-milnik.tmave { background: #111; }
+        .hs-milnik.svetle {
+            background: var(--pozadi-obsahu);
+            border: 1px solid rgba(0,0,0,0.07);
+            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+        }
+
+        /* Fotka jako pozadí */
+        .hs-milnik-foto {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: center 30%;
+        }
+        .hs-milnik.tmave::after,
+        .hs-milnik.foto::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 55%, transparent 100%);
+        }
+
+        /* Obří rok v pozadí (pro milníky bez fotky) */
+        .hs-milnik.svetle::before {
+            content: attr(data-rok);
+            position: absolute;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 14rem;
+            font-weight: 900;
+            color: rgba(211,47,47,0.06);
+            right: -12px; bottom: -20px;
+            line-height: 1;
+            user-select: none;
+            pointer-events: none;
+            letter-spacing: -6px;
+        }
+
+        .hs-milnik-obsah {
+            position: relative; z-index: 1;
+            padding: 32px 40px;
+            width: 100%;
+        }
+        .hs-milnik.svetle .hs-milnik-obsah { color: var(--barva-textu); }
+        .hs-milnik.tmave  .hs-milnik-obsah { color: white; }
+        .hs-milnik.foto   .hs-milnik-obsah { color: white; }
+
+        .hs-rok-chip {
+            display: inline-block;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.85em;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            background: var(--hlavni-barva);
+            color: white;
+            padding: 3px 14px;
+            border-radius: 3px;
+            margin-bottom: 14px;
+        }
+        .hs-milnik.tmave  .hs-rok-chip { background: #ffd700; color: #111; }
+
+        .hs-milnik-nadpis {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(1.6em, 4vw, 2.4em);
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 1;
+            margin: 0 0 10px;
+        }
+        .hs-milnik.svetle .hs-milnik-nadpis { color: var(--barva-nadpisu); }
+
+        .hs-milnik-text {
+            font-size: 0.9em;
+            line-height: 1.65;
+            max-width: 520px;
+            opacity: 0.82;
+        }
+        .hs-milnik.svetle .hs-milnik-text { color: var(--barva-textu); opacity: 1; }
+
+        /* Dva milníky vedle sebe */
+        .hs-dvojice {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+        @media (max-width: 680px) { .hs-dvojice { grid-template-columns: 1fr; } }
+        .hs-dvojice .hs-milnik { margin-bottom: 0; min-height: 240px; }
+
+        /* ── RYCHLÉ ODKAZY ── */
+        .hs-nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        .hs-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.95em;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            text-decoration: none;
+            color: var(--barva-nadpisu);
+            background: var(--pozadi-obsahu);
+            border: 1px solid rgba(0,0,0,0.09);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.18s, box-shadow 0.18s;
+        }
+        .hs-nav-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 16px rgba(0,0,0,0.1); }
+        .hs-nav-btn.gold { border-color: rgba(255,215,0,0.5); color: #7a5800; background: #fffbf0; }
+
+        /* ── DOKUMENTY ── */
+        .hs-doc {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 18px 22px;
+            background: var(--pozadi-obsahu);
+            border: 1px solid rgba(0,0,0,0.07);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--barva-textu);
+            margin-bottom: 8px;
+            transition: border-color 0.18s, transform 0.18s;
+        }
+        .hs-doc:hover { border-color: var(--hlavni-barva); transform: translateX(6px); }
+        .hs-doc-ico { font-size: 1.7em; }
+        .hs-doc strong { display: block; font-size: 0.93em; color: var(--barva-nadpisu); margin-bottom: 2px; }
+        .hs-doc small  { font-size: 0.8em; color: #aaa; }
+        .hs-doc-arr { margin-left: auto; color: var(--hlavni-barva); font-weight: 700; font-size: 1.1em; }
+    </style>
+</head>
+<body>
+
+    <div id="spolecne-menu"></div>
+
+    <!-- Hero s plnou fotkou -->
+    <section class="k26-hero" style="height:60vh; max-height:640px;">
+        <img src="../images/fotogalerie/2026/lmcrstz_26/lmcr_26_22.jpeg"
+             class="k26-hero-foto" alt="KIN České Budějovice"
+             style="object-position: center 40%;">
+        <div class="k26-hero-obsah">
+            <span class="k26-hero-eyebrow">KIN České Budějovice · Příběh</span>
+            <h1 class="k26-hero-nadpis">75 let<br>ve vodě</h1>
+            <p class="k26-hero-sub">Od roku 1951 – nejstarší plavecký oddíl v Českých Budějovicích</p>
+        </div>
+    </section>
+
+    <div class="obsah">
+
+        <!-- Rychlé odkazy -->
+        <div class="hs-nav odkryt-na-scroll">
+            <a href="../rekordy_kin.html" class="hs-nav-btn">🏅 Rekordy KIN</a>
+            <a href="../rekordy_kraj.html" class="hs-nav-btn">🗺️ Krajské rekordy</a>
+            <a href="../hvezdy_26.html" class="hs-nav-btn gold">⭐ Top roku 2026</a>
+        </div>
+
+        <!-- Sekce -->
+        <div class="odkryt-na-scroll" style="margin-bottom:20px;">
+            <span class="k26-sekce-eyebrow">Naše milníky</span>
+            <h2 class="k26-sekce-nadpis">Příběh psaný vodou</h2>
+            <div class="k26-divider"></div>
+        </div>
+
+        <!-- 1951 – tmavý s logem Koh-i-noor -->
+        <div class="hs-milnik tmave odkryt-na-scroll" style="min-height:300px;">
+            <img src="../images/logos/koh-i-noor-logo.png" class="hs-milnik-foto"
+                 style="object-fit:contain; padding:60px; background:#111; opacity:0.15;">
+            <div class="hs-milnik-obsah">
+                <span class="hs-rok-chip">1951</span>
+                <h2 class="hs-milnik-nadpis">Zakládáme oddíl</h2>
+                <p class="hs-milnik-text">Pod vedením Vlasty Potužníkové vzniká nový plavecký oddíl z učňů n.&nbsp;p. Koh-i-noor a žaček Matice školské. První trénink na Sokolském ostrově.</p>
+            </div>
+        </div>
+
+        <!-- 1971 a 1978 – vedle sebe -->
+        <div class="hs-dvojice">
+            <div class="hs-milnik foto odkryt-na-scroll" style="transition-delay:0.05s;">
+                <img src="../images/timeline/bazen_1971.jpg" class="hs-milnik-foto" alt="Bazén 1971"
+                     style="object-position: center 50%;">
+                <div class="hs-milnik-obsah">
+                    <span class="hs-rok-chip">1971</span>
+                    <h3 class="hs-milnik-nadpis">Otevíráme bazén</h3>
+                    <p class="hs-milnik-text">Nejmodernější plavecký areál ve Střední Evropě. Svého času unikát.</p>
+                </div>
+            </div>
+            <div class="hs-milnik svetle odkryt-na-scroll" data-rok="1978" style="transition-delay:0.1s;">
+                <div class="hs-milnik-obsah">
+                    <span class="hs-rok-chip">1978</span>
+                    <h3 class="hs-milnik-nadpis">Zlatá generace</h3>
+                    <p class="hs-milnik-text">Postup mužského a ženského týmu do 1. celostátní Federální ligy. Historický okamžik jihočeského plavání.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1994 -->
+        <div class="hs-milnik svetle odkryt-na-scroll" data-rok="1994" style="min-height:220px;">
+            <div class="hs-milnik-obsah">
+                <span class="hs-rok-chip">1994</span>
+                <h3 class="hs-milnik-nadpis">Eva Šmausová předsedkyní</h3>
+                <p class="hs-milnik-text">Eva Šmausová zvolena předsedkyní plaveckých sportů, poté celé Tělovýchovné jednoty. Vede organizaci dodnes.</p>
+            </div>
+        </div>
+
+        <!-- 2005 – tmavý -->
+        <div class="hs-milnik tmave odkryt-na-scroll" style="min-height:260px;">
+            <img src="../images/timeline/liga_2005.png" class="hs-milnik-foto"
+                 style="object-fit:contain; padding:40px; background:#111; opacity:0.12;">
+            <div class="hs-milnik-obsah">
+                <span class="hs-rok-chip">2005</span>
+                <h2 class="hs-milnik-nadpis">Finále ligy –<br>muži i ženy</h2>
+                <p class="hs-milnik-text">Historický dvojúspěch – KIN dosáhl finále ligové soutěže současně s mužským i ženským týmem.</p>
+            </div>
+        </div>
+
+        <!-- 2026 – foto ze závodů -->
+        <div class="hs-milnik foto odkryt-na-scroll" style="min-height:320px;">
+            <img src="../images/fotogalerie/2026/lmcrstz_26/lmcr_26_29.jpeg"
+                 class="hs-milnik-foto" alt="LMČR 2026"
+                 style="object-position: center 25%;">
+            <div class="hs-milnik-obsah">
+                <span class="hs-rok-chip">2026</span>
+                <h2 class="hs-milnik-nadpis">Rekord České republiky</h2>
+                <p class="hs-milnik-text">Ela Kubálková vylepšuje rekord ČR na LMČR v Trutnově. Zoe Tůmová přidává tři zlaté medaile. Nejúspěšnější sezóna v novodobé historii oddílu.</p>
+            </div>
+        </div>
+
+        <!-- Dokumenty -->
+        <div class="odkryt-na-scroll" style="margin-top:48px; margin-bottom:16px;">
+            <span class="k26-sekce-eyebrow">Archivy</span>
+            <h2 class="k26-sekce-nadpis">Dokumenty ke stažení</h2>
+            <div class="k26-divider"></div>
+        </div>
+
+        <div class="odkryt-na-scroll">
+            <a href="../documents/history/timeline/100 let KIN 1894-1994.pdf" target="_blank" class="hs-doc">
+                <span class="hs-doc-ico">📄</span>
+                <span>
+                    <strong>100 let KIN</strong>
+                    <small>Kronika oddílu 1894–1994 (PDF)</small>
+                </span>
+                <span class="hs-doc-arr">⬇</span>
+            </a>
+            <a href="../documents/history/timeline/Ročenka-1981.pdf" target="_blank" class="hs-doc">
+                <span class="hs-doc-ico">🗞️</span>
+                <span>
+                    <strong>30 let KIN České Budějovice</strong>
+                    <small>Ročenka 1951–1981 (PDF)</small>
+                </span>
+                <span class="hs-doc-arr">⬇</span>
+            </a>
+        </div>
+
+    </div>
+
+    <div id="spolecna-paticka"></div>
+    <script src="../komponenty.js"></script>
+
+</body>
+</html>
