@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
@@ -75,6 +75,7 @@
         .badge-klub   { background: #f5f5f5; color: #555; border: 1px solid #ddd; }
         body.dark-mode .badge-klub { background: #2a2a2a; color: #aaa; border-color: #444; }
 
+        /* ── CR box ── */
         .cr-box {
             background: linear-gradient(135deg, #fff8e1, #fff);
             border-left: 4px solid #f9a825;
@@ -86,6 +87,87 @@
         }
         body.dark-mode .cr-box { background: linear-gradient(135deg, #2a2200, #1e1e1e); }
 
+        .cr-porovnani {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            font-size: 0.88em;
+        }
+        .cr-porovnani td {
+            padding: 5px 8px;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        body.dark-mode .cr-porovnani td { border-color: #333; }
+        .cr-porovnani td:nth-child(2) {
+            font-variant-numeric: tabular-nums;
+            font-weight: 700;
+            text-align: right;
+            padding-right: 16px;
+        }
+        .cr-porovnani td:nth-child(3) {
+            color: var(--barva-textu-mute, #888);
+            text-align: right;
+            font-size: 0.9em;
+        }
+        .cr-row-ela td:nth-child(1) { font-weight: 700; color: #c62828; }
+        .cr-row-ela td:nth-child(2) { color: #c62828; }
+        .cr-row-zoe td:nth-child(1) { font-weight: 700; }
+        .cr-row-stary td { color: var(--barva-textu-mute, #888); }
+        .cr-stary-label {
+            display: inline-block;
+            font-size: 0.72em;
+            background: #eee;
+            color: #777;
+            border-radius: 4px;
+            padding: 1px 5px;
+            margin-left: 5px;
+            vertical-align: middle;
+            font-weight: 400;
+        }
+        body.dark-mode .cr-stary-label { background: #333; color: #999; }
+
+        /* ── Timeline ── */
+        .timeline {
+            padding-left: 18px;
+            border-left: 2px solid var(--hlavni-barva);
+            margin-bottom: 4px;
+        }
+        .timeline-item {
+            position: relative;
+            padding: 0 0 16px 20px;
+        }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-dot {
+            position: absolute;
+            left: -27px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--hlavni-barva);
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 1px var(--hlavni-barva);
+        }
+        body.dark-mode .timeline-dot { border-color: #1e1e1e; }
+        .timeline-date {
+            font-size: 0.78em;
+            color: var(--barva-textu-mute, #888);
+            margin-bottom: 2px;
+        }
+        .timeline-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 800;
+            font-size: 1.05em;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: var(--hlavni-barva);
+        }
+        .timeline-desc {
+            font-size: 0.9em;
+            margin-top: 1px;
+        }
+
+        /* ── Sekce nadpis ── */
         .zavody-sekce { margin-bottom: 32px; }
         .zavod-nadpis {
             font-family: 'Barlow Condensed', sans-serif;
@@ -98,24 +180,43 @@
             padding-bottom: 6px;
             margin-bottom: 12px;
         }
-        .zavod-nadpis a { color: inherit; text-decoration: none; }
-        .zavod-nadpis a:hover { text-decoration: underline; }
 
+        /* ── Výsledková tabulka s FINA pruhy ── */
         .vysledky-tabulka { width: 100%; border-collapse: collapse; font-size: 0.92em; }
-        .vysledky-tabulka td { padding: 7px 6px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: middle; }
+        .vysledky-tabulka td { padding: 7px 4px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: middle; }
         body.dark-mode .vysledky-tabulka td { border-color: #333; }
-        .vysledky-tabulka td:first-child { color: var(--barva-textu-mute, #777); width: 45%; }
-        .vysledky-tabulka td:last-child { text-align: right; }
+        .vysledky-tabulka td.td-disc { color: var(--barva-textu-mute, #777); width: 38%; }
+        .vysledky-tabulka td.td-cas  { white-space: nowrap; }
+        .vysledky-tabulka td.td-bar  { width: 42%; padding-left: 10px; }
 
-        .v-zlato   { font-weight: 700; color: #e65100; }
-        .v-stribro { font-weight: 700; color: #546e7a; }
-        .v-bronz   { font-weight: 700; color: #795548; }
         .v-cas     { font-weight: 600; color: #333; }
         body.dark-mode .v-cas { color: #ddd; }
         .tag { display: inline-block; font-size: 0.72em; font-weight: 700; border-radius: 4px; padding: 1px 6px; margin-left: 5px; vertical-align: middle; }
-        .tag-pr  { background: #e8f5e9; color: #2e7d32; }
         .tag-cr  { background: #fce4ec; color: #c62828; }
-        .fina { display: inline-block; font-size: 0.75em; color: #888; margin-left: 6px; vertical-align: middle; }
+
+        .bar-cell { display: flex; align-items: center; gap: 7px; }
+        .fina-bar-wrap {
+            flex: 1;
+            height: 7px;
+            background: rgba(0,0,0,0.07);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        body.dark-mode .fina-bar-wrap { background: rgba(255,255,255,0.1); }
+        .fina-bar-fill {
+            height: 100%;
+            background: var(--hlavni-barva);
+            border-radius: 4px;
+            opacity: 0.75;
+        }
+        .fina-num {
+            font-size: 0.75em;
+            color: var(--barva-textu-mute, #888);
+            white-space: nowrap;
+            min-width: 38px;
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
 
         .cs-link {
             display: inline-flex;
@@ -156,41 +257,157 @@
             <span class="badge badge-klub">KIN · žactvo 12 let</span>
         </div>
 
+        <!-- CR box s porovnávací tabulkou -->
         <div class="cr-box">
-            🏅 <strong>Čas pod rekordem ČR · 800 m volný způsob · Praha – Podolí, 13. 6. 2026</strong><br>
-            Zoe zaplavala <strong>9:55,76</strong> — čas překonávající tehdejší rekord ČR žactva (12 let).
-            Jako druhá v závodě se tento čas však nezapočítává pro rekord — ten patří Ele Kubálkové (9:54,45).
+            🏅 <strong>Čas pod rekordem ČR · 800 m volný způsob · 50m bazén</strong>
+            <table class="cr-porovnani">
+                <tr class="cr-row-ela">
+                    <td>🥇 Ela Kubálková <span class="cr-stary-label">ČR rekord</span></td>
+                    <td>9:54,45</td>
+                    <td>13. 6. 2026</td>
+                </tr>
+                <tr class="cr-row-zoe">
+                    <td>Zoe Tůmová</td>
+                    <td>9:55,76</td>
+                    <td>13. 6. 2026</td>
+                </tr>
+                <tr class="cr-row-stary">
+                    <td>Kateřina Černíková <span class="cr-stary-label">starý ČR</span></td>
+                    <td>9:56,18</td>
+                    <td>2012</td>
+                </tr>
+            </table>
+            <p style="margin: 8px 0 0; font-size: 0.83em; color: var(--barva-textu-mute,#999);">
+                Praha – Podolí, 13. 6. 2026 · Zoe zaplavala čas překonávající tehdejší rekord ČR žactva (12 let), jako druhá v závodě se však nezapočítává — rekord patří Ele Kubálkové.
+            </p>
         </div>
 
+        <!-- Timeline milníků -->
+        <div class="zavody-sekce">
+            <div class="zavod-nadpis">🏆 Milníky</div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">13. 6. 2026 · Praha – Podolí</div>
+                        <div class="timeline-title">Čas pod rekordem ČR</div>
+                        <div class="timeline-desc">800 m volný způsob (50m) · <strong>9:55,76</strong> · žactvo 12 let</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nejlepší výkony 25m -->
         <div class="zavody-sekce">
             <div class="zavod-nadpis">📊 Nejlepší výkony – 25m bazén</div>
             <table class="vysledky-tabulka">
-                <tr><td>800 m volný způsob</td>  <td><span class="v-cas">9:39,50</span><span class="fina">559 b.</span></td></tr>
-                <tr><td>400 m volný způsob</td>  <td><span class="v-cas">4:43,09</span><span class="fina">538 b.</span></td></tr>
-                <tr><td>200 m volný způsob</td>  <td><span class="v-cas">2:16,57</span><span class="fina">526 b.</span></td></tr>
-                <tr><td>100 m volný způsob</td>  <td><span class="v-cas">1:03,69</span><span class="fina">491 b.</span></td></tr>
-                <tr><td>400 m polohový závod</td><td><span class="v-cas">5:32,49</span><span class="fina">453 b.</span></td></tr>
-                <tr><td>200 m polohový závod</td><td><span class="v-cas">2:42,64</span><span class="fina">418 b.</span></td></tr>
-                <tr><td>50 m volný způsob</td>   <td><span class="v-cas">0:30,86</span><span class="fina">404 b.</span></td></tr>
-                <tr><td>200 m motýlek</td>       <td><span class="v-cas">2:46,72</span><span class="fina">369 b.</span></td></tr>
-                <tr><td>100 m polohový závod</td><td><span class="v-cas">1:19,54</span><span class="fina">332 b.</span></td></tr>
-                <tr><td>100 m prsa</td>          <td><span class="v-cas">1:30,08</span><span class="fina">331 b.</span></td></tr>
+                <tr>
+                    <td class="td-disc">800 m volný způsob</td>
+                    <td class="td-cas"><span class="v-cas">9:39,50</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:93.2%"></div></div><span class="fina-num">559 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">400 m volný způsob</td>
+                    <td class="td-cas"><span class="v-cas">4:43,09</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:89.7%"></div></div><span class="fina-num">538 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">200 m volný způsob</td>
+                    <td class="td-cas"><span class="v-cas">2:16,57</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:87.7%"></div></div><span class="fina-num">526 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">100 m volný způsob</td>
+                    <td class="td-cas"><span class="v-cas">1:03,69</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:81.8%"></div></div><span class="fina-num">491 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">400 m polohový závod</td>
+                    <td class="td-cas"><span class="v-cas">5:32,49</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:75.5%"></div></div><span class="fina-num">453 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">200 m polohový závod</td>
+                    <td class="td-cas"><span class="v-cas">2:42,64</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:69.7%"></div></div><span class="fina-num">418 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">50 m volný způsob</td>
+                    <td class="td-cas"><span class="v-cas">0:30,86</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:67.3%"></div></div><span class="fina-num">404 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">200 m motýlek</td>
+                    <td class="td-cas"><span class="v-cas">2:46,72</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:61.5%"></div></div><span class="fina-num">369 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">100 m polohový závod</td>
+                    <td class="td-cas"><span class="v-cas">1:19,54</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:55.3%"></div></div><span class="fina-num">332 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">100 m prsa</td>
+                    <td class="td-cas"><span class="v-cas">1:30,08</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:55.2%"></div></div><span class="fina-num">331 b.</span></div></td>
+                </tr>
             </table>
         </div>
 
+        <!-- Nejlepší výkony 50m -->
         <div class="zavody-sekce">
             <div class="zavod-nadpis">📊 Nejlepší výkony – 50m bazén</div>
             <table class="vysledky-tabulka">
-                <tr><td>800 m volný způsob</td>  <td><span class="v-cas">9:55,76</span><span class="tag tag-cr">pod ČR rekordem</span><span class="fina">536 b.</span></td></tr>
-                <tr><td>400 m volný způsob</td>  <td><span class="v-cas">4:54,30</span><span class="fina">503 b.</span></td></tr>
-                <tr><td>200 m volný způsob</td>  <td><span class="v-cas">2:22,60</span><span class="fina">487 b.</span></td></tr>
-                <tr><td>200 m polohový závod</td><td><span class="v-cas">2:46,66</span><span class="fina">429 b.</span></td></tr>
-                <tr><td>100 m volný způsob</td>  <td><span class="v-cas">1:08,79</span><span class="fina">424 b.</span></td></tr>
-                <tr><td>50 m volný způsob</td>   <td><span class="v-cas">0:31,65</span><span class="fina">415 b.</span></td></tr>
-                <tr><td>200 m motýlek</td>       <td><span class="v-cas">2:54,74</span><span class="fina">338 b.</span></td></tr>
-                <tr><td>200 m prsa</td>          <td><span class="v-cas">3:24,62</span><span class="fina">303 b.</span></td></tr>
-                <tr><td>50 m prsa</td>           <td><span class="v-cas">0:43,84</span><span class="fina">294 b.</span></td></tr>
-                <tr><td>100 m motýlek</td>       <td><span class="v-cas">1:22,13</span><span class="fina">293 b.</span></td></tr>
+                <tr>
+                    <td class="td-disc">800 m volný způsob</td>
+                    <td class="td-cas"><span class="v-cas">9:55,76</span><span class="tag tag-cr">pod ČR</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:89.3%"></div></div><span class="fina-num">536 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">400 m volný způsob</td>
+                    <td class="td-cas"><span class="v-cas">4:54,30</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:83.8%"></div></div><span class="fina-num">503 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">200 m volný způsob</td>
+                    <td class="td-cas"><span class="v-cas">2:22,60</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:81.2%"></div></div><span class="fina-num">487 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">200 m polohový závod</td>
+                    <td class="td-cas"><span class="v-cas">2:46,66</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:71.5%"></div></div><span class="fina-num">429 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">100 m volný způsob</td>
+                    <td class="td-cas"><span class="v-cas">1:08,79</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:70.7%"></div></div><span class="fina-num">424 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">50 m volný způsob</td>
+                    <td class="td-cas"><span class="v-cas">0:31,65</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:69.2%"></div></div><span class="fina-num">415 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">200 m motýlek</td>
+                    <td class="td-cas"><span class="v-cas">2:54,74</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:56.3%"></div></div><span class="fina-num">338 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">200 m prsa</td>
+                    <td class="td-cas"><span class="v-cas">3:24,62</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:50.5%"></div></div><span class="fina-num">303 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">50 m prsa</td>
+                    <td class="td-cas"><span class="v-cas">0:43,84</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:49.0%"></div></div><span class="fina-num">294 b.</span></div></td>
+                </tr>
+                <tr>
+                    <td class="td-disc">100 m motýlek</td>
+                    <td class="td-cas"><span class="v-cas">1:22,13</span></td>
+                    <td class="td-bar"><div class="bar-cell"><div class="fina-bar-wrap"><div class="fina-bar-fill" style="width:48.8%"></div></div><span class="fina-num">293 b.</span></div></td>
+                </tr>
             </table>
             <p style="font-size: 0.82em; color: var(--barva-textu-mute, #999); margin-top: 10px;">
                 Seřazeno podle FINA bodů – jednotná škála výkonnosti napříč disciplínami.
