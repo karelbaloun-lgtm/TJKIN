@@ -326,6 +326,57 @@
 <body class="hp">
 
 <style>
+    /* ── LIVE banner ── */
+    .live-banner {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+        background: #fff5f5;
+        border: 2px solid #d32f2f;
+        border-radius: 10px;
+        padding: 12px 18px;
+        margin-bottom: 24px;
+    }
+    body.dark-mode .live-banner { background: #2a0000; border-color: #ef5350; }
+    .live-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #d32f2f;
+        color: #fff;
+        font-size: 0.78em;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        padding: 4px 10px;
+        border-radius: 4px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    .live-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #fff;
+        animation: blikani 1.2s infinite;
+        display: inline-block;
+    }
+    .live-text { flex: 1; min-width: 180px; font-size: 0.93em; }
+    .live-text a { color: var(--hlavni-barva); font-weight: 600; }
+    .live-akce { display: flex; gap: 8px; flex-shrink: 0; }
+    .live-btn {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.82em;
+        font-weight: 700;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+    .live-btn-yt   { background: #d32f2f; color: #fff; }
+    .live-btn-vysl { background: transparent; color: var(--hlavni-barva); border: 1px solid var(--hlavni-barva); }
+    .live-btn:hover { opacity: 0.85; }
+
     @keyframes blikani {
         0% { opacity: 1; }
         50% { opacity: 0.4; }
@@ -394,6 +445,17 @@
     </header>
 
     <div class="obsah" id="obsah-hp">
+
+        <div class="live-banner">
+            <span class="live-badge"><span class="live-dot"></span>LIVE</span>
+            <div class="live-text">
+                <strong>Podzimní cena motorletu</strong> – sledujeme <a href="ela_kub.html">Elu Kubálkovou</a> a <a href="zoe_tum.html">Zoe Tůmovou</a>
+            </div>
+            <div class="live-akce">
+                <a href="https://www.youtube.com/watch?v=Qy-HV5D6vYs" target="_blank" rel="noopener" class="live-btn live-btn-yt">▶ YouTube</a>
+                <a href="https://vysledky.czechswimming.cz/souteze/10341" target="_blank" rel="noopener" class="live-btn live-btn-vysl">Výsledky</a>
+            </div>
+        </div>
 
         <section class="uvod-sekce odkryt-na-scroll">
             <h2 class="uvodni-nadpis">Plavání v Českých Budějovicích<span class="uvodni-rok"> od roku 1951.</span></h2>
