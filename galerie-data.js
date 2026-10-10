@@ -5,6 +5,20 @@
    ========================================= */
 const GALERIE = {
 
+    motorlet_26: {
+        nazev: "Podzimní cena Motorletu 2026",
+        datum: "10.10.2026",
+        misto: "Praha – Motorlet",
+        slozka: "images/fotogalerie/2026/motorlet_26/",
+        fotky: [
+            "ela_start.webp",
+            "zoe_start.webp",
+            "vysledky_200vz.webp"
+        ],
+        popisek: "Ela Kubálková a Zoe Tůmová na Podzimní ceně Motorletu 2026. Ela 2. místo ve finále 200m VZ (2:14,45), Zoe 4. místo (2:16,07).",
+        video: null
+    },
+
     mezi_mosty_26: {
         nazev: "Mezi mosty 2026",
         datum: "8.8.2026",
