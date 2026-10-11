@@ -38,8 +38,12 @@
 
     <div id="lightbox" class="lightbox" style="display: none;">
         <span class="zavrit" onclick="zavritLightbox()">&times;</span>
-        <a class="prev" onclick="posunSlidu(-1)">👈</a>
-        <a class="next" onclick="posunSlidu(1)">👉</a>
+        <a class="prev" onclick="posunSlidu(-1)" aria-label="Předchozí fotka">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </a>
+        <a class="next" onclick="posunSlidu(1)" aria-label="Další fotka">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
         <img class="lightbox-obsah" id="lightbox-img">
         <div id="lightbox-popisek"></div>
     </div>
