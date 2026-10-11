@@ -25,29 +25,29 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 10px;
-            margin: 24px auto 0;
+            align-items: center;
+            gap: 6px 0;
+            margin: 28px auto 0;
             max-width: 900px;
             padding: 0 16px;
+            font-size: 0.9em;
         }
 
         .hist-nav-odkaz {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 8px 18px;
-            border: 1.5px solid var(--hlavni-barva, #d32f2f);
-            border-radius: 20px;
-            color: var(--hlavni-barva, #d32f2f);
-            font-size: 0.88em;
-            font-weight: 600;
+            color: var(--barva-textu-mute, #888);
             text-decoration: none;
-            transition: background 0.18s, color 0.18s;
+            padding: 4px 14px;
+            transition: color 0.15s;
+            white-space: nowrap;
         }
 
         .hist-nav-odkaz:hover {
-            background: var(--hlavni-barva, #d32f2f);
-            color: #fff;
+            color: var(--hlavni-barva, #d32f2f);
+        }
+
+        .hist-nav-sep {
+            color: var(--barva-textu-mute, #ccc);
+            user-select: none;
         }
 
         .hist-timeline-uvod {
@@ -87,7 +87,9 @@
 
         <nav class="hist-nav">
             <a href="rekordy_kin.html" class="hist-nav-odkaz">🏅 Rekordy KIN</a>
+            <span class="hist-nav-sep">·</span>
             <a href="rekordy_kraj.html" class="hist-nav-odkaz">🗺️ Krajské rekordy</a>
+            <span class="hist-nav-sep">·</span>
             <a href="hvezdy_26.html" class="hist-nav-odkaz">⭐ Top roku 2026</a>
         </nav>
 
