@@ -334,7 +334,8 @@ def parse_pdf_results(path: str) -> tuple[list[dict], list[str]] | None:
         return None
     clubs = "|".join(re.escape(a) for a in JC_CLUBS)
     # za klubem může být mezičas (a/nebo '-') a teprve pak výsledný čas -> bere se poslední čas
-    line_re = re.compile(rf"^\d+\.\s+(.+?)\s+((?:19|20)\d\d)\b.*?\s({clubs})\s+"
+    # pořadí chybí u dělených míst (shodný čas) -> nepovinné
+    line_re = re.compile(rf"^(?:\d+\.\s+)?([^\d\s].+?)\s+((?:19|20)\d\d)\b.*?\s({clubs})\s+"
                          rf"(?:(?:{_PDF_TIME}|-)\s+)*({_PDF_TIME})(?:\s+(\d{{1,4}})\b)?")
     head_re = re.compile(r"(?<![\d:,.])(\d{2,4})\s*m?\s+(" + "|".join(r for r, _ in _PDF_STROKES) + ")", re.I)
     club_re = re.compile(rf"\s({clubs})\s+({_PDF_TIME})")
@@ -492,35 +493,55 @@ def is_profile_athlete(prof: dict, first: str, last: str, birthyear: int) -> boo
             and birthyear == prof["birthyear"])
 
 
-_ROW_RE = re.compile(r'<tr><td>([^<]+)</td>\s*<td><span class="v-cas">([^<]+)</span>(.*?)'
-                     r'<span class="fina">(\d+) b\.</span></td></tr>')
+_TR_RE = re.compile(r"[ \t]*<tr\b.*?</tr>", re.S)
+_TAG_RE = re.compile(r'<span class="tag\b[^"]*">[^<]*</span>')
+PROFILE_BAR_MAX = 600  # pruh s body: šířka = body / 600 (549 b. -> 91.5 %)
+
+
+def _parse_profile_row(html: str) -> dict | None:
+    """Řádek TOP10 nezávisle na konkrétním HTML: 1. buňka = disciplína, span.v-cas = čas,
+    span.fina / span.fina-num = body. Původní HTML se drží a upravuje na místě."""
+    d = re.search(r"<td[^>]*>\s*([^<]+?)\s*</td>", html)
+    t = re.search(r'class="v-cas">\s*([^<]+?)\s*<', html)
+    p = re.search(r'class="fina(?:-num)?">\s*(\d+)', html)
+    if not (d and t and p):
+        return None
+    sec = to_seconds(t.group(1))
+    if sec is None:
+        return None
+    return {"disc": d.group(1), "time": t.group(1), "sec": sec, "pts": int(p.group(1)), "html": html}
+
+
+def _set_profile_row(row: dict, disc: str, time: str, sec: float, pts: int, drop_tags: bool) -> None:
+    h = row["html"]
+    h = re.sub(r"(<td[^>]*>\s*)[^<]+?(\s*</td>)", lambda m: m.group(1) + disc + m.group(2), h, count=1)
+    h = re.sub(r'(class="v-cas">\s*)[^<]+?(\s*<)', lambda m: m.group(1) + time + m.group(2), h, count=1)
+    h = re.sub(r'(class="fina(?:-num)?">\s*)\d+', lambda m: m.group(1) + str(pts), h, count=1)
+    h = re.sub(r'(fina-bar-fill"\s+style="width:\s*)[\d.]+%',
+               lambda m: m.group(1) + f"{min(100.0, pts * 100 / PROFILE_BAR_MAX):.1f}%", h, count=1)
+    if drop_tags:
+        h = _TAG_RE.sub("", h)
+    row.update(disc=disc, time=time, sec=sec, pts=pts, html=h)
 
 
 def _profile_tables(doc: str):
-    """Vrátí [(pool, (start, end) tabulky, [řádky])]; řádek = dict(disc, time, sec, tags, pts)."""
+    """Vrátí [(pool, (start, end) obsahu tabulky, řádky | None)]. None = tabulce nerozumím."""
     out = []
     for m in re.finditer(r'Nejlepší výkony – (25m|50m) bazén</div>\s*<table class="vysledky-tabulka">'
                          r'(.*?)</table>', doc, re.S):
-        rows = [{"disc": r.group(1).strip(), "time": r.group(2), "sec": to_seconds(r.group(2)),
-                 "tags": r.group(3), "pts": int(r.group(4))}
-                for r in _ROW_RE.finditer(m.group(2))]
-        out.append((f"{m.group(1)} bazén", m.span(2), rows))
+        trs = _TR_RE.findall(m.group(2))
+        rows = [_parse_profile_row(h) for h in trs]
+        ok = rows and all(rows) and len(trs) == m.group(2).count("<tr")
+        out.append((f"{m.group(1)} bazén", m.span(2), rows if ok else None))
     return out
-
-
-def _render_rows(rows: list[dict]) -> str:
-    lines = []
-    for r in rows:
-        td = f"<td>{r['disc']}</td>"
-        lines.append(f"                <tr>{td}{' ' * max(0, 29 - len(td))}<td><span class=\"v-cas\">"
-                     f"{r['time']}</span>{r['tags']}<span class=\"fina\">{r['pts']} b.</span></td></tr>")
-    return "\n" + "\n".join(lines) + "\n            "
 
 
 def update_profiles(perf: dict[str, list[dict]]) -> tuple[list[str], list[str], list[str]]:
     """perf: soubor -> [{pool, dist, stroke, sec, points, comp}].
 
     Zlepšení v TOP10 rovnou zapíše do profilu (čas + body, přeřazení podle bodů).
+    Formát řádků se zachovává: mění se jen čas, body a šířka pruhu; nová disciplína
+    vznikne kopií posledního řádku. Tabulku, které parser nerozumí, nechá být a ohlásí.
     Vrací (změněné soubory, řádky reportu, řádky k ruční kontrole).
     """
     changed, report, manual = [], [], []
@@ -528,9 +549,15 @@ def update_profiles(perf: dict[str, list[dict]]) -> tuple[list[str], list[str], 
         items = perf.get(prof["file"], [])
         if not items:
             continue
+        who = f"{prof['first']} {prof['last']}"
         path = os.path.join(ROOT, prof["file"])
-        doc = open(path, encoding="utf-8").read()
+        doc = open(path, encoding="utf-8", newline="").read()  # zachovat CRLF/LF
+        eol = "\r\n" if "\r\n" in doc else "\n"
         tables = _profile_tables(doc)
+        if len(tables) != 2:
+            manual.append(f"{who}: v `{prof['file']}` nenalezeny obě tabulky TOP10 (25m + 50m) "
+                          f"– profil NEupraven, zkontrolovat ručně")
+            continue
         new_doc, offset, touched = doc, 0, False
         for pool, (a, b), rows in tables:
             best: dict[str, dict] = {}
@@ -540,51 +567,64 @@ def update_profiles(perf: dict[str, list[dict]]) -> tuple[list[str], list[str], 
                 d = profile_disc(it["dist"], it["stroke"])
                 if d not in best or it["sec"] < best[d]["sec"]:
                     best[d] = it
+            if not best:
+                continue
+            if rows is None:
+                manual.append(f"{who} – {pool}: tabulce TOP10 nerozumím (změnil se formát HTML?) "
+                              f"– NEupraveno, výkony zkontrolovat ručně: "
+                              + ", ".join(f"{d} {fmt_cell_time(it['sec'])}" for d, it in best.items()))
+                continue
             tchanged = False
             for d, it in best.items():
                 t = fmt_cell_time(it["sec"])
                 row = next((r for r in rows if r["disc"] == d), None)
                 if row and it["sec"] >= row["sec"] - 1e-6:
                     continue
+                if not row and len(rows) >= PROFILE_TOP and \
+                        (it["points"] is None or it["points"] <= min(r["pts"] for r in rows)):
+                    continue  # do TOP10 se nevejde
                 if it["points"] is None:
-                    manual.append(f"{prof['first']} {prof['last']} – {pool}, {d}: {t} ({it['comp']}) "
+                    manual.append(f"{who} – {pool}, {d}: {t} ({it['comp']}) "
                                   f"je lepší než TOP10, ale chybí body → doplnit ručně")
                     continue
                 if row:
-                    report.append(f"{prof['first']} {prof['last']} – {pool}, {d}: "
-                                  f"{row['time']} → **{t}** ({it['points']} b., {it['comp']})")
-                    row.update(time=t, sec=it["sec"], pts=it["points"])
-                    tchanged = True
-                elif len(rows) < PROFILE_TOP or it["points"] > min(r["pts"] for r in rows):
-                    report.append(f"{prof['first']} {prof['last']} – {pool}, {d}: nově v TOP10 "
-                                  f"**{t}** ({it['points']} b., {it['comp']})")
-                    rows.append({"disc": d, "time": t, "sec": it["sec"], "tags": "", "pts": it["points"]})
-                    tchanged = True
+                    report.append(f"{who} – {pool}, {d}: {row['time']} → **{t}** "
+                                  f"({it['points']} b., {it['comp']})"
+                                  + (" – zkontrolovat tagy" if _TAG_RE.search(row["html"]) else ""))
+                    _set_profile_row(row, d, t, it["sec"], it["points"], drop_tags=False)
+                else:
+                    report.append(f"{who} – {pool}, {d}: nově v TOP10 **{t}** "
+                                  f"({it['points']} b., {it['comp']})")
+                    new_row = dict(rows[-1])
+                    _set_profile_row(new_row, d, t, it["sec"], it["points"], drop_tags=True)
+                    rows.append(new_row)
+                tchanged = True
             if tchanged:
                 rows.sort(key=lambda r: -r["pts"])
                 for r in rows[PROFILE_TOP:]:
-                    report.append(f"{prof['first']} {prof['last']} – {pool}: z TOP10 vypadl "
-                                  f"{r['disc']} {r['time']} ({r['pts']} b.)")
+                    report.append(f"{who} – {pool}: z TOP10 vypadl {r['disc']} {r['time']} ({r['pts']} b.)")
                 del rows[PROFILE_TOP:]
-                body = _render_rows(rows)
+                inner = doc[a:b]
+                trs = list(_TR_RE.finditer(inner))
+                body = inner[:trs[0].start()] + eol.join(r["html"] for r in rows) + inner[trs[-1].end():]
                 new_doc = new_doc[:a + offset] + body + new_doc[b + offset:]
                 offset += len(body) - (b - a)
                 touched = True
         if touched:
-            open(path, "w", encoding="utf-8", newline="\n").write(new_doc)
+            open(path, "w", encoding="utf-8", newline="").write(new_doc)
             changed.append(path)
     return changed, report, manual
 
 
 # ---------------------------------------------------------------------- date bump
 def bump_date(html_path: str, today: dt.date) -> str | None:
-    doc = open(html_path, encoding="utf-8").read()
+    doc = open(html_path, encoding="utf-8", newline="").read()  # zachovat CRLF/LF
     new = f"Data aktuální k {today.day}. {today.month}. {today.year}"
     doc2, n = re.subn(r"Data aktuální k \d{1,2}\. \d{1,2}\. \d{4}", new, doc)
     if n == 0:
         return None
     if doc2 != doc:
-        open(html_path, "w", encoding="utf-8", newline="\n").write(doc2)
+        open(html_path, "w", encoding="utf-8", newline="").write(doc2)
     return new
 
 
