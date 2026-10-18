@@ -5,3 +5,6 @@
 /otavak_25.html         /galerie.html?id=otavak_25          301
 /sousko_25.html         /galerie.html?id=sousko_25          301
 /zmcr_pisek_2025.html   /galerie.html?id=zmcr_pisek_2025    301
+
+# Přesměrování starých URL z Googlu
+/sof_kub                /hvezdy_26.html                     301
