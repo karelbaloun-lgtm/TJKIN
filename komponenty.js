@@ -18,7 +18,14 @@ function vlozMenu() {
             <a href="terminovka.html">Termínovka</a>
             ${jeMeziMostyMenu ? `<a href="mezi_mosty.html" style="color:#ffd700;font-weight:700;">🌊 Mezi mosty</a>` : ''}
             <a href="fotogalerie.html">Galerie</a>
-            <a href="historie.html">Rekordy & Historie</a>
+            <div class="menu-dropdown">
+                <a href="historie.html" class="menu-dropdown-trigger">Rekordy & Historie <span class="menu-dropdown-sipka">▾</span></a>
+                <div class="menu-submenu">
+                    <a href="historie.html">📜 Historie</a>
+                    <a href="rekordy_kin.html">🏅 Rekordy KIN</a>
+                    <a href="rekordy_kraj.html">🗺️ Krajské rekordy</a>
+                </div>
+            </div>
             <a href="sponzori.html">Partneři</a>
             <a href="kontakt.html">Kontakt</a>
         </div>
@@ -36,12 +43,19 @@ function vlozMenu() {
     const menuElement = document.getElementById('spolecne-menu');
     if (menuElement) {
         menuElement.innerHTML = menuHTML;
-        // Označ aktivní stránku
         const aktualniStranka = window.location.pathname.split('/').pop() || 'index.html';
+        // Označ aktivní přímé odkazy
         menuElement.querySelectorAll('.menu-polozky > a[href]').forEach(odkaz => {
             if (odkaz.getAttribute('href') === aktualniStranka) odkaz.classList.add('nav-aktivni');
         });
-
+        // Označ aktivní odkaz v podmenu + zvýrazni trigger
+        menuElement.querySelectorAll('.menu-submenu a[href]').forEach(odkaz => {
+            if (odkaz.getAttribute('href') === aktualniStranka) {
+                odkaz.classList.add('nav-aktivni');
+                const trigger = odkaz.closest('.menu-dropdown')?.querySelector('.menu-dropdown-trigger');
+                if (trigger) trigger.classList.add('nav-aktivni');
+            }
+        });
     }
 }
 
