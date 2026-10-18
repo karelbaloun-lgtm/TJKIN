@@ -662,16 +662,23 @@
             }
 
             const podpisImg = document.getElementById('pv-podpis');
-            if (podpisImg) {
-                if (!pad.isEmpty()) {
-                    podpisImg.src = pad.toDataURL();
-                    podpisImg.style.display = '';
-                } else {
-                    podpisImg.style.display = 'none';
-                }
+            if (podpisImg && !pad.isEmpty()) {
+                // Překresli podpis na bílý podklad (transparent PNG občas nefunguje v tisku)
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width  = canvas.width;
+                tempCanvas.height = canvas.height;
+                const ctx = tempCanvas.getContext('2d');
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+                ctx.drawImage(canvas, 0, 0);
+                podpisImg.style.display = '';
+                // Počkej na dekódování obrázku, pak teprve tiskni
+                podpisImg.onload = () => window.print();
+                podpisImg.src = tempCanvas.toDataURL('image/png');
+            } else {
+                if (podpisImg) podpisImg.style.display = 'none';
+                window.print();
             }
-
-            window.print();
         }
 
         function resetForm() {
