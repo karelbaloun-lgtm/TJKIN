@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Přihláška a evidenční list člena TJ KOH-I-NOOR České Budějovice – vyplňte online a uložte jako PDF.">
+    <link rel="canonical" href="https://kinplavani.cz/prihlaska.html">
+    <meta property="og:title" content="Přihláška – KIN České Budějovice">
+    <meta property="og:url" content="https://kinplavani.cz/prihlaska.html">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="cs_CZ">
+    <meta property="og:site_name" content="KIN České Budějovice">
+    <link rel="icon" type="image/png" href="images/logos/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
+    <meta name="theme-color" content="#d32f2f">
+    <title>Přihláška člena – KIN České Budějovice</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/dist/signature_pad.umd.min.js"></script>
+    <style>
+        /* ── Formulář ── */
+        .prihlaska-wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 32px 0 64px;
+        }
+
+        .prihlaska-tip {
+            background: rgba(211, 47, 47, 0.06);
+            border-left: 3px solid var(--hlavni-barva, #d32f2f);
+            padding: 12px 16px;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.88em;
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+        body.dark-mode .prihlaska-tip {
+            background: rgba(211, 47, 47, 0.12);
+        }
+
+        .form-sekce {
+            margin-bottom: 28px;
+        }
+        .form-sekce-nadpis {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.8em;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--hlavni-barva, #d32f2f);
+            border-bottom: 1px solid var(--hlavni-barva, #d32f2f);
+            padding-bottom: 4px;
+            margin-bottom: 14px;
+        }
+
+        .form-radek {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .form-pole {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+            min-width: 160px;
+        }
+        .form-pole.cele { flex: 100 1 100%; }
+        .form-pole label {
+            font-size: 0.78em;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            color: var(--barva-textu-mute, #777);
+            text-transform: uppercase;
+        }
+        .form-pole .povinne { color: var(--hlavni-barva, #d32f2f); }
+        .form-pole input,
+        .form-pole select {
+            padding: 8px 10px;
+            border: 1px solid rgba(0,0,0,0.18);
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-family: inherit;
+            background: var(--pozadi, #fff);
+            color: var(--barva-textu, #222);
+            transition: border-color 0.15s;
+        }
+        body.dark-mode .form-pole input,
+        body.dark-mode .form-pole select {
+            border-color: rgba(255,255,255,0.18);
+            background: #1e1e1e;
+            color: #f0f0f0;
+        }
+        .form-pole input:focus,
+        .form-pole select:focus {
+            outline: none;
+            border-color: var(--hlavni-barva, #d32f2f);
+            box-shadow: 0 0 0 3px rgba(211,47,47,0.12);
+        }
+
+        /* Typ členství */
+        .typ-clenstvi {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 8px;
+        }
+        .typ-clenstvi label {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 9px 12px;
+            border: 1px solid rgba(0,0,0,0.14);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: border-color 0.15s, background 0.15s;
+            text-transform: none;
+            letter-spacing: 0;
+            font-weight: 400;
+            color: var(--barva-textu, #222);
+        }
+        body.dark-mode .typ-clenstvi label {
+            border-color: rgba(255,255,255,0.14);
+            color: #f0f0f0;
+        }
+        .typ-clenstvi input[type="radio"] { accent-color: var(--hlavni-barva, #d32f2f); }
+        .typ-clenstvi label:has(input:checked) {
+            border-color: var(--hlavni-barva, #d32f2f);
+            background: rgba(211,47,47,0.06);
+            font-weight: 600;
+        }
+        body.dark-mode .typ-clenstvi label:has(input:checked) {
+            background: rgba(211,47,47,0.14);
+        }
+        .typ-cislo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.08);
+            font-size: 0.75em;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        body.dark-mode .typ-cislo { background: rgba(255,255,255,0.12); }
+
+        /* Podpis */
+        .podpis-canvas-wrap {
+            border: 1px solid rgba(0,0,0,0.18);
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fff;
+            position: relative;
+        }
+        body.dark-mode .podpis-canvas-wrap { border-color: rgba(255,255,255,0.18); }
+        #podpis-canvas {
+            display: block;
+            width: 100%;
+            height: 120px;
+            cursor: crosshair;
+            touch-action: none;
+        }
+        .podpis-hint {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.78em;
+            color: #bbb;
+            pointer-events: none;
+            user-select: none;
+        }
+        .podpis-akce {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 4px;
+        }
+        .btn-smazat {
+            background: none;
+            border: none;
+            font-size: 0.8em;
+            color: var(--barva-textu-mute, #888);
+            cursor: pointer;
+            padding: 2px 6px;
+        }
+        .btn-smazat:hover { color: var(--hlavni-barva, #d32f2f); }
+
+        /* GDPR */
+        .gdpr-text {
+            font-size: 0.82em;
+            color: var(--barva-textu-mute, #777);
+            line-height: 1.55;
+            background: rgba(0,0,0,0.03);
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-top: 4px;
+        }
+        body.dark-mode .gdpr-text { background: rgba(255,255,255,0.04); }
+
+        /* Akce */
+        .form-akce {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+        .btn-tisk {
+            background: var(--hlavni-barva, #d32f2f);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .btn-tisk:hover { background: #b71c1c; }
+        .btn-reset {
+            background: none;
+            border: 1px solid rgba(0,0,0,0.2);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            cursor: pointer;
+            color: var(--barva-textu, #222);
+        }
+        body.dark-mode .btn-reset {
+            border-color: rgba(255,255,255,0.2);
+            color: #f0f0f0;
+        }
+        .btn-reset:hover { border-color: var(--hlavni-barva, #d32f2f); }
+
+        /* ── Print ── */
+        @media print {
+            #spolecne-menu,
+            #spolecna-paticka,
+            .hlavicka,
+            .prihlaska-tip,
+            .form-akce,
+            .podpis-akce,
+            .podpis-hint {
+                display: none !important;
+            }
+
+            body, html {
+                background: white !important;
+                color: black !important;
+            }
+
+            .prihlaska-wrap {
+                padding: 0;
+                max-width: 100%;
+            }
+
+            .print-hlavicka {
+                display: block !important;
+                text-align: center;
+                border: 2px solid #000;
+                padding: 10px;
+                margin-bottom: 20px;
+            }
+            .print-hlavicka h2 {
+                font-size: 13pt;
+                font-weight: bold;
+                margin: 0 0 2px;
+                text-transform: uppercase;
+            }
+            .print-hlavicka p {
+                font-size: 10pt;
+                margin: 0;
+            }
+
+            .form-sekce { margin-bottom: 14px; }
+            .form-sekce-nadpis {
+                font-size: 8pt;
+                border-bottom: 1px solid #000;
+                color: #000 !important;
+                margin-bottom: 8px;
+            }
+
+            .form-pole input,
+            .form-pole select {
+                border: none !important;
+                border-bottom: 1px solid #000 !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                padding: 2px 0 !important;
+                font-size: 10pt;
+                background: transparent !important;
+                color: #000 !important;
+            }
+
+            .form-pole label {
+                font-size: 7.5pt;
+                color: #555 !important;
+            }
+
+            .typ-clenstvi label {
+                border-color: #aaa !important;
+                background: transparent !important;
+                font-size: 9pt;
+                padding: 5px 8px;
+            }
+            .typ-clenstvi label:has(input:checked) {
+                border-color: #000 !important;
+                font-weight: bold;
+            }
+
+            .podpis-canvas-wrap {
+                border: none !important;
+                border-bottom: 1px solid #000 !important;
+                border-radius: 0 !important;
+            }
+            #podpis-canvas { height: 80px !important; }
+
+            .gdpr-text {
+                font-size: 7.5pt;
+                background: transparent !important;
+                border: 1px solid #ccc;
+                color: #333 !important;
+            }
+        }
+
+        /* Print hlavicka je skryta na screenu */
+        .print-hlavicka { display: none; }
+
+        @media (max-width: 480px) {
+            .form-pole { min-width: 100%; }
+            .typ-clenstvi { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="spolecne-menu"></div>
+
+    <header class="hlavicka">
+        <img src="images/logos/logo.png" class="logo-oddilu" alt="Logo KIN" id="hlavni-logo">
+        <h1>Přihláška člena</h1>
+        <p class="podnadpis">TJ KOH-I-NOOR České Budějovice</p>
+    </header>
+
+    <div class="obsah">
+        <div class="prihlaska-wrap">
+
+            <div class="prihlaska-tip">
+                Vyplňte formulář a klikněte na <strong>Uložit jako PDF</strong>. V dialogu tisku zvolte jako tiskárnu <em>„Uložit jako PDF"</em> nebo <em>„Microsoft Print to PDF"</em>. Vyplněný podpis a data budou součástí dokumentu.
+            </div>
+
+            <!-- Tisková hlavička (viditelná jen při tisku) -->
+            <div class="print-hlavicka">
+                <h2>Přihláška a evidenční list člena</h2>
+                <p>TJ KOH-I-NOOR České Budějovice, z.s.</p>
+            </div>
+
+            <form id="prihlaska-form" novalidate>
+
+                <div class="form-sekce">
+                    <div class="form-sekce-nadpis">Osobní údaje</div>
+                    <div class="form-radek">
+                        <div class="form-pole">
+                            <label>Příjmení <span class="povinne">*</span></label>
+                            <input type="text" id="prijmeni" autocomplete="family-name" required>
+                        </div>
+                        <div class="form-pole">
+                            <label>Jméno <span class="povinne">*</span></label>
+                            <input type="text" id="jmeno" autocomplete="given-name" required>
+                        </div>
+                    </div>
+                    <div class="form-radek">
+                        <div class="form-pole">
+                            <label>Datum narození <span class="povinne">*</span></label>
+                            <input type="date" id="datum-narozeni" required>
+                        </div>
+                        <div class="form-pole">
+                            <label>Rodné číslo <span class="povinne">**</span></label>
+                            <input type="text" id="rodne-cislo" placeholder="RRMMDD/XXXX">
+                        </div>
+                    </div>
+                    <div class="form-radek">
+                        <div class="form-pole">
+                            <label>Státní příslušnost (jen pro cizince)</label>
+                            <input type="text" id="statni-prislusnost" autocomplete="off">
+                        </div>
+                        <div class="form-pole">
+                            <label>Pohlaví (jen pro cizince)</label>
+                            <select id="pohlavi">
+                                <option value=""></option>
+                                <option value="M">Muž</option>
+                                <option value="Ž">Žena</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-sekce">
+                    <div class="form-sekce-nadpis">Adresa bydliště</div>
+                    <div class="form-radek">
+                        <div class="form-pole cele">
+                            <label>Ulice a číslo popisné <span class="povinne">*</span></label>
+                            <input type="text" id="adresa" autocomplete="street-address" required>
+                        </div>
+                    </div>
+                    <div class="form-radek">
+                        <div class="form-pole" style="max-width:120px;">
+                            <label>PSČ <span class="povinne">*</span></label>
+                            <input type="text" id="psc" autocomplete="postal-code" maxlength="6" required>
+                        </div>
+                        <div class="form-pole">
+                            <label>Město</label>
+                            <input type="text" id="mesto" autocomplete="address-level2">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-sekce">
+                    <div class="form-sekce-nadpis">Kontakt a škola / pracoviště</div>
+                    <div class="form-radek">
+                        <div class="form-pole">
+                            <label>Škola / pracoviště <span class="povinne">*</span></label>
+                            <input type="text" id="skola" required>
+                        </div>
+                    </div>
+                    <div class="form-radek">
+                        <div class="form-pole">
+                            <label>Telefon <span class="povinne">*</span></label>
+                            <input type="tel" id="telefon" autocomplete="tel" required>
+                        </div>
+                        <div class="form-pole">
+                            <label>E-mail</label>
+                            <input type="email" id="email" autocomplete="email">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-sekce">
+                    <div class="form-sekce-nadpis">Typ členství</div>
+                    <div class="typ-clenstvi">
+                        <label><input type="radio" name="typ" value="1"> <span class="typ-cislo">1</span> Registrovaný sportovec</label>
+                        <label><input type="radio" name="typ" value="2"> <span class="typ-cislo">2</span> Neregistrovaný sportovec</label>
+                        <label><input type="radio" name="typ" value="3"> <span class="typ-cislo">3</span> Trenér / cvičitel</label>
+                        <label><input type="radio" name="typ" value="4"> <span class="typ-cislo">4</span> Rozhodčí</label>
+                        <label><input type="radio" name="typ" value="5"> <span class="typ-cislo">5</span> Činovník</label>
+                        <label><input type="radio" name="typ" value="6"> <span class="typ-cislo">6</span> Ostatní</label>
+                    </div>
+                </div>
+
+                <div class="form-sekce">
+                    <div class="form-sekce-nadpis">Datum a podpis</div>
+                    <div class="form-radek">
+                        <div class="form-pole" style="max-width: 180px;">
+                            <label>Datum</label>
+                            <input type="date" id="datum">
+                        </div>
+                        <div class="form-pole">
+                            <label>U nezletilých: zákonný zástupce</label>
+                            <input type="text" id="zastupce" placeholder="Jméno zákonného zástupce">
+                        </div>
+                    </div>
+                    <div class="form-radek">
+                        <div class="form-pole cele">
+                            <label>Podpis (nakreslete myší nebo prstem)</label>
+                            <div class="podpis-canvas-wrap">
+                                <canvas id="podpis-canvas"></canvas>
+                                <span class="podpis-hint" id="podpis-hint">Podepište se zde</span>
+                            </div>
+                            <div class="podpis-akce">
+                                <button type="button" class="btn-smazat" onclick="smazatPodpis()">✕ Smazat podpis</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-sekce">
+                    <div class="form-sekce-nadpis">Souhlas s evidencí osobních údajů</div>
+                    <div class="gdpr-text">
+                        Souhlasím s tím, aby TJ KIN zpracoval a evidoval mé osobní údaje poskytnuté v souvislosti s mým členstvím a činností v TJ KIN podle zák. č. 101/2000 Sb. Mé osobní údaje je TJ KIN oprávněn evidovat i po ukončení mého členství.<br><br>
+                        * povinné údaje &nbsp;|&nbsp; ** povinné údaje; bez rodného čísla nelze sportovce dle směrnic ČSPS registrovat
+                    </div>
+                </div>
+
+            </form>
+
+            <div class="form-akce">
+                <button class="btn-tisk" onclick="ulozitJakoPDF()">🖨 Uložit jako PDF / Vytisknout</button>
+                <button class="btn-reset" onclick="resetForm()">Resetovat formulář</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="spolecna-paticka"></div>
+    <script src="komponenty.js"></script>
+    <script>
+        // Dnešní datum jako výchozí
+        document.getElementById('datum').value = new Date().toISOString().split('T')[0];
+
+        // Signature pad
+        const canvas = document.getElementById('podpis-canvas');
+        const hint   = document.getElementById('podpis-hint');
+        const pad    = new SignaturePad(canvas, {
+            penColor: '#1a1a1a',
+            backgroundColor: 'rgba(255,255,255,0)'
+        });
+
+        function resizeCanvas() {
+            const ratio  = Math.max(window.devicePixelRatio || 1, 1);
+            const data   = pad.toData();
+            canvas.width  = canvas.offsetWidth  * ratio;
+            canvas.height = canvas.offsetHeight * ratio;
+            canvas.getContext('2d').scale(ratio, ratio);
+            pad.clear();
+            pad.fromData(data);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        pad.addEventListener('beginStroke', () => { hint.style.display = 'none'; });
+
+        function smazatPodpis() {
+            pad.clear();
+            hint.style.display = '';
+        }
+
+        function ulozitJakoPDF() {
+            window.print();
+        }
+
+        function resetForm() {
+            document.getElementById('prihlaska-form').reset();
+            document.getElementById('datum').value = new Date().toISOString().split('T')[0];
+            smazatPodpis();
+        }
+    </script>
+
+</body>
+</html>
