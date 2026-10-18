@@ -258,7 +258,7 @@ nav a.nav-aktivni::after {
 .menu-submenu {
     display: none;
     position: absolute;
-    top: calc(100% + 4px);
+    top: 100%;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(160, 20, 20, 0.97);
@@ -270,7 +270,7 @@ nav a.nav-aktivni::after {
     min-width: 180px;
     z-index: 1100;
     overflow: hidden;
-    padding: 4px 0;
+    padding: 8px 0 4px;
 }
 .menu-dropdown:hover .menu-submenu {
     display: flex;
