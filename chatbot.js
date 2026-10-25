@@ -303,9 +303,13 @@ function initChatbot() {
     .kin-form-send-btn:hover { background: #b71c1c; }
     .kin-form-send-btn:disabled { background: #aaa; cursor: default; }
 
+    @media (max-width: 768px) {
+        #kin-chat-widget { bottom: calc(68px + 12px); }
+    }
+
     @media (max-width: 400px) {
         #kin-chat-window { width: calc(100vw - 32px); }
-        #kin-chat-widget { right: 16px; bottom: 16px; }
+        #kin-chat-widget { right: 16px; bottom: calc(68px + 12px); }
     }
 
     @media (prefers-reduced-motion: reduce) {
