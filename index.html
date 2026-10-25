@@ -317,14 +317,32 @@
         /* Skryjeme původní hlavičku na HP */
         body.hp .hlavicka { display: none; }
 
+        /* Hero elementy – skryté před animací (bez hero-obsah, jinak by opacity rodiče skryla vše) */
+        .hero-obsah { animation: none !important; }
+        .hero-rok,
+        .hero-nadpis,
+        .hero-podnadpis,
+        .hero-tlacitka,
+        .hero-scroll { animation: none !important; opacity: 0; transform: translateY(20px); }
+
+        /* CSS přechody pro GSAP-like efekt */
+        .hero-rok     { transition: opacity 0.65s ease, transform 0.65s ease; }
+        .hero-nadpis  { transition: opacity 0.75s ease, transform 0.75s ease; }
+        .hero-podnadpis { transition: opacity 0.6s ease, transform 0.6s ease; }
+        .hero-btn     { transition: opacity 0.5s ease, transform 0.5s ease; }
+        .hero-scroll  { transition: opacity 0.5s ease, transform 0.5s ease; }
+
+        .hero-animovano .hero-rok      { opacity: 1; transform: translateY(0); transition-delay: 0.45s; }
+        .hero-animovano .hero-nadpis   { opacity: 1; transform: translateY(0); transition-delay: 0.62s; }
+        .hero-animovano .hero-podnadpis{ opacity: 1; transform: translateY(0); transition-delay: 0.80s; }
+        .hero-animovano .hero-btn      { opacity: 1; transform: translateY(0); transition-delay: 0.95s; }
+        .hero-animovano .hero-scroll   { opacity: 1; transform: translateY(0); transition-delay: 1.2s; }
+
         @media (max-width: 600px) {
             .hero-obsah { padding: 0 24px 40px; }
             .hero-scroll { display: none; }
         }
     </style>
-    <!-- GSAP animační knihovna -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 </head>
 <body class="hp">
 
@@ -767,6 +785,26 @@
                 }, 1200);
             }
         })();
+    </script>
+
+    <!-- GSAP animační knihovna -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- GSAP + CSS hero animace -->
+    <script>
+    (function () {
+        // Ken Burns efekt na foto přes GSAP (pokud je dostupný)
+        if (typeof gsap !== 'undefined') {
+            gsap.from('.hero-foto', { scale: 1.08, duration: 7, ease: 'power1.out' });
+        }
+
+        // Textové elementy – CSS transition (spolehlivé i v hidden tab)
+        var hero = document.querySelector('.hero');
+        if (hero) {
+            setTimeout(function() { hero.classList.add('hero-animovano'); }, 50);
+        }
+    }());
     </script>
 
     <!-- Netlify form pro KIN Asistent chatbot (hidden, nutný pro detekci při buildu) -->
