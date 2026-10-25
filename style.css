@@ -979,7 +979,21 @@ body.dark-mode .logo-hp img {
     .hamburger { display: block; }
     .menu-polozky { display: none; flex-direction: column; width: 100%; }
     .menu-polozky.responsive { display: flex; }
-    nav a { width: 100%; text-align: left; border-top: 1px solid rgba(255,255,255,0.1); padding: 15px 20px; }
+    nav a {
+        width: 100%; text-align: left;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        border-bottom: none;
+        border-left: 3px solid transparent;
+        padding: 14px 18px;
+        color: rgba(255,255,255,0.75);
+    }
+    nav a:hover { color: #fff; }
+    nav a.nav-aktivni {
+        border-left-color: var(--akcni-barva);
+        border-bottom-color: transparent;
+        padding-left: 18px;
+        background: rgba(255,255,255,0.05);
+    }
 
     /* Obsah – na mobilu menší horizontální padding */
     .obsah { padding: 28px 20px; }
@@ -987,10 +1001,10 @@ body.dark-mode .logo-hp img {
     .rozcestnik { gap: 16px; margin: 36px 0; }
     .karta {
         padding: 28px 22px;
-        box-shadow: 0 4px 20px rgba(251,192,45,0.12), 0 1px 6px rgba(0,0,0,0.06);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08), 0 1px 6px rgba(0,0,0,0.04);
     }
     .nabor-karta {
-        box-shadow: 0 4px 20px rgba(251,192,45,0.12), 0 1px 6px rgba(0,0,0,0.06);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08), 0 1px 6px rgba(0,0,0,0.04);
     }
 
     /* Ostatní prvky na mobilu */
@@ -1027,15 +1041,15 @@ body.dark-mode {
     --pozadi-obsahu:   #192230;
     --pozadi-sekce:    #1e2d3d;
     --barva-border:    rgba(255,255,255,0.09);
-    --zebra-radek:     #1e1e1e;
+    --zebra-radek:     #1e2d3d;
     --hlavni-barva:    #ef5350;   /* o chlup jasnější červená — lépe čitelná na tmavém */
     --akcni-barva:     #ffd54f;   /* jasnější zlatá */
     --tmava-barva:     #ffffff;
     --barva-nadpisu:   #f0eeec;
-    --barva-textu:     #d0d0d0;
-    --barva-textu-mute:#888888;
-    --text-hlavni:     #d0d0d0;
-    --logo-filter:     drop-shadow(0 0 8px rgba(239,83,80,0.45));
+    --barva-textu:     #f0ede8;
+    --barva-textu-mute:#8a9bb0;
+    --text-hlavni:     #f0ede8;
+    --logo-filter:     drop-shadow(0 2px 8px rgba(0,0,0,0.5));
 
     color: var(--text-hlavni);
 
@@ -1077,35 +1091,16 @@ body.dark-mode .obsah {
 
 /* --- Logo — jemný pulz --- */
 body.dark-mode #hlavni-logo {
-    animation: dark-logo-glow 4s ease-in-out infinite;
-}
-@keyframes dark-logo-glow {
-    0%, 100% { filter: drop-shadow(0 0 6px rgba(239,83,80,0.3)); }
-    50%       { filter: drop-shadow(0 0 14px rgba(239,83,80,0.6)); }
+    filter: var(--logo-filter);
 }
 
-/* --- Nadpisy s gradient textem --- */
+/* --- Nadpisy --- */
 body.dark-mode h2 {
-    background: linear-gradient(135deg, #ef5350 0%, #ff8a65 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--barva-nadpisu);
     border-bottom-color: var(--akcni-barva);
 }
 body.dark-mode h3 {
-    background: linear-gradient(135deg, #ef9a9a 0%, #ffccbc 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-/* Výjimky – kde gradient nedává smysl */
-body.dark-mode .nabor-karta h3,
-body.dark-mode .clanek h2,
-body.dark-mode .meta-info *,
-body.dark-mode .pocitadlo-popis {
-    background: none;
-    -webkit-text-fill-color: unset;
+    color: var(--barva-nadpisu);
 }
 
 /* --- Karty (glassmorphism v dark mode) --- */
@@ -1186,41 +1181,40 @@ body.dark-mode .cta-box p { color: #aaa; }
 .nabor-sekce p { color: var(--barva-textu-mute); }
 
 body.dark-mode .pocitadla-sekce {
-    background: linear-gradient(160deg, #0a0a14 0%, #140808 100%);
+    background: linear-gradient(160deg, #0a1018 0%, #0d1b2a 100%);
     box-shadow: 0 8px 40px rgba(0,0,0,0.3);
 }
 
 body.dark-mode .nabor-sekce {
-    background: #1e1e1e;
-    border-color: #333;
+    background: var(--pozadi-sekce);
+    border-color: var(--barva-border);
     box-shadow: 0 2px 16px rgba(0,0,0,0.3);
 }
 body.dark-mode .nabor-sekce h2,
 body.dark-mode .nabor-sekce .nabor-nadpis {
-    color: #ef5350 !important;
-    -webkit-text-fill-color: #ef5350 !important;
+    color: var(--hlavni-barva) !important;
 }
 
 /* --- Info boxy --- */
 body.dark-mode .info-box {
-    background: linear-gradient(135deg, #1e1e1e, #1a1a1a);
+    background: var(--pozadi-sekce);
     border-left-color: var(--hlavni-barva);
-    color: #d0d0d0;
-    box-shadow: inset 0 0 0 1px #2a2a2a;
+    color: var(--barva-textu);
+    box-shadow: inset 0 0 0 1px var(--barva-border);
 }
 body.dark-mode .info-box strong { color: var(--akcni-barva); }
 
 /* --- Tabulky --- */
-body.dark-mode table { background: #161616; border-color: #2a2a2a; }
+body.dark-mode table { background: var(--pozadi-obsahu); border-color: var(--barva-border); }
 body.dark-mode table th {
-    background: linear-gradient(135deg, #7a0000, #5a0000);
-    border-bottom-color: #444;
-    color: #f5f5f5;
+    background: var(--navy);
+    border-bottom-color: rgba(255,255,255,0.1);
+    color: #f0ede8;
 }
-body.dark-mode table td { background: #161616; color: #ccc; border-bottom-color: #232323; }
-body.dark-mode table tr:nth-of-type(even) td { background: #1b1b1b; }
+body.dark-mode table td { background: var(--pozadi-obsahu); color: #c8d0da; border-bottom-color: var(--barva-border); }
+body.dark-mode table tr:nth-of-type(even) td { background: var(--pozadi-sekce); }
 body.dark-mode table tr:hover td {
-    background: #222 !important;
+    background: rgba(249,168,37,0.06) !important;
     color: var(--akcni-barva);
 }
 body.dark-mode table a { color: var(--akcni-barva); }
@@ -1233,15 +1227,15 @@ body.dark-mode .vysledky-box {
 
 /* --- Newsletter sidebar --- */
 body.dark-mode .newsletter-sidebar {
-    background: linear-gradient(135deg, #141414, #111);
-    border: 1px solid #2a2a2a;
+    background: var(--pozadi-obsahu);
+    border: 1px solid var(--barva-border);
     border-top-color: var(--akcni-barva);
 }
 
 /* --- Patička --- */
 body.dark-mode footer {
-    background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
-    border-top: 2px solid #d32f2f;
+    background: #0a111a;
+    border-top: 1px solid rgba(255,255,255,0.1);
     box-shadow: 0 -4px 30px rgba(0,0,0,0.4);
 }
 
@@ -1252,17 +1246,17 @@ body.dark-mode .logo-wrapper { background-color: #ffffff; }
 body.dark-mode ::-webkit-scrollbar { width: 8px; }
 body.dark-mode ::-webkit-scrollbar-track { background: #111; }
 body.dark-mode ::-webkit-scrollbar-thumb {
-    background: #3a0000;
+    background: #2a3d54;
     border-radius: 4px;
-    border: 2px solid #111;
+    border: 2px solid #0f1923;
 }
-body.dark-mode ::-webkit-scrollbar-thumb:hover { background: #d32f2f; }
+body.dark-mode ::-webkit-scrollbar-thumb:hover { background: var(--akcni-barva); }
 
 /* --- Menu mobilní rozbalovačka --- */
 @media screen and (max-width: 768px) {
     body.dark-mode .menu-polozky.responsive {
-        background: linear-gradient(180deg, #1c0000, #130000);
-        border-bottom: 2px solid var(--hlavni-barva);
+        background: #0d1b2a;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
         box-shadow: 0 8px 20px rgba(0,0,0,0.5);
     }
     body.dark-mode nav a { border-top-color: rgba(255,255,255,0.07); }
