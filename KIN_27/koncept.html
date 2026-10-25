@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="cs" data-theme="">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KIN 2027 – Vizuální koncept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,900&family=Barlow:wght@400;500;600&display=swap">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red: #d32f2f;
+  --gold: #f9a825;
+  --navy: #0d1b2a;
+  --navy2: #162538;
+  --bg: #0a1520;
+  color-scheme: dark;
+}
+
+html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+
+body {
+  font-family: 'Barlow', system-ui, sans-serif;
+  background: var(--bg);
+  color: #f0ede8;
+  overflow-x: hidden;
+}
+
+/* Scroll progress bar */
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--red), var(--gold));
+  width: 0%;
+  z-index: 200;
+  transition: width 0.1s;
+}
+
+/* Nav */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0 max(32px, env(safe-area-inset-right, 0px)) 0 max(32px, env(safe-area-inset-left, 0px));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  background: rgba(10,21,32,0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.nav-brand {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: #fff;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
+
+.nav-brand span { color: var(--gold); }
+
+.nav-dots { display: flex; gap: 8px; }
+
+.nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+.nav-dot.active { background: var(--gold); transform: scale(1.3); }
+
+/* ── Shared section styles ── */
+.section {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px max(32px, env(safe-area-inset-right, 0px)) 60px max(32px, env(safe-area-inset-left, 0px));
+  position: relative;
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+/* ── 01 HERO ── */
+.s-hero {
+  background: radial-gradient(ellipse 100% 120% at 50% 100%, rgba(13,27,42,0) 0%, rgba(211,47,47,0.15) 60%, transparent 80%),
+              linear-gradient(180deg, #050d14 0%, var(--bg) 100%);
+  text-align: center;
+}
+
+/* animated water rings */
+.water-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(211,47,47,0.15);
+  pointer-events: none;
+  animation: ripple 6s ease-out infinite;
+}
+
+.water-ring:nth-child(1) { width: 200px; height: 200px; animation-delay: 0s; }
+.water-ring:nth-child(2) { width: 400px; height: 400px; animation-delay: 1s; }
+.water-ring:nth-child(3) { width: 640px; height: 640px; animation-delay: 2s; }
+.water-ring:nth-child(4) { width: 900px; height: 900px; animation-delay: 3s; opacity: 0.5; }
+
+@keyframes ripple {
+  0% { transform: scale(0.5); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+.hero-section-tag {
+  font-size: 0.68em;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  opacity: 0.85;
+}
+
+.hero-logotype {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: clamp(5rem, 18vw, 16rem);
+  text-transform: uppercase;
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  color: #fff;
+  position: relative;
+}
+
+.hero-logotype .highlight {
+  color: var(--red);
+  display: block;
+  font-style: italic;
+}
+
+.hero-sub {
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: rgba(255,255,255,0.5);
+  margin-top: 24px;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ── 02 IDENTITA ── */
+.s-identity {
+  background: var(--navy);
+}
+
+.identity-inner {
+  max-width: 900px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.identity-text {}
+
+.s-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75em;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--red);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  opacity: 0.8;
+}
+
+.identity-headline {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.95;
+  color: #fff;
+  margin-bottom: 24px;
+}
+
+.identity-headline em { font-style: normal; color: var(--gold); }
+
+.identity-body {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.75;
+}
+
+.color-story {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.color-card {
+  border-radius: 16px;
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.color-card-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.color-card-desc { font-size: 0.75em; opacity: 0.7; line-height: 1.5; }
+.color-card-hex { font-family: monospace; font-size: 0.75em; opacity: 0.5; margin-top: auto; }
+
+/* ── 03 DATA / STATS ── */
+.s-data {
+  background: linear-gradient(135deg, #050d14 0%, var(--navy) 100%);
+  text-align: center;
+}
+
+.data-inner { max-width: 900px; width: 100%; }
+
+.data-pretitle {
+  font-size: 0.7em;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.data-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 56px;
+  line-height: 1;
+}
+
+.big-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-bottom: 56px;
+}
+
+.big-stat {
+  padding: 32px 20px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.big-stat:first-child { border-radius: 16px 0 0 16px; }
+.big-stat:last-child { border-radius: 0 16px 16px 0; }
+
+.big-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  display: block;
+}
+
+.big-unit {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.2rem;
+  color: rgba(255,255,255,0.3);
+  font-weight: 700;
+}
+
+.big-label {
+  font-size: 0.72em;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+/* Record highlight */
+.record-strip {
+  background: rgba(211,47,47,0.12);
+  border: 1px solid rgba(211,47,47,0.25);
+  border-radius: 12px;
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  text-align: left;
+}
+
+.rec-label {
+  font-size: 0.67em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--red);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.rec-val {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+}
+
+.rec-name { font-size: 0.85em; color: rgba(255,255,255,0.5); margin-top: 4px; }
+
+.rec-diff {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--red);
+}
+
+/* ── 04 TYPOGRAFIE ── */
+.s-type {
+  background: #070e17;
+  overflow: hidden;
+}
+
+.type-backdrop {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0.04;
+}
+
+.type-backdrop-word {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: clamp(10rem, 22vw, 22rem);
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+}
+
+.type-inner {
+  position: relative;
+  max-width: 800px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.type-showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ts-row { border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 14px; }
+.ts-label { font-size: 0.62em; color: rgba(255,255,255,0.3); font-family: monospace; margin-bottom: 4px; }
+
+.type-info {}
+
+.type-info h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 1.05;
+  margin-bottom: 20px;
+}
+
+.type-info h3 em { font-style: italic; color: var(--red); }
+
+.type-info p { font-size: 0.88rem; color: rgba(255,255,255,0.45); line-height: 1.75; margin-bottom: 12px; }
+
+/* ── 05 MOTION ── */
+.s-motion {
+  background: var(--navy);
+  text-align: center;
+}
+
+.motion-inner { max-width: 720px; position: relative; }
+
+.motion-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.95;
+  color: #fff;
+  margin-bottom: 32px;
+}
+
+.motion-title .line-gold { color: var(--gold); display: block; }
+.motion-title .line-red { color: var(--red); display: block; font-style: italic; }
+
+.motion-body {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.9rem;
+  line-height: 1.75;
+  max-width: 500px;
+  margin: 0 auto 40px;
+}
+
+.motion-principles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  text-align: left;
+}
+
+.mp {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.mp-icon { font-size: 1.5rem; margin-bottom: 10px; }
+
+.mp-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 6px;
+  letter-spacing: 0.04em;
+}
+
+.mp-text { font-size: 0.78rem; color: rgba(255,255,255,0.4); line-height: 1.55; }
+
+/* ── 06 CTA ── */
+.s-cta {
+  background: linear-gradient(135deg, var(--red) 0%, #7b0000 100%);
+  text-align: center;
+}
+
+.cta-label {
+  font-size: 0.7em;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 20px;
+}
+
+.cta-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(2.8rem, 7vw, 6rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 0.95;
+  margin-bottom: 32px;
+  letter-spacing: -0.01em;
+}
+
+.cta-body {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.7);
+  max-width: 440px;
+  margin: 0 auto 40px;
+  line-height: 1.65;
+}
+
+.cta-btns { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 13px 28px;
+  border-radius: 8px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: filter 0.12s, transform 0.12s;
+}
+.btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+.btn-white { background: #fff; color: var(--red); }
+.btn-outline-w { background: transparent; color: #fff; border-color: rgba(255,255,255,0.5); }
+.btn-outline-w:hover { border-color: #fff; }
+
+/* ── Responsive ── */
+@media (max-width: 680px) {
+  html { scroll-snap-type: none; }
+  .identity-inner { grid-template-columns: 1fr; gap: 36px; }
+  .big-stats { grid-template-columns: 1fr; gap: 2px; }
+  .big-stat:first-child { border-radius: 16px 16px 0 0; }
+  .big-stat:last-child { border-radius: 0 0 16px 16px; }
+  .type-inner { grid-template-columns: 1fr; gap: 32px; }
+  .motion-principles { grid-template-columns: 1fr; }
+  .record-strip { flex-direction: column; text-align: center; }
+  .color-story { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="#hero" class="nav-brand">KIN <span>27</span></a>
+  <div class="nav-dots">
+    <button class="nav-dot active" onclick="scrollTo(0)" title="Hero"></button>
+    <button class="nav-dot" onclick="scrollToSection('identity')" title="Identita"></button>
+    <button class="nav-dot" onclick="scrollToSection('data')" title="Data"></button>
+    <button class="nav-dot" onclick="scrollToSection('type')" title="Typografie"></button>
+    <button class="nav-dot" onclick="scrollToSection('motion')" title="Motion"></button>
+    <button class="nav-dot" onclick="scrollToSection('cta')" title="CTA"></button>
+  </div>
+</nav>
+
+<!-- 01 HERO -->
+<section class="section s-hero" id="hero">
+  <div class="water-ring"></div>
+  <div class="water-ring"></div>
+  <div class="water-ring"></div>
+  <div class="water-ring"></div>
+
+  <p class="hero-section-tag">TJ KIN České Budějovice · Vizuální koncept 2027</p>
+
+  <div class="hero-logotype">
+    KIN
+    <span class="highlight">plave.</span>
+  </div>
+
+  <p class="hero-sub">Závodní plavání · od roku 1951 · kinplavani.cz</p>
+
+  <div class="scroll-cue">
+    <svg width="16" height="24" viewBox="0 0 16 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="1" y="1" width="14" height="22" rx="7" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.5"/>
+      <circle cx="8" cy="7" r="2" fill="currentColor" fill-opacity="0.5">
+        <animate attributeName="cy" values="7;14;7" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="fill-opacity" values="0.5;0.1;0.5" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- 02 IDENTITA -->
+<section class="section s-identity" id="identity">
+  <div class="identity-inner">
+    <div class="identity-text">
+      <div class="s-num">02 / Identita</div>
+      <h2 class="identity-headline">
+        Červená.<br>
+        Zlatá.<br>
+        <em>Voda.</em>
+      </h2>
+      <p class="identity-body">
+        Tři barvy tvoří celou vizuální identitu KIN. Červená je síla a vášeň — barva vítek a rekordů. Zlatá je trofej a úspěch. Navy je voda — živadlo oddílu i hloubka, do které závodníci sahají.
+      </p>
+      <p class="identity-body" style="margin-top:12px;">
+        Barlow Condensed spojuje sport, dramatičnost a čitelnost. Časy závodníků jsou vždy v červené.
+      </p>
+    </div>
+    <div class="color-story">
+      <div class="color-card" style="background:var(--red);grid-column:1/-1;">
+        <div class="color-card-name">KIN Červená</div>
+        <div class="color-card-desc">Síla, vítězství, rekord. Primární barva značky.</div>
+        <div class="color-card-hex">#d32f2f</div>
+      </div>
+      <div class="color-card" style="background:#7b6000;color:#fff8dc;">
+        <div class="color-card-name">Zlatá</div>
+        <div class="color-card-desc">Medaile, úspěch, trofej.</div>
+        <div class="color-card-hex">#f9a825</div>
+      </div>
+      <div class="color-card" style="background:#0d2d4a;">
+        <div class="color-card-name">Navy</div>
+        <div class="color-card-desc">Voda, hloubka, bazén.</div>
+        <div class="color-card-hex">#0d1b2a</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 DATA -->
+<section class="section s-data" id="data">
+  <div class="data-inner">
+    <p class="data-pretitle">03 / Data &amp; Výsledky</p>
+    <h2 class="data-title">Čísla mluví<br>za závodníky</h2>
+
+    <div class="big-stats">
+      <div class="big-stat">
+        <span class="big-num">75</span>
+        <div class="big-label">let oddílu</div>
+      </div>
+      <div class="big-stat">
+        <span class="big-num">−6<span class="big-unit">s</span></span>
+        <div class="big-label">Ela, 200m MO</div>
+      </div>
+      <div class="big-stat">
+        <span class="big-num">2:39</span>
+        <div class="big-label">Rekord KIN 2026</div>
+      </div>
+    </div>
+
+    <div class="record-strip">
+      <div>
+        <div class="rec-label">Oddílový rekord · 200m Motýlek · Žactvo 12 let · 25m</div>
+        <div class="rec-val">2:39,12</div>
+        <div class="rec-name">Ela Kubálková · *2014 · Otavský pohár, Písek</div>
+      </div>
+      <div>
+        <div class="rec-label">Zlepšení oproti starému rekordu</div>
+        <div class="rec-diff">−6,74 s</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 TYPOGRAFIE -->
+<section class="section s-type" id="type">
+  <div class="type-backdrop">
+    <div class="type-backdrop-word">BARLOW</div>
+  </div>
+
+  <div class="type-inner">
+    <div class="type-showcase">
+      <div class="ts-row">
+        <div class="ts-label">Display · BC 900</div>
+        <div style="font-family:'Barlow Condensed';font-size:2.6rem;font-weight:900;text-transform:uppercase;color:#fff;line-height:1;">KIN 2027</div>
+      </div>
+      <div class="ts-row">
+        <div class="ts-label">H1 · BC 900 · 2.2rem</div>
+        <div style="font-family:'Barlow Condensed';font-size:2rem;font-weight:900;text-transform:uppercase;color:#fff;line-height:1.05;">Výsledky závodu</div>
+      </div>
+      <div class="ts-row">
+        <div class="ts-label">H2 · BC 700 · 1.6rem</div>
+        <div style="font-family:'Barlow Condensed';font-size:1.5rem;font-weight:700;text-transform:uppercase;color:#fff;">Otavský pohár 2026</div>
+      </div>
+      <div class="ts-row">
+        <div class="ts-label">Eyebrow · B 700 · caps</div>
+        <div style="font-size:0.68em;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.4);">Rekord oddílu · 24. října 2026</div>
+      </div>
+      <div class="ts-row">
+        <div class="ts-label">Čas · BC 700 · červená</div>
+        <div style="font-family:'Barlow Condensed';font-size:1.8rem;font-weight:700;color:var(--red);">2:39,12</div>
+      </div>
+    </div>
+
+    <div class="type-info">
+      <div class="s-num">04 / Typografie</div>
+      <h3>Dva <em>řezy,</em><br>jedna osobnost.</h3>
+      <p>Barlow Condensed 900 je řev — výsledky, rekordy, výzvy. Condensed tvar udrží velký text na malém místě.</p>
+      <p>Barlow 400 je deník — výsledková tabulka, reportáž, detaily. Lehká a čitelná i na mobilním telefonu.</p>
+      <p>Časy závodníků jsou výjimka — vždy Barlow Condensed 700 v červené. Jsou rekord, jsou číslo, jsou minuta a sekunda.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 MOTION -->
+<section class="section s-motion" id="motion">
+  <div class="motion-inner">
+    <div class="s-num">05 / Animace &amp; Pohyb</div>
+    <h2 class="motion-title">
+      Web
+      <span class="line-gold">se hýbe</span>
+      <span class="line-red">jako voda.</span>
+    </h2>
+    <p class="motion-body">Každá stránka reaguje na pohyb uživatele — ne jako show, ale jako sport. Přechody jsou rychlé a účelné. Scroll odhaluje obsah, ne efekty.</p>
+
+    <div class="motion-principles">
+      <div class="mp">
+        <div class="mp-icon">⚡</div>
+        <div class="mp-title">Rychlost</div>
+        <div class="mp-text">Přechody max 200ms. Uživatel vždy ví, co se stalo — ne co se děje.</div>
+      </div>
+      <div class="mp">
+        <div class="mp-icon">🌊</div>
+        <div class="mp-title">Plynulost</div>
+        <div class="mp-text">Easing křivky inspirované vodou. Žádné skokové změny.</div>
+      </div>
+      <div class="mp">
+        <div class="mp-icon">🎯</div>
+        <div class="mp-title">Účelnost</div>
+        <div class="mp-text">Animace slouží obsahu — zdůrazní rekord, ne dekoraci.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 CTA -->
+<section class="section s-cta" id="cta">
+  <p class="cta-label">06 / Výzva k akci</p>
+  <h2 class="cta-title">
+    Plaveme.<br>Závodíme.<br>Vítězíme.
+  </h2>
+  <p class="cta-body">TJ KIN České Budějovice. Závodní plavání pro všechny věkové kategorie. Tréninky na Plaveckém stadionu České Budějovice.</p>
+  <div class="cta-btns">
+    <a href="#" class="btn btn-white">🗓 Přihlásit se do oddílu</a>
+    <a href="#" class="btn btn-outline-w">Zpět na začátek ↑</a>
+  </div>
+  <p style="margin-top:40px;font-size:0.72em;color:rgba(255,255,255,0.3);letter-spacing:0.1em;">kinplavani.cz · Vizuální koncept 2027</p>
+</section>
+
+<script>
+function scrollToSection(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+// Progress bar + active dot
+const sections = ['hero','identity','data','type','motion','cta'];
+const dots = document.querySelectorAll('.nav-dot');
+
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+  document.getElementById('progress').style.width = (scrolled * 100) + '%';
+
+  let current = 0;
+  sections.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top <= window.innerHeight / 2) current = i;
+  });
+  dots.forEach((d, i) => d.classList.toggle('active', i === current));
+}, { passive: true });
+</script>
+</body>
+</html>

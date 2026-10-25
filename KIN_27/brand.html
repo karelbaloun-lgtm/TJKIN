@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="cs" data-theme="">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KIN Design Systém 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --kin-red: #d32f2f;
+  --kin-red-dark: #b71c1c;
+  --kin-gold: #f9a825;
+  --kin-navy: #0d1b2a;
+  --bg: #faf8f5;
+  --bg-card: #ffffff;
+  --bg-subtle: #f0ece7;
+  --text: #1a1210;
+  --text-muted: #706860;
+  --border: rgba(0,0,0,0.09);
+  --shadow: 0 2px 20px rgba(0,0,0,0.08);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1923; --bg-card: #192230; --bg-subtle: #1e2d3d;
+    --text: #f0ede8; --text-muted: #8a9bb0;
+    --border: rgba(255,255,255,0.09); --shadow: 0 2px 20px rgba(0,0,0,0.4);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1923; --bg-card: #192230; --bg-subtle: #1e2d3d;
+  --text: #f0ede8; --text-muted: #8a9bb0;
+  --border: rgba(255,255,255,0.09); --shadow: 0 2px 20px rgba(0,0,0,0.4);
+  color-scheme: dark;
+}
+
+body {
+  font-family: 'Barlow', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  min-height: 100vh;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: thin;
+}
+
+.sidebar-logo {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-logo .wordmark {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--kin-red);
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.sidebar-logo .sub {
+  display: block;
+  font-size: 0.7em;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.sidebar-nav { padding: 12px 0 24px; flex: 1; }
+
+.nav-group {
+  padding: 16px 20px 6px;
+  font-size: 0.67em;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.sidebar-nav a {
+  display: block;
+  padding: 7px 20px;
+  font-size: 0.85em;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  border-left: 2px solid transparent;
+  transition: all 0.12s;
+}
+
+.sidebar-nav a:hover, .sidebar-nav a.active {
+  color: var(--kin-red);
+  border-left-color: var(--kin-red);
+  background: rgba(211,47,47,0.05);
+}
+
+/* ── Main ── */
+.main {
+  padding: max(40px, env(safe-area-inset-top, 0px)) max(48px, env(safe-area-inset-right, 0px)) 80px;
+  max-width: 860px;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 56px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.page-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 3rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
+  color: var(--text);
+}
+
+.page-title em { color: var(--kin-red); font-style: normal; }
+
+.page-meta {
+  font-size: 0.8em;
+  color: var(--text-muted);
+  margin-top: 10px;
+}
+
+.theme-btn {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 15px;
+  cursor: pointer;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-family: inherit;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+/* ── Sections ── */
+.section {
+  margin-bottom: 72px;
+  scroll-margin-top: 24px;
+}
+
+.section-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.9rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  padding-bottom: 14px;
+  border-bottom: 3px solid var(--kin-red);
+  margin-bottom: 8px;
+}
+
+.section-desc {
+  color: var(--text-muted);
+  font-size: 0.88em;
+  margin-bottom: 28px;
+}
+
+.sub-label {
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  margin-top: 28px;
+  display: block;
+}
+
+/* ── Colors ── */
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.swatch {
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.swatch:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+
+.swatch-color { height: 68px; }
+
+.swatch-info {
+  padding: 8px 10px;
+  background: var(--bg-card);
+}
+
+.swatch-name { font-size: 0.73em; font-weight: 700; display: block; color: var(--text); }
+.swatch-hex { font-size: 0.68em; color: var(--text-muted); font-family: monospace; }
+.swatch-token { font-size: 0.63em; color: var(--text-muted); font-family: monospace; display: block; margin-top: 2px; opacity: 0.8; }
+
+/* ── Typography ── */
+.type-specimen {
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0;
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+}
+
+.type-meta {
+  font-size: 0.7em;
+  color: var(--text-muted);
+  font-family: monospace;
+  width: 90px;
+  flex-shrink: 0;
+  line-height: 1.4;
+}
+
+/* ── Buttons ── */
+.btn-showcase { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 20px; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: filter 0.12s, transform 0.1s;
+}
+
+.btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: var(--kin-red); color: #fff; }
+.btn-outline { background: transparent; color: var(--kin-red); border-color: var(--kin-red); }
+.btn-gold { background: var(--kin-gold); color: #2a1800; }
+.btn-ghost { background: var(--bg-subtle); color: var(--text); border-color: var(--border); }
+.btn-navy { background: var(--kin-navy); color: #fff; }
+.btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+.btn-lg { padding: 14px 28px; font-size: 1.1rem; }
+
+/* ── Badges & Tags ── */
+.badge-showcase { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 16px; }
+
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.68em;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.tag-kin { background: var(--kin-red); color: #fff; }
+.tag-kr { background: #dbeeff; color: #1565c0; }
+.tag-new { background: var(--kin-gold); color: #4a2000; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 0.73em;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.badge-red { background: #fde8e8; color: #c62828; }
+.badge-blue { background: #dbeeff; color: #1565c0; }
+.badge-gold { background: #fff3cd; color: #c77800; }
+.badge-green { background: #e8f5e9; color: #2e7d32; }
+
+/* ── Cards ── */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.card-body { padding: 18px 20px; }
+
+.card-eyebrow {
+  font-size: 0.68em;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.card-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.card-stat-row { display: flex; gap: 20px; margin-top: 12px; }
+
+.stat-val {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--kin-red);
+  line-height: 1;
+}
+
+.stat-label { font-size: 0.67em; color: var(--text-muted); margin-top: 2px; }
+
+/* ── Results table ── */
+.result-wrap { border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+
+.result-tab {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.87em;
+}
+
+.result-tab thead tr { background: var(--bg-subtle); }
+
+.result-tab th {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 0.7em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.result-tab td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.result-tab tr:last-child td { border-bottom: none; }
+.result-tab tr.stripe { background: var(--bg-subtle); }
+
+.rec-time {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1.1em;
+  color: var(--kin-red);
+}
+
+/* ── Nav demo ── */
+.nav-demo {
+  background: var(--kin-navy);
+  border-radius: 12px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  overflow-x: auto;
+}
+
+.nav-demo .brand {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #fff;
+  margin-right: auto;
+  padding: 14px 0;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.nav-demo a {
+  display: block;
+  padding: 14px 14px;
+  color: rgba(255,255,255,0.65);
+  text-decoration: none;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 3px solid transparent;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+
+.nav-demo a.active { color: #fff; border-bottom-color: var(--kin-gold); }
+.nav-demo a:hover { color: #fff; }
+
+/* ── Token table ── */
+.token-wrap { border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+
+.token-tab { width: 100%; border-collapse: collapse; font-size: 0.83em; }
+
+.token-tab th, .token-tab td {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.token-tab th {
+  background: var(--bg-subtle);
+  font-size: 0.7em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.token-tab tr:last-child td { border-bottom: none; }
+
+code {
+  font-family: 'Courier New', monospace;
+  background: var(--bg-subtle);
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: var(--kin-red);
+}
+
+.preview-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ── Responsive ── */
+@media (max-width: 720px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .main { padding: 24px max(16px, env(safe-area-inset-right, 0px)) 60px max(16px, env(safe-area-inset-left, 0px)); }
+  .page-header { flex-direction: column; }
+  .page-title { font-size: 2.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="wordmark">KIN ČB</div>
+      <span class="sub">Design Systém 2027</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-group">Identita</div>
+      <a href="#barvy">Barvy</a>
+      <a href="#typografie">Typografie</a>
+      <div class="nav-group">Komponenty</div>
+      <a href="#tlacitka">Tlačítka</a>
+      <a href="#odznaky">Odznaky &amp; Tagy</a>
+      <a href="#karty">Karty</a>
+      <a href="#tabulky">Tabulky</a>
+      <a href="#navigace">Navigace</a>
+      <div class="nav-group">Reference</div>
+      <a href="#tokeny">CSS Tokeny</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">KIN <em>Design</em><br>Systém</h1>
+        <p class="page-meta">Verze 2027 · TJ KIN České Budějovice · kinplavani.cz</p>
+      </div>
+      <button class="theme-btn" onclick="toggleTheme()">☀&thinsp;/&thinsp;☾ Téma</button>
+    </div>
+
+    <!-- BARVY -->
+    <section class="section" id="barvy">
+      <h2 class="section-title">Barvy</h2>
+      <p class="section-desc">Červená a zlatá jsou základem identity KIN od roku 1951. Navy přidává hloubku — voda, večer, bazén.</p>
+
+      <span class="sub-label">Primární paleta</span>
+      <div class="color-grid">
+        <div class="swatch" onclick="copyHex('#d32f2f', this)">
+          <div class="swatch-color" style="background:#d32f2f;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">KIN Červená</span>
+            <span class="swatch-hex">#d32f2f</span>
+            <span class="swatch-token">--kin-red</span>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#b71c1c', this)">
+          <div class="swatch-color" style="background:#b71c1c;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Červená tmavá</span>
+            <span class="swatch-hex">#b71c1c</span>
+            <span class="swatch-token">--kin-red-dark</span>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#f9a825', this)">
+          <div class="swatch-color" style="background:#f9a825;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">KIN Zlatá</span>
+            <span class="swatch-hex">#f9a825</span>
+            <span class="swatch-token">--kin-gold</span>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#0d1b2a', this)">
+          <div class="swatch-color" style="background:#0d1b2a;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">KIN Navy</span>
+            <span class="swatch-hex">#0d1b2a</span>
+            <span class="swatch-token">--kin-navy</span>
+          </div>
+        </div>
+      </div>
+
+      <span class="sub-label">Medailové barvy</span>
+      <div class="color-grid">
+        <div class="swatch" onclick="copyHex('#f9a825', this)">
+          <div class="swatch-color" style="background:linear-gradient(135deg,#fde074,#f9a825);"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Zlatá medaile</span>
+            <span class="swatch-hex">#f9a825</span>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#bdbdbd', this)">
+          <div class="swatch-color" style="background:linear-gradient(135deg,#e0e0e0,#9e9e9e);"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Stříbrná medaile</span>
+            <span class="swatch-hex">#bdbdbd</span>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#a1590a', this)">
+          <div class="swatch-color" style="background:linear-gradient(135deg,#c8800e,#a1590a);"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Bronzová medaile</span>
+            <span class="swatch-hex">#a1590a</span>
+          </div>
+        </div>
+      </div>
+
+      <span class="sub-label">Povrchy — světlý / tmavý režim</span>
+      <div class="color-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#faf8f5;border-bottom:1px solid #e0d8d0;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Pozadí světlé</span>
+            <span class="swatch-hex">#faf8f5</span>
+            <span class="swatch-token">--bg (light)</span>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#0f1923;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Pozadí tmavé</span>
+            <span class="swatch-hex">#0f1923</span>
+            <span class="swatch-token">--bg (dark)</span>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#fff;border-bottom:1px solid #e8e0d8;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Karta světlá</span>
+            <span class="swatch-hex">#ffffff</span>
+            <span class="swatch-token">--bg-card (light)</span>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#192230;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Karta tmavá</span>
+            <span class="swatch-hex">#192230</span>
+            <span class="swatch-token">--bg-card (dark)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TYPOGRAFIE -->
+    <section class="section" id="typografie">
+      <h2 class="section-title">Typografie</h2>
+      <p class="section-desc">Barlow Condensed (900/700) pro nadpisy. Barlow (400/600) pro tělo. Časy vždy Barlow Condensed 700 v červené.</p>
+
+      <div class="type-specimen">
+        <span class="type-meta">Display<br>BC 900<br>uppercase</span>
+        <span style="font-family:'Barlow Condensed';font-size:2.8rem;font-weight:900;text-transform:uppercase;color:var(--kin-red);line-height:1;">KIN 2027</span>
+      </div>
+      <div class="type-specimen">
+        <span class="type-meta">H1<br>BC 900<br>2.2rem</span>
+        <span style="font-family:'Barlow Condensed';font-size:2.2rem;font-weight:900;text-transform:uppercase;line-height:1.05;">Výsledky závodu</span>
+      </div>
+      <div class="type-specimen">
+        <span class="type-meta">H2<br>BC 700<br>1.65rem</span>
+        <span style="font-family:'Barlow Condensed';font-size:1.65rem;font-weight:700;text-transform:uppercase;">Otavský pohár 2026</span>
+      </div>
+      <div class="type-specimen">
+        <span class="type-meta">H3<br>BC 700<br>1.25rem</span>
+        <span style="font-family:'Barlow Condensed';font-size:1.25rem;font-weight:700;text-transform:uppercase;">Ela Kubálková</span>
+      </div>
+      <div class="type-specimen">
+        <span class="type-meta">Eyebrow<br>B 700<br>0.7em caps</span>
+        <span style="font-family:'Barlow';font-size:0.7em;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);">Rekord oddílu · 24. října 2026</span>
+      </div>
+      <div class="type-specimen">
+        <span class="type-meta">Body<br>B 400<br>0.93rem</span>
+        <span style="font-size:0.93rem;line-height:1.75;max-width:520px;">Ela nastoupila na 200 m motýlek a vyhrála svoji kategorii časem 2:39,12, přičemž zlepšila vlastní oddílový rekord o celých 6,74 sekundy.</span>
+      </div>
+      <div class="type-specimen">
+        <span class="type-meta">Čas<br>BC 700<br>1.8rem</span>
+        <span style="font-family:'Barlow Condensed';font-size:1.8rem;font-weight:700;color:var(--kin-red);">2:39,12</span>
+      </div>
+      <div class="type-specimen">
+        <span class="type-meta">Body small<br>B 400<br>0.8rem</span>
+        <span style="font-size:0.8rem;color:var(--text-muted);">Plavecký stadion České Budějovice · 25m bazén · Kategorie žactvo 12 let</span>
+      </div>
+    </section>
+
+    <!-- TLAČÍTKA -->
+    <section class="section" id="tlacitka">
+      <h2 class="section-title">Tlačítka</h2>
+      <p class="section-desc">Barlow Condensed 700, verzálky, letter-spacing 0.05em. Pět variant, tři velikosti.</p>
+
+      <span class="sub-label">Varianty</span>
+      <div class="btn-showcase">
+        <button class="btn btn-primary">Primární</button>
+        <button class="btn btn-outline">Outline</button>
+        <button class="btn btn-gold">Zlaté</button>
+        <button class="btn btn-navy">Navy</button>
+        <button class="btn btn-ghost">Ghost</button>
+      </div>
+
+      <span class="sub-label">Velikosti</span>
+      <div class="btn-showcase">
+        <button class="btn btn-primary btn-sm">Malé (sm)</button>
+        <button class="btn btn-primary">Střední (md)</button>
+        <button class="btn btn-primary btn-lg">Velké (lg)</button>
+      </div>
+
+      <span class="sub-label">S ikonou</span>
+      <div class="btn-showcase">
+        <button class="btn btn-primary">📄 Výsledky (PDF)</button>
+        <button class="btn btn-outline">← Zpět</button>
+        <button class="btn btn-ghost">🗓 Přihlásit se</button>
+        <button class="btn btn-navy btn-sm">▶ Celý profil</button>
+      </div>
+    </section>
+
+    <!-- ODZNAKY -->
+    <section class="section" id="odznaky">
+      <h2 class="section-title">Odznaky &amp; Tagy</h2>
+      <p class="section-desc">Malé vizuální štítky. Tagy (rectangular) pro disciplíny a rekordy; badge (pill) pro kategorie.</p>
+
+      <span class="sub-label">Tagy rekordů</span>
+      <div class="badge-showcase">
+        <span class="tag tag-kin">KIN rekord</span>
+        <span class="tag tag-kr">Krajský rekord</span>
+        <span class="tag tag-new">Nový rekord</span>
+      </div>
+
+      <span class="sub-label">Badge – kategorie &amp; info</span>
+      <div class="badge-showcase">
+        <span class="badge badge-red">Žactvo 12 let</span>
+        <span class="badge badge-blue">25m bazén</span>
+        <span class="badge badge-gold">Finálový závod</span>
+        <span class="badge badge-green">Osobní rekord</span>
+      </div>
+
+      <span class="sub-label">Medailové ikony</span>
+      <div class="badge-showcase" style="gap:20px;">
+        <span style="display:inline-flex;align-items:center;gap:8px;">
+          <span style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#fde074,#f9a825);display:inline-flex;align-items:center;justify-content:center;font-size:0.78em;font-weight:900;color:#fff;box-shadow:0 2px 8px rgba(249,168,37,0.4);">1</span>
+          <span style="font-size:0.85em;font-weight:600;">Zlatá</span>
+        </span>
+        <span style="display:inline-flex;align-items:center;gap:8px;">
+          <span style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#e0e0e0,#9e9e9e);display:inline-flex;align-items:center;justify-content:center;font-size:0.78em;font-weight:900;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.15);">2</span>
+          <span style="font-size:0.85em;font-weight:600;">Stříbrná</span>
+        </span>
+        <span style="display:inline-flex;align-items:center;gap:8px;">
+          <span style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#c8800e,#a1590a);display:inline-flex;align-items:center;justify-content:center;font-size:0.78em;font-weight:900;color:#fff;box-shadow:0 2px 8px rgba(161,89,10,0.4);">3</span>
+          <span style="font-size:0.85em;font-weight:600;">Bronzová</span>
+        </span>
+      </div>
+    </section>
+
+    <!-- KARTY -->
+    <section class="section" id="karty">
+      <h2 class="section-title">Karty</h2>
+      <p class="section-desc">Základní stavební blok. Barevný accent border nahoře signalizuje typ obsahu.</p>
+
+      <div class="card-grid">
+        <div class="card" style="border-top:4px solid var(--kin-red);">
+          <div class="card-body">
+            <p class="card-eyebrow">Rekord oddílu · 24. října 2026</p>
+            <h3 class="card-title" style="color:var(--kin-red);">Otavský pohár: Ela boří rekord KIN!</h3>
+            <p style="font-size:0.82em;color:var(--text-muted);margin-bottom:14px;line-height:1.55;">Ela Kubálková ovládla 200 m motýlek časem 2:39,12 – nový rekord oddílu.</p>
+            <a href="#" style="font-size:0.82em;color:var(--kin-red);font-weight:600;text-decoration:none;">Číst reportáž →</a>
+          </div>
+        </div>
+
+        <div class="card" style="border-top:4px solid var(--kin-navy);">
+          <div class="card-body">
+            <p class="card-eyebrow">Profil závodnice</p>
+            <h3 class="card-title">Ela Kubálková</h3>
+            <p style="font-size:0.8em;color:var(--text-muted);margin-bottom:12px;">Ročník 2014 · Motýlek · Volný způsob</p>
+            <div class="card-stat-row">
+              <div>
+                <div class="stat-val">2:39,12</div>
+                <div class="stat-label">200m Motýlek <span class="tag tag-kin" style="vertical-align:middle;">KIN</span></div>
+              </div>
+              <div>
+                <div class="stat-val">2:16,54</div>
+                <div class="stat-label">200m VZ</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="border-top:4px solid var(--kin-gold);">
+          <div class="card-body">
+            <p class="card-eyebrow">Závod · 24. 10. 2026</p>
+            <h3 class="card-title">Otavský pohár – 10. ročník</h3>
+            <p style="font-size:0.8em;color:var(--text-muted);margin-bottom:12px;">📍 Písek · 25m bazén</p>
+            <div style="display:flex;gap:12px;font-size:0.82em;font-weight:600;">
+              <span style="color:#c8860a;">🥇 2× zlatá</span>
+              <span style="color:#707070;">🥈 2× stříbrná</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABULKY -->
+    <section class="section" id="tabulky">
+      <h2 class="section-title">Tabulky výsledků</h2>
+      <p class="section-desc">Čas vždy Barlow Condensed 700 červenou. Střídání pozadí řádků pro čitelnost.</p>
+
+      <div class="result-wrap">
+        <table class="result-tab">
+          <thead>
+            <tr>
+              <th>Disciplína</th>
+              <th>Čas</th>
+              <th>Závodník/ce</th>
+              <th>Roč.</th>
+              <th>Body</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>50 m motýlek</td>
+              <td class="rec-time">0:33,85</td>
+              <td>Ela KUBÁLKOVÁ&nbsp;<span class="tag tag-kin">KIN</span></td>
+              <td style="color:var(--text-muted)">*2014</td>
+              <td style="color:var(--text-muted)">353&nbsp;b.</td>
+            </tr>
+            <tr class="stripe">
+              <td>100 m motýlek</td>
+              <td class="rec-time">1:13,03</td>
+              <td>Ela KUBÁLKOVÁ</td>
+              <td style="color:var(--text-muted)">*2014</td>
+              <td style="color:var(--text-muted)">375&nbsp;b.</td>
+            </tr>
+            <tr>
+              <td>200 m motýlek</td>
+              <td class="rec-time">2:39,12</td>
+              <td>Ela KUBÁLKOVÁ&nbsp;<span class="tag tag-new">nový</span></td>
+              <td style="color:var(--text-muted)">*2014</td>
+              <td style="color:var(--text-muted)">424&nbsp;b.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- NAVIGACE -->
+    <section class="section" id="navigace">
+      <h2 class="section-title">Navigace</h2>
+      <p class="section-desc">Tmavé navy pozadí, zlatá underline pro aktivní stav. Logo (Barlow Condensed 900 bílá) vlevo.</p>
+
+      <div class="nav-demo">
+        <span class="brand">KIN ČB</span>
+        <a href="#">Aktuality</a>
+        <a href="#" class="active">Závodnice</a>
+        <a href="#">Rekordy</a>
+        <a href="#">Terminovka</a>
+        <a href="#">Kontakt</a>
+      </div>
+    </section>
+
+    <!-- TOKENY -->
+    <section class="section" id="tokeny">
+      <h2 class="section-title">CSS Tokeny</h2>
+      <p class="section-desc">Kompletní seznam custom properties. Přepnutí tématu mění jen hodnoty tokenů — komponenty se nijak nemění.</p>
+
+      <div class="token-wrap">
+        <table class="token-tab">
+          <thead><tr><th>Token</th><th>Světlý</th><th>Tmavý</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><code>--kin-red</code></td><td>#d32f2f</td><td>#d32f2f</td><td><span class="preview-swatch" style="background:#d32f2f;"></span></td></tr>
+            <tr><td><code>--kin-red-dark</code></td><td>#b71c1c</td><td>#b71c1c</td><td><span class="preview-swatch" style="background:#b71c1c;"></span></td></tr>
+            <tr><td><code>--kin-gold</code></td><td>#f9a825</td><td>#f9a825</td><td><span class="preview-swatch" style="background:#f9a825;"></span></td></tr>
+            <tr><td><code>--kin-navy</code></td><td>#0d1b2a</td><td>#0d1b2a</td><td><span class="preview-swatch" style="background:#0d1b2a;"></span></td></tr>
+            <tr><td><code>--bg</code></td><td>#faf8f5</td><td>#0f1923</td><td><span class="preview-swatch" style="background:var(--bg);"></span></td></tr>
+            <tr><td><code>--bg-card</code></td><td>#ffffff</td><td>#192230</td><td><span class="preview-swatch" style="background:var(--bg-card);"></span></td></tr>
+            <tr><td><code>--bg-subtle</code></td><td>#f0ece7</td><td>#1e2d3d</td><td><span class="preview-swatch" style="background:var(--bg-subtle);"></span></td></tr>
+            <tr><td><code>--text</code></td><td>#1a1210</td><td>#f0ede8</td><td><span class="preview-swatch" style="background:var(--text);"></span></td></tr>
+            <tr><td><code>--text-muted</code></td><td>#706860</td><td>#8a9bb0</td><td><span class="preview-swatch" style="background:var(--text-muted);"></span></td></tr>
+            <tr><td><code>--border</code></td><td>rgba(0,0,0,0.09)</td><td>rgba(255,255,255,0.09)</td><td><span class="preview-swatch" style="background:var(--border);"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+function toggleTheme() {
+  const t = document.documentElement.getAttribute('data-theme');
+  document.documentElement.setAttribute('data-theme', t === 'dark' ? 'light' : 'dark');
+}
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const span = el.querySelector('.swatch-hex');
+  const orig = span.textContent;
+  span.textContent = '✓ Zkopírováno';
+  setTimeout(() => span.textContent = orig, 1400);
+}
+// Active nav on scroll
+const sections = document.querySelectorAll('.section[id]');
+const links = document.querySelectorAll('.sidebar-nav a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY + 80 >= s.offsetTop) cur = s.id; });
+  links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+}, { passive: true });
+</script>
+</body>
+</html>

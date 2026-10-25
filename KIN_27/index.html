@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="cs" data-theme="">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KIN České Budějovice 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red: #d32f2f;
+  --red-dark: #b71c1c;
+  --gold: #f9a825;
+  --navy: #0d1b2a;
+  --bg: #faf8f5;
+  --bg-card: #ffffff;
+  --bg-subtle: #f0ece7;
+  --text: #1a1210;
+  --text-muted: #706860;
+  --border: rgba(0,0,0,0.09);
+  --shadow: 0 2px 20px rgba(0,0,0,0.07);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1923; --bg-card: #192230; --bg-subtle: #1e2d3d;
+    --text: #f0ede8; --text-muted: #8a9bb0;
+    --border: rgba(255,255,255,0.09); --shadow: 0 2px 20px rgba(0,0,0,0.4);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1923; --bg-card: #192230; --bg-subtle: #1e2d3d;
+  --text: #f0ede8; --text-muted: #8a9bb0;
+  --border: rgba(255,255,255,0.09); --shadow: 0 2px 20px rgba(0,0,0,0.4);
+  color-scheme: dark;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Barlow', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ── Navigation ── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--navy);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 0 max(24px, env(safe-area-inset-right, 0px)) 0 max(24px, env(safe-area-inset-left, 0px));
+}
+
+.nav-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-brand {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 1.3rem;
+  color: #fff;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  margin-right: 16px;
+  padding: 14px 0;
+  white-space: nowrap;
+}
+
+.nav-brand span { color: var(--gold); }
+
+.nav-links { display: flex; align-items: center; gap: 2px; flex: 1; overflow: hidden; }
+
+.nav-links a {
+  display: block;
+  padding: 14px 13px;
+  color: rgba(255,255,255,0.65);
+  text-decoration: none;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.87rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 3px solid transparent;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+
+.nav-links a:hover { color: #fff; }
+.nav-links a.active { color: #fff; border-bottom-color: var(--gold); }
+
+.nav-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+
+.theme-toggle {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 6px;
+  padding: 7px 11px;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.12s;
+}
+.theme-toggle:hover { background: rgba(255,255,255,0.18); color: #fff; }
+
+/* ── Hero ── */
+.hero {
+  background: var(--navy);
+  position: relative;
+  overflow: hidden;
+  padding: 60px max(24px, env(safe-area-inset-right, 0px)) 60px max(24px, env(safe-area-inset-left, 0px));
+}
+
+/* animated water ripple */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 140% 80% at 60% 110%, rgba(13,27,42,0) 0%, rgba(211,47,47,0.12) 50%, rgba(13,27,42,0) 70%),
+    radial-gradient(ellipse 80% 60% at 80% 80%, rgba(249,168,37,0.07) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* big background number */
+.hero::after {
+  content: 'KIN';
+  position: absolute;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(14rem, 28vw, 28rem);
+  font-weight: 900;
+  color: rgba(255,255,255,0.025);
+  top: 50%;
+  right: -2%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.hero-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+}
+
+.hero-eyebrow {
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+  opacity: 0.9;
+}
+
+.hero-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  text-transform: uppercase;
+  line-height: 0.95;
+  color: #fff;
+  letter-spacing: 0.01em;
+  margin-bottom: 16px;
+  text-wrap: balance;
+}
+
+.hero-title em {
+  font-style: normal;
+  color: var(--red);
+  display: block;
+}
+
+.hero-sub {
+  color: rgba(255,255,255,0.65);
+  font-size: 0.95rem;
+  max-width: 440px;
+  line-height: 1.65;
+  margin-bottom: 28px;
+}
+
+.hero-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 22px;
+  border-radius: 8px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: filter 0.12s, transform 0.1s;
+}
+.btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+.btn-red { background: var(--red); color: #fff; }
+.btn-outline-white { background: transparent; color: #fff; border-color: rgba(255,255,255,0.4); }
+.btn-outline-white:hover { border-color: #fff; }
+.btn-gold { background: var(--gold); color: #1f1000; }
+
+/* hero stats */
+.hero-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 28px 24px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  min-width: 160px;
+  text-align: center;
+}
+
+.stat-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.stat-txt {
+  font-size: 0.72em;
+  color: rgba(255,255,255,0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.stat-divider { height: 1px; background: rgba(255,255,255,0.1); }
+
+/* ── Page wrapper ── */
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 max(24px, env(safe-area-inset-right, 0px)) 80px max(24px, env(safe-area-inset-left, 0px));
+}
+
+/* ── Section headers ── */
+.sec-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 56px 0 24px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--border);
+}
+
+.sec-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+
+.sec-title span { color: var(--red); }
+
+.sec-link {
+  font-size: 0.82em;
+  color: var(--red);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.sec-link:hover { text-decoration: underline; }
+
+/* ── News grid ── */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.clanek {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.clanek:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+
+.clanek-accent { height: 4px; background: var(--red); }
+.clanek-accent.gold { background: var(--gold); }
+.clanek-accent.navy { background: var(--navy); }
+
+.clanek-body { padding: 18px 20px 20px; flex: 1; display: flex; flex-direction: column; }
+
+.clanek-meta {
+  font-size: 0.68em;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.clanek-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 10px;
+  text-wrap: balance;
+}
+
+.clanek-text {
+  font-size: 0.85em;
+  color: var(--text-muted);
+  line-height: 1.6;
+  flex: 1;
+  margin-bottom: 14px;
+}
+
+.clanek-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.65em;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.tag-kin { background: var(--red); color: #fff; }
+.tag-new { background: var(--gold); color: #2a1000; }
+
+.clanek-link {
+  font-size: 0.8em;
+  color: var(--red);
+  font-weight: 600;
+  text-decoration: none;
+}
+.clanek-link:hover { text-decoration: underline; }
+
+/* ── Athletes grid ── */
+.athletes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.athlete-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.athlete-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+
+.athlete-header {
+  background: linear-gradient(135deg, var(--navy) 0%, #1a3050 100%);
+  padding: 20px 22px 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.athlete-header::after {
+  content: attr(data-initials);
+  position: absolute;
+  right: -4px;
+  bottom: -12px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 5rem;
+  font-weight: 900;
+  color: rgba(255,255,255,0.06);
+  line-height: 1;
+}
+
+.athlete-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.athlete-year {
+  font-size: 0.75em;
+  color: rgba(255,255,255,0.5);
+  margin-top: 4px;
+}
+
+.athlete-body { padding: 16px 20px; }
+
+.athlete-times { display: flex; gap: 24px; }
+
+.t-val {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--red);
+  line-height: 1;
+}
+
+.t-label { font-size: 0.67em; color: var(--text-muted); margin-top: 3px; }
+
+.athlete-footer {
+  padding: 12px 20px 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ── Quick links ── */
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.quick-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.9em;
+  transition: all 0.12s;
+  box-shadow: var(--shadow);
+}
+.quick-link:hover { border-color: var(--red); color: var(--red); transform: translateY(-2px); }
+
+.quick-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--bg-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* ── Footer ── */
+footer {
+  background: var(--navy);
+  color: rgba(255,255,255,0.6);
+  padding: 40px max(24px, env(safe-area-inset-right, 0px)) 32px max(24px, env(safe-area-inset-left, 0px));
+  margin-top: 40px;
+}
+
+.footer-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: start;
+}
+
+.footer-brand {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.footer-brand span { color: var(--gold); }
+
+.footer-copy { font-size: 0.8em; }
+
+.footer-links { display: flex; flex-wrap: wrap; gap: 12px; font-size: 0.82em; }
+.footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.12s; }
+.footer-links a:hover { color: #fff; }
+
+/* ── Responsive ── */
+@media (max-width: 720px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-stats { flex-direction: row; min-width: unset; }
+  .stat-divider { display: none; }
+  .footer-inner { grid-template-columns: 1fr; gap: 24px; }
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">KIN <span>ČB</span></a>
+    <div class="nav-links">
+      <a href="#aktuality" class="active">Aktuality</a>
+      <a href="#zavodnice">Závodnice</a>
+      <a href="#">Rekordy</a>
+      <a href="#">Terminovka</a>
+      <a href="#">Kontakt</a>
+    </div>
+    <div class="nav-actions">
+      <button class="theme-toggle" onclick="toggleTheme()">☀/☾</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <p class="hero-eyebrow">Plavecký oddíl · České Budějovice · od roku 1951</p>
+      <h1 class="hero-title">
+        Závodní
+        <em>plavání</em>
+        v Čechách
+      </h1>
+      <p class="hero-sub">TJ KIN České Budějovice vychovává závodní plavce od roku 1951. Tréninky na Plaveckém stadionu, mládežnické závody, úspěchy na krajské i celostátní úrovni.</p>
+      <div class="hero-btns">
+        <a href="#" class="btn btn-red">🗓 Přihlásit se</a>
+        <a href="#aktuality" class="btn btn-outline-white">Aktuality →</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">1951</div>
+        <div class="stat-txt">Rok vzniku</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div>
+        <div class="stat-num">75</div>
+        <div class="stat-txt">Let oddílu</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div>
+        <div class="stat-num">🥇</div>
+        <div class="stat-txt">Oddílový rekord</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="page">
+
+  <!-- AKTUALITY -->
+  <div class="sec-header" id="aktuality">
+    <h2 class="sec-title">Aktuality <span>&amp; Reportáže</span></h2>
+    <a href="#" class="sec-link">Všechny aktuality →</a>
+  </div>
+
+  <div class="news-grid">
+
+    <article class="clanek">
+      <div class="clanek-accent"></div>
+      <div class="clanek-body">
+        <p class="clanek-meta">Rekord oddílu · 24. října 2026</p>
+        <h3 class="clanek-title">Otavský pohár: Ela boří rekord KIN, Zoe stříbrná!</h3>
+        <p class="clanek-text">Ela Kubálková ovládla 200 m motýlek (2:39,12 – nový rekord KIN) i 200 m volný způsob. Zoe Tůmová brala v obou disciplínách stříbro.</p>
+        <div class="clanek-footer">
+          <span class="tag tag-kin">rekord KIN</span>
+          <a href="#" class="clanek-link">Číst reportáž →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="clanek">
+      <div class="clanek-accent gold"></div>
+      <div class="clanek-body">
+        <p class="clanek-meta">Závod · 27. září 2026</p>
+        <h3 class="clanek-title">Motorlet: Ela stříbrná, Zoe čtvrtá ve finále 200m VZ!</h3>
+        <p class="clanek-text">Na pražském Motorletu si obě závodnice KIN výrazně vylepšily osobní rekordy ve finálových závodech.</p>
+        <div class="clanek-footer">
+          <span></span>
+          <a href="#" class="clanek-link">Číst reportáž →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="clanek">
+      <div class="clanek-accent navy"></div>
+      <div class="clanek-body">
+        <p class="clanek-meta">Oddíl · říjen 2026</p>
+        <h3 class="clanek-title">Vítáme nového partnera oddílu!</h3>
+        <p class="clanek-text">KIN ČB získal nového partnera pro nadcházející sezónu. Díky jeho podpoře rozšíříme tréninková soustředění pro mládežnické závodníky.</p>
+        <div class="clanek-footer">
+          <span class="tag tag-new">nové</span>
+          <a href="#" class="clanek-link">Více →</a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- ZÁVODNICE -->
+  <div class="sec-header" id="zavodnice">
+    <h2 class="sec-title">Závodnice <span>&amp; Závodníci</span></h2>
+    <a href="#" class="sec-link">Všechny profily →</a>
+  </div>
+
+  <div class="athletes-grid">
+
+    <div class="athlete-card">
+      <div class="athlete-header" data-initials="EK">
+        <div class="athlete-name">Ela Kubálková</div>
+        <div class="athlete-year">Ročník 2014 · Motýlek · Volný způsob</div>
+      </div>
+      <div class="athlete-body">
+        <div class="athlete-times">
+          <div>
+            <div class="t-val">2:39,12</div>
+            <div class="t-label">200m Motýlek <span class="tag tag-kin" style="font-size:0.9em;">KIN</span></div>
+          </div>
+          <div>
+            <div class="t-val">2:16,54</div>
+            <div class="t-label">200m VZ</div>
+          </div>
+        </div>
+      </div>
+      <div class="athlete-footer">
+        <span style="font-size:0.72em;color:var(--text-muted);">Žactvo 12 let</span>
+        <a href="#" class="btn" style="padding:6px 14px;font-size:0.78rem;background:var(--bg-subtle);color:var(--text);border:1px solid var(--border);">Profil →</a>
+      </div>
+    </div>
+
+    <div class="athlete-card">
+      <div class="athlete-header" data-initials="ZT">
+        <div class="athlete-name">Zoe Tůmová</div>
+        <div class="athlete-year">Ročník 2014 · Volný způsob · Motýlek</div>
+      </div>
+      <div class="athlete-body">
+        <div class="athlete-times">
+          <div>
+            <div class="t-val">2:17,95</div>
+            <div class="t-label">200m VZ</div>
+          </div>
+          <div>
+            <div class="t-val">2:51,40</div>
+            <div class="t-label">200m Motýlek</div>
+          </div>
+        </div>
+      </div>
+      <div class="athlete-footer">
+        <span style="font-size:0.72em;color:var(--text-muted);">Žactvo 12 let</span>
+        <a href="#" class="btn" style="padding:6px 14px;font-size:0.78rem;background:var(--bg-subtle);color:var(--text);border:1px solid var(--border);">Profil →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RYCHLÉ ODKAZY -->
+  <div class="sec-header">
+    <h2 class="sec-title">Rychlé <span>Odkazy</span></h2>
+  </div>
+
+  <div class="quick-grid">
+    <a href="#" class="quick-link">
+      <div class="quick-icon">🏆</div>
+      <span>Oddílové rekordy</span>
+    </a>
+    <a href="#" class="quick-link">
+      <div class="quick-icon">📅</div>
+      <span>Terminovka závodů</span>
+    </a>
+    <a href="#" class="quick-link">
+      <div class="quick-icon">📋</div>
+      <span>Přihláška do oddílu</span>
+    </a>
+    <a href="#" class="quick-link">
+      <div class="quick-icon">🗺</div>
+      <span>Krajský rekord</span>
+    </a>
+    <a href="#" class="quick-link">
+      <div class="quick-icon">📸</div>
+      <span>Fotogalerie</span>
+    </a>
+    <a href="#" class="quick-link">
+      <div class="quick-icon">📞</div>
+      <span>Kontakt &amp; tréninky</span>
+    </a>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">TJ KIN <span>České Budějovice</span></div>
+      <p class="footer-copy">Závodní plavání od roku 1951 · Plavecký stadion ČB</p>
+    </div>
+    <nav class="footer-links">
+      <a href="#">Aktuality</a>
+      <a href="#">Závodnice</a>
+      <a href="#">Rekordy</a>
+      <a href="#">Terminovka</a>
+      <a href="#">Přihláška</a>
+      <a href="#">Kontakt</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+function toggleTheme() {
+  const t = document.documentElement.getAttribute('data-theme');
+  document.documentElement.setAttribute('data-theme', t === 'dark' ? 'light' : 'dark');
+}
+</script>
+</body>
+</html>
