@@ -88,7 +88,7 @@
         
         /* Styl pro hlavní novinku na HP */
         .top-zprava {
-            border: 2px solid #ffd700; /* Zlatý rámeček */
+            border: 2px solid var(--akcni-barva);
             background-color: var(--zebra-radek);
             border-radius: 8px;
             padding: 25px;
@@ -102,7 +102,7 @@
             position: absolute;
             top: -12px;
             left: 20px;
-            background-color: #ffd700;
+            background-color: var(--akcni-barva);
             color: #000;
             font-size: 0.8em;
             font-weight: bold;
@@ -164,7 +164,7 @@
             position: absolute;
             left: 0; top: 0; bottom: 0;
             width: 5px;
-            background: linear-gradient(to bottom, #ffd700, var(--hlavni-barva));
+            background: linear-gradient(to bottom, var(--akcni-barva), var(--hlavni-barva));
             z-index: 3;
         }
 
@@ -189,7 +189,7 @@
             font-weight: 700;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: #ffd700;
+            color: var(--akcni-barva);
             margin-bottom: 12px;
             opacity: 0;
             animation: hero-nahoru 0.8s ease-out forwards;
@@ -212,7 +212,7 @@
         }
 
         .hero-nadpis span {
-            color: #ffd700;
+            color: var(--akcni-barva);
         }
 
         .hero-podnadpis {

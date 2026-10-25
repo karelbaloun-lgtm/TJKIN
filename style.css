@@ -5,17 +5,18 @@
    ========================================= */
 :root {
     --hlavni-barva: #d32f2f;      /* Červená */
-    --tmava-barva: #b71c1c;       /* Tmavě červená (pro texty) */
-    --akcni-barva: #fbc02d;       /* Žlutá */
-    --pozadi-stranky: #fffde7;
+    --tmava-barva: #b71c1c;       /* Tmavě červená */
+    --akcni-barva: #f9a825;       /* Zlatá */
+    --navy: #0d1b2a;              /* Navy – navigace, dark accenty */
+    --pozadi-stranky: #faf8f5;
     --pozadi-obsahu: #ffffff;
     --pozadi-sekce: #f8f9fa;      /* Pozadí sekcí (nabor, boxy…) */
     --barva-border: #dee2e6;      /* Barva ohraničení sekcí */
     --barva-textu: #333333;       /* Základní text */
     --barva-textu-mute: #555555;  /* Tlumený/sekundární text */
     --barva-nadpisu: #b71c1c;
-    --barva-podtrzeni: #fbc02d;
-    --zebra-radek: #fff9c4;
+    --barva-podtrzeni: #f9a825;
+    --zebra-radek: #f0ece7;
     --text-tlacitka: #333333;
     --logo-filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
 }
@@ -36,7 +37,7 @@ body {
     font-family: 'Barlow', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
     background-color: var(--pozadi-stranky);
-    background-image: radial-gradient(rgba(211,47,47,0.045) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(0,0,0,0.04) 1px, transparent 1px);
     background-size: 28px 28px;
     margin: 0; padding: 0;
     line-height: 1.72;
@@ -154,10 +155,8 @@ p.podnadpis {
    4. NAVIGACE (MENU)
    ========================================= */
 nav {
-    background-color: rgba(179, 31, 31, 0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.22), 0 2px 32px rgba(211,47,47,0.30);
+    background-color: var(--navy);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.28);
     display: flex; justify-content: center; align-items: center;
     min-height: 56px; top: 0; z-index: 1000;
     transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
@@ -176,59 +175,23 @@ nav {
 .menu-polozky { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; padding: 6px 8px; }
 
 nav a {
-    color: white; text-decoration: none; font-weight: 600;
-    padding: 9px 16px; text-transform: uppercase; font-size: 0.85em;
+    color: rgba(255,255,255,0.65); text-decoration: none; font-weight: 600;
+    padding: 14px 14px; text-transform: uppercase; font-size: 0.85em;
     letter-spacing: 0.07em; display: block; position: relative;
-    border-radius: 8px; margin: 0 2px;
-    transition: background 0.2s ease;
+    border-bottom: 3px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
 }
-nav a:hover { background-color: rgba(255,255,255,0.18); }
+nav a:hover { color: #fff; }
 nav a.nav-aktivni {
-    background: rgba(255,255,255,0.22);
-    color: #ffd700;
+    background: transparent;
+    color: #fff;
     font-weight: 700;
-}
-nav a.nav-aktivni::after {
-    content: '';
-    position: absolute;
-    bottom: 2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 20px;
-    height: 2px;
-    background: #ffd700;
-    border-radius: 2px;
+    border-bottom-color: var(--akcni-barva);
 }
 
 @media (min-width: 861px) {
     nav a {
-        transition: background 0.2s ease, letter-spacing 0.3s ease;
-    }
-    nav a::after {
-        content: '';
-        position: absolute;
-        bottom: 6px; left: 16px; right: 16px;
-        height: 2px; border-radius: 2px;
-        background: #ffd54f;
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.3s ease;
-    }
-    nav a:hover {
-        letter-spacing: 0.12em;
-    }
-    nav a:hover::after {
-        transform: scaleX(1);
-    }
-    nav a.nav-aktivni::after {
-        background: white;
-        transform: scaleX(0.5);
-        transform-origin: center;
-    }
-    nav a.nav-aktivni:hover::after {
-        background: #ffd54f;
-        transform: scaleX(1);
-        transform-origin: left;
+        transition: color 0.15s, border-color 0.15s;
     }
 }
 
@@ -261,7 +224,7 @@ nav a.nav-aktivni::after {
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(160, 20, 20, 0.97);
+    background: rgba(13, 27, 42, 0.98);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-radius: 10px;
@@ -890,11 +853,11 @@ body.dark-mode .logo-hp img {
 }
 .nabor-kontejner { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
 .nabor-karta {
-    background: linear-gradient(170deg, rgba(251,192,45,0.13) 0%, #ffffff 55%);
+    background: var(--pozadi-obsahu);
     flex: 1; min-width: 280px; padding: 28px;
     border-radius: 12px;
     box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-    border: 1px solid rgba(251,192,45,0.18);
+    border: 1px solid var(--barva-border);
     border-top: 5px solid var(--hlavni-barva);
     transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.22s;
 }
@@ -1060,10 +1023,10 @@ body.dark-mode .logo-hp img {
    ========================================= */
 body.dark-mode {
     /* Barvy */
-    --pozadi-stranky:  #0e0e0e;
-    --pozadi-obsahu:   #161616;
-    --pozadi-sekce:    #1a1a1a;
-    --barva-border:    #2c2c2c;
+    --pozadi-stranky:  #0f1923;
+    --pozadi-obsahu:   #192230;
+    --pozadi-sekce:    #1e2d3d;
+    --barva-border:    rgba(255,255,255,0.09);
     --zebra-radek:     #1e1e1e;
     --hlavni-barva:    #ef5350;   /* o chlup jasnější červená — lépe čitelná na tmavém */
     --akcni-barva:     #ffd54f;   /* jasnější zlatá */
@@ -1080,14 +1043,14 @@ body.dark-mode {
     background-image:
         radial-gradient(rgba(255,255,255,0.018) 1px, transparent 1px);
     background-size: 28px 28px;
-    background-color: #0e0e0e;
+    background-color: #0f1923;
 }
 
 /* --- Navigace --- */
 body.dark-mode nav {
-    background: linear-gradient(180deg, #1c0000 0%, #130000 100%);
-    border-bottom: 2px solid #d32f2f;
-    box-shadow: 0 2px 24px rgba(211,47,47,0.25);
+    background: #0d1b2a;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.4);
 }
 
 /* --- Spotify-style barevné bloby v pozadí --- */
@@ -1096,19 +1059,18 @@ body.dark-mode::before {
     position: fixed;
     inset: 0;
     background:
-        radial-gradient(ellipse 55% 45% at 5% 8%,   rgba(211,47,47,0.28)  0%, transparent 100%),
-        radial-gradient(ellipse 45% 55% at 92% 75%,  rgba(183,28,28,0.22)  0%, transparent 100%),
-        radial-gradient(ellipse 35% 45% at 55% 50%,  rgba(88,0,160,0.13)   0%, transparent 100%);
+        radial-gradient(ellipse 55% 45% at 5% 8%,   rgba(13,27,42,0.7)    0%, transparent 100%),
+        radial-gradient(ellipse 45% 55% at 92% 75%,  rgba(211,47,47,0.10)  0%, transparent 100%),
+        radial-gradient(ellipse 35% 45% at 55% 50%,  rgba(249,168,37,0.04) 0%, transparent 100%);
     pointer-events: none;
     z-index: -1;
 }
 
 /* --- Hlavní obsah box --- */
 body.dark-mode .obsah {
-    background: rgba(20, 20, 20, 0.82);
+    background: var(--pozadi-obsahu);
     box-shadow:
-        0 0 0 1px #242424,
-        0 0 50px rgba(211,47,47,0.10),
+        0 0 0 1px rgba(255,255,255,0.08),
         0 25px 60px rgba(0,0,0,0.5);
     border: none;
 }
@@ -2160,10 +2122,10 @@ body.maj-mode #hlavni-logo {
     left: 0;
     right: 0;
     height: 68px;
-    background: rgba(179, 31, 31, 0.95);
+    background: var(--navy);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 -4px 24px rgba(183,28,28,0.35), 0 -1px 0 rgba(255,255,255,0.08);
+    box-shadow: 0 -2px 16px rgba(0,0,0,0.3), 0 -1px 0 rgba(255,255,255,0.08);
     z-index: 1000;
     overflow: visible;
     padding-bottom: env(safe-area-inset-bottom);
