@@ -1,6 +1,9 @@
 """
 GA4 statistiky pro kinplavani.cz
-Použití: python tools/ga4_report.py [--days 28]
+Použití: python tools/ga4_report.py [--days 28] [--shift 7]
+
+Srovnává s oknem stejné délky posunutým o --shift dní zpět
+(výchozí 7 = co ukázal minulý týdenní report). --shift 0 srovnání vypne.
 
 Před prvním spuštěním:
   pip install google-analytics-data
@@ -46,8 +49,7 @@ def get_client():
     return BetaAnalyticsDataClient(credentials=creds)
 
 
-def run_report(client, days: int):
-    date_range = DateRange(start_date=f"{days}daysAgo", end_date="today")
+def run_report(client, date_range: DateRange):
 
     # 1. Celkové návštěvy a uživatelé
     req = RunReportRequest(
@@ -103,45 +105,84 @@ def fmt_duration(seconds: float) -> str:
     return f"{s // 60}m {s % 60}s"
 
 
-def print_report(overview, pages, events, sources, days: int):
+def fmt_delta(cur: float, prev) -> str:
+    """Rozdíl proti minulému období, např. '  (+12, +15 %)'. Bez srovnání prázdné."""
+    if prev is None:
+        return ""
+    d = cur - prev
+    if not d:
+        return "  (=)"
+    pct = f", {d / prev * 100:+.0f} %" if prev else ", nové"
+    return f"  ({d:+,.0f}{pct})"
+
+
+def by_key(report) -> dict:
+    """Řádky reportu jako {dimenze: [hodnoty metrik]}."""
+    if report is None:
+        return {}
+    return {
+        row.dimension_values[0].value: [float(m.value) for m in row.metric_values]
+        for row in report.rows
+    }
+
+
+def print_report(cur, prev, days: int, shift: int):
+    overview, pages, events, sources = cur
+    p_overview, p_pages, p_events, p_sources = prev if prev else (None,) * 4
+    compare = prev is not None
+
     print(f"\n{'=' * 60}")
     print(f"  KIN plavání – GA4 přehled za posledních {days} dní")
+    if compare:
+        print(f"  (v závorce rozdíl proti stejnému oknu před {shift} dny)")
     print(f"{'=' * 60}\n")
 
     if overview.rows:
-        r = overview.rows[0]
-        v = r.metric_values
+        v = [float(m.value) for m in overview.rows[0].metric_values]
+        pv = [None] * 5
+        if compare and p_overview.rows:
+            pv = [float(m.value) for m in p_overview.rows[0].metric_values]
         print("CELKEM")
-        print(f"  Relace:         {int(v[0].value):,}")
-        print(f"  Uživatelé:      {int(v[1].value):,}")
-        print(f"  Zobrazení:      {int(v[2].value):,}")
-        bounce = float(v[3].value)
-        print(f"  Bounce rate:    {bounce * 100:.1f} %")
-        dur = float(v[4].value)
-        print(f"  Prům. délka:    {fmt_duration(dur)}")
+        print(f"  Relace:         {int(v[0]):,}{fmt_delta(v[0], pv[0])}")
+        print(f"  Uživatelé:      {int(v[1]):,}{fmt_delta(v[1], pv[1])}")
+        print(f"  Zobrazení:      {int(v[2]):,}{fmt_delta(v[2], pv[2])}")
+        bounce_delta = "" if pv[3] is None else f"  ({(v[3] - pv[3]) * 100:+.1f} p.b.)"
+        print(f"  Bounce rate:    {v[3] * 100:.1f} %{bounce_delta}")
+        dur_delta = "" if pv[4] is None else f"  ({v[4] - pv[4]:+.0f} s)"
+        print(f"  Prům. délka:    {fmt_duration(v[4])}{dur_delta}")
 
+    prev_pages = by_key(p_pages)
     print("\nTOP 10 STRÁNEK  (zobrazení / uživatelé)")
     for row in pages.rows:
         path = row.dimension_values[0].value
         views = int(row.metric_values[0].value)
         users = int(row.metric_values[1].value)
-        print(f"  {path:<45} {views:>5}  {users:>5}")
+        delta = fmt_delta(views, prev_pages.get(path, [0])[0]) if compare else ""
+        print(f"  {path:<45} {views:>5}  {users:>5}{delta}")
 
+    prev_events = by_key(p_events)
     print("\nEVENTY")
-    custom = {"chat_otevreni", "chat_zavreni", "zmena_vzhledu"}
+    custom = {"chat_otevreni", "chat_zavreni", "chip_kliknuti", "zprava_odeslana", "zmena_vzhledu"}
     for row in events.rows:
         name = row.dimension_values[0].value
         count = int(row.metric_values[0].value)
         users = int(row.metric_values[1].value)
         marker = "  ← custom" if name in custom else ""
-        print(f"  {name:<45} {count:>5}  {users:>4} usr{marker}")
+        delta = fmt_delta(count, prev_events.get(name, [0])[0]) if compare else ""
+        print(f"  {name:<45} {count:>5}  {users:>4} usr{marker}{delta}")
 
+    prev_sources = by_key(p_sources)
     print("\nZDROJE")
     for row in sources.rows:
         channel = row.dimension_values[0].value
         sessions = int(row.metric_values[0].value)
         users = int(row.metric_values[1].value)
-        print(f"  {channel:<30} {sessions:>5} relací  {users:>5} usr")
+        delta = fmt_delta(sessions, prev_sources.get(channel, [0])[0]) if compare else ""
+        print(f"  {channel:<30} {sessions:>5} relací  {users:>5} usr{delta}")
+    # Kanály, které minule byly a teď zmizely
+    current = {r.dimension_values[0].value for r in sources.rows}
+    for channel in sorted(set(prev_sources) - current):
+        print(f"  {channel:<30}     0 relací      0 usr{fmt_delta(0, prev_sources[channel][0])}")
 
     print()
 
@@ -149,11 +190,18 @@ def print_report(overview, pages, events, sources, days: int):
 def main():
     parser = argparse.ArgumentParser(description="GA4 report pro kinplavani.cz")
     parser.add_argument("--days", type=int, default=28, help="Počet dní (výchozí: 28)")
+    parser.add_argument("--shift", type=int, default=7, help="Srovnat s oknem posunutým o N dní zpět (0 = bez srovnání)")
     args = parser.parse_args()
 
     client = get_client()
-    overview, pages, events, sources = run_report(client, args.days)
-    print_report(overview, pages, events, sources, args.days)
+    cur = run_report(client, DateRange(start_date=f"{args.days}daysAgo", end_date="today"))
+    prev = None
+    if args.shift > 0:
+        prev = run_report(
+            client,
+            DateRange(start_date=f"{args.days + args.shift}daysAgo", end_date=f"{args.shift}daysAgo"),
+        )
+    print_report(cur, prev, args.days, args.shift)
 
 
 if __name__ == "__main__":
