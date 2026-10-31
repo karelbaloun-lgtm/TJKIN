@@ -419,13 +419,15 @@ def load_records(html_path: str) -> tuple[dict, dict]:
 
 
 def eligible_cats(age: int) -> list[str]:
+    # Věkové kategorie se nepřekrývají – mladší plavec nezaplave rekord starší kategorie
+    # (do ní ročníkem nepatří). Jen Open je pro všechny.
     cats = ["cat_open"]
-    if age <= 18:
+    if 17 <= age <= 18:
         cats.append("cat_star___junio_i")
-    if age <= 16:
+    if 15 <= age <= 16:
         cats.append("cat_mlad___junio_i")
     for amax, cid in AGE_CATS:
-        if age <= amax:
+        if age == amax:
             cats.append(cid)
     if age <= 9:
         cats.append("cat_9_let_a_mlad__")
