@@ -8,3 +8,24 @@
 
 # Přesměrování starých URL z Googlu
 /sof_kub                /hvezdy_26.html                     301
+
+# Sjednocení adres: bez .html → s .html (jedna URL pro Google i GA4)
+/index.html             /                                   301!
+/aktuality              /aktuality.html                     301!
+/terminovka             /terminovka.html                    301!
+/kontakt                /kontakt.html                       301!
+/fotogalerie            /fotogalerie.html                   301!
+/galerie                /galerie.html                       301!
+/historie               /historie.html                      301!
+/archiv                 /archiv.html                        301!
+/prihlaska              /prihlaska.html                     301!
+/sponzori               /sponzori.html                      301!
+/rekordy_kin            /rekordy_kin.html                   301!
+/rekordy_kraj           /rekordy_kraj.html                  301!
+/hvezdy_26              /hvezdy_26.html                     301!
+/mezi_mosty             /mezi_mosty.html                    301!
+/ela_kub                /ela_kub.html                       301!
+/zoe_tum                /zoe_tum.html                       301!
+/dominika_hov           /dominika_hov.html                  301!
+/tomas_nov              /tomas_nov.html                     301!
+/dekujeme               /dekujeme.html                      301!

@@ -72,7 +72,7 @@ def run_report(client, date_range: DateRange):
         dimensions=[Dimension(name="pagePath")],
         metrics=[Metric(name="screenPageViews"), Metric(name="activeUsers")],
         order_bys=[OrderBy(metric=OrderBy.MetricOrderBy(metric_name="screenPageViews"), desc=True)],
-        limit=10,
+        limit=200,
     )
     pages = client.run_report(req_pages)
 
@@ -126,6 +126,26 @@ def by_key(report) -> dict:
     }
 
 
+def norm_path(path: str) -> str:
+    """Sloučí varianty URL: /index.html → /, /aktuality → /aktuality.html."""
+    path = path.rstrip("/") or "/"
+    if path == "/index.html":
+        return "/"
+    if path != "/" and "." not in path.rsplit("/", 1)[-1]:
+        return path + ".html"
+    return path
+
+
+def pages_merged(report) -> dict:
+    """Stránky se sloučenými variantami URL. Uživatelé se sčítají (horní odhad)."""
+    merged = {}
+    for path, (views, users) in by_key(report).items():
+        m = merged.setdefault(norm_path(path), [0.0, 0.0])
+        m[0] += views
+        m[1] += users
+    return merged
+
+
 def print_report(cur, prev, days: int, shift: int):
     overview, pages, events, sources = cur
     p_overview, p_pages, p_events, p_sources = prev if prev else (None,) * 4
@@ -151,12 +171,11 @@ def print_report(cur, prev, days: int, shift: int):
         dur_delta = "" if pv[4] is None else f"  ({v[4] - pv[4]:+.0f} s)"
         print(f"  Prům. délka:    {fmt_duration(v[4])}{dur_delta}")
 
-    prev_pages = by_key(p_pages)
-    print("\nTOP 10 STRÁNEK  (zobrazení / uživatelé)")
-    for row in pages.rows:
-        path = row.dimension_values[0].value
-        views = int(row.metric_values[0].value)
-        users = int(row.metric_values[1].value)
+    prev_pages = pages_merged(p_pages)
+    top = sorted(pages_merged(pages).items(), key=lambda kv: -kv[1][0])[:10]
+    print("\nTOP 10 STRÁNEK  (zobrazení / uživatelé, varianty URL sloučené)")
+    for path, (views, users) in top:
+        views, users = int(views), int(users)
         delta = fmt_delta(views, prev_pages.get(path, [0])[0]) if compare else ""
         print(f"  {path:<45} {views:>5}  {users:>5}{delta}")
 
