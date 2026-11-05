@@ -97,10 +97,15 @@ function vlozPaticku() {
 
         <div class="footer-bottom">
             <p>© 2026 KIN České Budějovice - Všechna práva vyhrazena.</p>
-            <p class="made-with" 
-               onmouseover="this.innerHTML='Vytvořeno s 💧 vůní chlóru pro plavání'" 
+            <p class="made-with"
+               onmouseover="this.innerHTML='Vytvořeno s 💧 vůní chlóru pro plavání'"
                onmouseout="this.innerHTML='Vytvořeno s ❤️ pro plavání'">
                Vytvořeno s ❤️ pro plavání
+            </p>
+            <p style="font-size:0.75em;margin-top:6px;">
+                <a href="https://drive.google.com/file/d/14eUxYqxcbv85l0u52insega7iY8VYU2t/view" target="_blank" rel="noopener" style="color:inherit;opacity:0.55;text-decoration:underline;text-underline-offset:2px;">Zakázané látky od 1. 1. 2027 (CZ)</a>
+                <span style="opacity:0.35;"> · </span>
+                <a href="https://www.wada-ama.org/sites/default/files/2026-09/2027list_en_final_clean_26_august_2026_2.pdf" target="_blank" rel="noopener" style="color:inherit;opacity:0.55;text-decoration:underline;text-underline-offset:2px;">EN</a>
             </p>
         </div>
     </footer>
