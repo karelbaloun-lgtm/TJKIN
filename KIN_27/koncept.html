@@ -562,6 +562,7 @@ body {
 
 <!-- 01 HERO -->
 <section class="section s-hero" id="hero">
+  <canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
   <div class="water-ring"></div>
   <div class="water-ring"></div>
   <div class="water-ring"></div>
@@ -745,7 +746,72 @@ body {
   <p style="margin-top:40px;font-size:0.72em;color:rgba(255,255,255,0.3);letter-spacing:0.1em;">kinplavani.cz · Vizuální koncept 2027</p>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.min.js"></script>
 <script>
+// ── Three.js: stoupající bubliny v hero sekci ──
+(function() {
+  const canvas = document.getElementById('hero-canvas');
+  if (!canvas || !window.THREE) return;
+
+  const W = () => canvas.parentElement.offsetWidth;
+  const H = () => canvas.parentElement.offsetHeight;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(70, W() / H(), 0.1, 100);
+  camera.position.z = 9;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
+  renderer.setSize(W(), H(), false);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);
+
+  function buildParticles(count, color, opacity) {
+    const pos = new Float32Array(count * 3);
+    const vel = new Float32Array(count);
+    const drift = new Float32Array(count);
+    for (let i = 0; i < count; i++) {
+      pos[i*3]   = (Math.random() - 0.5) * 20;
+      pos[i*3+1] = (Math.random() - 0.5) * 14;
+      pos[i*3+2] = (Math.random() - 0.5) * 3;
+      vel[i]   = 0.003 + Math.random() * 0.009;
+      drift[i] = Math.random() * Math.PI * 2;
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    const mat = new THREE.PointsMaterial({ color, size: 0.07, transparent: true, opacity, sizeAttenuation: true, depthWrite: false });
+    return { mesh: new THREE.Points(geo, mat), vel, drift };
+  }
+
+  const p1 = buildParticles(180, 0xd32f2f, 0.20);
+  const p2 = buildParticles(60,  0xf9a825, 0.25);
+  scene.add(p1.mesh, p2.mesh);
+
+  function step(group, t) {
+    const a = group.mesh.geometry.attributes.position.array;
+    const n = group.vel.length;
+    for (let i = 0; i < n; i++) {
+      a[i*3+1] += group.vel[i];
+      a[i*3]   += Math.sin(t * 0.0003 + group.drift[i]) * 0.0025;
+      if (a[i*3+1] > 8) { a[i*3+1] = -8; a[i*3] = (Math.random() - 0.5) * 20; }
+    }
+    group.mesh.geometry.attributes.position.needsUpdate = true;
+  }
+
+  function animate(t) {
+    requestAnimationFrame(animate);
+    step(p1, t);
+    step(p2, t);
+    renderer.render(scene, camera);
+  }
+  animate(0);
+
+  window.addEventListener('resize', () => {
+    camera.aspect = W() / H();
+    camera.updateProjectionMatrix();
+    renderer.setSize(W(), H(), false);
+  });
+})();
+
 function scrollToSection(id) {
   document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
 }

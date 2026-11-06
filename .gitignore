@@ -5,3 +5,6 @@ __pycache__/
 
 # GA4 service account key – nesmí jít do gitu
 tools/ga4_key.json
+
+# Knowledge graph výstupy
+graphify-out/
