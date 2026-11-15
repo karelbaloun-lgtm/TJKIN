@@ -5,6 +5,20 @@
    ========================================= */
 const GALERIE = {
 
+    zkp_ml_26: {
+        nazev: "Zimní krajský přebor mladšího žactva – Tábor 2026",
+        datum: "14.11.2026",
+        misto: "Tábor",
+        slozka: "images/fotogalerie/2026/zkp_ml_26/",
+        fotky: [
+            "zkp_ml_26_1.jpeg",
+            "zkp_ml_26_2.jpeg"
+        ],
+        popisek: "Elena Němcová a Emma Weberová na Zimním krajském přeboru mladšího žactva v Táboře 14. 11. 2026.",
+        video: "images/fotogalerie/2026/zkp_ml_26/zkp_ml_26.mp4",
+        videoNazev: "Ze závodů v Táboře"
+    },
+
     motorlet_26: {
         nazev: "Podzimní cena Motorletu 2026",
         datum: "10.10.2026",
