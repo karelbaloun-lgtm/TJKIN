@@ -109,7 +109,8 @@
             <h3 class="galerie-foto-nadpis">📸 Fotogalerie</h3>`;
         }
 
-        html += `<div class="masonry-grid">`;
+        const gridStyle = data.fotky.length <= 2 ? ' style="columns:2 160px;"' : '';
+        html += `<div class="masonry-grid"${gridStyle}>`;
         data.fotky.forEach(function (foto) {
             html += `
             <div class="foto-box" onclick="otevritLightbox(this)">
