@@ -1,24 +1,31 @@
 @import "sezony.css";
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400;1,700&family=Barlow:wght@400;500;600&display=swap');
 /* =========================================
    1. DEFINICE BAREV (PROMĚNNÉ)
    ========================================= */
 :root {
-    --hlavni-barva: #d32f2f;      /* Červená */
-    --tmava-barva: #b71c1c;       /* Tmavě červená */
-    --akcni-barva: #f9a825;       /* Zlatá */
-    --navy: #0d1b2a;              /* Navy – navigace, dark accenty */
-    --pozadi-stranky: #faf8f5;
-    --pozadi-obsahu: #ffffff;
-    --pozadi-sekce: #f8f9fa;      /* Pozadí sekcí (nabor, boxy…) */
-    --barva-border: #dee2e6;      /* Barva ohraničení sekcí */
-    --barva-textu: #333333;       /* Základní text */
-    --barva-textu-mute: #555555;  /* Tlumený/sekundární text */
-    --barva-nadpisu: #b71c1c;
-    --barva-podtrzeni: #f9a825;
-    --zebra-radek: #f0ece7;
-    --text-tlacitka: #333333;
-    --logo-filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+    /* ── Vice City západ slunce – teplá paleta (vychází z AI fotek) ── */
+    --hlavni-barva: #f472b6;              /* Teplá magentta/pink */
+    --tmava-barva: #db2777;               /* Tmavší magentta */
+    --akcni-barva: #fb923c;               /* Oranžová (západ slunce) */
+    --gold: #fbbf24;                      /* Zlatá */
+    --navy: #0f0a1e;                      /* Hluboká teplá tma */
+    --pozadi-stranky: #120d22;            /* Tmavá fialová jako noc nad Vice City */
+    --pozadi-obsahu: #1a1030;             /* Tmavší povrch */
+    --pozadi-sekce: #221540;              /* Povrch 2 */
+    --barva-border: rgba(244,114,182,0.2);
+    --barva-textu: #fef3c7;               /* Teplá krémová */
+    --barva-textu-mute: rgba(254,243,199,0.55);
+    --barva-nadpisu: #f472b6;
+    --barva-podtrzeni: #fb923c;
+    --zebra-radek: rgba(244,114,182,0.07);
+    --text-tlacitka: #fff;
+    --logo-filter: drop-shadow(0 4px 10px rgba(244,114,182,0.5));
+
+    /* Sunset glow helpers */
+    --glow-pink:   0 0 18px rgba(244,114,182,0.5), 0 0 50px rgba(244,114,182,0.2);
+    --glow-orange: 0 0 18px rgba(251,146,60,0.5),  0 0 50px rgba(251,146,60,0.2);
+    --glow-gold:   0 0 18px rgba(251,191,36,0.5),  0 0 50px rgba(251,191,36,0.2);
 }
 
 /* =========================================
@@ -34,25 +41,28 @@ html {
 }
 
 body {
-    font-family: 'Barlow', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #333;
+    font-family: 'Barlow Condensed', 'Barlow', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--barva-textu);
     background-color: var(--pozadi-stranky);
-    background-image: radial-gradient(rgba(0,0,0,0.04) 1px, transparent 1px);
-    background-size: 28px 28px;
+    background-image:
+        radial-gradient(ellipse 60% 40% at 85% 10%, rgba(251,146,60,0.06) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 50% at 10% 90%, rgba(244,114,182,0.07) 0%, transparent 65%);
     margin: 0; padding: 0;
     line-height: 1.72;
+    color-scheme: dark;
 }
 
 h1, h2, h3 {
     margin-top: 0;
-    font-family: 'Barlow Condensed', 'Segoe UI', sans-serif;
-    font-weight: 800;
+    font-family: 'Bebas Neue', 'Barlow Condensed', 'Segoe UI', sans-serif;
+    font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.04em;
 }
 
 h2 {
     color: var(--barva-nadpisu);
+    text-shadow: var(--glow-pink);
     border-bottom: 2px solid var(--barva-podtrzeni);
     padding-bottom: 12px; margin-top: 52px;
 }
@@ -88,8 +98,8 @@ nav, .tlacitko, .footer, .next, .prev { user-select: none; }
     padding: 56px 20px 52px;
     text-align: center;
     background-image:
-        linear-gradient(180deg, rgba(0,0,0,0.78) 0%, rgba(120,10,10,0.62) 100%),
-        url('images/hero_bg.jpeg');
+        linear-gradient(180deg, rgba(15,10,30,0.72) 0%, rgba(18,13,34,0.55) 100%),
+        url('images/hero_GTA.png');
     background-size: cover; background-position: center 38%; background-attachment: fixed;
     position: relative;
     overflow: hidden;
@@ -281,11 +291,11 @@ nav a.nav-aktivni {
    ========================================= */
 .obsah {
     max-width: 900px; margin: -30px auto 80px; padding: 44px 52px;
-    background: #ffffff;
+    background: var(--pozadi-obsahu);
     box-shadow:
-        0 0 0 1px rgba(0,0,0,0.05),
-        0 8px 32px rgba(0,0,0,0.08),
-        0 32px 80px rgba(0,0,0,0.05);
+        0 0 0 1px var(--barva-border),
+        0 8px 40px rgba(255,45,120,0.08),
+        0 32px 80px rgba(0,0,0,0.3);
     border-radius: 14px; position: relative;
     border-top: none; z-index: 1;
     overflow: hidden;
@@ -304,15 +314,15 @@ nav a.nav-aktivni {
     z-index: 2;
 }
 
-/* Barevné bloby – nyní na ::after aby nebily s ::before */
+/* Vice City sunset bloby */
 .obsah::after {
     content: '';
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(ellipse 65% 45% at 0% 0%,    rgba(211,47,47,0.13) 0%, transparent 65%),
-        radial-gradient(ellipse 55% 55% at 100% 95%, rgba(183,28,28,0.10) 0%, transparent 65%),
-        radial-gradient(ellipse 45% 40% at 82% 12%,  rgba(255,152,0,0.08) 0%, transparent 60%);
+        radial-gradient(ellipse 65% 45% at 0% 0%,    rgba(251,146,60,0.09) 0%, transparent 65%),
+        radial-gradient(ellipse 55% 55% at 100% 95%, rgba(244,114,182,0.08) 0%, transparent 65%),
+        radial-gradient(ellipse 45% 40% at 82% 12%,  rgba(251,191,36,0.06) 0%, transparent 60%);
     pointer-events: none;
     z-index: 0;
 }
@@ -383,15 +393,16 @@ nav a.nav-aktivni {
 }
 
 .pocitadlo-cislo {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Bebas Neue', 'Barlow Condensed', sans-serif;
     font-size: 3.4rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+    font-weight: 400;
+    background: linear-gradient(135deg, var(--akcni-barva) 0%, var(--gold) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     line-height: 1;
     display: inline-block;
+    filter: drop-shadow(0 0 8px rgba(255,45,120,0.5));
 }
 
 .pocitadlo-jednotka {
@@ -431,7 +442,7 @@ nav a.nav-aktivni {
 .rozcestnik { display: flex; gap: 28px; margin: 56px 0; flex-wrap: wrap; }
 .karta {
     flex: 1; min-width: 250px;
-    background: linear-gradient(170deg, rgba(251,192,45,0.13) 0%, #ffffff 55%);
+    background: linear-gradient(170deg, rgba(244,114,182,0.08) 0%, var(--pozadi-obsahu) 55%);
     padding: 40px 28px; text-align: center; border-radius: 12px;
     border: 1px solid rgba(251,192,45,0.18);
     border-top: 4px solid var(--hlavni-barva);
@@ -440,9 +451,9 @@ nav a.nav-aktivni {
 }
 .karta:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 48px rgba(211,47,47,0.14), 0 4px 16px rgba(0,0,0,0.06);
+    box-shadow: 0 20px 48px rgba(244,114,182,0.2), 0 4px 16px rgba(0,0,0,0.3);
 }
-.karta h3 { color: var(--tmava-barva); font-size: 1.4em; }
+.karta h3 { color: var(--hlavni-barva); font-size: 1.4em; }
 
 /* Tlačítka */
 .tlacitko, .tlacitko-invert {
@@ -463,7 +474,7 @@ nav a.nav-aktivni {
 
 /* Info Box */
 .info-box {
-    background-color: #fffde7; padding: 15px;
+    background-color: rgba(251,146,60,0.07); padding: 15px;
     border-left: 4px solid var(--akcni-barva);
     margin-bottom: 20px; font-size: 0.9em; border-radius: 4px;
 }
@@ -485,13 +496,13 @@ nav a.nav-aktivni {
    CALL TO ACTION BOX (Nenašli jste...) - KLUBOVÝ STYL
    ========================================= */
 .cta-box {
-    background: #f4f5f7;
+    background: var(--pozadi-sekce);
     border: 2px dashed var(--akcni-barva);
     border-radius: 10px;
     padding: 16px 24px;
     text-align: center;
     margin: 24px 0;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+    box-shadow: 0 4px 18px rgba(0,229,255,0.1);
     transition: transform 0.3s ease;
 }
 
@@ -508,7 +519,7 @@ nav a.nav-aktivni {
 }
 
 .cta-box p {
-    color: #555;
+    color: var(--barva-textu-mute);
     max-width: 600px;
     margin: 0 auto 14px auto;
     font-size: 0.92rem;
@@ -519,16 +530,16 @@ nav a.nav-aktivni {
 .doc-tlacitko {
     display: flex;
     align-items: center;
-    background: white;
-    border: 1px solid #ddd; /* Jemný šedý rámeček */
+    background: var(--pozadi-sekce);
+    border: 1px solid var(--barva-border);
     padding: 15px 20px;
     border-radius: 8px;
     text-decoration: none;
-    color: #333;
+    color: var(--barva-textu);
     transition: all 0.3s ease;
-    margin: 15px auto; /* Vycentrované */
-    max-width: 400px;  /* Aby nebylo zbytečně široké */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin: 15px auto;
+    max-width: 400px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .doc-tlacitko:hover {
@@ -555,7 +566,7 @@ nav a.nav-aktivni {
 }
 
 .doc-text small {
-    color: #777; /* Šedý podtext */
+    color: var(--barva-textu-mute);
     font-size: 0.9em;
 }
 
@@ -584,27 +595,29 @@ body.dark-mode .doc-text small { color: #aaa; }
 table {
     width: 100%; border-collapse: separate; border-spacing: 0;
     margin: 30px 0; border-radius: 12px; overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    border: 1px solid #eee; background: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    border: 1px solid var(--barva-border); background: var(--pozadi-obsahu);
 }
 table th {
     background: var(--hlavni-barva); color: white; font-weight: 700;
     padding: 16px 20px; text-align: left; text-transform: uppercase;
     font-size: 0.85em; letter-spacing: 0.5px;
-    border-bottom: 2px solid rgba(0,0,0,0.1);
+    border-bottom: 2px solid rgba(0,0,0,0.2);
+    font-family: 'Bebas Neue', 'Barlow Condensed', sans-serif;
+    letter-spacing: 0.08em;
 }
 table td {
-    padding: 15px 20px; border-bottom: 1px solid #f0f0f0;
-    color: #444; vertical-align: middle; font-size: 0.95em;
-    background: white; transition: background 0.2s;
+    padding: 15px 20px; border-bottom: 1px solid var(--barva-border);
+    color: var(--barva-textu); vertical-align: middle; font-size: 0.95em;
+    background: var(--pozadi-obsahu); transition: background 0.2s;
 }
 table a {
-    color: var(--hlavni-barva); font-weight: 700; text-decoration: none;
+    color: var(--akcni-barva); font-weight: 700; text-decoration: none;
     border-bottom: 1px solid transparent; transition: all 0.2s;
 }
-table a:hover { border-bottom-color: var(--hlavni-barva); color: #000; }
-table tr:nth-of-type(even) td { background: #fcfcfc; }
-table tr:hover td { background: #f0f8ff !important; color: #000; }
+table a:hover { border-bottom-color: var(--akcni-barva); color: #fff; }
+table tr:nth-of-type(even) td { background: var(--pozadi-sekce); }
+table tr:hover td { background: rgba(255,45,120,0.07) !important; }
 
 /* Interaktivní datum v kalendáři */
 .datum-klik {
@@ -629,9 +642,10 @@ table tr:hover td { background: #f0f8ff !important; color: #000; }
 }
 input[type=text], input[type=email], textarea, .newsletter-input {
     width: 100%; padding: 12px; margin: 8px 0 20px;
-    border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
+    border: 1px solid var(--barva-border); border-radius: 4px; box-sizing: border-box;
+    background: var(--pozadi-sekce); color: var(--barva-textu);
 }
-input:focus, textarea:focus { border-color: var(--hlavni-barva); outline: none; }
+input:focus, textarea:focus { border-color: var(--akcni-barva); outline: none; box-shadow: 0 0 0 2px rgba(0,229,255,0.2); }
 
 .newsletter-sidebar {
     background: linear-gradient(135deg, #2c3e50, #000000); color: white;
@@ -760,9 +774,10 @@ body.dark-mode .loader__kruh { border-color: #444; border-top-color: var(--akcni
 /* Sponzoři */
 .sponzori-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 30px; }
 .sponzor-karta {
-    background: white; border-radius: 10px; padding: 20px; text-align: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: block; transition: transform 0.3s;
-    text-decoration: none; color: #333;
+    background: var(--pozadi-sekce); border-radius: 10px; padding: 20px; text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3); display: block; transition: transform 0.3s;
+    text-decoration: none; color: var(--barva-textu);
+    border: 1px solid var(--barva-border);
 }
 .sponzor-karta:hover { transform: translateY(-5px); }
 .logo-wrapper img { max-width: 100%; max-height: 100%; filter: grayscale(100%); transition: filter 0.3s; }
@@ -1396,12 +1411,13 @@ body.zoh-mode footer {
    13. PATIČKA (FOOTER) - MODERNÍ GRID
    ========================================= */
 footer {
-    background-color: #222;
-    color: #ecf0f1;
+    background-color: var(--navy);
+    color: var(--barva-textu);
     padding: 24px 20px 12px;
     margin-top: 80px;
     font-size: 0.95em;
-    border-top: 5px solid var(--hlavni-barva);
+    border-top: 1px solid var(--barva-border);
+    box-shadow: 0 -4px 30px rgba(255,45,120,0.08);
     position: relative;
 }
 
@@ -1445,12 +1461,13 @@ footer {
     margin: 0 auto 10px;
 }
 .footer-brand {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 900;
-    font-size: 1.05em;
+    font-family: 'Bebas Neue', 'Barlow Condensed', sans-serif;
+    font-weight: 400;
+    font-size: 1.3em;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--akcni-barva);
+    letter-spacing: 0.08em;
+    color: var(--hlavni-barva);
+    text-shadow: var(--glow-pink);
 }
 
 /* Kontaktní řádek */

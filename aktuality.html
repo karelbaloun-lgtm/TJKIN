@@ -36,11 +36,11 @@
         .aktuality-layout {
             margin: -30px 0 80px;
             padding: 44px 52px 60px;
-            background: #ffffff;
+            background: var(--pozadi-obsahu);
             box-shadow:
-                0 0 0 1px rgba(0,0,0,0.05),
-                0 8px 32px rgba(0,0,0,0.08),
-                0 32px 80px rgba(0,0,0,0.05);
+                0 0 0 1px var(--barva-border),
+                0 8px 32px rgba(0,0,0,0.3),
+                0 32px 80px rgba(0,0,0,0.4);
             border-radius: 14px;
             position: relative;
             z-index: 1;
@@ -64,9 +64,9 @@
             position: absolute;
             inset: 0;
             background:
-                radial-gradient(ellipse 65% 45% at 0% 0%,    rgba(211,47,47,0.13) 0%, transparent 65%),
-                radial-gradient(ellipse 55% 55% at 100% 95%, rgba(183,28,28,0.10) 0%, transparent 65%),
-                radial-gradient(ellipse 45% 40% at 82% 12%,  rgba(255,152,0,0.08) 0%, transparent 60%);
+                radial-gradient(ellipse 65% 45% at 0% 0%,    rgba(244,114,182,0.08) 0%, transparent 65%),
+                radial-gradient(ellipse 55% 55% at 100% 95%, rgba(251,146,60,0.06) 0%, transparent 65%),
+                radial-gradient(ellipse 45% 40% at 82% 12%,  rgba(251,191,36,0.05) 0%, transparent 60%);
             pointer-events: none;
             z-index: 0;
         }
@@ -85,10 +85,10 @@
         .akt-sidebar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 2px; }
 
         .akt-box {
-            background: #ffffff;
+            background: var(--pozadi-sekce);
             border-radius: 14px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-            border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+            border: 1px solid var(--barva-border);
             padding: 20px 20px 8px;
         }
 
@@ -108,13 +108,12 @@
             align-items: center;
             gap: 14px;
             flex-wrap: wrap;
-            background: #fff5f5;
-            border: 2px solid #d32f2f;
+            background: rgba(244,114,182,0.07);
+            border: 2px solid rgba(244,114,182,0.35);
             border-radius: 10px;
             padding: 12px 18px;
             margin: 0 24px 20px;
         }
-        body.dark-mode .live-banner { background: #2a0000; border-color: #ef5350; }
         .live-badge {
             display: inline-flex;
             align-items: center;
@@ -259,18 +258,18 @@
 
         /* ===== ARTICLE CARD ===== */
         .clanek {
-            background: #ffffff;
+            background: var(--pozadi-sekce);
             border-radius: 14px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 16px rgba(0,0,0,0.3);
             margin-bottom: 32px;
             overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.06);
+            border: 1px solid var(--barva-border);
             border-top: 4px solid var(--hlavni-barva);
             transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.22s;
         }
         .clanek:hover {
             transform: translateY(-5px);
-            box-shadow: 0 16px 48px rgba(211,47,47,0.11), 0 4px 16px rgba(0,0,0,0.06);
+            box-shadow: 0 16px 48px rgba(244,114,182,0.15), 0 4px 16px rgba(0,0,0,0.3);
         }
 
         .clanek:last-child { margin-bottom: 0; }
@@ -381,13 +380,13 @@
         .vysledky-box {
             position: relative;
             overflow: hidden;
-            background: #f4f5f7;
-            border: 1px solid #e2e4e8;
+            background: var(--pozadi-stranky);
+            border: 1px solid var(--barva-border);
             border-left: 5px solid var(--akcni-barva);
             padding: 22px 24px;
             border-radius: 10px;
             margin: 24px 0;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+            box-shadow: 0 4px 18px rgba(0,0,0,0.3);
         }
         .medalovy-souhrn {
             display: flex;
@@ -404,12 +403,9 @@
             font-size: 0.82rem;
             font-weight: 700;
         }
-        .ms-zlato  { background: rgba(251,192,45,0.22); color: #6b5000; }
-        .ms-stribro{ background: rgba(180,180,180,0.22); color: #4a4a4a; }
-        .ms-bronz  { background: rgba(180,120,90,0.18); color: #6b3a20; }
-        body.dark-mode .ms-zlato   { background: rgba(251,192,45,0.15); color: #e6b800; }
-        body.dark-mode .ms-stribro { background: rgba(180,180,180,0.15); color: #aaa; }
-        body.dark-mode .ms-bronz   { background: rgba(180,120,90,0.15); color: #c07850; }
+        .ms-zlato  { background: rgba(251,191,36,0.18); color: #fbbf24; }
+        .ms-stribro{ background: rgba(180,180,180,0.18); color: #aaa; }
+        .ms-bronz  { background: rgba(180,120,90,0.18); color: #c07850; }
 
         .vysledky-list li:has(.zlata)    { background: rgba(251,192,45,0.09); border-radius: 5px; padding-left: 6px; margin-left: -6px; margin-right: -6px; padding-right: 6px; }
         .vysledky-list li:has(.stribrna) { background: rgba(180,180,180,0.10); border-radius: 5px; padding-left: 6px; margin-left: -6px; margin-right: -6px; padding-right: 6px; }
@@ -418,7 +414,7 @@
         .vysledky-box h3 {
             font-size: 0.95rem !important;
             color: var(--barva-nadpisu) !important;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+            border-bottom: 1px solid var(--barva-border);
             padding-bottom: 10px !important;
             margin: 0 0 16px !important;
             text-transform: none !important;
@@ -603,15 +599,15 @@
 
         /* ===== REDIZAJN ČLÁNKŮ ===== */
         .clanek {
-            background: #ffffff;
+            background: var(--pozadi-sekce);
             border-radius: 14px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-            border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+            border: 1px solid var(--barva-border);
             overflow: hidden;
             margin-bottom: 24px;
             transition: box-shadow 0.22s;
         }
-        .clanek:hover { box-shadow: 0 6px 28px rgba(0,0,0,0.10); }
+        .clanek:hover { box-shadow: 0 6px 28px rgba(244,114,182,0.15); }
 
         .clanek h2 {
             font-family: 'Barlow Condensed', sans-serif;
@@ -658,7 +654,6 @@
         body.dark-mode .meta-datum { background: #3e1500; color: #ffab76; }
         body.dark-mode .meta-misto { background: #002600; color: #81c784; }
         body.dark-mode .meta-akce  { background: #001933; color: #90caf9; }
-        body.dark-mode .vysledky-box { background: #2a2a2a; border-color: #555; }
         body.dark-mode .vysledky-list li { border-color: #333; }
         body.dark-mode .archiv-odkaz { border-color: #444; }
         body.dark-mode .archiv-odkaz p { color: #999; }
