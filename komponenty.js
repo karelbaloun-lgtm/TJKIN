@@ -1,59 +1,6 @@
 ﻿/* =========================================
    1. GENEROVÁNÍ MENU (VČETNĚ NASTAVENÍ)
    ========================================= */
-function vlozGtaViSplash() {
-    if (sessionStorage.getItem('gtavi-splash')) return;
-    sessionStorage.setItem('gtavi-splash', '1');
-
-    const splash = document.createElement('div');
-    splash.id = 'gtavi-splash';
-    splash.style.cssText = [
-        'position:fixed;inset:0;z-index:9999',
-        'background:#06030f',
-        'display:flex;align-items:center;justify-content:center',
-        'transition:opacity 1s ease',
-        'cursor:pointer'
-    ].join(';');
-
-    splash.innerHTML = `
-        <div style="text-align:center;font-family:'Bebas Neue','Barlow Condensed',sans-serif;user-select:none;">
-            <div style="
-                font-size:clamp(4rem,14vw,11rem);
-                letter-spacing:.04em;
-                line-height:.95;
-                background:linear-gradient(135deg,#f472b6 0%,#fb923c 55%,#fbbf24 100%);
-                -webkit-background-clip:text;
-                -webkit-text-fill-color:transparent;
-                filter:drop-shadow(0 0 40px rgba(244,114,182,.55)) drop-shadow(0 0 80px rgba(251,146,60,.3));
-            ">KIN</div>
-            <div style="
-                font-size:clamp(1.2rem,4vw,2.8rem);
-                color:rgba(254,243,199,.35);
-                letter-spacing:.35em;
-                margin:.25em 0;
-            ">×</div>
-            <div style="
-                font-size:clamp(4rem,14vw,11rem);
-                letter-spacing:.04em;
-                line-height:.95;
-                background:linear-gradient(135deg,#fb923c 0%,#fbbf24 100%);
-                -webkit-background-clip:text;
-                -webkit-text-fill-color:transparent;
-                filter:drop-shadow(0 0 40px rgba(251,146,60,.55)) drop-shadow(0 0 80px rgba(251,191,36,.3));
-            ">GTA VI</div>
-        </div>`;
-
-    document.body.style.overflow = 'hidden';
-    document.body.prepend(splash);
-
-    const dismiss = () => {
-        splash.style.opacity = '0';
-        setTimeout(() => { splash.remove(); document.body.style.overflow = ''; }, 1000);
-    };
-
-    splash.addEventListener('click', dismiss);
-    setTimeout(dismiss, 1500);
-}
 
 function vlozMenu() {
     const dnesMenu = new Date();
@@ -411,7 +358,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // 5. Vložení menu, patičky, analytiky, mobilní nav
-    vlozGtaViSplash();
     vlozMenu();
     vlozPaticku();
     if (jeVysvedceni) vlozVysvedceniBanner();
