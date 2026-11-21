@@ -850,10 +850,24 @@ body.dark-mode .logo-hp img {
 }
 /* Nábor */
 .nabor-info {
-    list-style: none;       /* Odstraní ošklivé černé tečky */
+    list-style: none;
     padding: 0;
     margin: 20px 0;
-    text-align: left;       /* Text zarovnáme doleva, vypadá to lépe */
+    text-align: left;
+}
+.nabor-info li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 5px 0;
+    color: var(--barva-textu);
+}
+.nabor-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding-top: 2px;
+    color: var(--barva-textu-mute);
 }
 .nabor-sekce {
     background: var(--pozadi-obsahu);
@@ -1014,6 +1028,8 @@ body.dark-mode .logo-hp img {
     .obsah { padding: 28px 20px; }
     h2 { margin-top: 36px; }
     .rozcestnik { gap: 16px; margin: 36px 0; }
+    .loga-pruh { gap: 20px; }
+    .logo-hp img { max-height: 56px; }
     .karta {
         padding: 28px 22px;
         box-shadow: 0 4px 20px rgba(0,0,0,0.08), 0 1px 6px rgba(0,0,0,0.04);
