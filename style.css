@@ -1025,7 +1025,7 @@ body.dark-mode .logo-hp img {
     }
 
     /* Obsah – na mobilu menší horizontální padding */
-    .obsah { padding: 28px 20px; }
+    .obsah { padding: 28px 20px max(28px, env(safe-area-inset-bottom)); }
     h2 { margin-top: 36px; }
     .rozcestnik { gap: 16px; margin: 36px 0; }
     .loga-pruh { gap: 20px; }
@@ -1045,6 +1045,31 @@ body.dark-mode .logo-hp img {
     .lightbox-obsah { width: 100%; }
     .prev, .next { font-size: 30px; padding: 10px; }
     table { display: block; overflow-x: auto; white-space: nowrap; }
+}
+
+/* =========================================
+   10b. TOUCH – zrušit sticky hover efekty
+   ========================================= */
+@media (hover: none) {
+    .karta:hover,
+    .nabor-karta:hover,
+    .hp-clanek:hover,
+    .doc-tlacitko:hover,
+    .sponzor-karta:hover,
+    .cta-box:hover,
+    .nahravaci-box:hover,
+    .spravce-box:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    .tlacitko:hover {
+        transform: none;
+        opacity: 1;
+    }
+    /* Nahradit hover feedback tapem */
+    .karta:active      { opacity: 0.88; transition: opacity 0.1s; }
+    .nabor-karta:active{ opacity: 0.88; transition: opacity 0.1s; }
+    .tlacitko:active   { opacity: 0.75; transition: opacity 0.1s; }
 }
 
 /* =========================================

@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <!-- Google Search Console -->
     <meta name="google-site-verification" content="MEG-SgzJ63GWx9NfuUsOtLXl25tjJ5CYrjPesiSo_pM">
     <!-- SEO -->
@@ -346,6 +346,12 @@
         @media (max-width: 600px) {
             .hero-obsah { padding: 0 24px 40px; }
             .hero-scroll { display: none; }
+            .uvod-sekce::before { font-size: clamp(6rem, 40vw, 14rem); }
+        }
+
+        /* Safe area – iPhone home indicator */
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            .hero { padding-bottom: env(safe-area-inset-bottom); }
         }
     </style>
 </head>
