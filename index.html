@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Google Search Console -->
     <meta name="google-site-verification" content="MEG-SgzJ63GWx9NfuUsOtLXl25tjJ5CYrjPesiSo_pM">
     <!-- SEO -->
@@ -18,7 +18,7 @@
     <link rel="icon" type="image/png" href="images/logos/logo.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
-    <meta name="theme-color" content="#120d22">
+    <meta name="theme-color" content="#d32f2f">
     <title>KIN České Budějovice - plavecký oddíl</title>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <link rel="stylesheet" href="style.css">
@@ -36,10 +36,10 @@
         .uvod-sekce::before {
             content: '1951';
             position: absolute;
-            font-family: 'Bebas Neue', 'Barlow Condensed', sans-serif;
+            font-family: 'Barlow Condensed', sans-serif;
             font-size: 20rem;
-            font-weight: 400;
-            color: rgba(244,114,182,0.055);
+            font-weight: 900;
+            color: rgba(211,47,47,0.045);
             top: 50%;
             left: 50%;
             transform: translate(-50%, -48%);
@@ -55,7 +55,7 @@
             margin-top: 0;
             font-size: 2.2rem;
             line-height: 1.2;
-            color: #fef3c7;
+            color: #111;
             border-bottom: none;
             text-align: center;
             letter-spacing: -0.5px;
@@ -83,7 +83,7 @@
             margin: 0 auto;
             line-height: 1.8;
             text-align: center;
-            color: rgba(254,243,199,0.65);
+            color: #555;
         }
         
         /* Styl pro hlavní novinku na HP */
@@ -98,7 +98,7 @@
         }
         /* Štítek "NOVINKA" */
         .top-zprava::before {
-            content: 'NOVINKA';
+            content: '🔥 NEPŘEHLÉDNĚTE';
             position: absolute;
             top: -12px;
             left: 20px;
@@ -111,10 +111,10 @@
             text-transform: uppercase;
         }
         .galerie-link {
-            text-align: center;
+            text-align: center; 
             margin: 40px 0;
             padding-top: 20px;
-            border-top: 1px solid rgba(244,114,182,0.2);
+            border-top: 1px solid #eee;
         }
 
         /* ── HERO SEKCE ─────────────────────────────────────── */
@@ -144,22 +144,17 @@
             to   { transform: scale(1.00); }
         }
 
-        /* Gradient přes foto – sunset Vice City tint */
+        /* Gradient přes foto – tmavší dole pro text */
         .hero::after {
             content: '';
             position: absolute;
             inset: 0;
             background:
                 linear-gradient(to bottom,
-                    rgba(15,10,30,0.2) 0%,
-                    rgba(15,10,30,0.05) 35%,
-                    rgba(25,15,45,0.6) 70%,
-                    rgba(18,13,34,0.93) 100%
-                ),
-                linear-gradient(to right,
-                    rgba(251,146,60,0.12) 0%,
-                    transparent 50%,
-                    rgba(244,114,182,0.08) 100%
+                    rgba(0,0,0,0.15) 0%,
+                    rgba(0,0,0,0.05) 40%,
+                    rgba(0,0,0,0.55) 75%,
+                    rgba(0,0,0,0.80) 100%
                 );
         }
 
@@ -346,12 +341,6 @@
         @media (max-width: 600px) {
             .hero-obsah { padding: 0 24px 40px; }
             .hero-scroll { display: none; }
-            .uvod-sekce::before { font-size: clamp(6rem, 40vw, 14rem); }
-        }
-
-        /* Safe area – iPhone home indicator */
-        @supports (padding-bottom: env(safe-area-inset-bottom)) {
-            .hero { padding-bottom: env(safe-area-inset-bottom); }
         }
     </style>
 </head>
@@ -364,17 +353,18 @@
         align-items: center;
         gap: 14px;
         flex-wrap: wrap;
-        background: rgba(244,114,182,0.07);
-        border: 2px solid rgba(244,114,182,0.35);
+        background: #fff5f5;
+        border: 2px solid #d32f2f;
         border-radius: 10px;
         padding: 12px 18px;
         margin-bottom: 24px;
     }
+    body.dark-mode .live-banner { background: #2a0000; border-color: #ef5350; }
     .live-badge {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        background: var(--hlavni-barva);
+        background: #d32f2f;
         color: #fff;
         font-size: 0.78em;
         font-weight: 800;
@@ -404,7 +394,7 @@
         text-decoration: none;
         white-space: nowrap;
     }
-    .live-btn-yt   { background: var(--hlavni-barva); color: #fff; }
+    .live-btn-yt   { background: #d32f2f; color: #fff; }
     .live-btn-vysl { background: transparent; color: var(--hlavni-barva); border: 1px solid var(--hlavni-barva); }
     .live-btn:hover { opacity: 0.85; }
 
@@ -420,16 +410,11 @@
     .hp-clanek {
         background: var(--pozadi-obsahu);
         border-radius: 14px;
-        border: 1px solid var(--barva-border);
+        border: 1px solid rgba(0,0,0,0.06);
         border-top: 4px solid var(--hlavni-barva);
-        box-shadow: 0 2px 18px rgba(244,114,182,0.07);
+        box-shadow: 0 2px 18px rgba(0,0,0,0.07);
         padding: 24px 28px 28px;
         margin-bottom: 24px;
-        transition: border-color .2s, box-shadow .2s;
-    }
-    .hp-clanek:hover {
-        border-color: rgba(244,114,182,0.4);
-        box-shadow: 0 6px 28px rgba(244,114,182,0.12);
     }
     .hp-clanek h3 {
         margin-top: 8px;
@@ -442,12 +427,15 @@
         display: inline-block;
         padding: 4px 12px;
         border-radius: 20px;
-        background: rgba(244,114,182,0.12);
-        color: var(--hlavni-barva);
+        background: #fff3e0;
+        color: #bf360c;
         font-size: 0.78rem;
         font-weight: 600;
         margin-bottom: 4px;
     }
+    body.dark-mode .hp-clanek { background: #1e1e1e; border-color: #333; }
+    body.dark-mode .hp-clanek h3 { color: #f0f0f0; }
+    body.dark-mode .hp-datum { background: #3e1500; color: #ffab76; }
 </style>
 
     <div id="spolecne-menu"></div>
@@ -455,22 +443,19 @@
     <!-- HERO -->
     <section class="hero">
         <picture>
-            <img src="images/index_GTA.png" alt="Tým KIN České Budějovice – Vice City edition" class="hero-foto" style="object-position: center 35%;">
+            <img src="images/hero.jpeg" alt="Ela Kubálková, Soňa Šestáková a Zoe Tůmová s trofejemi z LMČR Trutnov 2026" class="hero-foto" style="object-position: center 30%;">
         </picture>
 
         <div class="hero-obsah">
             <span class="hero-rok">Plavecký oddíl · od roku 1951</span>
-            <h1 class="hero-nadpis">
-                <img src="images/kin_gtavi.webp" alt="KIN" style="display:block;width:clamp(180px,42vw,460px);margin-bottom:-.05em;margin-left:-8px;filter:drop-shadow(0 4px 20px rgba(0,0,0,.5));">
-                České Budějovice
-            </h1>
+            <h1 class="hero-nadpis"><span>KIN</span><br>České Budějovice</h1>
             <p class="hero-podnadpis">Nejúspěšnější plavecký oddíl v jižních Čechách</p>
             <div class="hero-tlacitka">
-                <a href="terminovka.html" class="hero-btn hlavni">Termínovka 2026</a>
-                <a href="aktuality.html" class="hero-btn vedlejsi">Zprávy →</a>
+                <a href="terminovka.html" class="hero-btn hlavni"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="vertical-align:-.15em;margin-right:.3em"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>Termínovka 2026</a>
+                <a href="aktuality.html" class="hero-btn vedlejsi">Aktuality →</a>
             </div>
         </div>
-        <a href="#obsah-hp" class="hero-scroll"></a>
+        <a href="#obsah-hp" class="hero-scroll">Scroll</a>
     </section>
 
     <!-- původní hlavička pro ostatní stránky -->
@@ -482,7 +467,7 @@
 
     <div class="obsah" id="obsah-hp">
 
-        <section class="uvod-sekce">
+        <section class="uvod-sekce odkryt-na-scroll">
             <h2 class="uvodni-nadpis">Plavání v Českých Budějovicích<span class="uvodni-rok"> od roku 1951.</span></h2>
             <div class="perex">
                 <p>Jsme plavecký oddíl s nejdelší tradicí v Českých Budějovicích. Od prvních temp až po závodní dráhu – učíme děti nebát se vody a vychováváme z nich sebevědomé sportovce.</p>
@@ -490,7 +475,7 @@
             </div>
         </section>
 
-        <section class="pocitadla-sekce">
+        <section class="pocitadla-sekce odkryt-na-scroll">
             <div class="pocitadla-header">
                 <p class="pocitadla-eyebrow">KIN v číslech</p>
                 <h2 class="pocitadla-nadpis">Sezóna 2026</h2>
@@ -511,7 +496,7 @@
 
         <!-- INFO: Zimní KP ml. žactva Tábor 2026 -->
         <div style="background:var(--pozadi-obsahu);border-radius:14px;border:1px solid rgba(0,0,0,0.07);border-top:4px solid var(--hlavni-barva);overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.05);margin-bottom:12px;">
-            <img src="images/fotogalerie/2026/zkp_ml_26/zkp_ml_26_1.jpeg" alt="Zimní krajský přebor ml. žactva Tábor 2026" style="width:100%;height:220px;object-fit:cover;object-position:center 30%;display:block;">
+            <img src="images/fotogalerie/2026/zkp_ml_26/zkp_ml_26_1.jpeg" alt="Zimní krajský přebor ml. žactva Tábor 2026" style="width:100%;height:200px;object-fit:cover;object-position:center 35%;display:block;">
             <div style="padding:16px 20px 18px;">
                 <p style="font-size:0.72em;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--barva-textu-mute);margin:0 0 6px;">Závody · 14. listopadu 2026</p>
                 <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:900;text-transform:uppercase;margin:0 0 10px;color:var(--hlavni-barva);">Zimní KP ml. žactva: Elena a Emma v Táboře!</h3>
@@ -544,51 +529,54 @@
 
 
 
-            <section class="nabor-sekce">
-            <h2 class="nabor-nadpis">Přihlášky 2027</h2>
+            <section class="nabor-sekce odkryt-na-scroll">
+            <h2 class="nabor-nadpis">📢 Rok 2027</h2>
         
             <div class="nabor-kontejner">
                 
-                <div class="nabor-karta rybky" style="border-top: 5px solid #3498db;"> 
+                <div class="nabor-karta rybky odkryt-na-scroll" style="transition-delay: 0.2s; border-top: 5px solid #3498db;"> 
                     <a href="https://plaveckaskolarybky.netlify.app/" target="_blank" style="display: block; cursor: pointer;">
                         <img src="images/logos/rybky.png" alt="Logo Rybky" class="nabor-logo-img">
                     </a>
                     <h3>Plavecká škola „RYBKY”</h3>
                     <div style=”background:#e8f5e9;border-left:4px solid #2e7d32;padding:8px 12px;margin:8px 0;border-radius:4px;font-size:0.88em;color:#1b5e20;”>
-                        🟢 <strong>Od ledna 2027</strong> přijímáme do kurzu neplavců nové zájemce od 4 let.
+                        <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#2e7d32;vertical-align:middle;margin-right:4px;"></span><strong>Od ledna 2027</strong> přijímáme do kurzu neplavců nové zájemce od 4 let.
                     </div>
                     <p><strong>Kurzy pro neplavce od 4 let (možnost 1x týdně)</strong></p>
+                    <div style="background:#fff3cd;border-left:4px solid #f9a825;padding:8px 12px;margin:8px 0;border-radius:4px;font-size:0.88em;color:#5a4000;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="#f9a825" aria-hidden="true" style="vertical-align:-.15em;margin-right:4px"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg><strong>16. 11. 2026</strong> – kurz se nekoná (ředitelské volno na ZŠ v Č. Budějovicích).
+                    </div>
                     <ul class="nabor-info">
                         <li>
-                            <span class="nabor-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                            <span class="nabor-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></span>
                             <span><strong>Zápis:</strong> Kancelář plaveckého oddílu (vchod dětské hřiště)</span>
                         </li>
                         <li>
-                            <span class="nabor-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+                            <span class="nabor-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm.5 11H11V7h1.5v5.25l4.5 2.67-.75 1.23L12.5 13z"/></svg></span>
                             <span><strong>Termín zápisu:</strong> 25.8., 26.8., 27.8. 2026 · 16:00–18:30</span>
                         </li>
                         <li>
-                            <span class="nabor-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 5.72 5.72l.86-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+                            <span class="nabor-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></span>
                             <span><strong>Info:</strong> <a href="tel:+420723062048">723 062 048</a> nebo <a href="kontakt.html">kontaktní formulář</a></span>
                         </li>
                     </ul>
                 </div>
 
-                <div class="nabor-karta oddil" style="border-top: 5px solid #d32f2f;">
+                <div class="nabor-karta oddil odkryt-na-scroll" style="transition-delay: 0.4s; border-top: 5px solid #d32f2f;">
                     <img src="images/logos/logo.png" alt="Logo KIN" class="nabor-logo-img">
                     <h3>Plavecký oddíl KIN</h3>
                     <p><strong>Kondiční plavání (alespoň 1x týdně)</strong></p>
                     <ul class="nabor-info">
                         <li>
-                            <span class="nabor-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                            <span class="nabor-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></span>
                             <span><strong>Zápis:</strong> Kancelář plaveckého oddílu (vchod dětské hřiště)</span>
                         </li>
                         <li>
-                            <span class="nabor-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+                            <span class="nabor-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm.5 11H11V7h1.5v5.25l4.5 2.67-.75 1.23L12.5 13z"/></svg></span>
                             <span><strong>Termín zápisu:</strong> 25.8., 26.8., 27.8. 2026 · 16:00–18:30</span>
                         </li>
                         <li>
-                            <span class="nabor-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 5.72 5.72l.86-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+                            <span class="nabor-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></span>
                             <span><strong>Info:</strong> <a href="tel:+420723062048">723 062 048</a> nebo <a href="kontakt.html">kontaktní formulář</a></span>
                         </li>
                     </ul>
@@ -596,10 +584,10 @@
 
             </div>
 
-            <div class="nabor-tlacitko-wrapper">
+            <div class="nabor-tlacitko-wrapper odkryt-na-scroll" style="transition-delay: 0.6s;">
                 <p style="margin-bottom: 15px;">Máte zájem? Vyplňte přihlášku online:</p>
                 <a href="prihlaska.html" class="doc-tlacitko">
-                    <span class="doc-ikona"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span>
+                    <span class="doc-ikona"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg></span>
                     <span class="doc-text">
                         <strong>Přihláška člena KIN</strong>
                         <small>Vyplnit online → uložit jako PDF</small>
@@ -610,26 +598,26 @@
         </section>
 
         <div class="rozcestnik">
-            <div class="karta">
-                <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;margin-right:7px;opacity:0.75;" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Fotogalerie</h3>
+            <div class="karta odkryt-na-scroll" style="transition-delay: 0s;">
+                <h3>📷 Fotogalerie</h3>
                 <p>Prohlédněte si fotky ze závodů, soustředění a života našeho oddílu.</p>
                 <a href="fotogalerie.html" class="tlacitko">Prohlížet fotky</a>
             </div>
 
-            <div class="karta">
-                <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;margin-right:7px;opacity:0.75;" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Termínovka 2026</h3>
+            <div class="karta odkryt-na-scroll" style="transition-delay: 0.2s;">
+                <h3><svg xmlns="http://www.w3.org/2000/svg" width=".9em" height=".9em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="vertical-align:-.1em;margin-right:.25em"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>Termínovka 2026</h3>
                 <p>Podívejte se na plán závodů pro nadcházející sezónu.</p>
                 <a href="terminovka.html" class="tlacitko">Plán závodů</a>
             </div>
 
-            <div class="karta">
-                <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;margin-right:7px;opacity:0.75;" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Top roku 2026</h3>
+            <div class="karta odkryt-na-scroll" style="transition-delay: 0.4s;">
+                <h3>⭐ Top roku 2026</h3>
                 <p><a href="ela_kub.html">Ela Kubálková</a> a <a href="zoe_tum.html">Zoe Tůmová</a> – naše nejlepší závodnice sezóny.</p>
                 <a href="hvezdy_26.html" class="tlacitko">Zobrazit profily</a>
             </div>
         </div>
 
-        <div class="sponzori-sekce-hp">
+        <div class="sponzori-sekce-hp odkryt-na-scroll">
             <h2 style="text-align: center; margin-bottom: 20px; border-bottom: none;">Podporují nás</h2>
             
             <div class="loga-pruh">
@@ -746,7 +734,7 @@
                         +   '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:2.8rem;font-weight:900;line-height:1;color:' + teplColor + ';">'
                         +     (isNaN(teplota) ? '–' : teplota.toFixed(1)) + '<span style="font-size:0.38em;opacity:0.7;margin-left:2px;">°C</span>'
                         +   '</div>'
-                        +   (teplBadge ? '<div style="font-size:0.72em;color:' + teplColor + ';font-weight:600;margin-top:2px;">🌊 ' + teplBadge + '</div>' : '')
+                        +   (teplBadge ? '<div style="font-size:0.72em;color:' + teplColor + ';font-weight:600;margin-top:2px;display:flex;align-items:center;gap:3px;"><svg xmlns=\'http://www.w3.org/2000/svg\' width=\'1em\' height=\'1em\' viewBox=\'0 0 24 24\' fill=\'' + teplColor + '\'><path d=\'M12 2C6.67 6.55 4 10.48 4 13.8 4 18.78 7.8 22 12 22s8-3.22 8-8.2C20 10.48 17.33 6.55 12 2z\'/></svg>' + teplBadge + '</div>' : '')
                         + '</div>'
                         + tile('Výška hladiny', stav, 'cm')
                         + tile('Průtok', prutok, 'm³/s')
@@ -767,7 +755,7 @@
         <div class="modal-box">
             <span class="zavrit-krizek" onclick="zavritModal()">×</span>
             
-            <h2 style="color: #25D366; margin-bottom: 10px;">📱 Buďte v obraze!</h2>
+            <h2 style="color: #25D366; margin-bottom: 10px;"><svg xmlns="http://www.w3.org/2000/svg" width=".9em" height=".9em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="vertical-align:-.1em;margin-right:.3em"><path d="M17 1.01L7 1a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-1.99zM17 19H7V5h10v14z"/></svg>Buďte v obraze!</h2>
             <p style="margin-bottom: 20px;">Přidejte se do naší WhatsApp skupiny a neuteče vám žádná změna tréninku ani nominace na závody.</p>
             
             <img src="images/WhatsApp Image 2026-01-06 at 09.24.37.jpeg" 
@@ -790,7 +778,7 @@
     <div id="modal-akce" class="modal-overlay" style="display:none;">
         <div class="modal-box" style="border-top-color:#d32f2f;text-align:left;">
             <span class="zavrit-krizek" onclick="document.getElementById('modal-akce').style.display='none'">×</span>
-            <div style="font-size:2rem;margin-bottom:8px;text-align:center;">🏊</div>
+            <div style="font-size:2rem;margin-bottom:8px;text-align:center;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="#d32f2f" aria-hidden="true"><path d="M13.49 5.48a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm-3.6 13.9 1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/></svg></div>
             <h2 style="color:#d32f2f;margin-bottom:14px;font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;letter-spacing:0.02em;text-align:center;">SPORTEM DO ŠKOLNÍHO ROKU</h2>
             <p style="margin-bottom:10px;color:#333;line-height:1.6;">Milí plavci KIN,</p>
             <p style="margin-bottom:10px;color:#333;line-height:1.6;">zveme vás na akci <strong>Sportem do školního roku</strong>, která se koná <strong>v úterý 1. září 2026</strong> na plaveckém stadionu. V čase od <strong>11:00 do 16:00 hodin</strong> předvedeme veřejnosti ukázky z plaveckého sportu – přijďte kdykoli, jak vám to čas dovolí.</p>
@@ -799,7 +787,7 @@
             <p style="margin-bottom:16px;"><a href="https://www.budejce.cz/kalendar/1306239562-namesti-se-hybe-aneb-sportem-do-skolniho-roku-2026" target="_blank" style="color:#d32f2f;font-weight:600;font-size:0.88rem;">Více info: budejce.cz →</a></p>
             <p style="margin-bottom:16px;color:#555;font-style:italic;">Těšíme se na vás!</p>
             <div style="text-align:center;">
-                <a href="tel:723062048" class="tlacitko" style="display:inline-block;margin-bottom:10px;background:#d32f2f;color:#fff;border:none;padding:10px 24px;border-radius:24px;font-weight:700;text-decoration:none;">📞 Přihlásit se: 723 062 048</a>
+                <a href="tel:723062048" class="tlacitko" style="display:inline-block;margin-bottom:10px;background:#d32f2f;color:#fff;border:none;padding:10px 24px;border-radius:24px;font-weight:700;text-decoration:none;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="vertical-align:-.15em;margin-right:.3em"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>Přihlásit se: 723 062 048</a>
             </div>
             <p style="font-size:0.8em;color:#aaa;margin-top:10px;cursor:pointer;text-align:center;" onclick="document.getElementById('modal-akce').style.display='none'">Zavřít</p>
         </div>

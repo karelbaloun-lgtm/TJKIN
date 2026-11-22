@@ -1,7 +1,6 @@
 ﻿/* =========================================
    1. GENEROVÁNÍ MENU (VČETNĚ NASTAVENÍ)
    ========================================= */
-
 function vlozMenu() {
     const dnesMenu = new Date();
     const rokMenu = dnesMenu.getFullYear();
@@ -11,11 +10,6 @@ function vlozMenu() {
     const jeMeziMostyMenu = dnesMenu < new Date(2026, 7, 9); // viditelné do 9. 8. 2026
 
     const menuHTML = `
-    <div class="gtavi-banner" style="background:linear-gradient(90deg,#0f0a1e 0%,#221540 40%,#0f0a1e 100%);border-bottom:1px solid rgba(244,114,182,0.3);padding:5px 16px;text-align:center;font-family:'Bebas Neue','Barlow Condensed',sans-serif;font-size:.8rem;font-weight:400;letter-spacing:.25em;text-transform:uppercase;color:rgba(254,243,199,.6);">
-      <span style="color:#f472b6;text-shadow:0 0 10px rgba(244,114,182,.6);">KIN</span>
-      &nbsp;×&nbsp;
-      <span style="color:#fb923c;text-shadow:0 0 10px rgba(251,146,60,.6);">GTA VI</span>
-    </div>
     <nav>
         <div class="hamburger" onclick="prepnoutMenu()">☰</div>
         <div class="menu-polozky" id="mojeMenu">
