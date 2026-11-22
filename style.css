@@ -1,5 +1,5 @@
 @import "sezony.css";
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
 /* =========================================
    1. DEFINICE BAREV (PROMĚNNÉ)
    ========================================= */
@@ -14,7 +14,7 @@
     --barva-border: #dee2e6;      /* Barva ohraničení sekcí */
     --barva-textu: #333333;       /* Základní text */
     --barva-textu-mute: #555555;  /* Tlumený/sekundární text */
-    --barva-nadpisu: #b71c1c;
+    --barva-nadpisu: #1a1a1a;
     --barva-podtrzeni: #f9a825;
     --zebra-radek: #f0ece7;
     --text-tlacitka: #333333;
@@ -61,6 +61,11 @@ p.podnadpis {
      font-size: 1.2em; opacity: 0.9;
      color: var(--akcni-barva); margin-top: 10px;
      font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Čitelnější font pro delší texty (aktuality, profily) */
+.obsah p {
+    font-family: 'Inter', 'Barlow', 'Segoe UI', sans-serif;
 }
 
 /* Odkazy v textu */
@@ -434,7 +439,7 @@ nav a.nav-aktivni {
     background: linear-gradient(170deg, rgba(251,192,45,0.13) 0%, #ffffff 55%);
     padding: 40px 28px; text-align: center; border-radius: 12px;
     border: 1px solid rgba(251,192,45,0.18);
-    border-top: 4px solid var(--hlavni-barva);
+    border-top: 4px solid var(--akcni-barva);
     box-shadow: 0 2px 16px rgba(0,0,0,0.06);
     transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.22s;
 }
@@ -588,7 +593,7 @@ table {
     border: 1px solid #eee; background: white;
 }
 table th {
-    background: var(--hlavni-barva); color: white; font-weight: 700;
+    background: #1a1a1a; color: white; font-weight: 700;
     padding: 16px 20px; text-align: left; text-transform: uppercase;
     font-size: 0.85em; letter-spacing: 0.5px;
     border-bottom: 2px solid rgba(0,0,0,0.1);
