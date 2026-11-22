@@ -11,19 +11,19 @@ function vlozMenu() {
 
     const menuHTML = `
     <nav>
-        <div class="hamburger" onclick="prepnoutMenu()">☰</div>
+        <div class="hamburger" onclick="prepnoutMenu()"><svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></div>
         <div class="menu-polozky" id="mojeMenu">
             <a href="index.html">Úvod</a>
             <a href="aktuality.html">Aktuality</a>
             <a href="terminovka.html">Termínovka</a>
-            ${jeMeziMostyMenu ? `<a href="mezi_mosty.html" style="color:#ffd700;font-weight:700;">🌊 Mezi mosty</a>` : ''}
+            ${jeMeziMostyMenu ? `<a href="mezi_mosty.html" style="color:#ffd700;font-weight:700;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="vertical-align:-.15em;margin-right:.25em"><path d="M12 2C6.67 6.55 4 10.48 4 13.8 4 18.78 7.8 22 12 22s8-3.22 8-8.2C20 10.48 17.33 6.55 12 2z"/></svg>Mezi mosty</a>` : ''}
             <a href="fotogalerie.html">Galerie</a>
             <div class="menu-dropdown">
                 <a href="historie.html" class="menu-dropdown-trigger">Rekordy & Historie <span class="menu-dropdown-sipka">▾</span></a>
                 <div class="menu-submenu">
-                    <a href="historie.html">📜 Historie</a>
-                    <a href="rekordy_kin.html">🏅 Rekordy KIN</a>
-                    <a href="rekordy_kraj.html">🗺️ Krajské rekordy</a>
+                    <a href="historie.html"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="vertical-align:-.15em;margin-right:.25em"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>Historie</a>
+                    <a href="rekordy_kin.html"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="vertical-align:-.15em;margin-right:.25em"><path d="M12 2C8.68 2 6 4.68 6 8c0 2.09.86 3.98 2.24 5.34L7 21l5-2 5 2-1.24-7.66C17.14 11.98 18 10.09 18 8c0-3.32-2.68-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/></svg>Rekordy KIN</a>
+                    <a href="rekordy_kraj.html"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="vertical-align:-.15em;margin-right:.25em"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>Krajské rekordy</a>
                 </div>
             </div>
             <a href="sponzori.html">Partneři</a>
