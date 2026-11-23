@@ -5,6 +5,31 @@
    ========================================= */
 const GALERIE = {
 
+    zkpst_26: {
+        nazev: "Zimní krajský přebor – Strakonice 2026",
+        datum: "21.–22.11.2026",
+        misto: "Strakonice",
+        slozka: "images/fotogalerie/2026/zkpst_26/",
+        fotky: [
+            "20261121_101901.jpg",
+            "20261121_112028.jpg",
+            "20261121_112211.jpg",
+            "20261121_142737.jpg",
+            "20261121_143003.jpg",
+            "20261121_152517(0).jpg",
+            "20261121_160156.jpg",
+            "20261121_160415.jpg",
+            "20261121_171018.jpg",
+            "20261122_095703(0).jpg",
+            "20261122_095902.jpg",
+            "20261122_110116.jpg",
+            "20261122_114242.jpg",
+            "20261122_114445.jpg"
+        ],
+        popisek: "Ela Kubálková a Zoe Tůmová na Zimním krajském přeboru ve Strakonicích 21.–22. 11. 2026. 9 zlatých, 8 stříbrných medailí, 3 rekordy kraje.",
+        video: null
+    },
+
     zkp_ml_26: {
         nazev: "Zimní krajský přebor mladšího žactva – Tábor 2026",
         datum: "14.11.2026",
