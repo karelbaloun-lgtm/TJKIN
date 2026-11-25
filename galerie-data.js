@@ -73,7 +73,9 @@ const GALERIE = {
             "1000022605.jpg",
             "1000022608.jpg",
             "1000022613.jpg",
-            "1000022617.jpg"
+            "1000022617.jpg",
+            "WhatsApp Image 2026-11-25 at 06.19.32.jpeg",
+            "WhatsApp Image 2026-11-25 at 06.20.06.jpeg"
         ],
         popisek: "V. ročník závodu v plavání na otevřené vodě Mezi mosty – soutok Vltavy a Malše, Sokolský ostrov.",
         video: null
