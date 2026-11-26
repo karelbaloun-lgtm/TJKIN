@@ -28,33 +28,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
     <style>
         .akce-radek {
-            position: relative;
             display: flex;
             align-items: center;
             gap: 14px;
             padding: 14px 18px;
             border-radius: 10px;
-            border: 1.5px solid var(--barva-border);
+            border: 1.5px solid var(--hlavni-barva);
             text-decoration: none;
             color: inherit;
-            background: transparent;
-            transition: border-color 150ms;
+            transition: border-color 200ms;
         }
-        .akce-radek:hover { border-color: var(--hlavni-barva); }
-        .akce-radek::after {
-            content: '';
-            position: absolute;
-            inset: -1.5px;
-            border-radius: 11px;
-            padding: 1.5px;
-            background: radial-gradient(circle 80px at var(--mouse-x, -9999px) var(--mouse-y, -9999px), var(--gold), transparent 70%);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-        }
-        @media (prefers-reduced-motion: reduce) { .akce-radek { transition: none; } }
+        .akce-radek:hover { border-color: var(--akcni-barva); }
+        .akce-radek .akce-ikona rect:first-child { transition: fill 200ms; }
+        .akce-radek:hover .akce-ikona rect:first-child { fill: var(--akcni-barva); }
+        .akce-radek .akce-nazev { transition: color 200ms; }
+        .akce-radek:hover .akce-nazev { color: var(--akcni-barva) !important; }
+        .akce-radek .akce-sipka { transition: stroke 200ms; }
+        .akce-radek:hover .akce-sipka { stroke: var(--akcni-barva); }
+        @media (prefers-reduced-motion: reduce) { .akce-radek, .akce-radek * { transition: none; } }
     </style>
 </head>
 <body>
@@ -204,34 +195,34 @@
         <div style="margin-top: 56px; display: flex; flex-direction: column; gap: 10px;">
 
             <a href="https://forms.gle/ogYmzCAypzpctphz5" target="_blank" class="akce-radek">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink:0;">
+                <svg class="akce-ikona" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink:0;">
                     <rect width="32" height="32" rx="8" fill="var(--hlavni-barva)"/>
                     <path d="M16 19.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" fill="white"/>
                     <path d="M10 11l1.8-2h8.4l1.8 2H26a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V12a1 1 0 0 1 1-1h4z" stroke="white" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
                 </svg>
                 <div style="flex:1; min-width:0;">
-                    <div style="font-weight:700; font-size:.95em; color:var(--hlavni-barva);">Máte fotky ze závodů?</div>
+                    <div class="akce-nazev" style="font-weight:700; font-size:.95em; color:var(--hlavni-barva);">Máte fotky ze závodů?</div>
                     <div style="font-size:.82em; color:#666; margin-top:1px;">Nahrajte je přes formulář přímo k nám · vyžaduje Google účet</div>
                 </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--hlavni-barva)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0; opacity:.6;"><path d="M9 18l6-6-6-6"/></svg>
+                <svg class="akce-sipka" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--hlavni-barva)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0; opacity:.6;"><path d="M9 18l6-6-6-6"/></svg>
             </a>
 
             <a href="https://eu.zonerama.com/kinplavani/185515" target="_blank" class="akce-radek">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink:0;">
-                    <rect width="32" height="32" rx="8" fill="var(--gold)"/>
-                    <rect x="5" y="10" width="22" height="14" rx="2" stroke="#5a3e00" stroke-width="1.5" fill="none"/>
-                    <rect x="5" y="10" width="22" height="3" fill="#5a3e00" opacity=".25"/>
-                    <line x1="10" y1="10" x2="10" y2="24" stroke="#5a3e00" stroke-width="1.5"/>
-                    <line x1="22" y1="10" x2="22" y2="24" stroke="#5a3e00" stroke-width="1.5"/>
-                    <circle cx="16" cy="17" r="2.5" fill="#5a3e00" opacity=".5"/>
-                    <rect x="8" y="6" width="3" height="4" rx="1" fill="#5a3e00" opacity=".4"/>
-                    <rect x="21" y="6" width="3" height="4" rx="1" fill="#5a3e00" opacity=".4"/>
+                <svg class="akce-ikona" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink:0;">
+                    <rect width="32" height="32" rx="8" fill="var(--hlavni-barva)"/>
+                    <rect x="5" y="10" width="22" height="14" rx="2" stroke="white" stroke-width="1.5" fill="none"/>
+                    <rect x="5" y="10" width="22" height="3" fill="white" opacity=".3"/>
+                    <line x1="10" y1="10" x2="10" y2="24" stroke="white" stroke-width="1.5"/>
+                    <line x1="22" y1="10" x2="22" y2="24" stroke="white" stroke-width="1.5"/>
+                    <circle cx="16" cy="17" r="2.5" fill="white" opacity=".6"/>
+                    <rect x="8" y="6" width="3" height="4" rx="1" fill="white" opacity=".5"/>
+                    <rect x="21" y="6" width="3" height="4" rx="1" fill="white" opacity=".5"/>
                 </svg>
                 <div style="flex:1; min-width:0;">
-                    <div style="font-weight:700; font-size:.95em;">Starší fotogalerie oddílu</div>
+                    <div class="akce-nazev" style="font-weight:700; font-size:.95em; color:var(--hlavni-barva);">Starší fotogalerie oddílu</div>
                     <div style="font-size:.82em; color:#666; margin-top:1px;">Archiv na Zonerama</div>
                 </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0; opacity:.4;"><path d="M9 18l6-6-6-6"/></svg>
+                <svg class="akce-sipka" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--hlavni-barva)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0; opacity:.6;"><path d="M9 18l6-6-6-6"/></svg>
             </a>
 
         </div>
@@ -239,19 +230,6 @@
 
     <div id="spolecna-paticka"></div>
     <script src="komponenty.js"></script>
-    <script>
-    document.querySelectorAll('.akce-radek').forEach(el => {
-        el.addEventListener('mousemove', e => {
-            const r = el.getBoundingClientRect();
-            el.style.setProperty('--mouse-x', (e.clientX - r.left) + 'px');
-            el.style.setProperty('--mouse-y', (e.clientY - r.top) + 'px');
-        });
-        el.addEventListener('mouseleave', () => {
-            el.style.setProperty('--mouse-x', '-9999px');
-            el.style.setProperty('--mouse-y', '-9999px');
-        });
-    });
-    </script>
 
 </body>
 </html>
